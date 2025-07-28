@@ -514,11 +514,8 @@ export const Room = ({ roomId, onBack }: RoomProps) => {
   // Mouse drag for room panning
   useEffect(() => {
     const handleMouseDown = (e: MouseEvent) => {
-      // Only start dragging if clicking on the background
-      if (backgroundRef.current && (e.target === backgroundRef.current || backgroundRef.current.contains(e.target as Node))) {
-        setIsDragging(true);
-        setLastMousePosition({ x: e.clientX, y: e.clientY });
-      }
+      setIsDragging(true);
+      setLastMousePosition({ x: e.clientX, y: e.clientY });
     };
 
     const handleMouseMove = (e: MouseEvent) => {
