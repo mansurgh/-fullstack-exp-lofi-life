@@ -442,13 +442,13 @@ export const Room = ({ roomId, onBack }: RoomProps) => {
   };
 
   const colorOptions = [
-    { name: 'Red', value: 'red', bg: 'bg-red-500', glow: 'bg-red-500/30' },
-    { name: 'Blue', value: 'blue', bg: 'bg-blue-500', glow: 'bg-blue-500/30' },
-    { name: 'Pink', value: 'pink', bg: 'bg-pink-500', glow: 'bg-pink-500/30' },
-    { name: 'Yellow', value: 'yellow', bg: 'bg-yellow-500', glow: 'bg-yellow-500/30' },
-    { name: 'Orange', value: 'orange', bg: 'bg-orange-500', glow: 'bg-orange-500/30' },
-    { name: 'Purple', value: 'purple', bg: 'bg-purple-500', glow: 'bg-purple-500/30' },
-    { name: 'Green', value: 'green', bg: 'bg-green-500', glow: 'bg-green-500/30' }
+    { name: 'Red', value: 'red', bg: 'bg-red-500', glow: 'bg-red-500/15' },
+    { name: 'Blue', value: 'blue', bg: 'bg-blue-500', glow: 'bg-blue-500/15' },
+    { name: 'Pink', value: 'pink', bg: 'bg-pink-500', glow: 'bg-pink-500/15' },
+    { name: 'Yellow', value: 'yellow', bg: 'bg-yellow-500', glow: 'bg-yellow-500/15' },
+    { name: 'Orange', value: 'orange', bg: 'bg-orange-500', glow: 'bg-orange-500/15' },
+    { name: 'Purple', value: 'purple', bg: 'bg-purple-500', glow: 'bg-purple-500/15' },
+    { name: 'Green', value: 'green', bg: 'bg-green-500', glow: 'bg-green-500/15' }
   ];
 
   const getRoomGlowClass = (baseClass: string) => {
