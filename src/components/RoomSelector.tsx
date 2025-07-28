@@ -55,7 +55,7 @@ const rooms: Room[] = [
   },
   {
     id: 'seaside-sanctuary',
-    name: 'Seaside Sanctuary',
+    name: 'Seaside Room',
     description: 'Ocean waves and distant seagulls create peaceful coastal ambiance',
     thumbnail: seasideSanctuary,
     ambientType: 'waves'
