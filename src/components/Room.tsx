@@ -403,6 +403,7 @@ export const Room = ({ roomId, onBack }: RoomProps) => {
   const [isQuranOpen, setIsQuranOpen] = useState(false);
   const [isLoaded, setIsLoaded] = useState(false);
   const [roomColor, setRoomColor] = useState('default'); // For all room color control
+  const [brightness, setBrightness] = useState(50); // Brightness control for disco room
   const audioRef = useRef<HTMLAudioElement>(null);
 
   const roomConfig = roomConfigs[roomId];
@@ -456,8 +457,14 @@ export const Room = ({ roomId, onBack }: RoomProps) => {
     const currentColor = colorOptions.find(color => color.value === roomColor);
     if (!currentColor) return baseClass;
     
-    // Replace any existing color glow with the selected color
-    return baseClass.replace(/bg-\w+-\d+\/\d+/, currentColor.glow);
+    // Apply brightness adjustment for disco room
+    const brightnessMultiplier = roomId === 'rgb-room' ? brightness / 50 : 1;
+    const adjustedOpacity = roomId === 'rgb-room' ? 
+      Math.max(0.1, Math.min(0.8, parseFloat(currentColor.glow.match(/\/(\d+)/)?.[1] || '30') / 100 * brightnessMultiplier)) :
+      parseFloat(currentColor.glow.match(/\/(\d+)/)?.[1] || '30') / 100;
+    
+    // Replace any existing color glow with the selected color and adjusted brightness
+    return baseClass.replace(/bg-\w+-\d+\/[\d.]+/, `${currentColor.glow.split('/')[0]}/${Math.round(adjustedOpacity * 100)}`);
   };
 
   // Check if current room has glow effects
@@ -652,6 +659,22 @@ export const Room = ({ roomId, onBack }: RoomProps) => {
       {hasGlowEffects && (
         <Card className="absolute top-1/2 right-4 sm:right-6 p-3 bg-card/80 backdrop-blur-sm border-border/50 transform -translate-y-1/2">
           <h4 className="text-sm font-semibold text-card-foreground mb-2">Lighting</h4>
+          
+          {/* Brightness control for disco room */}
+          {roomId === 'rgb-room' && (
+            <div className="mb-3">
+              <label className="text-xs text-muted-foreground mb-1 block">Brightness</label>
+              <Slider
+                value={[brightness]}
+                onValueChange={(value) => setBrightness(value[0])}
+                max={100}
+                min={10}
+                step={10}
+                className="w-full"
+              />
+            </div>
+          )}
+          
           <div className="flex flex-col gap-2">
             <Button
               onClick={() => setRoomColor('default')}
