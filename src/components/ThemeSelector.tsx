@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { useTranslation } from '@/contexts/TranslationContext';
+import { LanguageSelector } from './LanguageSelector';
 import { 
   Sun, 
   Moon, 
@@ -46,42 +47,47 @@ export const ThemeSelector = () => {
   };
 
   return (
-    <Card className="w-full max-w-4xl mx-auto mb-8">
-      <CardContent className="p-6">
-        <div className="text-center mb-6">
-          <h3 className="text-lg font-semibold mb-2">{t('theme.title')}</h3>
-          <p className="text-sm text-muted-foreground">
-            {t('theme.subtitle')}
-          </p>
-        </div>
-        
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
-          {Object.entries(themes).map(([key, theme]) => {
-            const IconComponent = theme.icon;
-            const isSelected = selectedTheme === key;
-            
-            return (
-              <Button
-                key={key}
-                variant={isSelected ? "default" : "outline"}
-                onClick={() => handleThemeChange(key as ThemeType)}
-                className={`h-auto py-4 px-3 flex flex-col items-center gap-2 ${
-                  isSelected ? 'ring-2 ring-primary' : ''
-                }`}
-              >
-                <IconComponent className={`h-5 w-5 ${theme.color}`} />
-                <span className="text-xs font-medium">{t(`theme.${key}`)}</span>
-              </Button>
-            );
-          })}
-        </div>
-        
-        <div className="mt-4 text-center">
-          <p className="text-xs text-muted-foreground">
-            {t('theme.current')}: <span className="font-medium">{t(`theme.${selectedTheme}`)}</span>
-          </p>
-        </div>
-      </CardContent>
-    </Card>
+    <div className="w-full max-w-6xl mx-auto">
+      <Card className="w-full">
+        <CardContent className="p-6">
+          <div className="flex justify-between items-start mb-6">
+            <div>
+              <h3 className="text-lg font-semibold mb-2">{t('theme.title')}</h3>
+              <p className="text-sm text-muted-foreground">
+                {t('theme.subtitle')}
+              </p>
+            </div>
+            <LanguageSelector />
+          </div>
+          
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-3 mb-4">
+            {Object.entries(themes).map(([key, theme]) => {
+              const IconComponent = theme.icon;
+              const isSelected = selectedTheme === key;
+              
+              return (
+                <Button
+                  key={key}
+                  variant={isSelected ? "default" : "outline"}
+                  onClick={() => handleThemeChange(key as ThemeType)}
+                  className={`h-auto py-4 px-3 flex flex-col items-center gap-2 ${
+                    isSelected ? 'ring-2 ring-primary' : ''
+                  }`}
+                >
+                  <IconComponent className={`h-5 w-5 ${theme.color}`} />
+                  <span className="text-xs font-medium">{t(`theme.${key}`)}</span>
+                </Button>
+              );
+            })}
+          </div>
+          
+          <div className="text-center">
+            <p className="text-xs text-muted-foreground">
+              {t('theme.current')}: <span className="font-medium">{t(`theme.${selectedTheme}`)}</span>
+            </p>
+          </div>
+        </CardContent>
+      </Card>
+    </div>
   );
 };

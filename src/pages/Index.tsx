@@ -31,10 +31,7 @@ const Index = () => {
   return (
     <div className="min-h-screen p-4 space-y-6">
       <div className="flex justify-end items-center mb-4">
-        <div className="flex flex-col gap-2">
-          <ThemeSelector />
-          <LanguageSelector />
-        </div>
+        <ThemeSelector />
       </div>
       <RoomSelector onSelectRoom={handleSelectRoom} />
       <HelpMeOut />
