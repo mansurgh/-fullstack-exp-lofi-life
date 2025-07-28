@@ -458,7 +458,7 @@ export const Room = ({ roomId, onBack }: RoomProps) => {
     if (isRainbowMode && roomId === 'rgb-room') {
       const interval = setInterval(() => {
         setCurrentRainbowIndex((prev) => (prev + 1) % colorOptions.length);
-      }, 1500); // Change color every 1.5 seconds
+      }, 2000); // Change color every 2 seconds
       
       return () => clearInterval(interval);
     }
