@@ -105,7 +105,7 @@ const roomConfigs: Record<string, RoomConfig> = {
   },
   'seaside-sanctuary': {
     name: 'Seaside Room',
-    description: 'Ocean waves and distant seagulls',
+    description: 'Peaceful ocean waves',
     ambientSound: 'waves',
     backgroundImage: seasideSanctuary,
     quranPosition: { x: 'left-1/4', y: 'top-1/2' },
