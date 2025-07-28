@@ -109,6 +109,8 @@ const translations = {
     'room.submarine-view.description': 'Submarine with underwater bubble sounds and sea plant view',
     'room.pirate-deck-view.name': 'Nakama',
     'room.pirate-deck-view.description': 'Standing at the helm with adventure gear around',
+    'room.naruto-room.name': 'Ninja Hideout',
+    'room.naruto-room.description': 'Ramen restaurant with ninja weapons and peaceful atmosphere',
     
     // Room interface
     'room.back': 'Back to Rooms',

@@ -45,13 +45,14 @@ import skyscraperView from "@/assets/skyscraper-view.jpg";
 import submarineView from "@/assets/submarine-view.jpg";
 import pirateShip from "@/assets/pirate-ship.jpg";
 import pirateDeckView from "@/assets/pirate-deck-view.jpg";
+import narutoRoom from "@/assets/naruto-room.jpg";
 
 interface Room {
   id: string;
   name: string;
   description: string;
   thumbnail: string;
-  ambientType: 'rain' | 'birds' | 'fire' | 'night' | 'waves' | 'desert' | 'city' | 'space' | 'wind' | 'forest' | 'snow' | 'mountain' | 'traffic' | 'nature' | 'water' | 'underwater' | 'electronic' | 'silence' | 'sports' | 'pages';
+  ambientType: 'rain' | 'birds' | 'fire' | 'night' | 'waves' | 'desert' | 'city' | 'space' | 'wind' | 'forest' | 'snow' | 'mountain' | 'traffic' | 'nature' | 'water' | 'underwater' | 'electronic' | 'silence' | 'sports' | 'pages' | 'japanese';
 }
 
 interface RoomSelectorProps {
@@ -345,6 +346,13 @@ const rooms: Room[] = [
     description: 'Standing at the helm with adventure gear around',
     thumbnail: pirateDeckView,
     ambientType: 'waves'
+  },
+  {
+    id: 'naruto-room',
+    name: 'Ninja Hideout',
+    description: 'Ramen restaurant with ninja weapons and peaceful atmosphere',
+    thumbnail: narutoRoom,
+    ambientType: 'japanese'
   }
 ];
 
@@ -444,6 +452,7 @@ export const RoomSelector = ({ onSelectRoom }: RoomSelectorProps) => {
                   {room.ambientType === 'silence' && '🤫'}
                   {room.ambientType === 'sports' && '⚽'}
                   {room.ambientType === 'pages' && '📚'}
+                  {room.ambientType === 'japanese' && '🍜'}
                 </div>
               </div>
               
