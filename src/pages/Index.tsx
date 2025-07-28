@@ -1,14 +1,23 @@
-// Update this page (the content is just a fallback if you fail to update the page)
+import { useState } from 'react';
+import { RoomSelector } from '@/components/RoomSelector';
+import { Room } from '@/components/Room';
 
 const Index = () => {
-  return (
-    <div className="min-h-screen flex items-center justify-center bg-background">
-      <div className="text-center">
-        <h1 className="text-4xl font-bold mb-4">Welcome to Your Blank App</h1>
-        <p className="text-xl text-muted-foreground">Start building your amazing project here!</p>
-      </div>
-    </div>
-  );
+  const [selectedRoom, setSelectedRoom] = useState<string | null>(null);
+
+  const handleSelectRoom = (roomId: string) => {
+    setSelectedRoom(roomId);
+  };
+
+  const handleBackToRooms = () => {
+    setSelectedRoom(null);
+  };
+
+  if (selectedRoom) {
+    return <Room roomId={selectedRoom} onBack={handleBackToRooms} />;
+  }
+
+  return <RoomSelector onSelectRoom={handleSelectRoom} />;
 };
 
 export default Index;

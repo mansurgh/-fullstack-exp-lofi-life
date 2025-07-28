@@ -52,6 +52,12 @@ export default {
 					DEFAULT: 'hsl(var(--card))',
 					foreground: 'hsl(var(--card-foreground))'
 				},
+				// Lofi specific colors
+				'warm-glow': 'hsl(var(--warm-glow))',
+				'soft-shadow': 'hsl(var(--soft-shadow))',
+				'quran-glow': 'hsl(var(--quran-glow))',
+				firelight: 'hsl(var(--firelight))',
+				moonlight: 'hsl(var(--moonlight))',
 				sidebar: {
 					DEFAULT: 'hsl(var(--sidebar-background))',
 					foreground: 'hsl(var(--sidebar-foreground))',
@@ -62,6 +68,16 @@ export default {
 					border: 'hsl(var(--sidebar-border))',
 					ring: 'hsl(var(--sidebar-ring))'
 				}
+			},
+			backgroundImage: {
+				'gradient-warm': 'var(--gradient-warm)',
+				'gradient-cozy': 'var(--gradient-cozy)',
+				'gradient-night': 'var(--gradient-night)'
+			},
+			boxShadow: {
+				'soft': 'var(--shadow-soft)',
+				'glow': 'var(--shadow-glow)',
+				'fire': 'var(--shadow-fire)'
 			},
 			borderRadius: {
 				lg: 'var(--radius)',
