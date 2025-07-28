@@ -38,6 +38,13 @@ import minecraftRoom from "@/assets/minecraft-room.jpg";
 import mosqueInterior from "@/assets/mosque-interior.jpg";
 import libraryRoom from "@/assets/library-room.jpg";
 import rgbRoom from "@/assets/rgb-room.jpg";
+import polandSnow from "@/assets/poland-snow.jpg";
+import antarcticIgloo from "@/assets/antarctic-igloo.jpg";
+import spaceShip from "@/assets/space-ship.jpg";
+import pinkCandy from "@/assets/pink-candy.jpg";
+import prisonCell from "@/assets/prison-cell.jpg";
+import skyscraperView from "@/assets/skyscraper-view.jpg";
+import submarineView from "@/assets/submarine-view.jpg";
 
 interface RoomProps {
   roomId: string;
@@ -391,6 +398,79 @@ const roomConfigs: Record<string, RoomConfig> = {
       { type: 'glow', className: 'absolute bottom-0 left-0 w-full h-1/2 bg-purple-500/10 blur-3xl', animation: '' },
       { type: 'glow', className: 'absolute top-1/4 left-1/4 w-1/2 h-1/2 bg-purple-500/10 rounded-full blur-3xl', animation: '' },
       { type: 'glow', className: 'absolute inset-0 bg-purple-500/5 blur-2xl', animation: '' }
+    ]
+  },
+  'poland-snow': {
+    name: 'Polish Winter',
+    description: 'Cozy Polish room with snowy winter view',
+    ambientSound: 'snow',
+    backgroundImage: polandSnow,
+    quranPosition: { x: 'left-1/2', y: 'top-2/3' },
+    interactiveElements: [
+      { type: 'particles', className: 'absolute inset-0 bg-gradient-to-b from-white/10 via-transparent to-transparent', animation: 'animate-pulse' }
+    ]
+  },
+  'antarctic-igloo': {
+    name: 'Antarctic Igloo',
+    description: 'Inside an igloo with icy Antarctic view',
+    ambientSound: 'wind',
+    backgroundImage: antarcticIgloo,
+    quranPosition: { x: 'right-1/3', y: 'top-1/2' },
+    interactiveElements: [
+      { type: 'glow', className: 'absolute top-20 left-20 w-20 h-20 bg-cyan-300/20 rounded-full blur-xl', animation: 'animate-pulse' }
+    ]
+  },
+  'space-ship': {
+    name: 'Space Station',
+    description: 'Spaceship with Earth view from orbit',
+    ambientSound: 'space',
+    backgroundImage: spaceShip,
+    quranPosition: { x: 'left-1/4', y: 'top-3/4' },
+    interactiveElements: [
+      { type: 'floating', className: 'absolute top-1/4 right-1/4 w-4 h-4 text-blue-300 text-lg', animation: 'animate-ping' },
+      { type: 'glow', className: 'absolute bottom-1/3 left-1/3 w-24 h-24 bg-blue-400/15 rounded-full blur-2xl', animation: 'animate-pulse' }
+    ]
+  },
+  'pink-candy': {
+    name: 'Sweet Dreams',
+    description: 'Pink room with magical candy field view',
+    ambientSound: 'silence',
+    backgroundImage: pinkCandy,
+    quranPosition: { x: 'right-1/2', y: 'top-1/2' },
+    interactiveElements: [
+      { type: 'floating', className: 'absolute top-32 left-16 w-6 h-6 text-pink-300 text-xl', animation: 'animate-bounce' },
+      { type: 'glow', className: 'absolute bottom-20 right-20 w-28 h-28 bg-pink-400/20 rounded-full blur-xl', animation: 'animate-pulse' }
+    ]
+  },
+  'prison-cell': {
+    name: 'Prison Cell',
+    description: 'Institutional cell with courtyard view',
+    ambientSound: 'silence',
+    backgroundImage: prisonCell,
+    quranPosition: { x: 'left-1/3', y: 'top-2/3' },
+    interactiveElements: [
+      { type: 'glow', className: 'absolute top-40 right-16 w-16 h-32 bg-gray-400/15 rounded-full blur-xl', animation: 'animate-pulse' }
+    ]
+  },
+  'skyscraper-view': {
+    name: 'Sky High',
+    description: 'High-rise room with panoramic city view',
+    ambientSound: 'city',
+    backgroundImage: skyscraperView,
+    quranPosition: { x: 'right-1/4', y: 'top-3/5' },
+    interactiveElements: [
+      { type: 'glow', className: 'absolute bottom-32 left-24 w-20 h-20 bg-amber-400/20 rounded-full blur-xl', animation: 'animate-pulse' }
+    ]
+  },
+  'submarine-view': {
+    name: 'Deep Sea',
+    description: 'Submarine with underwater plant view',
+    ambientSound: 'underwater',
+    backgroundImage: submarineView,
+    quranPosition: { x: 'left-1/2', y: 'top-1/3' },
+    interactiveElements: [
+      { type: 'floating', className: 'absolute top-20 right-12 w-5 h-5 text-cyan-300 text-lg', animation: 'animate-bounce' },
+      { type: 'glow', className: 'absolute bottom-24 left-20 w-24 h-16 bg-teal-400/25 rounded-full blur-xl', animation: 'animate-pulse' }
     ]
   }
 };

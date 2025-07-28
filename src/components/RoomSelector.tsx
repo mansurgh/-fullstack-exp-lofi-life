@@ -34,6 +34,13 @@ import minecraftRoom from "@/assets/minecraft-room.jpg";
 import mosqueInterior from "@/assets/mosque-interior.jpg";
 import libraryRoom from "@/assets/library-room.jpg";
 import rgbRoom from "@/assets/rgb-room.jpg";
+import polandSnow from "@/assets/poland-snow.jpg";
+import antarcticIgloo from "@/assets/antarctic-igloo.jpg";
+import spaceShip from "@/assets/space-ship.jpg";
+import pinkCandy from "@/assets/pink-candy.jpg";
+import prisonCell from "@/assets/prison-cell.jpg";
+import skyscraperView from "@/assets/skyscraper-view.jpg";
+import submarineView from "@/assets/submarine-view.jpg";
 
 interface Room {
   id: string;
@@ -274,10 +281,59 @@ const rooms: Room[] = [
   },
   {
     id: 'rgb-room',
-    name: 'RGB Gaming Room',
-    description: 'Modern room with customizable RGB lighting and electronic ambiance',
+    name: 'Disco',
+    description: 'Dark room with customizable lighting effects and electronic ambiance',
     thumbnail: rgbRoom,
     ambientType: 'electronic'
+  },
+  {
+    id: 'poland-snow',
+    name: 'Polish Winter',
+    description: 'Cozy Polish room with peaceful snowy winter sounds',
+    thumbnail: polandSnow,
+    ambientType: 'snow'
+  },
+  {
+    id: 'antarctic-igloo',
+    name: 'Antarctic Igloo',
+    description: 'Inside an igloo with cold Antarctic wind sounds',
+    thumbnail: antarcticIgloo,
+    ambientType: 'wind'
+  },
+  {
+    id: 'space-ship',
+    name: 'Space Station',
+    description: 'Spaceship with cosmic silence and Earth view',
+    thumbnail: spaceShip,
+    ambientType: 'space'
+  },
+  {
+    id: 'pink-candy',
+    name: 'Sweet Dreams',
+    description: 'Pink room with magical candy field view and peaceful silence',
+    thumbnail: pinkCandy,
+    ambientType: 'silence'
+  },
+  {
+    id: 'prison-cell',
+    name: 'Prison Cell',
+    description: 'Institutional cell with echoing silence',
+    thumbnail: prisonCell,
+    ambientType: 'silence'
+  },
+  {
+    id: 'skyscraper-view',
+    name: 'Sky High',
+    description: 'High-rise room with city sounds from far below',
+    thumbnail: skyscraperView,
+    ambientType: 'city'
+  },
+  {
+    id: 'submarine-view',
+    name: 'Deep Sea',
+    description: 'Submarine with underwater bubble sounds and sea plant view',
+    thumbnail: submarineView,
+    ambientType: 'underwater'
   }
 ];
 
