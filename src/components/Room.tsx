@@ -387,9 +387,10 @@ const roomConfigs: Record<string, RoomConfig> = {
     backgroundImage: rgbRoom,
     quranPosition: { x: 'left-1/3', y: 'top-1/2' },
     interactiveElements: [
-      { type: 'glow', className: 'absolute top-20 right-20 w-20 h-20 bg-purple-500/30 rounded-full blur-xl', animation: 'animate-pulse' },
-      { type: 'glow', className: 'absolute bottom-24 left-16 w-24 h-16 bg-purple-500/25 rounded-full blur-xl', animation: 'animate-pulse' },
-      { type: 'glow', className: 'absolute top-1/2 right-1/3 w-16 h-32 bg-purple-500/20 rounded-full blur-2xl', animation: 'animate-pulse' }
+      { type: 'glow', className: 'absolute top-0 left-0 w-full h-1/2 bg-purple-500/40 blur-3xl', animation: 'animate-pulse' },
+      { type: 'glow', className: 'absolute bottom-0 left-0 w-full h-1/2 bg-purple-500/35 blur-3xl', animation: 'animate-pulse' },
+      { type: 'glow', className: 'absolute top-1/4 left-1/4 w-1/2 h-1/2 bg-purple-500/50 rounded-full blur-3xl', animation: 'animate-pulse' },
+      { type: 'glow', className: 'absolute inset-0 bg-purple-500/20 blur-2xl', animation: 'animate-pulse' }
     ]
   }
 };
