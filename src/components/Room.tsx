@@ -401,7 +401,7 @@ export const Room = ({ roomId, onBack }: RoomProps) => {
   const [isDarkMode, setIsDarkMode] = useState(false);
   const [isQuranOpen, setIsQuranOpen] = useState(false);
   const [isLoaded, setIsLoaded] = useState(false);
-  const [rgbColor, setRgbColor] = useState('purple'); // For RGB room color control
+  const [roomColor, setRoomColor] = useState('default'); // For all room color control
   const audioRef = useRef<HTMLAudioElement>(null);
 
   const roomConfig = roomConfigs[roomId];
@@ -449,12 +449,20 @@ export const Room = ({ roomId, onBack }: RoomProps) => {
     { name: 'Green', value: 'green', bg: 'bg-green-500', glow: 'bg-green-500/30' }
   ];
 
-  const getRgbGlowClass = (baseClass: string) => {
-    if (roomId !== 'rgb-room') return baseClass;
+  const getRoomGlowClass = (baseClass: string) => {
+    if (roomColor === 'default') return baseClass;
     
-    const currentColor = colorOptions.find(color => color.value === rgbColor);
-    return baseClass.replace(/bg-\w+-500\/30/, currentColor?.glow || 'bg-purple-500/30');
+    const currentColor = colorOptions.find(color => color.value === roomColor);
+    if (!currentColor) return baseClass;
+    
+    // Replace any existing color glow with the selected color
+    return baseClass.replace(/bg-\w+-\d+\/\d+/, currentColor.glow);
   };
+
+  // Check if current room has glow effects
+  const hasGlowEffects = roomConfig.interactiveElements.some(element => 
+    element.type === 'glow' || element.className.includes('bg-') && element.className.includes('/')
+  );
 
   if (!roomConfig) {
     return (
@@ -505,7 +513,7 @@ export const Room = ({ roomId, onBack }: RoomProps) => {
         isLoaded ? 'opacity-100' : 'opacity-0'
       }`}>
         {roomConfig.interactiveElements.map((element, index) => (
-          <div key={index} className={`${getRgbGlowClass(element.className)} ${element.animation}`}>
+          <div key={index} className={`${getRoomGlowClass(element.className)} ${element.animation}`}>
             {element.type === 'floating' && (
               <>
                 {roomId === 'sunny-garden' && '🦋'}
@@ -639,18 +647,27 @@ export const Room = ({ roomId, onBack }: RoomProps) => {
         </p>
       </Card>
 
-      {/* RGB Color Controls - Only show in RGB room */}
-      {roomId === 'rgb-room' && (
+      {/* Color Controls - Show for rooms with glow effects */}
+      {hasGlowEffects && (
         <Card className="absolute top-1/2 right-4 sm:right-6 p-3 bg-card/80 backdrop-blur-sm border-border/50 transform -translate-y-1/2">
           <h4 className="text-sm font-semibold text-card-foreground mb-2">Lighting</h4>
           <div className="flex flex-col gap-2">
+            <Button
+              onClick={() => setRoomColor('default')}
+              variant={roomColor === 'default' ? "default" : "outline"}
+              size="sm"
+              className="w-full justify-start text-xs"
+            >
+              <div className="w-3 h-3 rounded-full bg-gray-400 mr-2" />
+              Default
+            </Button>
             {colorOptions.map((color) => (
               <Button
                 key={color.value}
-                onClick={() => setRgbColor(color.value)}
-                variant={rgbColor === color.value ? "default" : "outline"}
+                onClick={() => setRoomColor(color.value)}
+                variant={roomColor === color.value ? "default" : "outline"}
                 size="sm"
-                className={`w-full justify-start text-xs ${color.bg} hover:${color.bg}/80 text-white border-none`}
+                className={`w-full justify-start text-xs ${roomColor === color.value ? color.bg + ' text-white border-none' : ''}`}
               >
                 <div className={`w-3 h-3 rounded-full ${color.bg} mr-2`} />
                 {color.name}
