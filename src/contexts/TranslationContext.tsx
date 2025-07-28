@@ -13,7 +13,7 @@ const TranslationContext = createContext<TranslationContextType | undefined>(und
 const translations = {
   en: {
     // Navigation & General
-    'app.title': 'Spiritual Sanctuary',
+    'app.title': 'Islamic Lofi Rooms',
     'nav.rooms': 'Rooms',
     'nav.quran': 'Quran',
     'nav.help': 'Help',
@@ -77,7 +77,7 @@ const translations = {
   },
   ru: {
     // Navigation & General
-    'app.title': 'Духовное Святилище',
+    'app.title': 'Исламские Лофи Комнаты',
     'nav.rooms': 'Комнаты',
     'nav.quran': 'Коран',
     'nav.help': 'Помощь',
@@ -141,7 +141,7 @@ const translations = {
   },
   nl: {
     // Navigation & General
-    'app.title': 'Spiritueel Heiligdom',
+    'app.title': 'Islamitische Lofi Kamers',
     'nav.rooms': 'Kamers',
     'nav.quran': 'Koran',
     'nav.help': 'Help',
@@ -205,7 +205,7 @@ const translations = {
   },
   fr: {
     // Navigation & General
-    'app.title': 'Sanctuaire Spirituel',
+    'app.title': 'Salles Lofi Islamiques',
     'nav.rooms': 'Salles',
     'nav.quran': 'Coran',
     'nav.help': 'Aide',
@@ -269,7 +269,7 @@ const translations = {
   },
   de: {
     // Navigation & General
-    'app.title': 'Spirituelles Heiligtum',
+    'app.title': 'Islamische Lofi Räume',
     'nav.rooms': 'Räume',
     'nav.quran': 'Koran',
     'nav.help': 'Hilfe',
