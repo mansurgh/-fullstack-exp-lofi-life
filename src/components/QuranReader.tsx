@@ -6,6 +6,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Switch } from "@/components/ui/switch";
 import { Slider } from "@/components/ui/slider";
 import { Play, Pause, SkipBack, SkipForward, Volume2, X, BookOpen } from 'lucide-react';
+import { useTranslation } from '@/contexts/TranslationContext';
 
 interface QuranReaderProps {
   onClose: () => void;
@@ -68,6 +69,7 @@ const sampleVerses = [
 ];
 
 export const QuranReader = ({ onClose }: QuranReaderProps) => {
+  const { t } = useTranslation();
   const [selectedSurah, setSelectedSurah] = useState<string>("1");
   const [currentVerse, setCurrentVerse] = useState(0);
   const [currentWordIndex, setCurrentWordIndex] = useState(0);

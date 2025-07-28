@@ -4,6 +4,7 @@ import { Slider } from "@/components/ui/slider";
 import { Card } from "@/components/ui/card";
 import { QuranReader } from './QuranReader';
 import { Volume2, VolumeX, ArrowLeft, Moon, Sun, RotateCcw } from 'lucide-react';
+import { useTranslation } from '@/contexts/TranslationContext';
 import rainyStudyRoom from "@/assets/rainy-study-room.jpg";
 import sunnyGardenRoom from "@/assets/sunny-garden-room.jpg";
 import fireplaceNook from "@/assets/fireplace-nook.jpg";
@@ -138,6 +139,7 @@ const roomConfigs: Record<string, RoomConfig> = {
 };
 
 export const Room = ({ roomId, onBack }: RoomProps) => {
+  const { t } = useTranslation();
   const [volume, setVolume] = useState([50]);
   const [isMuted, setIsMuted] = useState(false);
   const [isDarkMode, setIsDarkMode] = useState(false);
