@@ -71,9 +71,7 @@ const roomConfigs: Record<string, RoomConfig> = {
     ambientSound: 'rain',
     backgroundImage: rainyStudyRoom,
     quranPosition: { x: 'left-1/2', y: 'top-3/4' },
-    interactiveElements: [
-      { type: 'particles', className: 'absolute top-0 left-0 w-full h-full opacity-30', animation: 'animate-pulse' }
-    ]
+    interactiveElements: []
   },
   'sunny-garden': {
     name: 'Garden View',
