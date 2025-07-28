@@ -70,24 +70,54 @@ const sampleVerses = [
 export const QuranReader = ({ onClose }: QuranReaderProps) => {
   const [selectedSurah, setSelectedSurah] = useState<string>("1");
   const [currentVerse, setCurrentVerse] = useState(0);
+  const [currentWordIndex, setCurrentWordIndex] = useState(0);
   const [isPlaying, setIsPlaying] = useState(false);
   const [showTransliteration, setShowTransliteration] = useState(true);
   const [showTranslation, setShowTranslation] = useState(true);
   const [audioVolume, setAudioVolume] = useState([75]);
   const [verses] = useState(sampleVerses);
+  const [isAutoReading, setIsAutoReading] = useState(false);
   
   const audioRef = useRef<HTMLAudioElement>(null);
 
   const selectedSurahData = surahs.find(s => s.number.toString() === selectedSurah);
 
+  // Simulate word-by-word reading
+  const simulateReading = () => {
+    if (!isAutoReading) return;
+    
+    const currentVerseText = verses[currentVerse]?.arabic || "";
+    const words = currentVerseText.split(" ");
+    
+    if (currentWordIndex < words.length - 1) {
+      setTimeout(() => {
+        setCurrentWordIndex(prev => prev + 1);
+      }, 800); // Adjust timing as needed
+    } else {
+      // Move to next verse
+      setTimeout(() => {
+        if (currentVerse < verses.length - 1) {
+          setCurrentVerse(prev => prev + 1);
+          setCurrentWordIndex(0);
+        } else {
+          setIsAutoReading(false);
+          setIsPlaying(false);
+        }
+      }, 1200);
+    }
+  };
+
   const handlePlay = () => {
     if (audioRef.current) {
       if (isPlaying) {
         audioRef.current.pause();
+        setIsAutoReading(false);
       } else {
         // In a real app, this would load the actual audio file
         // audioRef.current.src = `/quran-audio/mishary/${selectedSurah}/${currentVerse + 1}.mp3`;
         audioRef.current.play();
+        setIsAutoReading(true);
+        setCurrentWordIndex(0);
       }
       setIsPlaying(!isPlaying);
     }
@@ -96,16 +126,55 @@ export const QuranReader = ({ onClose }: QuranReaderProps) => {
   const nextVerse = () => {
     if (currentVerse < verses.length - 1) {
       setCurrentVerse(currentVerse + 1);
+      setCurrentWordIndex(0);
       setIsPlaying(false);
+      setIsAutoReading(false);
     }
   };
 
   const prevVerse = () => {
     if (currentVerse > 0) {
       setCurrentVerse(currentVerse - 1);
+      setCurrentWordIndex(0);
       setIsPlaying(false);
+      setIsAutoReading(false);
     }
   };
+
+  // Word highlighting rendering helper
+  const renderHighlightedText = (arabicText: string, verseIndex: number) => {
+    const words = arabicText.split(" ");
+    
+    return words.map((word, wordIndex) => {
+      const isCurrentVerse = verseIndex === currentVerse;
+      const isCurrentWord = isCurrentVerse && wordIndex === currentWordIndex && isAutoReading;
+      const isPastWord = isCurrentVerse && wordIndex < currentWordIndex && isAutoReading;
+      
+      return (
+        <span
+          key={wordIndex}
+          className={`inline-block transition-all duration-300 ${
+            isCurrentWord 
+              ? 'bg-accent text-accent-foreground px-1 rounded scale-110 shadow-glow animate-pulse ring-2 ring-accent' 
+              : isPastWord 
+              ? 'text-accent/70'
+              : ''
+          }`}
+          style={{
+            marginLeft: wordIndex > 0 ? '0.5rem' : '0'
+          }}
+        >
+          {word}
+        </span>
+      );
+    });
+  };
+
+  useEffect(() => {
+    if (isAutoReading && isPlaying) {
+      simulateReading();
+    }
+  }, [currentWordIndex, currentVerse, isAutoReading, isPlaying]);
 
   useEffect(() => {
     if (audioRef.current) {
@@ -185,7 +254,7 @@ export const QuranReader = ({ onClose }: QuranReaderProps) => {
                 </div>
                 
                 <p className="text-xs text-muted-foreground">
-                  Reciter: Sheikh Mishary bin Rashid Al-Afasy
+                  Reciter: Sheikh Mishary bin Rashid Al-Afasy | Word-by-word highlighting enabled
                 </p>
               </div>
             </Card>
@@ -241,15 +310,15 @@ export const QuranReader = ({ onClose }: QuranReaderProps) => {
               {verses.map((verse, index) => (
                 <div 
                   key={index}
-                  className={`p-6 rounded-lg border transition-all duration-300 ${
+                  className={`p-6 rounded-lg border-2 transition-all duration-500 ${
                     index === currentVerse 
-                      ? 'bg-accent/10 border-accent shadow-glow' 
-                      : 'bg-card border-border'
+                      ? 'bg-accent/10 border-accent shadow-glow ring-2 ring-accent/30 transform scale-[1.02]' 
+                      : 'bg-card border-border hover:border-accent/30'
                   }`}
                 >
                   <div className="text-right mb-4">
                     <p className="text-2xl leading-relaxed text-foreground font-arabic">
-                      {verse.arabic}
+                      {renderHighlightedText(verse.arabic, index)}
                     </p>
                   </div>
                   
