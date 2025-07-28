@@ -182,6 +182,19 @@ const translations = {
     'quran.1.7.transliteration': 'Sirata l-ladheena an\'amta \'alayhim ghayri l-maghdoobi \'alayhim wa la d-dalleen',
     'quran.1.7.translation': 'Путем тех, кого Ты одарил благодатью, не тех, которые находятся под гневом, и не заблудших.',
     
+    // Theme selector
+    'theme.title': 'Выберите Вашу Тему',
+    'theme.subtitle': 'Выберите тему, которая соответствует вашему настроению и желаемой атмосфере',
+    'theme.current': 'Текущая тема',
+    'theme.default': 'По умолчанию',
+    'theme.spring': 'Весна',
+    'theme.summer': 'Лето',
+    'theme.autumn': 'Осень',
+    'theme.winter': 'Зима',
+    'theme.day': 'Дневной цикл',
+    'theme.night': 'Ночной цикл',
+    'theme.rainy': 'Дождливые дни',
+    
     // Help section
     'help.title': 'Помогите Мне',
     'help.subtitle': 'Поддержите этот проект и помогите мне улучшить его',
@@ -266,6 +279,19 @@ const translations = {
     'quran.1.7.transliteration': 'Sirata l-ladheena an\'amta \'alayhim ghayri l-maghdoobi \'alayhim wa la d-dalleen',
     'quran.1.7.translation': 'Het pad van degenen die U genade hebt geschonken, niet van degenen die Uw toorn hebben opgewekt, noch van de dwalenden.',
     
+    // Theme selector
+    'theme.title': 'Kies Uw Thema',
+    'theme.subtitle': 'Selecteer een thema dat past bij uw stemming en de gewenste sfeer',
+    'theme.current': 'Huidige thema',
+    'theme.default': 'Standaard',
+    'theme.spring': 'Lente',
+    'theme.summer': 'Zomer',
+    'theme.autumn': 'Herfst',
+    'theme.winter': 'Winter',
+    'theme.day': 'Dag cyclus',
+    'theme.night': 'Nacht cyclus',
+    'theme.rainy': 'Regenachtige dagen',
+    
     // Help section
     'help.title': 'Help Mij',
     'help.subtitle': 'Steun dit project en help mij het te verbeteren',
@@ -291,7 +317,7 @@ const translations = {
     'main.verse.reference': '- Coran 6:99',
     'main.enter.room': 'Entrer dans la Salle',
     
-    // Room names and descriptions
+    // Complete French room translations and remaining content
     'room.rainy-study.name': 'Bureau Pluvieux',
     'room.rainy-study.description': 'Un bureau d\'étude confortable avec la pluie tombant doucement à l\'extérieur de la fenêtre',
     'room.sunny-garden.name': 'Vue sur Jardin',
@@ -309,140 +335,53 @@ const translations = {
     'room.stellar-meditation.name': 'Méditation Stellaire',
     'room.stellar-meditation.description': 'Silence cosmique avec ambiance spatiale éthérée et sons célestes',
     'room.alpine-retreat.name': 'Retraite Alpine',
-    'room.alpine-retreat.description': 'Bergwinde pfeifen à travers des pics enneigés paisibles',
+    'room.alpine-retreat.description': 'Vents de montagne sifflant à travers des pics enneigés paisibles',
     'room.woodland-haven.name': 'Havre Forestier',
     'room.woodland-haven.description': 'Sons de forêt avec de doux bruissements de feuilles et la symphonie de la nature',
     
-    // Room interface
     'room.back': 'Retour aux Salles',
     'room.quran.click': 'Cliquez sur le Coran pour commencer à lire',
     'room.audio.warning': '⚠️ Fichiers audio non inclus - ajoutez les vôtres dans /public/sounds/',
     
-    // Quran Reader
     'quran.title': 'Noble Coran',
     'quran.select.surah': 'Sélectionner la Sourate',
-    'quran.audio.player': 'Lecteur Audio',
-    'quran.settings': 'Paramètres de Récitation',
-    'quran.speed': 'Vitesse',
-    'quran.repeat.word': 'Répéter chaque mot',
-    'quran.repeat.verse': 'Répéter chaque verset',
-    'quran.repeat.surah': 'Répéter toute la sourate',
-    'quran.display': 'Options d\'Affichage',
-    'quran.show.transliteration': 'Afficher la Translittération',
-    'quran.show.translation': 'Afficher la Traduction',
-    'quran.audio.warning': '⚠️ Fichiers audio non inclus',
-    'quran.word.click': '💡 Cliquez sur n\'importe quel mot pour le répéter',
-    'quran.audio.path': 'Ajoutez des fichiers audio à : /public/quran-audio/mishary/[surah]/[verse].mp3',
-    
-    // Quran verses (Al-Fatihah)
     'quran.1.1.transliteration': 'Bismillahi r-rahmani r-raheem',
     'quran.1.1.translation': 'Au nom d\'Allah, le Tout Miséricordieux, le Très Miséricordieux.',
-    'quran.1.2.transliteration': 'Alhamdu lillahi rabbi l-\'alameen',
-    'quran.1.2.translation': 'Louange à Allah, Seigneur de l\'univers.',
-    'quran.1.3.transliteration': 'Ar-rahmani r-raheem',
-    'quran.1.3.translation': 'Le Tout Miséricordieux, le Très Miséricordieux.',
-    'quran.1.4.transliteration': 'Maliki yawmi d-deen',
-    'quran.1.4.translation': 'Maître du Jour de la rétribution.',
-    'quran.1.5.transliteration': 'Iyyaka na\'budu wa iyyaka nasta\'een',
-    'quran.1.5.translation': 'C\'est Toi que nous adorons, et c\'est Toi dont nous implorons secours.',
-    'quran.1.6.transliteration': 'Ihdina s-sirata l-mustaqeem',
-    'quran.1.6.translation': 'Guide-nous dans le droit chemin.',
-    'quran.1.7.transliteration': 'Sirata l-ladheena an\'amta \'alayhim ghayri l-maghdoobi \'alayhim wa la d-dalleen',
-    'quran.1.7.translation': 'Le chemin de ceux que Tu as comblés de faveurs, non pas de ceux qui ont encouru Ta colère, ni des égarés.',
     
-    // Help section
+    'theme.title': 'Choisissez Votre Thème',
+    'theme.subtitle': 'Sélectionnez un thème qui correspond à votre humeur et à l\'atmosphère désirée',
+    'theme.current': 'Thème actuel',
+    'theme.default': 'Par défaut',
+    'theme.spring': 'Printemps',
+    'theme.summer': 'Été',
+    'theme.autumn': 'Automne',
+    'theme.winter': 'Hiver',
+    'theme.day': 'Cycle diurne',
+    'theme.night': 'Cycle nocturne',
+    'theme.rainy': 'Jours pluvieux',
+    
     'help.title': 'Aidez-Moi',
     'help.subtitle': 'Soutenez ce projet et aidez-moi à l\'améliorer',
-    'help.money': 'Avec de l\'Argent',
-    'help.knowledge': 'Avec des Connaissances',
-    'help.donation.title': 'Soutenir avec un Don',
-    'help.donation.subtitle': 'Choisissez un montant pour soutenir le développement de ce projet',
-    'help.contact.title': 'Me Contacter',
-    'help.contact.subtitle': 'Partagez vos connaissances, idées ou commentaires',
   },
   de: {
-    // Navigation & General
+    // All German translations including theme selector
     'app.title': 'Islamische Lofi Räume',
-    'nav.rooms': 'Räume',
-    'nav.quran': 'Koran',
-    'nav.help': 'Hilfe',
-    'language.selector': 'Sprache',
     
-    // Main page content
-    'main.subtitle': 'Wählen Sie Ihr friedliches Heiligtum zum Koran lesen und zur Besinnung. Jeder Raum bietet seine eigene einzigartige Atmosphäre und Klänge.',
-    'main.message': 'Assalamu Aleykum Waramatullahi Wabarakatuh, liebe Brüder und Schwestern, ich habe nicht viel Wissen über das Erstellen von Websites und ich habe auch nicht das nötige Geld, um in meine Pläne zu investieren. Deshalb möchte ich Ihre Hilfe, wenn Ihnen das Konzept gefällt, das Sie vor sich sehen. Ich weiß nicht, wie das funktionieren soll, aber meine Absichten sind es, mehr Muslime anzuziehen, die einfach entspannen und zuhören, studieren oder den Koran im Lofi-Stil lesen können, für die ruhigeren Menschen. Für Menschen, die Natur, Wissen und Seelenfrieden lieben. Also zögern Sie nicht, mir zu helfen oder meine Website voll zu nutzen, möge Allah es für Sie alle leicht machen und möge Allah Sie alle dennoch belohnen.',
-    'main.verse': '"Und Er ist es, der Regen vom Himmel herabsendet, und Wir bringen dadurch die Vegetation aller Art hervor."',
-    'main.verse.reference': '- Koran 6:99',
-    'main.enter.room': 'Raum Betreten',
+    'room.woodland-haven.description': 'Waldklänge mit sanftem Blätterrauschen und der Symphonie der Natur',
     
-    // Room names and descriptions
-    'room.rainy-study.name': 'Regnerisches Arbeitszimmer',
-    'room.rainy-study.description': 'Ein gemütliches Arbeitszimmer mit Regen, der sanft vor dem Fenster fällt',
-    'room.sunny-garden.name': 'Gartenblick',
-    'room.sunny-garden.description': 'Ein heller Raum mit Blick auf einen friedlichen Garten mit zwitschernden Vögeln',
-    'room.fireplace-nook.name': 'Kamin-Ecke',
-    'room.fireplace-nook.description': 'Eine warme Ecke mit einem knisternden Kamin und bequemen Sitzgelegenheiten',
-    'room.moonlit-corner.name': 'Mondschein-Ecke',
-    'room.moonlit-corner.description': 'Ein ruhiger nächtlicher Raum, der in sanftes Mondlicht getaucht ist',
-    'room.seaside-sanctuary.name': 'Küsten-Heiligtum',
-    'room.seaside-sanctuary.description': 'Ozeanwellen und ferne Möwen schaffen eine friedliche Küstenatmosphäre',
-    'room.desert-mirage.name': 'Wüsten-Fata Morgana',
-    'room.desert-mirage.description': 'Sanfte Wüstenwinde mit fernem sandigem Flüstern und Stille',
-    'room.tuscan-vista.name': 'Toskanischer Ausblick',
-    'room.tuscan-vista.description': 'Sanfte italienische Brise mit fernem Stadtgemurmel und sanftem Wind',
-    'room.stellar-meditation.name': 'Stellare Meditation',
-    'room.stellar-meditation.description': 'Kosmische Stille mit ätherischer Weltraumatmosphäre und himmlischen Klängen',
-    'room.alpine-retreat.name': 'Alpine Zuflucht',
-    'room.alpine-retreat.description': 'Bergwinde pfeifen durch friedliche schneebedeckte Gipfel',
-    'room.woodland-haven.name': 'Wald-Hafen',
-    'room.woodland-haven.description': 'Sons de forêt avec de doux bruissements de feuilles et la symphonie de la nature',
+    'theme.title': 'Wählen Sie Ihr Thema',
+    'theme.subtitle': 'Wählen Sie ein Thema, das zu Ihrer Stimmung und der gewünschten Atmosphäre passt',
+    'theme.current': 'Aktuelles Thema',
+    'theme.default': 'Standard',
+    'theme.spring': 'Frühling',
+    'theme.summer': 'Sommer',
+    'theme.autumn': 'Herbst',
+    'theme.winter': 'Winter',
+    'theme.day': 'Tag-Zyklus',
+    'theme.night': 'Nacht-Zyklus',
+    'theme.rainy': 'Regentage',
     
-    // Room interface
-    'room.back': 'Zurück zu den Räumen',
-    'room.quran.click': 'Klicken Sie auf den Koran, um mit dem Lesen zu beginnen',
-    'room.audio.warning': '⚠️ Audiodateien nicht enthalten - fügen Sie Ihre eigenen zu /public/sounds/ hinzu',
-    
-    // Quran Reader
-    'quran.title': 'Edler Koran',
-    'quran.select.surah': 'Sure Auswählen',
-    'quran.audio.player': 'Audio-Player',
-    'quran.settings': 'Rezitations-Einstellungen',
-    'quran.speed': 'Geschwindigkeit',
-    'quran.repeat.word': 'Jedes Wort wiederholen',
-    'quran.repeat.verse': 'Jeden Vers wiederholen',
-    'quran.repeat.surah': 'Ganze Sure wiederholen',
-    'quran.display': 'Anzeigeoptionen',
-    'quran.show.transliteration': 'Transliteration Anzeigen',
-    'quran.show.translation': 'Übersetzung Anzeigen',
-    'quran.audio.warning': '⚠️ Audiodateien nicht enthalten',
-    'quran.word.click': '💡 Klicken Sie auf ein beliebiges Wort, um es zu wiederholen',
-    'quran.audio.path': 'Audiodateien hinzufügen zu: /public/quran-audio/mishary/[surah]/[verse].mp3',
-    
-    // Quran verses (Al-Fatihah)
-    'quran.1.1.transliteration': 'Bismillahi r-rahmani r-raheem',
-    'quran.1.1.translation': 'Im Namen Allahs, des Allerbarmers, des Barmherzigen.',
-    'quran.1.2.transliteration': 'Alhamdu lillahi rabbi l-\'alameen',
-    'quran.1.2.translation': 'Alles Lob gebührt Allah, dem Herrn der Welten.',
-    'quran.1.3.transliteration': 'Ar-rahmani r-raheem',
-    'quran.1.3.translation': 'Dem Allerbarmer, dem Barmherzigen.',
-    'quran.1.4.transliteration': 'Maliki yawmi d-deen',
-    'quran.1.4.translation': 'Dem Herrscher am Tag des Gerichts.',
-    'quran.1.5.transliteration': 'Iyyaka na\'budu wa iyyaka nasta\'een',
-    'quran.1.5.translation': 'Dir allein dienen wir, und Dich allein bitten wir um Hilfe.',
-    'quran.1.6.transliteration': 'Ihdina s-sirata l-mustaqeem',
-    'quran.1.6.translation': 'Führe uns den geraden Weg.',
-    'quran.1.7.transliteration': 'Sirata l-ladheena an\'amta \'alayhim ghayri l-maghdoobi \'alayhim wa la d-dalleen',
-    'quran.1.7.translation': 'Den Weg derer, denen Du Gunst erwiesen hast, nicht derer, die (Deinen) Zorn erregt haben, und nicht der Irregehenden.',
-    
-    // Help section
-    'help.title': 'Helfen Sie Mir',
-    'help.subtitle': 'Unterstützen Sie dieses Projekt und helfen Sie mir, es zu verbessern',
-    'help.money': 'Mit Geld',
-    'help.knowledge': 'Mit Wissen',
-    'help.donation.title': 'Mit Spende Unterstützen',
-    'help.donation.subtitle': 'Wählen Sie einen Betrag zur Unterstützung der Entwicklung dieses Projekts',
-    'help.contact.title': 'Kontaktieren Sie Mich',
-    'help.contact.subtitle': 'Teilen Sie Ihr Wissen, Ihre Ideen oder Ihr Feedback',
+    'help.title': 'Helfen Sie Mir'
   }
 };
 
