@@ -257,209 +257,220 @@ export const QuranReader = ({ onClose }: QuranReaderProps) => {
         </DialogHeader>
 
         <div className="flex gap-6 h-[70vh]">
-          {/* Controls Panel */}
-          <div className="w-80 space-y-6">
-            {/* Surah Selection */}
-            <Card className="p-4">
-              <h3 className="font-semibold text-card-foreground mb-3">Select Surah</h3>
-              <Select value={selectedSurah} onValueChange={setSelectedSurah}>
-                <SelectTrigger>
-                  <SelectValue />
-                </SelectTrigger>
-                <SelectContent>
-                  {surahs.map((surah) => (
-                    <SelectItem key={surah.number} value={surah.number.toString()}>
-                      {surah.number}. {surah.name} ({surah.englishName})
-                    </SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
-            </Card>
-
-            {/* Audio Controls */}
-            <Card className="p-4">
-              <h3 className="font-semibold text-card-foreground mb-3">Audio Player</h3>
-              <div className="space-y-4">
-                <div className="flex items-center justify-center gap-2">
-                  <Button onClick={prevVerse} variant="outline" size="sm" disabled={currentVerse === 0}>
-                    <SkipBack className="w-4 h-4" />
-                  </Button>
-                  <Button onClick={handlePlay} variant="default" size="sm">
-                    {isPlaying ? <Pause className="w-4 h-4" /> : <Play className="w-4 h-4" />}
-                  </Button>
-                  <Button onClick={nextVerse} variant="outline" size="sm" disabled={currentVerse === verses.length - 1}>
-                    <SkipForward className="w-4 h-4" />
-                  </Button>
-                </div>
+          {/* Controls Panel with Horizontal Scroll */}
+          <div className="w-80 flex flex-col">
+            <div className="flex-1 overflow-x-auto overflow-y-hidden">
+              <div className="flex gap-4 pb-4 min-w-max">
+                {/* Each control group as a separate card */}
                 
-                <div className="flex items-center gap-2">
-                  <Volume2 className="w-4 h-4 text-muted-foreground" />
-                  <Slider
-                    value={audioVolume}
-                    onValueChange={setAudioVolume}
-                    max={100}
-                    min={0}
-                    step={1}
-                    className="flex-1"
-                  />
-                  <span className="text-sm text-muted-foreground min-w-8">
-                    {audioVolume[0]}%
-                  </span>
-                </div>
-                
-                <p className="text-xs text-muted-foreground">
-                  Reciter: Sheikh Mishary bin Rashid Al-Afasy | Word-by-word highlighting enabled
-                </p>
-              </div>
-            </Card>
+                {/* Surah Selection */}
+                <Card className="p-4 min-w-64 flex-shrink-0">
+                  <h3 className="font-semibold text-card-foreground mb-3">Select Surah</h3>
+                  <Select value={selectedSurah} onValueChange={setSelectedSurah}>
+                    <SelectTrigger>
+                      <SelectValue />
+                    </SelectTrigger>
+                    <SelectContent className="bg-card border-border z-50">
+                      {surahs.map((surah) => (
+                        <SelectItem key={surah.number} value={surah.number.toString()}>
+                          {surah.number}. {surah.name} ({surah.englishName})
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                </Card>
 
-            {/* Speed & Repetition Controls */}
-            <Card className="p-4">
-              <h3 className="font-semibold text-card-foreground mb-3">Recitation Settings</h3>
-              <div className="space-y-4">
-                {/* Speed Control */}
-                <div>
-                  <label className="text-sm text-card-foreground mb-2 block">
-                    Speed: {recitationSpeed[0]}%
-                  </label>
-                  <Slider
-                    value={recitationSpeed}
-                    onValueChange={setRecitationSpeed}
-                    max={200}
-                    min={25}
-                    step={25}
-                    className="flex-1"
-                  />
-                  <div className="flex justify-between text-xs text-muted-foreground mt-1">
-                    <span>Slow</span>
-                    <span>Normal</span>
-                    <span>Fast</span>
+                {/* Audio Controls */}
+                <Card className="p-4 min-w-64 flex-shrink-0">
+                  <h3 className="font-semibold text-card-foreground mb-3">Audio Player</h3>
+                  <div className="space-y-4">
+                    <div className="flex items-center justify-center gap-2">
+                      <Button onClick={prevVerse} variant="outline" size="sm" disabled={currentVerse === 0}>
+                        <SkipBack className="w-4 h-4" />
+                      </Button>
+                      <Button onClick={handlePlay} variant="default" size="sm">
+                        {isPlaying ? <Pause className="w-4 h-4" /> : <Play className="w-4 h-4" />}
+                      </Button>
+                      <Button onClick={nextVerse} variant="outline" size="sm" disabled={currentVerse === verses.length - 1}>
+                        <SkipForward className="w-4 h-4" />
+                      </Button>
+                    </div>
+                    
+                    <div className="flex items-center gap-2">
+                      <Volume2 className="w-4 h-4 text-muted-foreground" />
+                      <Slider
+                        value={audioVolume}
+                        onValueChange={setAudioVolume}
+                        max={100}
+                        min={0}
+                        step={1}
+                        className="flex-1"
+                      />
+                      <span className="text-sm text-muted-foreground min-w-8">
+                        {audioVolume[0]}%
+                      </span>
+                    </div>
+                    
+                    <p className="text-xs text-muted-foreground">
+                      Reciter: Sheikh Mishary bin Rashid Al-Afasy | Word-by-word highlighting enabled
+                    </p>
                   </div>
-                </div>
+                </Card>
 
-                {/* Word Repetition */}
-                <div>
-                  <label className="text-sm text-card-foreground mb-2 block">
-                    Repeat each word:
-                  </label>
-                  <div className="flex items-center gap-2">
-                    <Button
-                      onClick={() => setWordRepeatCount(Math.max(1, wordRepeatCount - 1))}
-                      variant="outline"
-                      size="sm"
-                      className="h-8 w-8 p-0"
-                    >
-                      -
-                    </Button>
-                    <span className="text-sm min-w-8 text-center">{wordRepeatCount}x</span>
-                    <Button
-                      onClick={() => setWordRepeatCount(Math.min(10, wordRepeatCount + 1))}
-                      variant="outline"
-                      size="sm"
-                      className="h-8 w-8 p-0"
-                    >
-                      +
-                    </Button>
+                {/* Speed & Repetition Controls */}
+                <Card className="p-4 min-w-80 flex-shrink-0">
+                  <h3 className="font-semibold text-card-foreground mb-3">Recitation Settings</h3>
+                  <div className="space-y-4">
+                    {/* Speed Control */}
+                    <div>
+                      <label className="text-sm text-card-foreground mb-2 block">
+                        Speed: {recitationSpeed[0]}%
+                      </label>
+                      <Slider
+                        value={recitationSpeed}
+                        onValueChange={setRecitationSpeed}
+                        max={200}
+                        min={25}
+                        step={25}
+                        className="flex-1"
+                      />
+                      <div className="flex justify-between text-xs text-muted-foreground mt-1">
+                        <span>Slow</span>
+                        <span>Normal</span>
+                        <span>Fast</span>
+                      </div>
+                    </div>
+
+                    {/* Word Repetition */}
+                    <div>
+                      <label className="text-sm text-card-foreground mb-2 block">
+                        Repeat each word:
+                      </label>
+                      <div className="flex items-center gap-2">
+                        <Button
+                          onClick={() => setWordRepeatCount(Math.max(1, wordRepeatCount - 1))}
+                          variant="outline"
+                          size="sm"
+                          className="h-8 w-8 p-0"
+                        >
+                          -
+                        </Button>
+                        <span className="text-sm min-w-8 text-center">{wordRepeatCount}x</span>
+                        <Button
+                          onClick={() => setWordRepeatCount(Math.min(10, wordRepeatCount + 1))}
+                          variant="outline"
+                          size="sm"
+                          className="h-8 w-8 p-0"
+                        >
+                          +
+                        </Button>
+                      </div>
+                    </div>
+
+                    {/* Verse Repetition */}
+                    <div>
+                      <label className="text-sm text-card-foreground mb-2 block">
+                        Repeat each verse:
+                      </label>
+                      <div className="flex items-center gap-2">
+                        <Button
+                          onClick={() => setVerseRepeatCount(Math.max(1, verseRepeatCount - 1))}
+                          variant="outline"
+                          size="sm"
+                          className="h-8 w-8 p-0"
+                        >
+                          -
+                        </Button>
+                        <span className="text-sm min-w-8 text-center">{verseRepeatCount}x</span>
+                        <Button
+                          onClick={() => setVerseRepeatCount(Math.min(10, verseRepeatCount + 1))}
+                          variant="outline"
+                          size="sm"
+                          className="h-8 w-8 p-0"
+                        >
+                          +
+                        </Button>
+                      </div>
+                    </div>
+
+                    {/* Surah Repetition */}
+                    <div>
+                      <label className="text-sm text-card-foreground mb-2 block">
+                        Repeat entire surah:
+                      </label>
+                      <div className="flex items-center gap-2">
+                        <Button
+                          onClick={() => setSurahRepeatCount(Math.max(1, surahRepeatCount - 1))}
+                          variant="outline"
+                          size="sm"
+                          className="h-8 w-8 p-0"
+                        >
+                          -
+                        </Button>
+                        <span className="text-sm min-w-8 text-center">{surahRepeatCount}x</span>
+                        <Button
+                          onClick={() => setSurahRepeatCount(Math.min(10, surahRepeatCount + 1))}
+                          variant="outline"
+                          size="sm"
+                          className="h-8 w-8 p-0"
+                        >
+                          +
+                        </Button>
+                      </div>
+                    </div>
                   </div>
-                </div>
+                </Card>
 
-                {/* Verse Repetition */}
-                <div>
-                  <label className="text-sm text-card-foreground mb-2 block">
-                    Repeat each verse:
-                  </label>
-                  <div className="flex items-center gap-2">
-                    <Button
-                      onClick={() => setVerseRepeatCount(Math.max(1, verseRepeatCount - 1))}
-                      variant="outline"
-                      size="sm"
-                      className="h-8 w-8 p-0"
-                    >
-                      -
-                    </Button>
-                    <span className="text-sm min-w-8 text-center">{verseRepeatCount}x</span>
-                    <Button
-                      onClick={() => setVerseRepeatCount(Math.min(10, verseRepeatCount + 1))}
-                      variant="outline"
-                      size="sm"
-                      className="h-8 w-8 p-0"
-                    >
-                      +
-                    </Button>
+                {/* Display Options */}
+                <Card className="p-4 min-w-64 flex-shrink-0">
+                  <h3 className="font-semibold text-card-foreground mb-3">Display Options</h3>
+                  <div className="space-y-3">
+                    <div className="flex items-center justify-between">
+                      <label className="text-sm text-card-foreground">Show Transliteration</label>
+                      <Switch 
+                        checked={showTransliteration} 
+                        onCheckedChange={setShowTransliteration}
+                      />
+                    </div>
+                    <div className="flex items-center justify-between">
+                      <label className="text-sm text-card-foreground">Show Translation</label>
+                      <Switch 
+                        checked={showTranslation} 
+                        onCheckedChange={setShowTranslation}
+                      />
+                    </div>
                   </div>
-                </div>
+                </Card>
 
-                {/* Surah Repetition */}
-                <div>
-                  <label className="text-sm text-card-foreground mb-2 block">
-                    Repeat entire surah:
-                  </label>
-                  <div className="flex items-center gap-2">
-                    <Button
-                      onClick={() => setSurahRepeatCount(Math.max(1, surahRepeatCount - 1))}
-                      variant="outline"
-                      size="sm"
-                      className="h-8 w-8 p-0"
-                    >
-                      -
-                    </Button>
-                    <span className="text-sm min-w-8 text-center">{surahRepeatCount}x</span>
-                    <Button
-                      onClick={() => setSurahRepeatCount(Math.min(10, surahRepeatCount + 1))}
-                      variant="outline"
-                      size="sm"
-                      className="h-8 w-8 p-0"
-                    >
-                      +
-                    </Button>
+                {/* Progress */}
+                <Card className="p-4 min-w-64 flex-shrink-0">
+                  <h3 className="font-semibold text-card-foreground mb-2">Progress</h3>
+                  <div className="space-y-2">
+                    <p className="text-sm text-muted-foreground">
+                      Verse {currentVerse + 1} of {verses.length}
+                    </p>
+                    {isAutoReading && (
+                      <div className="text-xs text-muted-foreground space-y-1">
+                        <p>Word repetition: {currentWordRepeat + 1}/{wordRepeatCount}</p>
+                        <p>Verse repetition: {currentVerseRepeat + 1}/{verseRepeatCount}</p>
+                        <p>Surah repetition: {currentSurahRepeat + 1}/{surahRepeatCount}</p>
+                      </div>
+                    )}
                   </div>
-                </div>
-              </div>
-            </Card>
-
-            {/* Display Options */}
-            <Card className="p-4">
-              <h3 className="font-semibold text-card-foreground mb-3">Display Options</h3>
-              <div className="space-y-3">
-                <div className="flex items-center justify-between">
-                  <label className="text-sm text-card-foreground">Show Transliteration</label>
-                  <Switch 
-                    checked={showTransliteration} 
-                    onCheckedChange={setShowTransliteration}
-                  />
-                </div>
-                <div className="flex items-center justify-between">
-                  <label className="text-sm text-card-foreground">Show Translation</label>
-                  <Switch 
-                    checked={showTranslation} 
-                    onCheckedChange={setShowTranslation}
-                  />
-                </div>
-              </div>
-            </Card>
-
-            {/* Progress */}
-            <Card className="p-4">
-              <h3 className="font-semibold text-card-foreground mb-2">Progress</h3>
-              <div className="space-y-2">
-                <p className="text-sm text-muted-foreground">
-                  Verse {currentVerse + 1} of {verses.length}
-                </p>
-                {isAutoReading && (
-                  <div className="text-xs text-muted-foreground space-y-1">
-                    <p>Word repetition: {currentWordRepeat + 1}/{wordRepeatCount}</p>
-                    <p>Verse repetition: {currentVerseRepeat + 1}/{verseRepeatCount}</p>
-                    <p>Surah repetition: {currentSurahRepeat + 1}/{surahRepeatCount}</p>
+                  <div className="w-full bg-muted rounded-full h-2 mt-2">
+                    <div 
+                      className="bg-accent h-2 rounded-full transition-all duration-300"
+                      style={{ width: `${((currentVerse + 1) / verses.length) * 100}%` }}
+                    />
                   </div>
-                )}
+                </Card>
               </div>
-              <div className="w-full bg-muted rounded-full h-2 mt-2">
-                <div 
-                  className="bg-accent h-2 rounded-full transition-all duration-300"
-                  style={{ width: `${((currentVerse + 1) / verses.length) * 100}%` }}
-                />
-              </div>
-            </Card>
+            </div>
+            
+            {/* Scroll indicator */}
+            <div className="text-center py-2">
+              <p className="text-xs text-muted-foreground">← Scroll horizontally to view all settings →</p>
+            </div>
           </div>
 
           {/* Qur'an Text */}
