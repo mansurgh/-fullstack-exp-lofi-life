@@ -387,10 +387,10 @@ const roomConfigs: Record<string, RoomConfig> = {
     backgroundImage: rgbRoom,
     quranPosition: { x: 'left-1/3', y: 'top-1/2' },
     interactiveElements: [
-      { type: 'glow', className: 'absolute top-0 left-0 w-full h-1/2 bg-purple-500/20 blur-3xl', animation: '' },
-      { type: 'glow', className: 'absolute bottom-0 left-0 w-full h-1/2 bg-purple-500/15 blur-3xl', animation: '' },
-      { type: 'glow', className: 'absolute top-1/4 left-1/4 w-1/2 h-1/2 bg-purple-500/25 rounded-full blur-3xl', animation: '' },
-      { type: 'glow', className: 'absolute inset-0 bg-purple-500/10 blur-2xl', animation: '' }
+      { type: 'glow', className: 'absolute top-0 left-0 w-full h-1/2 bg-purple-500/10 blur-3xl', animation: '' },
+      { type: 'glow', className: 'absolute bottom-0 left-0 w-full h-1/2 bg-purple-500/10 blur-3xl', animation: '' },
+      { type: 'glow', className: 'absolute top-1/4 left-1/4 w-1/2 h-1/2 bg-purple-500/10 rounded-full blur-3xl', animation: '' },
+      { type: 'glow', className: 'absolute inset-0 bg-purple-500/5 blur-2xl', animation: '' }
     ]
   }
 };
@@ -403,9 +403,7 @@ export const Room = ({ roomId, onBack }: RoomProps) => {
   const [isQuranOpen, setIsQuranOpen] = useState(false);
   const [isLoaded, setIsLoaded] = useState(false);
   const [roomColor, setRoomColor] = useState('default'); // For all room color control
-  const [brightness, setBrightness] = useState(50); // Brightness control for disco room
-  const [isRainbowMode, setIsRainbowMode] = useState(false); // Rainbow cycling mode
-  const [currentRainbowIndex, setCurrentRainbowIndex] = useState(0); // Current color in rainbow cycle
+  const [brightness, setBrightness] = useState(30); // Brightness control for disco room (lower default)
   const audioRef = useRef<HTMLAudioElement>(null);
 
   const roomConfig = roomConfigs[roomId];
@@ -444,25 +442,14 @@ export const Room = ({ roomId, onBack }: RoomProps) => {
   };
 
   const colorOptions = [
-    { name: 'Red', value: 'red', bg: 'bg-red-500', glow: 'bg-red-500/15' },
-    { name: 'Blue', value: 'blue', bg: 'bg-blue-500', glow: 'bg-blue-500/15' },
-    { name: 'Pink', value: 'pink', bg: 'bg-pink-500', glow: 'bg-pink-500/15' },
-    { name: 'Yellow', value: 'yellow', bg: 'bg-yellow-500', glow: 'bg-yellow-500/15' },
-    { name: 'Orange', value: 'orange', bg: 'bg-orange-500', glow: 'bg-orange-500/15' },
-    { name: 'Purple', value: 'purple', bg: 'bg-purple-500', glow: 'bg-purple-500/15' },
-    { name: 'Green', value: 'green', bg: 'bg-green-500', glow: 'bg-green-500/15' }
+    { name: 'Red', value: 'red', bg: 'bg-red-500', glow: 'bg-red-500/10' },
+    { name: 'Blue', value: 'blue', bg: 'bg-blue-500', glow: 'bg-blue-500/10' },
+    { name: 'Pink', value: 'pink', bg: 'bg-pink-500', glow: 'bg-pink-500/10' },
+    { name: 'Yellow', value: 'yellow', bg: 'bg-yellow-500', glow: 'bg-yellow-500/10' },
+    { name: 'Orange', value: 'orange', bg: 'bg-orange-500', glow: 'bg-orange-500/10' },
+    { name: 'Purple', value: 'purple', bg: 'bg-purple-500', glow: 'bg-purple-500/10' },
+    { name: 'Green', value: 'green', bg: 'bg-green-500', glow: 'bg-green-500/10' }
   ];
-
-  // Rainbow cycling effect for disco room
-  useEffect(() => {
-    if (isRainbowMode && roomId === 'rgb-room') {
-      const interval = setInterval(() => {
-        setCurrentRainbowIndex((prev) => (prev + 1) % colorOptions.length);
-      }, 2000); // Change color every 2 seconds
-      
-      return () => clearInterval(interval);
-    }
-  }, [isRainbowMode, roomId, colorOptions.length]);
 
   const getRoomGlowClass = (baseClass: string) => {
     if (roomColor === 'default') return baseClass;
@@ -470,11 +457,12 @@ export const Room = ({ roomId, onBack }: RoomProps) => {
     const currentColor = colorOptions.find(color => color.value === roomColor);
     if (!currentColor) return baseClass;
     
-    // Apply brightness adjustment for disco room
-    const brightnessMultiplier = roomId === 'rgb-room' ? brightness / 50 : 1;
+    // Apply brightness adjustment for disco room - brightness now controls dimness
+    const brightnessMultiplier = roomId === 'rgb-room' ? brightness / 100 : 1;
+    const baseOpacity = parseFloat(currentColor.glow.match(/\/(\d+)/)?.[1] || '10') / 100;
     const adjustedOpacity = roomId === 'rgb-room' ? 
-      Math.max(0.1, Math.min(0.8, parseFloat(currentColor.glow.match(/\/(\d+)/)?.[1] || '30') / 100 * brightnessMultiplier)) :
-      parseFloat(currentColor.glow.match(/\/(\d+)/)?.[1] || '30') / 100;
+      Math.max(0.05, Math.min(0.6, baseOpacity * brightnessMultiplier)) :
+      baseOpacity;
     
     // Replace any existing color glow with the selected color and adjusted brightness
     return baseClass.replace(/bg-\w+-\d+\/[\d.]+/, `${currentColor.glow.split('/')[0]}/${Math.round(adjustedOpacity * 100)}`);
@@ -681,8 +669,8 @@ export const Room = ({ roomId, onBack }: RoomProps) => {
                 value={[brightness]}
                 onValueChange={(value) => setBrightness(value[0])}
                 max={100}
-                min={10}
-                step={10}
+                min={5}
+                step={5}
                 className="w-full"
               />
             </div>
@@ -690,11 +678,8 @@ export const Room = ({ roomId, onBack }: RoomProps) => {
           
           <div className="flex flex-col gap-2">
             <Button
-              onClick={() => {
-                setRoomColor('default');
-                setIsRainbowMode(false);
-              }}
-              variant={roomColor === 'default' && !isRainbowMode ? "default" : "outline"}
+              onClick={() => setRoomColor('default')}
+              variant={roomColor === 'default' ? "default" : "outline"}
               size="sm"
               className="w-full justify-start text-xs"
             >
@@ -702,29 +687,13 @@ export const Room = ({ roomId, onBack }: RoomProps) => {
               Default
             </Button>
             
-            <Button
-              onClick={() => {
-                setIsRainbowMode(true);
-                setRoomColor('rainbow');
-              }}
-              variant={isRainbowMode ? "default" : "outline"}
-              size="sm"
-              className={`w-full justify-start text-xs ${isRainbowMode ? 'bg-gradient-to-r from-red-500 via-yellow-500 to-blue-500 text-white border-none' : ''}`}
-            >
-              <div className="w-3 h-3 rounded-full bg-gradient-to-r from-red-500 via-yellow-500 to-blue-500 mr-2" />
-              Rainbow
-            </Button>
-            
             {colorOptions.map((color) => (
               <Button
                 key={color.value}
-                onClick={() => {
-                  setRoomColor(color.value);
-                  setIsRainbowMode(false);
-                }}
-                variant={roomColor === color.value && !isRainbowMode ? "default" : "outline"}
+                onClick={() => setRoomColor(color.value)}
+                variant={roomColor === color.value ? "default" : "outline"}
                 size="sm"
-                className={`w-full justify-start text-xs ${roomColor === color.value && !isRainbowMode ? color.bg + ' text-white border-none' : ''}`}
+                className={`w-full justify-start text-xs ${roomColor === color.value ? color.bg + ' text-white border-none' : ''}`}
               >
                 <div className={`w-3 h-3 rounded-full ${color.bg} mr-2`} />
                 {color.name}
