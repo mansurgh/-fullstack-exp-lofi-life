@@ -483,7 +483,10 @@ export const Room = ({ roomId, onBack }: RoomProps) => {
   const [roomColor, setRoomColor] = useState('default'); // For all room color control
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 }); // Mouse position for panning
   const [roomOffset, setRoomOffset] = useState({ x: 0, y: 0 }); // Room view offset
+  const [isDragging, setIsDragging] = useState(false); // Track if user is dragging
+  const [lastMousePosition, setLastMousePosition] = useState({ x: 0, y: 0 }); // Last mouse position for dragging
   const audioRef = useRef<HTMLAudioElement>(null);
+  const backgroundRef = useRef<HTMLDivElement>(null);
 
   const roomConfig = roomConfigs[roomId];
   
@@ -508,25 +511,44 @@ export const Room = ({ roomId, onBack }: RoomProps) => {
     }
   }, [volume, isMuted]);
 
-  // Mouse movement for room panning
+  // Mouse drag for room panning
   useEffect(() => {
-    const handleMouseMove = (e: MouseEvent) => {
-      const x = (e.clientX / window.innerWidth - 0.5) * 2; // Range: -1 to 1
-      const y = (e.clientY / window.innerHeight - 0.5) * 2; // Range: -1 to 1
-      
-      setMousePosition({ x, y });
-      
-      // Convert mouse position to room offset (subtle movement)
-      const maxOffset = 30; // Maximum pixels to move
-      setRoomOffset({
-        x: x * maxOffset,
-        y: y * maxOffset
-      });
+    const handleMouseDown = (e: MouseEvent) => {
+      // Only start dragging if clicking on the background
+      if (backgroundRef.current && (e.target === backgroundRef.current || backgroundRef.current.contains(e.target as Node))) {
+        setIsDragging(true);
+        setLastMousePosition({ x: e.clientX, y: e.clientY });
+      }
     };
 
+    const handleMouseMove = (e: MouseEvent) => {
+      if (!isDragging) return;
+
+      const deltaX = e.clientX - lastMousePosition.x;
+      const deltaY = e.clientY - lastMousePosition.y;
+      
+      setRoomOffset(prev => ({
+        x: Math.max(-50, Math.min(50, prev.x + deltaX * 0.5)), // Limit panning range
+        y: Math.max(-50, Math.min(50, prev.y + deltaY * 0.5))
+      }));
+      
+      setLastMousePosition({ x: e.clientX, y: e.clientY });
+    };
+
+    const handleMouseUp = () => {
+      setIsDragging(false);
+    };
+
+    window.addEventListener('mousedown', handleMouseDown);
     window.addEventListener('mousemove', handleMouseMove);
-    return () => window.removeEventListener('mousemove', handleMouseMove);
-  }, []);
+    window.addEventListener('mouseup', handleMouseUp);
+    
+    return () => {
+      window.removeEventListener('mousedown', handleMouseDown);
+      window.removeEventListener('mousemove', handleMouseMove);
+      window.removeEventListener('mouseup', handleMouseUp);
+    };
+  }, [isDragging, lastMousePosition]);
 
   const toggleMute = () => {
     setIsMuted(!isMuted);
@@ -577,7 +599,8 @@ export const Room = ({ roomId, onBack }: RoomProps) => {
     <div className="min-h-screen relative overflow-hidden">
       {/* Full-screen Background Image with Panning */}
       <div 
-        className="absolute inset-0 bg-cover bg-center bg-no-repeat transition-all duration-1000"
+        ref={backgroundRef}
+        className="absolute inset-0 bg-cover bg-center bg-no-repeat transition-all duration-1000 cursor-grab active:cursor-grabbing"
         style={{ 
           backgroundImage: `url(${roomConfig.backgroundImage})`,
           transform: `translate(${roomOffset.x}px, ${roomOffset.y}px) scale(1.1)`,
