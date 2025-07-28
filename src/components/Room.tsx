@@ -483,6 +483,8 @@ export const Room = ({ roomId, onBack }: RoomProps) => {
   const [isQuranOpen, setIsQuranOpen] = useState(false);
   const [isLoaded, setIsLoaded] = useState(false);
   const [roomColor, setRoomColor] = useState('default'); // For all room color control
+  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 }); // Mouse position for panning
+  const [roomOffset, setRoomOffset] = useState({ x: 0, y: 0 }); // Room view offset
   const audioRef = useRef<HTMLAudioElement>(null);
 
   const roomConfig = roomConfigs[roomId];
@@ -507,6 +509,26 @@ export const Room = ({ roomId, onBack }: RoomProps) => {
       audioRef.current.volume = isMuted ? 0 : volume[0] / 100;
     }
   }, [volume, isMuted]);
+
+  // Mouse movement for room panning
+  useEffect(() => {
+    const handleMouseMove = (e: MouseEvent) => {
+      const x = (e.clientX / window.innerWidth - 0.5) * 2; // Range: -1 to 1
+      const y = (e.clientY / window.innerHeight - 0.5) * 2; // Range: -1 to 1
+      
+      setMousePosition({ x, y });
+      
+      // Convert mouse position to room offset (subtle movement)
+      const maxOffset = 30; // Maximum pixels to move
+      setRoomOffset({
+        x: x * maxOffset,
+        y: y * maxOffset
+      });
+    };
+
+    window.addEventListener('mousemove', handleMouseMove);
+    return () => window.removeEventListener('mousemove', handleMouseMove);
+  }, []);
 
   const toggleMute = () => {
     setIsMuted(!isMuted);
@@ -555,11 +577,13 @@ export const Room = ({ roomId, onBack }: RoomProps) => {
 
   return (
     <div className="min-h-screen relative overflow-hidden">
-      {/* Full-screen Background Image */}
+      {/* Full-screen Background Image with Panning */}
       <div 
         className="absolute inset-0 bg-cover bg-center bg-no-repeat transition-all duration-1000"
         style={{ 
           backgroundImage: `url(${roomConfig.backgroundImage})`,
+          transform: `translate(${roomOffset.x}px, ${roomOffset.y}px) scale(1.1)`,
+          transition: 'transform 0.1s ease-out',
           filter: isDarkMode ? 'brightness(0.3) contrast(1.2)' : 'brightness(0.8) contrast(1.1)'
         }}
       >
@@ -589,10 +613,16 @@ export const Room = ({ roomId, onBack }: RoomProps) => {
         }}
       />
 
-      {/* Interactive Elements */}
-      <div className={`absolute inset-0 transition-opacity duration-1000 ${
-        isLoaded ? 'opacity-100' : 'opacity-0'
-      }`}>
+      {/* Interactive Elements with Panning */}
+      <div 
+        className={`absolute inset-0 transition-opacity duration-1000 ${
+          isLoaded ? 'opacity-100' : 'opacity-0'
+        }`}
+        style={{
+          transform: `translate(${roomOffset.x * 0.5}px, ${roomOffset.y * 0.5}px)`,
+          transition: 'transform 0.1s ease-out'
+        }}
+      >
         {roomConfig.interactiveElements.map((element, index) => (
           <div key={index} className={`${getRoomGlowClass(element.className)} ${element.animation}`}>
             {element.type === 'floating' && (
@@ -642,11 +672,15 @@ export const Room = ({ roomId, onBack }: RoomProps) => {
         )}
       </div>
 
-      {/* Qur'an Book */}
+      {/* Qur'an Book with Panning */}
       <div 
-        className={`absolute ${roomConfig.quranPosition.x} ${roomConfig.quranPosition.y} transform -translate-x-1/2 -translate-y-1/2 cursor-pointer transition-all duration-500 hover:scale-110 ${
+        className={`absolute ${roomConfig.quranPosition.x} ${roomConfig.quranPosition.y} cursor-pointer transition-all duration-500 hover:scale-110 ${
           isDarkMode ? 'shadow-glow' : 'shadow-soft'
         }`}
+        style={{
+          transform: `translate(${roomOffset.x * 0.3}px, ${roomOffset.y * 0.3}px) translate(-50%, -50%)`,
+          transition: 'transform 0.1s ease-out'
+        }}
         onClick={handleQuranClick}
       >
         <div className={`w-20 h-28 bg-gradient-to-br from-accent to-primary rounded-md relative ${
