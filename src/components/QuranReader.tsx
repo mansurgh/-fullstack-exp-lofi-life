@@ -77,33 +77,80 @@ export const QuranReader = ({ onClose }: QuranReaderProps) => {
   const [audioVolume, setAudioVolume] = useState([75]);
   const [verses] = useState(sampleVerses);
   const [isAutoReading, setIsAutoReading] = useState(false);
+  const [recitationSpeed, setRecitationSpeed] = useState([100]); // 100% = normal speed
+  const [wordRepeatCount, setWordRepeatCount] = useState(1);
+  const [verseRepeatCount, setVerseRepeatCount] = useState(1);
+  const [surahRepeatCount, setSurahRepeatCount] = useState(1);
+  const [currentWordRepeat, setCurrentWordRepeat] = useState(0);
+  const [currentVerseRepeat, setCurrentVerseRepeat] = useState(0);
+  const [currentSurahRepeat, setCurrentSurahRepeat] = useState(0);
   
   const audioRef = useRef<HTMLAudioElement>(null);
 
   const selectedSurahData = surahs.find(s => s.number.toString() === selectedSurah);
 
-  // Simulate word-by-word reading
+  // Simulate word-by-word reading with speed and repetition control
   const simulateReading = () => {
     if (!isAutoReading) return;
     
     const currentVerseText = verses[currentVerse]?.arabic || "";
     const words = currentVerseText.split(" ");
     
+    // Calculate delay based on speed (100% = 800ms, 50% = 1600ms, 200% = 400ms)
+    const baseDelay = 800;
+    const speedMultiplier = recitationSpeed[0] / 100;
+    const wordDelay = baseDelay / speedMultiplier;
+    
+    // Handle word repetition
+    if (currentWordRepeat < wordRepeatCount - 1) {
+      setTimeout(() => {
+        setCurrentWordRepeat(prev => prev + 1);
+      }, wordDelay);
+      return;
+    }
+    
+    // Move to next word or handle verse completion
     if (currentWordIndex < words.length - 1) {
       setTimeout(() => {
         setCurrentWordIndex(prev => prev + 1);
-      }, 800); // Adjust timing as needed
+        setCurrentWordRepeat(0);
+      }, wordDelay);
     } else {
-      // Move to next verse
-      setTimeout(() => {
-        if (currentVerse < verses.length - 1) {
+      // Handle verse repetition
+      if (currentVerseRepeat < verseRepeatCount - 1) {
+        setTimeout(() => {
+          setCurrentWordIndex(0);
+          setCurrentWordRepeat(0);
+          setCurrentVerseRepeat(prev => prev + 1);
+        }, wordDelay * 1.5);
+        return;
+      }
+      
+      // Move to next verse or handle surah completion
+      if (currentVerse < verses.length - 1) {
+        setTimeout(() => {
           setCurrentVerse(prev => prev + 1);
           setCurrentWordIndex(0);
+          setCurrentWordRepeat(0);
+          setCurrentVerseRepeat(0);
+        }, wordDelay * 2);
+      } else {
+        // Handle surah repetition
+        if (currentSurahRepeat < surahRepeatCount - 1) {
+          setTimeout(() => {
+            setCurrentVerse(0);
+            setCurrentWordIndex(0);
+            setCurrentWordRepeat(0);
+            setCurrentVerseRepeat(0);
+            setCurrentSurahRepeat(prev => prev + 1);
+          }, wordDelay * 3);
         } else {
+          // Finished all repetitions
           setIsAutoReading(false);
           setIsPlaying(false);
+          setCurrentSurahRepeat(0);
         }
-      }, 1200);
+      }
     }
   };
 
@@ -118,6 +165,9 @@ export const QuranReader = ({ onClose }: QuranReaderProps) => {
         audioRef.current.play();
         setIsAutoReading(true);
         setCurrentWordIndex(0);
+        setCurrentWordRepeat(0);
+        setCurrentVerseRepeat(0);
+        setCurrentSurahRepeat(0);
       }
       setIsPlaying(!isPlaying);
     }
@@ -127,6 +177,8 @@ export const QuranReader = ({ onClose }: QuranReaderProps) => {
     if (currentVerse < verses.length - 1) {
       setCurrentVerse(currentVerse + 1);
       setCurrentWordIndex(0);
+      setCurrentWordRepeat(0);
+      setCurrentVerseRepeat(0);
       setIsPlaying(false);
       setIsAutoReading(false);
     }
@@ -136,6 +188,8 @@ export const QuranReader = ({ onClose }: QuranReaderProps) => {
     if (currentVerse > 0) {
       setCurrentVerse(currentVerse - 1);
       setCurrentWordIndex(0);
+      setCurrentWordRepeat(0);
+      setCurrentVerseRepeat(0);
       setIsPlaying(false);
       setIsAutoReading(false);
     }
@@ -174,7 +228,7 @@ export const QuranReader = ({ onClose }: QuranReaderProps) => {
     if (isAutoReading && isPlaying) {
       simulateReading();
     }
-  }, [currentWordIndex, currentVerse, isAutoReading, isPlaying]);
+  }, [currentWordIndex, currentVerse, isAutoReading, isPlaying, currentWordRepeat, currentVerseRepeat]);
 
   useEffect(() => {
     if (audioRef.current) {
@@ -259,6 +313,110 @@ export const QuranReader = ({ onClose }: QuranReaderProps) => {
               </div>
             </Card>
 
+            {/* Speed & Repetition Controls */}
+            <Card className="p-4">
+              <h3 className="font-semibold text-card-foreground mb-3">Recitation Settings</h3>
+              <div className="space-y-4">
+                {/* Speed Control */}
+                <div>
+                  <label className="text-sm text-card-foreground mb-2 block">
+                    Speed: {recitationSpeed[0]}%
+                  </label>
+                  <Slider
+                    value={recitationSpeed}
+                    onValueChange={setRecitationSpeed}
+                    max={200}
+                    min={25}
+                    step={25}
+                    className="flex-1"
+                  />
+                  <div className="flex justify-between text-xs text-muted-foreground mt-1">
+                    <span>Slow</span>
+                    <span>Normal</span>
+                    <span>Fast</span>
+                  </div>
+                </div>
+
+                {/* Word Repetition */}
+                <div>
+                  <label className="text-sm text-card-foreground mb-2 block">
+                    Repeat each word:
+                  </label>
+                  <div className="flex items-center gap-2">
+                    <Button
+                      onClick={() => setWordRepeatCount(Math.max(1, wordRepeatCount - 1))}
+                      variant="outline"
+                      size="sm"
+                      className="h-8 w-8 p-0"
+                    >
+                      -
+                    </Button>
+                    <span className="text-sm min-w-8 text-center">{wordRepeatCount}x</span>
+                    <Button
+                      onClick={() => setWordRepeatCount(Math.min(10, wordRepeatCount + 1))}
+                      variant="outline"
+                      size="sm"
+                      className="h-8 w-8 p-0"
+                    >
+                      +
+                    </Button>
+                  </div>
+                </div>
+
+                {/* Verse Repetition */}
+                <div>
+                  <label className="text-sm text-card-foreground mb-2 block">
+                    Repeat each verse:
+                  </label>
+                  <div className="flex items-center gap-2">
+                    <Button
+                      onClick={() => setVerseRepeatCount(Math.max(1, verseRepeatCount - 1))}
+                      variant="outline"
+                      size="sm"
+                      className="h-8 w-8 p-0"
+                    >
+                      -
+                    </Button>
+                    <span className="text-sm min-w-8 text-center">{verseRepeatCount}x</span>
+                    <Button
+                      onClick={() => setVerseRepeatCount(Math.min(10, verseRepeatCount + 1))}
+                      variant="outline"
+                      size="sm"
+                      className="h-8 w-8 p-0"
+                    >
+                      +
+                    </Button>
+                  </div>
+                </div>
+
+                {/* Surah Repetition */}
+                <div>
+                  <label className="text-sm text-card-foreground mb-2 block">
+                    Repeat entire surah:
+                  </label>
+                  <div className="flex items-center gap-2">
+                    <Button
+                      onClick={() => setSurahRepeatCount(Math.max(1, surahRepeatCount - 1))}
+                      variant="outline"
+                      size="sm"
+                      className="h-8 w-8 p-0"
+                    >
+                      -
+                    </Button>
+                    <span className="text-sm min-w-8 text-center">{surahRepeatCount}x</span>
+                    <Button
+                      onClick={() => setSurahRepeatCount(Math.min(10, surahRepeatCount + 1))}
+                      variant="outline"
+                      size="sm"
+                      className="h-8 w-8 p-0"
+                    >
+                      +
+                    </Button>
+                  </div>
+                </div>
+              </div>
+            </Card>
+
             {/* Display Options */}
             <Card className="p-4">
               <h3 className="font-semibold text-card-foreground mb-3">Display Options</h3>
@@ -283,9 +441,18 @@ export const QuranReader = ({ onClose }: QuranReaderProps) => {
             {/* Progress */}
             <Card className="p-4">
               <h3 className="font-semibold text-card-foreground mb-2">Progress</h3>
-              <p className="text-sm text-muted-foreground">
-                Verse {currentVerse + 1} of {verses.length}
-              </p>
+              <div className="space-y-2">
+                <p className="text-sm text-muted-foreground">
+                  Verse {currentVerse + 1} of {verses.length}
+                </p>
+                {isAutoReading && (
+                  <div className="text-xs text-muted-foreground space-y-1">
+                    <p>Word repetition: {currentWordRepeat + 1}/{wordRepeatCount}</p>
+                    <p>Verse repetition: {currentVerseRepeat + 1}/{verseRepeatCount}</p>
+                    <p>Surah repetition: {currentSurahRepeat + 1}/{surahRepeatCount}</p>
+                  </div>
+                )}
+              </div>
               <div className="w-full bg-muted rounded-full h-2 mt-2">
                 <div 
                   className="bg-accent h-2 rounded-full transition-all duration-300"
