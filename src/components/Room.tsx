@@ -92,62 +92,253 @@ const roomConfigs: Record<string, RoomConfig> = {
 };
 
 export const Room = ({ roomId, onBack }: RoomProps) => {
-  console.log('🏠 Room component starting with ID:', roomId);
-  
+  const [volume, setVolume] = useState([50]);
+  const [isMuted, setIsMuted] = useState(false);
+  const [isDarkMode, setIsDarkMode] = useState(false);
+  const [isQuranOpen, setIsQuranOpen] = useState(false);
+  const [isLoaded, setIsLoaded] = useState(false);
+  const audioRef = useRef<HTMLAudioElement>(null);
+
   const roomConfig = roomConfigs[roomId];
   
+  console.log('🏠 Room component rendering:', roomId);
+
+  useEffect(() => {
+    const timer = setTimeout(() => setIsLoaded(true), 500);
+    return () => clearTimeout(timer);
+  }, []);
+
+  useEffect(() => {
+    if (isDarkMode) {
+      document.documentElement.classList.add('dark');
+    } else {
+      document.documentElement.classList.remove('dark');
+    }
+  }, [isDarkMode]);
+
+  useEffect(() => {
+    if (audioRef.current) {
+      audioRef.current.volume = isMuted ? 0 : volume[0] / 100;
+    }
+  }, [volume, isMuted]);
+
+  const toggleMute = () => {
+    setIsMuted(!isMuted);
+  };
+
+  const handleReload = () => {
+    window.location.reload();
+  };
+
+  const handleQuranClick = () => {
+    setIsQuranOpen(true);
+  };
+
   if (!roomConfig) {
-    console.log('❌ No room config found');
     return (
-      <div style={{ minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center', backgroundColor: 'red' }}>
-        <p style={{ color: 'white', fontSize: '24px' }}>Room not found: {roomId}</p>
+      <div className="min-h-screen flex items-center justify-center bg-destructive">
+        <p className="text-xl text-destructive-foreground">Room not found: {roomId}</p>
       </div>
     );
   }
 
-  console.log('✅ Room config found, rendering room');
-  
   return (
-    <div style={{ 
-      minHeight: '100vh', 
-      backgroundColor: '#8B4513', 
-      color: 'white',
-      padding: '40px',
-      fontFamily: 'Arial, sans-serif'
-    }}>
-      <h1 style={{ fontSize: '48px', marginBottom: '20px' }}>
-        🏠 {roomConfig.name}
-      </h1>
-      
-      <p style={{ fontSize: '24px', marginBottom: '40px' }}>
-        {roomConfig.description}
-      </p>
-      
-      <button 
-        onClick={onBack}
-        style={{
-          padding: '12px 24px',
-          fontSize: '18px',
-          backgroundColor: '#654321',
-          color: 'white',
-          border: 'none',
-          borderRadius: '8px',
-          cursor: 'pointer'
+    <div 
+      className={`min-h-screen relative overflow-hidden transition-all duration-1000 ${
+        isDarkMode ? 'bg-gradient-night' : roomConfig.backgroundClass
+      }`}
+    >
+      {/* Ambient Audio */}
+      <audio
+        ref={audioRef}
+        loop
+        src={`/sounds/${roomConfig.ambientSound}.mp3`}
+        onError={(e) => {
+          console.log('Audio failed to load:', `/sounds/${roomConfig.ambientSound}.mp3`);
         }}
-      >
-        ← Back to Rooms
-      </button>
-      
-      <div style={{
-        marginTop: '40px',
-        padding: '20px',
-        backgroundColor: 'rgba(255,255,255,0.1)',
-        borderRadius: '8px'
-      }}>
-        <p>✅ Room is working! ID: {roomId}</p>
-        <p>✅ Room name: {roomConfig.name}</p>
-        <p>✅ No crashes detected</p>
+        onLoadedData={() => {
+          console.log('Audio loaded successfully');
+          if (audioRef.current) {
+            audioRef.current.play().catch(e => {
+              console.log('Autoplay blocked, user interaction required');
+            });
+          }
+        }}
+      />
+
+      {/* Background Elements */}
+      <div className={`absolute inset-0 transition-opacity duration-1000 ${
+        isLoaded ? 'opacity-100' : 'opacity-0'
+      }`}>
+        {/* Room-specific visual elements */}
+        {roomId === 'rainy-study' && (
+          <>
+            <div className="absolute top-10 left-10 w-64 h-80 bg-card/30 rounded-lg shadow-soft" />
+            <div className="absolute top-20 right-20 w-48 h-64 bg-primary/20 rounded-lg" />
+          </>
+        )}
+        
+        {roomId === 'sunny-garden' && (
+          <>
+            <div className="absolute bottom-10 left-10 w-72 h-40 bg-secondary/40 rounded-t-full" />
+            <div className="absolute top-1/4 right-10 w-32 h-48 bg-primary/30 rounded-lg" />
+          </>
+        )}
+        
+        {roomId === 'fireplace-nook' && (
+          <>
+            <div className="absolute bottom-0 left-1/4 w-64 h-32 bg-firelight/60 rounded-t-lg shadow-fire" />
+            <div className="absolute top-1/3 right-20 w-40 h-56 bg-primary/40 rounded-lg" />
+          </>
+        )}
+        
+        {roomId === 'moonlit-corner' && (
+          <>
+            <div className="absolute top-20 left-20 w-80 h-60 bg-moonlight/20 rounded-lg" />
+            <div className="absolute bottom-20 right-20 w-48 h-32 bg-secondary/30 rounded-lg" />
+          </>
+        )}
+        
+        {roomId === 'seaside-sanctuary' && (
+          <>
+            <div className="absolute bottom-0 left-0 w-full h-32 bg-ocean-blue/40 rounded-t-3xl" />
+            <div className="absolute top-1/4 right-10 w-40 h-60 bg-secondary/30 rounded-lg" />
+          </>
+        )}
+        
+        {roomId === 'desert-mirage' && (
+          <>
+            <div className="absolute bottom-0 right-1/4 w-80 h-24 bg-sandy-gold/50 rounded-t-full" />
+            <div className="absolute top-20 left-10 w-32 h-48 bg-primary/30 rounded-lg" />
+          </>
+        )}
+        
+        {roomId === 'tuscan-vista' && (
+          <>
+            <div className="absolute top-10 right-10 w-56 h-72 bg-tuscan-terracotta/40 rounded-lg" />
+            <div className="absolute bottom-10 left-20 w-64 h-40 bg-secondary/30 rounded-lg" />
+          </>
+        )}
+        
+        {roomId === 'stellar-meditation' && (
+          <>
+            <div className="absolute top-1/4 left-1/4 w-32 h-32 bg-cosmic-purple/30 rounded-full animate-pulse" />
+            <div className="absolute bottom-1/3 right-1/4 w-24 h-24 bg-cosmic-purple/20 rounded-full animate-pulse" />
+          </>
+        )}
+        
+        {roomId === 'alpine-retreat' && (
+          <>
+            <div className="absolute bottom-0 left-0 w-full h-40 bg-alpine-white/30 rounded-t-3xl" />
+            <div className="absolute top-20 right-1/4 w-48 h-64 bg-primary/20 rounded-lg" />
+          </>
+        )}
+        
+        {roomId === 'woodland-haven' && (
+          <>
+            <div className="absolute bottom-10 left-10 w-80 h-48 bg-forest-green/40 rounded-t-2xl" />
+            <div className="absolute top-1/4 right-20 w-36 h-56 bg-secondary/30 rounded-lg" />
+          </>
+        )}
       </div>
+
+      {/* Qur'an Book */}
+      <div 
+        className={`absolute ${roomConfig.quranPosition.x} ${roomConfig.quranPosition.y} transform -translate-x-1/2 -translate-y-1/2 cursor-pointer transition-all duration-500 hover:scale-110 ${
+          isDarkMode ? 'shadow-glow' : 'shadow-soft'
+        }`}
+        onClick={handleQuranClick}
+      >
+        <div className={`w-20 h-28 bg-gradient-to-br from-accent to-primary rounded-md relative ${
+          isDarkMode ? 'ring-2 ring-quran-glow animate-pulse' : ''
+        }`}>
+          <div className="absolute inset-2 bg-card/90 rounded-sm">
+            <div className="h-full flex flex-col items-center justify-center text-xs text-accent-foreground font-semibold">
+              <div className="text-lg mb-1">📖</div>
+              <div>القرآن</div>
+              <div>الكريم</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Controls */}
+      <div className="absolute top-6 left-6 right-6 flex justify-between items-start">
+        <Button
+          onClick={onBack}
+          variant="secondary"
+          size="sm"
+          className="bg-card/80 hover:bg-card text-card-foreground"
+        >
+          <ArrowLeft className="w-4 h-4 mr-2" />
+          Back to Rooms
+        </Button>
+
+        <div className="flex gap-3">
+          <Button
+            onClick={handleReload}
+            variant="secondary"
+            size="sm"
+            className="bg-card/80 hover:bg-card text-card-foreground"
+            title="Reload page if room or Quran isn't loading"
+          >
+            <RotateCcw className="w-4 h-4" />
+          </Button>
+          
+          <Button
+            onClick={() => setIsDarkMode(!isDarkMode)}
+            variant="secondary"
+            size="sm"
+            className="bg-card/80 hover:bg-card text-card-foreground"
+          >
+            {isDarkMode ? <Sun className="w-4 h-4" /> : <Moon className="w-4 h-4" />}
+          </Button>
+        </div>
+      </div>
+
+      {/* Volume Control */}
+      <Card className="absolute bottom-6 left-6 p-4 bg-card/80 backdrop-blur-sm border-border/50">
+        <div className="flex items-center gap-3 min-w-48">
+          <Button
+            onClick={toggleMute}
+            variant="ghost"
+            size="sm"
+            className="text-card-foreground hover:text-accent"
+          >
+            {isMuted ? <VolumeX className="w-4 h-4" /> : <Volume2 className="w-4 h-4" />}
+          </Button>
+          <Slider
+            value={volume}
+            onValueChange={setVolume}
+            max={100}
+            min={0}
+            step={1}
+            className="flex-1"
+            disabled={isMuted}
+          />
+          <span className="text-sm text-muted-foreground min-w-8">
+            {isMuted ? 0 : volume[0]}%
+          </span>
+        </div>
+        <p className="text-xs text-muted-foreground mt-2">
+          {roomConfig.description}
+        </p>
+      </Card>
+
+      {/* Room Info */}
+      <Card className="absolute bottom-6 right-6 p-4 bg-card/80 backdrop-blur-sm border-border/50">
+        <h3 className="font-semibold text-card-foreground mb-1">
+          {roomConfig.name}
+        </h3>
+        <p className="text-xs text-muted-foreground">
+          Click the Qur'an to begin reading
+        </p>
+      </Card>
+
+      {/* Qur'an Reader Modal */}
+      {isQuranOpen && (
+        <QuranReader onClose={() => setIsQuranOpen(false)} />
+      )}
     </div>
   );
 };
