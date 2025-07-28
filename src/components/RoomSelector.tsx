@@ -11,13 +11,36 @@ import tuscanVista from "@/assets/tuscan-vista.jpg";
 import stellarMeditation from "@/assets/stellar-meditation.jpg";
 import alpineRetreat from "@/assets/alpine-retreat.jpg";
 import woodlandHaven from "@/assets/woodland-haven.jpg";
+import russianWinter from "@/assets/russian-winter.jpg";
+import chechenTower from "@/assets/chechen-tower.jpg";
+import frenchEiffel from "@/assets/french-eiffel.jpg";
+import norwegianLandscape from "@/assets/norwegian-landscape.jpg";
+import tokyoNeon from "@/assets/tokyo-neon.jpg";
+import belgianGrey from "@/assets/belgian-grey.jpg";
+import germanBrown from "@/assets/german-brown.jpg";
+import dutchFarm from "@/assets/dutch-farm.jpg";
+import chineseLake from "@/assets/chinese-lake.jpg";
+import circusTent from "@/assets/circus-tent.jpg";
+import footballField from "@/assets/football-field.jpg";
+import tennisCourt from "@/assets/tennis-court.jpg";
+import basketballCourt from "@/assets/basketball-court.jpg";
+import volleyballCourt from "@/assets/volleyball-court.jpg";
+import bowlingAlley from "@/assets/bowling-alley.jpg";
+import americanFootball from "@/assets/american-football.jpg";
+import hockeyRink from "@/assets/hockey-rink.jpg";
+import indoorPool from "@/assets/indoor-pool.jpg";
+import spongebobPineapple from "@/assets/spongebob-pineapple.jpg";
+import minecraftRoom from "@/assets/minecraft-room.jpg";
+import mosqueInterior from "@/assets/mosque-interior.jpg";
+import libraryRoom from "@/assets/library-room.jpg";
+import rgbRoom from "@/assets/rgb-room.jpg";
 
 interface Room {
   id: string;
   name: string;
   description: string;
   thumbnail: string;
-  ambientType: 'rain' | 'birds' | 'fire' | 'night' | 'waves' | 'desert' | 'city' | 'space' | 'wind' | 'forest';
+  ambientType: 'rain' | 'birds' | 'fire' | 'night' | 'waves' | 'desert' | 'city' | 'space' | 'wind' | 'forest' | 'snow' | 'mountain' | 'traffic' | 'nature' | 'water' | 'underwater' | 'electronic' | 'silence' | 'sports' | 'pages';
 }
 
 interface RoomSelectorProps {
@@ -94,6 +117,167 @@ const rooms: Room[] = [
     description: 'Forest sounds with gentle rustling leaves and nature\'s symphony',
     thumbnail: woodlandHaven,
     ambientType: 'forest'
+  },
+  {
+    id: 'russian-winter',
+    name: 'Russian Winter',
+    description: 'Snow falling gently outside with peaceful winter ambiance',
+    thumbnail: russianWinter,
+    ambientType: 'snow'
+  },
+  {
+    id: 'chechen-tower',
+    name: 'Chechen Tower',
+    description: 'Mountain winds around the ancient Vainakh tower',
+    thumbnail: chechenTower,
+    ambientType: 'mountain'
+  },
+  {
+    id: 'french-eiffel',
+    name: 'French Elegance',
+    description: 'Parisian streets with distant Eiffel Tower view',
+    thumbnail: frenchEiffel,
+    ambientType: 'city'
+  },
+  {
+    id: 'norwegian-landscape',
+    name: 'Norwegian Sky',
+    description: 'Open Norwegian landscape with mountain winds',
+    thumbnail: norwegianLandscape,
+    ambientType: 'wind'
+  },
+  {
+    id: 'tokyo-neon',
+    name: 'Tokyo Nights',
+    description: 'Neon-lit cityscape with urban night sounds',
+    thumbnail: tokyoNeon,
+    ambientType: 'traffic'
+  },
+  {
+    id: 'belgian-grey',
+    name: 'Belgian Streets',
+    description: 'Grey city atmosphere with gentle rain sounds',
+    thumbnail: belgianGrey,
+    ambientType: 'rain'
+  },
+  {
+    id: 'german-brown',
+    name: 'German Village',
+    description: 'Traditional brown-roofed cityscape with peaceful ambiance',
+    thumbnail: germanBrown,
+    ambientType: 'city'
+  },
+  {
+    id: 'dutch-farm',
+    name: 'Dutch Countryside',
+    description: 'Peaceful farmland with nature sounds and gentle breeze',
+    thumbnail: dutchFarm,
+    ambientType: 'nature'
+  },
+  {
+    id: 'chinese-lake',
+    name: 'Chinese Serenity',
+    description: 'Tranquil lake view with gentle water sounds',
+    thumbnail: chineseLake,
+    ambientType: 'water'
+  },
+  {
+    id: 'circus-tent',
+    name: 'Circus Memories',
+    description: 'Inside the big tent with nostalgic circus atmosphere',
+    thumbnail: circusTent,
+    ambientType: 'silence'
+  },
+  {
+    id: 'football-field',
+    name: 'Football Field',
+    description: 'On the field with gentle wind and outdoor ambiance',
+    thumbnail: footballField,
+    ambientType: 'sports'
+  },
+  {
+    id: 'tennis-court',
+    name: 'Tennis Court',
+    description: 'Peaceful tennis court with outdoor sports atmosphere',
+    thumbnail: tennisCourt,
+    ambientType: 'sports'
+  },
+  {
+    id: 'basketball-court',
+    name: 'Basketball Court',
+    description: 'Indoor basketball court with gentle echoing sounds',
+    thumbnail: basketballCourt,
+    ambientType: 'sports'
+  },
+  {
+    id: 'volleyball-court',
+    name: 'Volleyball Court',
+    description: 'Clean volleyball court with peaceful gym ambiance',
+    thumbnail: volleyballCourt,
+    ambientType: 'sports'
+  },
+  {
+    id: 'bowling-alley',
+    name: 'Bowling Alley',
+    description: 'Quiet bowling alley with subtle rolling sounds',
+    thumbnail: bowlingAlley,
+    ambientType: 'sports'
+  },
+  {
+    id: 'american-football',
+    name: 'American Football',
+    description: 'Stadium field with gentle wind and outdoor sounds',
+    thumbnail: americanFootball,
+    ambientType: 'sports'
+  },
+  {
+    id: 'hockey-rink',
+    name: 'Hockey Rink',
+    description: 'Ice rink with peaceful arena ambiance',
+    thumbnail: hockeyRink,
+    ambientType: 'sports'
+  },
+  {
+    id: 'indoor-pool',
+    name: 'Swimming Pool',
+    description: 'Peaceful poolside with gentle water sounds',
+    thumbnail: indoorPool,
+    ambientType: 'water'
+  },
+  {
+    id: 'spongebob-pineapple',
+    name: 'Underwater Home',
+    description: 'SpongeBob\'s pineapple with underwater bubble sounds',
+    thumbnail: spongebobPineapple,
+    ambientType: 'underwater'
+  },
+  {
+    id: 'minecraft-room',
+    name: 'Minecraft World',
+    description: 'Blocky world with peaceful ambient cube sounds',
+    thumbnail: minecraftRoom,
+    ambientType: 'electronic'
+  },
+  {
+    id: 'mosque-interior',
+    name: 'Sacred Mosque',
+    description: 'Peaceful mosque interior with spiritual silence',
+    thumbnail: mosqueInterior,
+    ambientType: 'silence'
+  },
+  {
+    id: 'library-room',
+    name: 'Quiet Library',
+    description: 'Silent library with gentle page turning sounds',
+    thumbnail: libraryRoom,
+    ambientType: 'pages'
+  },
+  {
+    id: 'rgb-room',
+    name: 'RGB Gaming Room',
+    description: 'Modern room with customizable RGB lighting and electronic ambiance',
+    thumbnail: rgbRoom,
+    ambientType: 'electronic'
   }
 ];
 
@@ -139,6 +323,16 @@ export const RoomSelector = ({ onSelectRoom }: RoomSelectorProps) => {
                   {room.ambientType === 'space' && '✨'}
                   {room.ambientType === 'wind' && '🏔️'}
                   {room.ambientType === 'forest' && '🌲'}
+                  {room.ambientType === 'snow' && '❄️'}
+                  {room.ambientType === 'mountain' && '⛰️'}
+                  {room.ambientType === 'traffic' && '🌃'}
+                  {room.ambientType === 'nature' && '🌿'}
+                  {room.ambientType === 'water' && '💧'}
+                  {room.ambientType === 'underwater' && '🫧'}
+                  {room.ambientType === 'electronic' && '💻'}
+                  {room.ambientType === 'silence' && '🤫'}
+                  {room.ambientType === 'sports' && '⚽'}
+                  {room.ambientType === 'pages' && '📚'}
                 </div>
               </div>
               

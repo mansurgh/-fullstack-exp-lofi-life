@@ -15,6 +15,29 @@ import tuscanVista from "@/assets/tuscan-vista.jpg";
 import stellarMeditation from "@/assets/stellar-meditation.jpg";
 import alpineRetreat from "@/assets/alpine-retreat.jpg";
 import woodlandHaven from "@/assets/woodland-haven.jpg";
+import russianWinter from "@/assets/russian-winter.jpg";
+import chechenTower from "@/assets/chechen-tower.jpg";
+import frenchEiffel from "@/assets/french-eiffel.jpg";
+import norwegianLandscape from "@/assets/norwegian-landscape.jpg";
+import tokyoNeon from "@/assets/tokyo-neon.jpg";
+import belgianGrey from "@/assets/belgian-grey.jpg";
+import germanBrown from "@/assets/german-brown.jpg";
+import dutchFarm from "@/assets/dutch-farm.jpg";
+import chineseLake from "@/assets/chinese-lake.jpg";
+import circusTent from "@/assets/circus-tent.jpg";
+import footballField from "@/assets/football-field.jpg";
+import tennisCourt from "@/assets/tennis-court.jpg";
+import basketballCourt from "@/assets/basketball-court.jpg";
+import volleyballCourt from "@/assets/volleyball-court.jpg";
+import bowlingAlley from "@/assets/bowling-alley.jpg";
+import americanFootball from "@/assets/american-football.jpg";
+import hockeyRink from "@/assets/hockey-rink.jpg";
+import indoorPool from "@/assets/indoor-pool.jpg";
+import spongebobPineapple from "@/assets/spongebob-pineapple.jpg";
+import minecraftRoom from "@/assets/minecraft-room.jpg";
+import mosqueInterior from "@/assets/mosque-interior.jpg";
+import libraryRoom from "@/assets/library-room.jpg";
+import rgbRoom from "@/assets/rgb-room.jpg";
 
 interface RoomProps {
   roomId: string;
@@ -134,6 +157,238 @@ const roomConfigs: Record<string, RoomConfig> = {
     quranPosition: { x: 'right-1/3', y: 'top-1/3' },
     interactiveElements: [
       { type: 'floating', className: 'absolute top-40 left-16 w-6 h-6 text-green-400 text-xl', animation: 'animate-bounce' }
+    ]
+  },
+  'russian-winter': {
+    name: 'Russian Winter',
+    description: 'Snow falling gently outside',
+    ambientSound: 'snow',
+    backgroundImage: russianWinter,
+    quranPosition: { x: 'left-1/2', y: 'top-2/3' },
+    interactiveElements: [
+      { type: 'particles', className: 'absolute inset-0 bg-gradient-to-b from-white/10 via-transparent to-transparent', animation: 'animate-pulse' }
+    ]
+  },
+  'chechen-tower': {
+    name: 'Chechen Tower',
+    description: 'Mountain winds around ancient tower',
+    ambientSound: 'mountain',
+    backgroundImage: chechenTower,
+    quranPosition: { x: 'right-1/4', y: 'top-1/2' },
+    interactiveElements: [
+      { type: 'glow', className: 'absolute top-20 right-10 w-16 h-16 bg-stone-400/20 rounded-full blur-xl', animation: 'animate-pulse' }
+    ]
+  },
+  'french-eiffel': {
+    name: 'French Elegance',
+    description: 'Parisian streets and Eiffel Tower',
+    ambientSound: 'city',
+    backgroundImage: frenchEiffel,
+    quranPosition: { x: 'left-1/3', y: 'top-3/5' },
+    interactiveElements: [
+      { type: 'glow', className: 'absolute bottom-40 right-20 w-24 h-24 bg-amber-400/15 rounded-full blur-xl', animation: 'animate-pulse' }
+    ]
+  },
+  'norwegian-landscape': {
+    name: 'Norwegian Sky',
+    description: 'Open landscape with mountain winds',
+    ambientSound: 'wind',
+    backgroundImage: norwegianLandscape,
+    quranPosition: { x: 'right-1/2', y: 'top-3/4' },
+    interactiveElements: [
+      { type: 'particles', className: 'absolute inset-0 bg-gradient-to-t from-green-600/10 via-transparent to-transparent', animation: 'animate-pulse' }
+    ]
+  },
+  'tokyo-neon': {
+    name: 'Tokyo Nights',
+    description: 'Neon-lit cityscape',
+    ambientSound: 'traffic',
+    backgroundImage: tokyoNeon,
+    quranPosition: { x: 'left-1/4', y: 'top-1/2' },
+    interactiveElements: [
+      { type: 'glow', className: 'absolute top-32 right-16 w-20 h-20 bg-pink-500/25 rounded-full blur-xl', animation: 'animate-pulse' }
+    ]
+  },
+  'belgian-grey': {
+    name: 'Belgian Streets',
+    description: 'Grey city atmosphere',
+    ambientSound: 'rain',
+    backgroundImage: belgianGrey,
+    quranPosition: { x: 'right-1/3', y: 'top-2/3' },
+    interactiveElements: [
+      { type: 'particles', className: 'absolute inset-0 bg-gradient-to-b from-gray-500/15 via-transparent to-transparent', animation: 'animate-pulse' }
+    ]
+  },
+  'german-brown': {
+    name: 'German Village',
+    description: 'Traditional brown cityscape',
+    ambientSound: 'city',
+    backgroundImage: germanBrown,
+    quranPosition: { x: 'left-1/2', y: 'top-1/2' },
+    interactiveElements: [
+      { type: 'glow', className: 'absolute bottom-32 left-20 w-18 h-18 bg-amber-600/20 rounded-full blur-xl', animation: 'animate-pulse' }
+    ]
+  },
+  'dutch-farm': {
+    name: 'Dutch Countryside',
+    description: 'Peaceful farmland and nature',
+    ambientSound: 'nature',
+    backgroundImage: dutchFarm,
+    quranPosition: { x: 'right-1/4', y: 'top-3/5' },
+    interactiveElements: [
+      { type: 'floating', className: 'absolute top-24 left-12 w-5 h-5 text-green-500 text-lg', animation: 'animate-bounce' }
+    ]
+  },
+  'chinese-lake': {
+    name: 'Chinese Serenity',
+    description: 'Tranquil lake view',
+    ambientSound: 'water',
+    backgroundImage: chineseLake,
+    quranPosition: { x: 'left-1/3', y: 'top-2/3' },
+    interactiveElements: [
+      { type: 'glow', className: 'absolute top-40 right-24 w-20 h-20 bg-blue-400/20 rounded-full blur-xl', animation: 'animate-pulse' }
+    ]
+  },
+  'circus-tent': {
+    name: 'Circus Memories',
+    description: 'Inside the big tent',
+    ambientSound: 'silence',
+    backgroundImage: circusTent,
+    quranPosition: { x: 'right-1/2', y: 'top-1/2' },
+    interactiveElements: [
+      { type: 'glow', className: 'absolute bottom-20 left-1/3 w-24 h-24 bg-red-500/20 rounded-full blur-xl', animation: 'animate-pulse' }
+    ]
+  },
+  'football-field': {
+    name: 'Football Field',
+    description: 'On the field with outdoor ambiance',
+    ambientSound: 'sports',
+    backgroundImage: footballField,
+    quranPosition: { x: 'left-1/4', y: 'top-3/4' },
+    interactiveElements: [
+      { type: 'floating', className: 'absolute top-32 right-20 w-4 h-4 text-white text-lg', animation: 'animate-bounce' }
+    ]
+  },
+  'tennis-court': {
+    name: 'Tennis Court',
+    description: 'Peaceful tennis court',
+    ambientSound: 'sports',
+    backgroundImage: tennisCourt,
+    quranPosition: { x: 'right-1/3', y: 'top-1/2' },
+    interactiveElements: [
+      { type: 'glow', className: 'absolute bottom-24 left-16 w-16 h-16 bg-green-400/20 rounded-full blur-xl', animation: 'animate-pulse' }
+    ]
+  },
+  'basketball-court': {
+    name: 'Basketball Court',
+    description: 'Indoor court with echoing sounds',
+    ambientSound: 'sports',
+    backgroundImage: basketballCourt,
+    quranPosition: { x: 'left-1/2', y: 'top-3/5' },
+    interactiveElements: [
+      { type: 'glow', className: 'absolute top-20 right-12 w-20 h-20 bg-orange-500/20 rounded-full blur-xl', animation: 'animate-pulse' }
+    ]
+  },
+  'volleyball-court': {
+    name: 'Volleyball Court',
+    description: 'Clean court with gym ambiance',
+    ambientSound: 'sports',
+    backgroundImage: volleyballCourt,
+    quranPosition: { x: 'right-1/4', y: 'top-2/3' },
+    interactiveElements: [
+      { type: 'floating', className: 'absolute top-28 left-16 w-4 h-4 text-yellow-400 text-lg', animation: 'animate-bounce' }
+    ]
+  },
+  'bowling-alley': {
+    name: 'Bowling Alley',
+    description: 'Quiet alley with subtle sounds',
+    ambientSound: 'sports',
+    backgroundImage: bowlingAlley,
+    quranPosition: { x: 'left-1/3', y: 'top-1/2' },
+    interactiveElements: [
+      { type: 'glow', className: 'absolute bottom-32 right-20 w-18 h-18 bg-purple-500/20 rounded-full blur-xl', animation: 'animate-pulse' }
+    ]
+  },
+  'american-football': {
+    name: 'American Football',
+    description: 'Stadium field with gentle wind',
+    ambientSound: 'sports',
+    backgroundImage: americanFootball,
+    quranPosition: { x: 'right-1/2', y: 'top-3/4' },
+    interactiveElements: [
+      { type: 'particles', className: 'absolute inset-0 bg-gradient-to-t from-green-700/10 via-transparent to-transparent', animation: 'animate-pulse' }
+    ]
+  },
+  'hockey-rink': {
+    name: 'Hockey Rink',
+    description: 'Ice rink with arena ambiance',
+    ambientSound: 'sports',
+    backgroundImage: hockeyRink,
+    quranPosition: { x: 'left-1/4', y: 'top-1/2' },
+    interactiveElements: [
+      { type: 'glow', className: 'absolute top-24 right-24 w-20 h-20 bg-blue-300/20 rounded-full blur-xl', animation: 'animate-pulse' }
+    ]
+  },
+  'indoor-pool': {
+    name: 'Swimming Pool',
+    description: 'Peaceful poolside',
+    ambientSound: 'water',
+    backgroundImage: indoorPool,
+    quranPosition: { x: 'right-1/3', y: 'top-1/3' },
+    interactiveElements: [
+      { type: 'glow', className: 'absolute bottom-20 left-20 w-32 h-16 bg-cyan-400/25 rounded-full blur-xl', animation: 'animate-pulse' }
+    ]
+  },
+  'spongebob-pineapple': {
+    name: 'Underwater Home',
+    description: 'SpongeBob\'s pineapple with bubbles',
+    ambientSound: 'underwater',
+    backgroundImage: spongebobPineapple,
+    quranPosition: { x: 'left-1/2', y: 'top-2/3' },
+    interactiveElements: [
+      { type: 'floating', className: 'absolute top-20 right-16 w-6 h-6 text-blue-300 text-xl', animation: 'animate-bounce' },
+      { type: 'floating', className: 'absolute bottom-32 left-12 w-4 h-4 text-cyan-300 text-lg', animation: 'animate-pulse' }
+    ]
+  },
+  'minecraft-room': {
+    name: 'Minecraft World',
+    description: 'Blocky world with cube sounds',
+    ambientSound: 'electronic',
+    backgroundImage: minecraftRoom,
+    quranPosition: { x: 'right-1/4', y: 'top-1/2' },
+    interactiveElements: [
+      { type: 'particles', className: 'absolute inset-0 bg-gradient-to-br from-green-600/15 via-transparent to-brown-600/15', animation: 'animate-pulse' }
+    ]
+  },
+  'mosque-interior': {
+    name: 'Sacred Mosque',
+    description: 'Peaceful mosque interior',
+    ambientSound: 'silence',
+    backgroundImage: mosqueInterior,
+    quranPosition: { x: 'left-1/2', y: 'top-3/4' },
+    interactiveElements: [
+      { type: 'glow', className: 'absolute top-16 left-1/2 w-24 h-24 bg-gold-400/20 rounded-full blur-2xl', animation: 'animate-pulse' }
+    ]
+  },
+  'library-room': {
+    name: 'Quiet Library',
+    description: 'Silent library with page sounds',
+    ambientSound: 'pages',
+    backgroundImage: libraryRoom,
+    quranPosition: { x: 'right-1/3', y: 'top-2/3' },
+    interactiveElements: [
+      { type: 'glow', className: 'absolute bottom-24 left-24 w-20 h-20 bg-amber-300/15 rounded-full blur-xl', animation: 'animate-pulse' }
+    ]
+  },
+  'rgb-room': {
+    name: 'RGB Gaming Room',
+    description: 'Modern room with RGB lighting',
+    ambientSound: 'electronic',
+    backgroundImage: rgbRoom,
+    quranPosition: { x: 'left-1/3', y: 'top-1/2' },
+    interactiveElements: [
+      { type: 'glow', className: 'absolute top-20 right-20 w-16 h-16 bg-purple-500/30 rounded-full blur-xl', animation: 'animate-pulse' },
+      { type: 'glow', className: 'absolute bottom-24 left-16 w-16 h-16 bg-blue-500/30 rounded-full blur-xl', animation: 'animate-pulse' }
     ]
   }
 };
