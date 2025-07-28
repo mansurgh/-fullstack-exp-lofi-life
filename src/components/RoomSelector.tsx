@@ -340,15 +340,8 @@ const rooms: Room[] = [
     ambientType: 'underwater'
   },
   {
-    id: 'pirate-ship',
-    name: 'Pirate Ship',
-    description: 'Adventure on the high seas from the ship deck',
-    thumbnail: pirateShip,
-    ambientType: 'waves'
-  },
-  {
     id: 'pirate-deck-view',
-    name: 'Captain\'s View',
+    name: 'Nakama',
     description: 'Standing at the helm with adventure gear around',
     thumbnail: pirateDeckView,
     ambientType: 'waves'

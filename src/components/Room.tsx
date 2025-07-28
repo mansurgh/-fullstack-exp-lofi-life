@@ -473,19 +473,8 @@ const roomConfigs: Record<string, RoomConfig> = {
       { type: 'glow', className: 'absolute bottom-24 left-20 w-24 h-16 bg-teal-400/25 rounded-full blur-xl', animation: 'animate-pulse' }
     ]
   },
-  'pirate-ship': {
-    name: 'Pirate Ship',
-    description: 'Adventure on the high seas from the ship deck',
-    ambientSound: 'waves',
-    backgroundImage: pirateShip,
-    quranPosition: { x: 'right-1/3', y: 'top-2/3' },
-    interactiveElements: [
-      { type: 'floating', className: 'absolute top-24 left-16 w-6 h-6 text-blue-300 text-xl', animation: 'animate-bounce' },
-      { type: 'glow', className: 'absolute bottom-32 right-24 w-20 h-20 bg-amber-400/20 rounded-full blur-xl', animation: 'animate-pulse' }
-    ]
-  },
   'pirate-deck-view': {
-    name: 'Captain\'s View',
+    name: 'Nakama',
     description: 'Standing at the helm with adventure gear around',
     ambientSound: 'waves',
     backgroundImage: pirateDeckView,
