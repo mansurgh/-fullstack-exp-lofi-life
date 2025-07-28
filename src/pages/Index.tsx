@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { RoomSelector } from '@/components/RoomSelector';
 import { Room } from '@/components/Room';
+import { HelpMeOut } from '@/components/HelpMeOut';
 
 const Index = () => {
   const [selectedRoom, setSelectedRoom] = useState<string | null>(null);
@@ -23,7 +24,12 @@ const Index = () => {
   }
 
   console.log('Rendering RoomSelector component');
-  return <RoomSelector onSelectRoom={handleSelectRoom} />;
+  return (
+    <div className="space-y-8">
+      <RoomSelector onSelectRoom={handleSelectRoom} />
+      <HelpMeOut />
+    </div>
+  );
 };
 
 export default Index;
