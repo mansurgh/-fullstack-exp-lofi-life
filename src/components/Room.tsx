@@ -359,7 +359,7 @@ export const Room = ({ roomId, onBack }: RoomProps) => {
           {roomConfig.description}
         </p>
         <p className="text-xs text-amber-600 mt-1">
-          ⚠️ Audio files not included - add your own to /public/sounds/
+          {t('room.audio.warning')}
         </p>
       </Card>
 

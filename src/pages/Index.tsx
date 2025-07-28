@@ -3,8 +3,11 @@ import { RoomSelector } from '@/components/RoomSelector';
 import { Room } from '@/components/Room';
 import { HelpMeOut } from '@/components/HelpMeOut';
 import { ThemeSelector } from '@/components/ThemeSelector';
+import { LanguageSelector } from '@/components/LanguageSelector';
+import { useTranslation } from '@/contexts/TranslationContext';
 
 const Index = () => {
+  const { t } = useTranslation();
   const [selectedRoom, setSelectedRoom] = useState<string | null>(null);
 
   const handleSelectRoom = (roomId: string) => {
@@ -27,7 +30,13 @@ const Index = () => {
   console.log('Rendering RoomSelector component');
   return (
     <div className="space-y-8">
-      <ThemeSelector />
+      <div className="flex justify-between items-center mb-4">
+        <h1 className="text-2xl font-bold">{t('app.title')}</h1>
+        <div className="flex gap-2">
+          <LanguageSelector />
+          <ThemeSelector />
+        </div>
+      </div>
       <RoomSelector onSelectRoom={handleSelectRoom} />
       <HelpMeOut />
     </div>

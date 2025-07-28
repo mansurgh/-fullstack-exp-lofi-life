@@ -374,11 +374,11 @@ export const QuranReader = ({ onClose }: QuranReaderProps) => {
                     </div>
                     
                     <p className="text-xs text-muted-foreground">
-                      ⚠️ Audio recitation not included - this is a visual demonstration
+                      {t('quran.audio.warning')}
                       <br />
-                      💡 Click any word to see word-by-word highlighting simulation
+                      💡 {t('quran.word.click')}
                       <br />
-                      To add real audio: Add MP3 files to /public/quran-audio/mishary/[surah]/[verse].mp3
+                      {t('quran.audio.path')}
                     </p>
                   </div>
                 </Card>
