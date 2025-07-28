@@ -517,7 +517,7 @@ export const Room = ({ roomId, onBack }: RoomProps) => {
       setMousePosition({ x, y });
       
       // Convert mouse position to room offset (subtle movement)
-      const maxOffset = 30; // Maximum pixels to move
+      const maxOffset = 15; // Reduced maximum pixels to move to prevent showing edges
       setRoomOffset({
         x: x * maxOffset,
         y: y * maxOffset
