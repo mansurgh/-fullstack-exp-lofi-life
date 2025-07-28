@@ -46,6 +46,48 @@ const roomConfigs: Record<string, RoomConfig> = {
     ambientSound: 'night',
     backgroundClass: 'bg-gradient-to-br from-moonlight via-secondary to-muted',
     quranPosition: { x: 'right-1/3', y: 'top-3/5' }
+  },
+  'seaside-sanctuary': {
+    name: 'Seaside Sanctuary',
+    description: 'Ocean waves and distant seagulls',
+    ambientSound: 'waves',
+    backgroundClass: 'bg-gradient-to-br from-ocean-blue via-secondary to-muted',
+    quranPosition: { x: 'left-1/4', y: 'top-1/2' }
+  },
+  'desert-mirage': {
+    name: 'Desert Mirage',
+    description: 'Gentle desert winds and sandy whispers',
+    ambientSound: 'desert',
+    backgroundClass: 'bg-gradient-to-br from-sandy-gold via-accent to-primary',
+    quranPosition: { x: 'right-1/2', y: 'top-2/3' }
+  },
+  'tuscan-vista': {
+    name: 'Tuscan Vista',
+    description: 'Italian breeze and distant city murmurs',
+    ambientSound: 'city',
+    backgroundClass: 'bg-gradient-to-br from-tuscan-terracotta via-secondary to-warm-glow',
+    quranPosition: { x: 'left-1/3', y: 'top-3/5' }
+  },
+  'stellar-meditation': {
+    name: 'Stellar Meditation',
+    description: 'Cosmic silence and ethereal space ambiance',
+    ambientSound: 'space',
+    backgroundClass: 'bg-gradient-to-br from-cosmic-purple via-primary to-muted',
+    quranPosition: { x: 'right-1/4', y: 'top-1/2' }
+  },
+  'alpine-retreat': {
+    name: 'Alpine Retreat',
+    description: 'Mountain winds through peaceful peaks',
+    ambientSound: 'wind',
+    backgroundClass: 'bg-gradient-to-br from-alpine-white via-secondary to-primary',
+    quranPosition: { x: 'left-1/2', y: 'top-3/4' }
+  },
+  'woodland-haven': {
+    name: 'Woodland Haven',
+    description: 'Forest sounds and rustling leaves',
+    ambientSound: 'forest',
+    backgroundClass: 'bg-gradient-to-br from-forest-green via-secondary to-primary',
+    quranPosition: { x: 'right-1/3', y: 'top-1/3' }
   }
 };
 
@@ -136,6 +178,48 @@ export const Room = ({ roomId, onBack }: RoomProps) => {
           <>
             <div className="absolute top-20 left-20 w-80 h-60 bg-moonlight/20 rounded-lg" />
             <div className="absolute bottom-20 right-20 w-48 h-32 bg-secondary/30 rounded-lg" />
+          </>
+        )}
+        
+        {roomId === 'seaside-sanctuary' && (
+          <>
+            <div className="absolute bottom-0 left-0 w-full h-32 bg-ocean-blue/40 rounded-t-3xl" />
+            <div className="absolute top-1/4 right-10 w-40 h-60 bg-secondary/30 rounded-lg" />
+          </>
+        )}
+        
+        {roomId === 'desert-mirage' && (
+          <>
+            <div className="absolute bottom-0 right-1/4 w-80 h-24 bg-sandy-gold/50 rounded-t-full" />
+            <div className="absolute top-20 left-10 w-32 h-48 bg-primary/30 rounded-lg" />
+          </>
+        )}
+        
+        {roomId === 'tuscan-vista' && (
+          <>
+            <div className="absolute top-10 right-10 w-56 h-72 bg-tuscan-terracotta/40 rounded-lg" />
+            <div className="absolute bottom-10 left-20 w-64 h-40 bg-secondary/30 rounded-lg" />
+          </>
+        )}
+        
+        {roomId === 'stellar-meditation' && (
+          <>
+            <div className="absolute top-1/4 left-1/4 w-32 h-32 bg-cosmic-purple/30 rounded-full animate-pulse" />
+            <div className="absolute bottom-1/3 right-1/4 w-24 h-24 bg-cosmic-purple/20 rounded-full animate-pulse" />
+          </>
+        )}
+        
+        {roomId === 'alpine-retreat' && (
+          <>
+            <div className="absolute bottom-0 left-0 w-full h-40 bg-alpine-white/30 rounded-t-3xl" />
+            <div className="absolute top-20 right-1/4 w-48 h-64 bg-primary/20 rounded-lg" />
+          </>
+        )}
+        
+        {roomId === 'woodland-haven' && (
+          <>
+            <div className="absolute bottom-10 left-10 w-80 h-48 bg-forest-green/40 rounded-t-2xl" />
+            <div className="absolute top-1/4 right-20 w-36 h-56 bg-secondary/30 rounded-lg" />
           </>
         )}
       </div>

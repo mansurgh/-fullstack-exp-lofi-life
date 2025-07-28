@@ -58,6 +58,13 @@ export default {
 				'quran-glow': 'hsl(var(--quran-glow))',
 				firelight: 'hsl(var(--firelight))',
 				moonlight: 'hsl(var(--moonlight))',
+				// New theme colors
+				'ocean-blue': 'hsl(var(--ocean-blue))',
+				'sandy-gold': 'hsl(var(--sandy-gold))',
+				'tuscan-terracotta': 'hsl(var(--tuscan-terracotta))',
+				'cosmic-purple': 'hsl(var(--cosmic-purple))',
+				'alpine-white': 'hsl(var(--alpine-white))',
+				'forest-green': 'hsl(var(--forest-green))',
 				sidebar: {
 					DEFAULT: 'hsl(var(--sidebar-background))',
 					foreground: 'hsl(var(--sidebar-foreground))',

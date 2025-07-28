@@ -4,13 +4,19 @@ import rainyStudyRoom from "@/assets/rainy-study-room.jpg";
 import sunnyGardenRoom from "@/assets/sunny-garden-room.jpg";
 import fireplaceNook from "@/assets/fireplace-nook.jpg";
 import moonlitCorner from "@/assets/moonlit-corner.jpg";
+import seasideSanctuary from "@/assets/seaside-sanctuary.jpg";
+import desertMirage from "@/assets/desert-mirage.jpg";
+import tuscanVista from "@/assets/tuscan-vista.jpg";
+import stellarMeditation from "@/assets/stellar-meditation.jpg";
+import alpineRetreat from "@/assets/alpine-retreat.jpg";
+import woodlandHaven from "@/assets/woodland-haven.jpg";
 
 interface Room {
   id: string;
   name: string;
   description: string;
   thumbnail: string;
-  ambientType: 'rain' | 'sunny' | 'fireplace' | 'night';
+  ambientType: 'rain' | 'birds' | 'fire' | 'night' | 'waves' | 'desert' | 'city' | 'space' | 'wind' | 'forest';
 }
 
 interface RoomSelectorProps {
@@ -30,14 +36,14 @@ const rooms: Room[] = [
     name: 'Garden View',
     description: 'A bright room overlooking a peaceful garden with chirping birds',
     thumbnail: sunnyGardenRoom,
-    ambientType: 'sunny'
+    ambientType: 'birds'
   },
   {
     id: 'fireplace-nook',
     name: 'Fireplace Nook',
     description: 'A warm corner with a crackling fireplace and comfortable seating',
     thumbnail: fireplaceNook,
-    ambientType: 'fireplace'
+    ambientType: 'fire'
   },
   {
     id: 'moonlit-corner',
@@ -45,6 +51,48 @@ const rooms: Room[] = [
     description: 'A serene nighttime space bathed in gentle moonlight',
     thumbnail: moonlitCorner,
     ambientType: 'night'
+  },
+  {
+    id: 'seaside-sanctuary',
+    name: 'Seaside Sanctuary',
+    description: 'Ocean waves and distant seagulls create peaceful coastal ambiance',
+    thumbnail: seasideSanctuary,
+    ambientType: 'waves'
+  },
+  {
+    id: 'desert-mirage',
+    name: 'Desert Mirage',
+    description: 'Gentle desert winds with distant sandy whispers and silence',
+    thumbnail: desertMirage,
+    ambientType: 'desert'
+  },
+  {
+    id: 'tuscan-vista',
+    name: 'Tuscan Vista',
+    description: 'Soft Italian breeze with distant city murmurs and gentle wind',
+    thumbnail: tuscanVista,
+    ambientType: 'city'
+  },
+  {
+    id: 'stellar-meditation',
+    name: 'Stellar Meditation',
+    description: 'Cosmic silence with ethereal space ambiance and celestial sounds',
+    thumbnail: stellarMeditation,
+    ambientType: 'space'
+  },
+  {
+    id: 'alpine-retreat',
+    name: 'Alpine Retreat',
+    description: 'Mountain winds whistling through peaceful snow-capped peaks',
+    thumbnail: alpineRetreat,
+    ambientType: 'wind'
+  },
+  {
+    id: 'woodland-haven',
+    name: 'Woodland Haven',
+    description: 'Forest sounds with gentle rustling leaves and nature\'s symphony',
+    thumbnail: woodlandHaven,
+    ambientType: 'forest'
   }
 ];
 
@@ -62,7 +110,7 @@ export const RoomSelector = ({ onSelectRoom }: RoomSelectorProps) => {
           </p>
         </div>
         
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {rooms.map((room) => (
             <Card 
               key={room.id}
@@ -77,9 +125,15 @@ export const RoomSelector = ({ onSelectRoom }: RoomSelectorProps) => {
                 <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
                 <div className="absolute top-4 right-4 text-3xl opacity-80">
                   {room.ambientType === 'rain' && '🌧️'}
-                  {room.ambientType === 'sunny' && '☀️'}
-                  {room.ambientType === 'fireplace' && '🔥'}
+                  {room.ambientType === 'birds' && '☀️'}
+                  {room.ambientType === 'fire' && '🔥'}
                   {room.ambientType === 'night' && '🌙'}
+                  {room.ambientType === 'waves' && '🌊'}
+                  {room.ambientType === 'desert' && '🏜️'}
+                  {room.ambientType === 'city' && '🏛️'}
+                  {room.ambientType === 'space' && '✨'}
+                  {room.ambientType === 'wind' && '🏔️'}
+                  {room.ambientType === 'forest' && '🌲'}
                 </div>
               </div>
               

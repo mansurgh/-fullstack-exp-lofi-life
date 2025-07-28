@@ -46,6 +46,14 @@
     --firelight: 15 90% 65%;
     --moonlight: 220 25% 75%;
     
+    /* New theme colors */
+    --ocean-blue: 200 85% 70%;
+    --sandy-gold: 40 75% 70%;
+    --tuscan-terracotta: 15 65% 65%;
+    --cosmic-purple: 260 60% 70%;
+    --alpine-white: 200 20% 85%;
+    --forest-green: 140 50% 60%;
+    
     /* Gradients */
     --gradient-warm: linear-gradient(135deg, hsl(var(--warm-glow)), hsl(var(--accent)));
     --gradient-cozy: linear-gradient(180deg, hsl(var(--background)), hsl(var(--secondary)));
@@ -111,6 +119,14 @@
     --quran-glow: 45 85% 70%;
     --firelight: 15 90% 65%;
     --moonlight: 220 40% 85%;
+    
+    /* Dark mode theme colors */
+    --ocean-blue: 200 70% 50%;
+    --sandy-gold: 40 60% 50%;
+    --tuscan-terracotta: 15 50% 45%;
+    --cosmic-purple: 260 80% 75%;
+    --alpine-white: 200 20% 70%;
+    --forest-green: 140 40% 45%;
     
     /* Dark gradients */
     --gradient-warm: linear-gradient(135deg, hsl(var(--firelight)), hsl(var(--accent)));
