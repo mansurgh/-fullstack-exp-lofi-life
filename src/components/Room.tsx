@@ -802,10 +802,11 @@ export const Room = ({ roomId, onBack }: RoomProps) => {
         </p>
       </Card>
 
-      {/* Qur'an Reader Modal */}
-      {isQuranOpen && (
-        <QuranReader onClose={() => setIsQuranOpen(false)} />
-      )}
+      {/* Qur'an Reader */}
+      <QuranReader 
+        isVisible={isQuranOpen} 
+        onClose={() => setIsQuranOpen(false)} 
+      />
     </div>
   );
 };

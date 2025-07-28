@@ -1,15 +1,16 @@
 import { useState, useRef, useEffect } from 'react';
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Switch } from "@/components/ui/switch";
 import { Slider } from "@/components/ui/slider";
-import { Play, Pause, SkipBack, SkipForward, Volume2, X, BookOpen } from 'lucide-react';
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
+import { Play, Pause, SkipBack, SkipForward, Volume2, X, BookOpen, Settings, Minus, Maximize2 } from 'lucide-react';
 import { useTranslation } from '@/contexts/TranslationContext';
 
 interface QuranReaderProps {
   onClose: () => void;
+  isVisible: boolean;
 }
 
 interface Surah {
@@ -68,7 +69,7 @@ const getSampleVerses = (t: (key: string) => string) => [
   }
 ];
 
-export const QuranReader = ({ onClose }: QuranReaderProps) => {
+export const QuranReader = ({ onClose, isVisible }: QuranReaderProps) => {
   const { t } = useTranslation();
   const [selectedSurah, setSelectedSurah] = useState<string>("1");
   const [currentVerse, setCurrentVerse] = useState(0);
@@ -88,6 +89,8 @@ export const QuranReader = ({ onClose }: QuranReaderProps) => {
   const [currentSurahRepeat, setCurrentSurahRepeat] = useState(0);
   const [clickedWordIndex, setClickedWordIndex] = useState<number | null>(null);
   const [isWordClickMode, setIsWordClickMode] = useState(false);
+  const [isMinimized, setIsMinimized] = useState(false);
+  const [showAudioPlayer, setShowAudioPlayer] = useState(true);
   
   const audioRef = useRef<HTMLAudioElement>(null);
 
@@ -300,258 +303,177 @@ export const QuranReader = ({ onClose }: QuranReaderProps) => {
     }
   }, [audioVolume]);
 
+  if (!isVisible) return null;
+
   return (
-    <Dialog open={true} onOpenChange={onClose}>
-      <DialogContent className="w-[95vw] max-w-6xl h-[95vh] max-h-[95vh] overflow-hidden bg-card border-border p-0">
-        <DialogHeader className="border-b border-border pb-4 px-4 sm:px-6 pt-4 sm:pt-6">
-          <div className="flex items-center justify-between">
-            <DialogTitle className="flex items-center gap-2 sm:gap-3 text-lg sm:text-2xl text-card-foreground">
-              <BookOpen className="w-5 h-5 sm:w-6 sm:h-6 text-accent" />
-              <span className="hidden sm:inline">{t('quran.title')} - القرآن الكريم</span>
-              <span className="sm:hidden">القرآن الكريم</span>
-            </DialogTitle>
-            <Button
-              onClick={onClose}
-              variant="ghost"
-              size="sm"
-              className="text-muted-foreground hover:text-card-foreground"
-            >
-              <X className="w-5 h-5" />
-            </Button>
-          </div>
-        </DialogHeader>
-
-        <div className="flex flex-col lg:flex-row gap-4 lg:gap-6 h-[calc(95vh-8rem)] px-4 sm:px-6 pb-4 sm:pb-6">
-          {/* Controls Panel - Stacked on mobile, horizontal scroll on larger screens */}
-          <div className="w-full lg:w-80 flex flex-col order-2 lg:order-1">
-            <div className="flex-1 overflow-x-auto overflow-y-auto lg:overflow-y-hidden">
-              <div className="flex flex-col lg:flex-row gap-4 lg:pb-4 lg:min-w-max">
-                {/* Each control group as a separate card */}
+    <div className={`fixed bottom-4 right-4 bg-card border border-border rounded-lg shadow-lg transition-all duration-300 z-50 ${
+      isMinimized ? 'w-80 h-16' : 'w-[95vw] max-w-4xl h-[70vh]'
+    }`}>
+      {/* Header */}
+      <div className="flex items-center justify-between p-3 border-b border-border bg-card/95 backdrop-blur-sm rounded-t-lg">
+        <div className="flex items-center gap-2">
+          <BookOpen className="w-4 h-4 text-accent" />
+          <span className="text-sm font-medium text-card-foreground">
+            {isMinimized ? 'القرآن الكريم' : `${t('quran.title')} - القرآن الكريم`}
+          </span>
+          {isPlaying && isMinimized && (
+            <div className="w-2 h-2 bg-accent rounded-full animate-pulse"></div>
+          )}
+        </div>
+        <div className="flex items-center gap-1">
+          <Popover>
+            <PopoverTrigger asChild>
+              <Button variant="ghost" size="sm" className="h-6 w-6 p-0">
+                <Settings className="w-3 h-3" />
+              </Button>
+            </PopoverTrigger>
+            <PopoverContent className="w-64 p-3" align="end">
+              <div className="space-y-3">
+                <h4 className="font-medium text-sm">Recitation Settings</h4>
                 
-                {/* Surah Selection */}
-                <Card className="p-3 sm:p-4 w-full lg:min-w-64 flex-shrink-0">
-                  <h3 className="font-semibold text-card-foreground mb-3 text-sm sm:text-base">{t('quran.select.surah')}</h3>
-                   <Select value={selectedSurah} onValueChange={setSelectedSurah}>
-                    <SelectTrigger className="text-sm">
-                      <SelectValue />
-                    </SelectTrigger>
-                    <SelectContent className="bg-card border-border z-50">
-                      {surahs.map((surah) => (
-                        <SelectItem key={surah.number} value={surah.number.toString()}>
-                          {surah.number}. {surah.name} ({surah.englishName})
-                        </SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
-                </Card>
+                {/* Speed Control */}
+                <div>
+                  <label className="text-xs text-card-foreground mb-1 block">
+                    Speed: {recitationSpeed[0]}%
+                  </label>
+                  <Slider
+                    value={recitationSpeed}
+                    onValueChange={setRecitationSpeed}
+                    max={200}
+                    min={25}
+                    step={25}
+                    className="flex-1"
+                  />
+                </div>
 
-                {/* Audio Controls */}
-                <Card className="p-4 min-w-64 flex-shrink-0">
-                  <h3 className="font-semibold text-card-foreground mb-3">Audio Player</h3>
-                  <div className="space-y-4">
-                    <div className="flex items-center justify-center gap-2">
-                      <Button onClick={prevVerse} variant="outline" size="sm" disabled={currentVerse === 0}>
-                        <SkipBack className="w-4 h-4" />
-                      </Button>
-                      <Button onClick={handlePlay} variant="default" size="sm">
-                        {isPlaying ? <Pause className="w-4 h-4" /> : <Play className="w-4 h-4" />}
-                      </Button>
-                      <Button onClick={nextVerse} variant="outline" size="sm" disabled={currentVerse === verses.length - 1}>
-                        <SkipForward className="w-4 h-4" />
-                      </Button>
-                    </div>
-                    
-                    <div className="flex items-center gap-2">
-                      <Volume2 className="w-4 h-4 text-muted-foreground" />
-                      <Slider
-                        value={audioVolume}
-                        onValueChange={setAudioVolume}
-                        max={100}
-                        min={0}
-                        step={1}
-                        className="flex-1"
-                      />
-                      <span className="text-sm text-muted-foreground min-w-8">
-                        {audioVolume[0]}%
-                      </span>
-                    </div>
-                    
-                    <p className="text-xs text-muted-foreground">
-                      {t('quran.audio.warning')}
-                      <br />
-                      💡 {t('quran.word.click')}
-                      <br />
-                      {t('quran.audio.path')}
-                    </p>
+                {/* Word Repetition */}
+                <div className="flex items-center justify-between">
+                  <span className="text-xs">Repeat words:</span>
+                  <div className="flex items-center gap-1">
+                    <Button
+                      onClick={() => setWordRepeatCount(Math.max(1, wordRepeatCount - 1))}
+                      variant="outline"
+                      size="sm"
+                      className="h-6 w-6 p-0"
+                    >
+                      -
+                    </Button>
+                    <span className="text-xs min-w-6 text-center">{wordRepeatCount}x</span>
+                    <Button
+                      onClick={() => setWordRepeatCount(Math.min(10, wordRepeatCount + 1))}
+                      variant="outline"
+                      size="sm"
+                      className="h-6 w-6 p-0"
+                    >
+                      +
+                    </Button>
                   </div>
-                </Card>
+                </div>
 
-                {/* Speed & Repetition Controls */}
-                <Card className="p-4 min-w-80 flex-shrink-0">
-                  <h3 className="font-semibold text-card-foreground mb-3">Recitation Settings</h3>
-                  <div className="space-y-4">
-                    {/* Speed Control */}
-                    <div>
-                      <label className="text-sm text-card-foreground mb-2 block">
-                        Speed: {recitationSpeed[0]}%
-                      </label>
-                      <Slider
-                        value={recitationSpeed}
-                        onValueChange={setRecitationSpeed}
-                        max={200}
-                        min={25}
-                        step={25}
-                        className="flex-1"
-                      />
-                      <div className="flex justify-between text-xs text-muted-foreground mt-1">
-                        <span>Slow</span>
-                        <span>Normal</span>
-                        <span>Fast</span>
-                      </div>
-                    </div>
-
-                    {/* Word Repetition */}
-                    <div>
-                      <label className="text-sm text-card-foreground mb-2 block">
-                        Repeat each word:
-                      </label>
-                      <div className="flex items-center gap-2">
-                        <Button
-                          onClick={() => setWordRepeatCount(Math.max(1, wordRepeatCount - 1))}
-                          variant="outline"
-                          size="sm"
-                          className="h-8 w-8 p-0"
-                        >
-                          -
-                        </Button>
-                        <span className="text-sm min-w-8 text-center">{wordRepeatCount}x</span>
-                        <Button
-                          onClick={() => setWordRepeatCount(Math.min(10, wordRepeatCount + 1))}
-                          variant="outline"
-                          size="sm"
-                          className="h-8 w-8 p-0"
-                        >
-                          +
-                        </Button>
-                      </div>
-                    </div>
-
-                    {/* Verse Repetition */}
-                    <div>
-                      <label className="text-sm text-card-foreground mb-2 block">
-                        Repeat each verse:
-                      </label>
-                      <div className="flex items-center gap-2">
-                        <Button
-                          onClick={() => setVerseRepeatCount(Math.max(1, verseRepeatCount - 1))}
-                          variant="outline"
-                          size="sm"
-                          className="h-8 w-8 p-0"
-                        >
-                          -
-                        </Button>
-                        <span className="text-sm min-w-8 text-center">{verseRepeatCount}x</span>
-                        <Button
-                          onClick={() => setVerseRepeatCount(Math.min(10, verseRepeatCount + 1))}
-                          variant="outline"
-                          size="sm"
-                          className="h-8 w-8 p-0"
-                        >
-                          +
-                        </Button>
-                      </div>
-                    </div>
-
-                    {/* Surah Repetition */}
-                    <div>
-                      <label className="text-sm text-card-foreground mb-2 block">
-                        Repeat entire surah:
-                      </label>
-                      <div className="flex items-center gap-2">
-                        <Button
-                          onClick={() => setSurahRepeatCount(Math.max(1, surahRepeatCount - 1))}
-                          variant="outline"
-                          size="sm"
-                          className="h-8 w-8 p-0"
-                        >
-                          -
-                        </Button>
-                        <span className="text-sm min-w-8 text-center">{surahRepeatCount}x</span>
-                        <Button
-                          onClick={() => setSurahRepeatCount(Math.min(10, surahRepeatCount + 1))}
-                          variant="outline"
-                          size="sm"
-                          className="h-8 w-8 p-0"
-                        >
-                          +
-                        </Button>
-                      </div>
-                    </div>
-                  </div>
-                </Card>
+                {/* Audio Player Toggle */}
+                <div className="flex items-center justify-between">
+                  <span className="text-xs">Show audio player:</span>
+                  <Switch
+                    checked={showAudioPlayer}
+                    onCheckedChange={setShowAudioPlayer}
+                  />
+                </div>
 
                 {/* Display Options */}
-                <Card className="p-4 min-w-64 flex-shrink-0">
-                  <h3 className="font-semibold text-card-foreground mb-3">Display Options</h3>
-                  <div className="space-y-3">
-                    <div className="flex items-center justify-between">
-                      <label className="text-sm text-card-foreground">Show Transliteration</label>
-                      <Switch 
-                        checked={showTransliteration} 
-                        onCheckedChange={setShowTransliteration}
-                      />
-                    </div>
-                    <div className="flex items-center justify-between">
-                      <label className="text-sm text-card-foreground">Show Translation</label>
-                      <Switch 
-                        checked={showTranslation} 
-                        onCheckedChange={setShowTranslation}
-                      />
-                    </div>
-                  </div>
-                </Card>
-
-                {/* Progress */}
-                <Card className="p-4 min-w-64 flex-shrink-0">
-                  <h3 className="font-semibold text-card-foreground mb-2">Progress</h3>
-                  <div className="space-y-2">
-                    <p className="text-sm text-muted-foreground">
-                      Verse {currentVerse + 1} of {verses.length}
-                    </p>
-                    {isAutoReading && (
-                      <div className="text-xs text-muted-foreground space-y-1">
-                        {isWordClickMode ? (
-                          <p className="text-accent">🎯 Repeating clicked word: {currentWordRepeat + 1}/{wordRepeatCount}</p>
-                        ) : (
-                          <>
-                            <p>Word repetition: {currentWordRepeat + 1}/{wordRepeatCount}</p>
-                            <p>Verse repetition: {currentVerseRepeat + 1}/{verseRepeatCount}</p>
-                            <p>Surah repetition: {currentSurahRepeat + 1}/{surahRepeatCount}</p>
-                          </>
-                        )}
-                      </div>
-                    )}
-                  </div>
-                  <div className="w-full bg-muted rounded-full h-2 mt-2">
-                    <div 
-                      className="bg-accent h-2 rounded-full transition-all duration-300"
-                      style={{ width: `${((currentVerse + 1) / verses.length) * 100}%` }}
-                    />
-                  </div>
-                </Card>
+                <div className="flex items-center justify-between">
+                  <span className="text-xs">Show transliteration:</span>
+                  <Switch
+                    checked={showTransliteration}
+                    onCheckedChange={setShowTransliteration}
+                  />
+                </div>
+                
+                <div className="flex items-center justify-between">
+                  <span className="text-xs">Show translation:</span>
+                  <Switch
+                    checked={showTranslation}
+                    onCheckedChange={setShowTranslation}
+                  />
+                </div>
               </div>
-            </div>
-            
-            {/* Scroll indicator */}
-            <div className="text-center py-2">
-              <p className="text-xs text-muted-foreground">← Scroll horizontally to view all settings →</p>
-            </div>
+            </PopoverContent>
+          </Popover>
+          
+          <Button
+            onClick={() => setIsMinimized(!isMinimized)}
+            variant="ghost"
+            size="sm"
+            className="h-6 w-6 p-0"
+          >
+            {isMinimized ? <Maximize2 className="w-3 h-3" /> : <Minus className="w-3 h-3" />}
+          </Button>
+          
+          <Button
+            onClick={onClose}
+            variant="ghost"
+            size="sm"
+            className="h-6 w-6 p-0 text-muted-foreground hover:text-card-foreground"
+          >
+            <X className="w-3 h-3" />
+          </Button>
+        </div>
+      </div>
+
+      {/* Content Area */}
+      {!isMinimized && (
+        <div className="flex flex-col h-[calc(70vh-4rem)] p-3">
+          {/* Surah Selection */}
+          <div className="mb-3">
+            <Select value={selectedSurah} onValueChange={setSelectedSurah}>
+              <SelectTrigger className="text-sm w-full">
+                <SelectValue />
+              </SelectTrigger>
+              <SelectContent className="bg-card border-border z-50">
+                {surahs.map((surah) => (
+                  <SelectItem key={surah.number} value={surah.number.toString()}>
+                    {surah.number}. {surah.name} ({surah.englishName})
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
           </div>
 
+          {/* Audio Player (conditionally shown) */}
+          {showAudioPlayer && (
+            <div className="mb-3 p-3 bg-muted/30 rounded-lg">
+              <div className="flex items-center justify-center gap-2 mb-2">
+                <Button onClick={prevVerse} variant="outline" size="sm" disabled={currentVerse === 0}>
+                  <SkipBack className="w-4 h-4" />
+                </Button>
+                <Button onClick={handlePlay} variant="default" size="sm">
+                  {isPlaying ? <Pause className="w-4 h-4" /> : <Play className="w-4 h-4" />}
+                </Button>
+                <Button onClick={nextVerse} variant="outline" size="sm" disabled={currentVerse === verses.length - 1}>
+                  <SkipForward className="w-4 h-4" />
+                </Button>
+              </div>
+              
+              <div className="flex items-center gap-2">
+                <Volume2 className="w-4 h-4 text-muted-foreground" />
+                <Slider
+                  value={audioVolume}
+                  onValueChange={setAudioVolume}
+                  max={100}
+                  min={0}
+                  step={1}
+                  className="flex-1"
+                />
+                <span className="text-xs text-muted-foreground min-w-8">
+                  {audioVolume[0]}%
+                </span>
+              </div>
+            </div>
+          )}
+
           {/* Qur'an Text */}
-          <div className="flex-1 bg-gradient-to-br from-background to-secondary/20 rounded-lg p-8 overflow-y-auto">
-            <div className="text-center mb-8">
-              <h2 className="text-3xl font-bold text-foreground mb-2">
+          <div className="flex-1 bg-gradient-to-br from-background to-secondary/20 rounded-lg p-4 overflow-y-auto">
+            <div className="text-center mb-6">
+              <h2 className="text-2xl font-bold text-foreground mb-2">
                 {selectedSurahData?.name}
               </h2>
               <p className="text-lg text-accent font-semibold">
@@ -559,25 +481,25 @@ export const QuranReader = ({ onClose }: QuranReaderProps) => {
               </p>
             </div>
 
-            <div className="space-y-8">
+            <div className="space-y-6">
               {verses.map((verse, index) => (
                 <div 
                   key={index}
-                  className={`p-6 rounded-lg border-2 transition-all duration-500 ${
+                  className={`p-4 rounded-lg border-2 transition-all duration-500 ${
                     index === currentVerse 
                       ? 'bg-accent/10 border-accent shadow-glow ring-2 ring-accent/30 transform scale-[1.02]' 
                       : 'bg-card border-border hover:border-accent/30'
                   }`}
                 >
-                  <div className="text-right mb-4">
-                    <p className="text-2xl leading-relaxed text-foreground font-arabic">
+                  <div className="text-right mb-3">
+                    <p className="text-xl leading-relaxed text-foreground font-arabic">
                       {renderHighlightedText(verse.arabic, index)}
                     </p>
                   </div>
                   
                   {showTransliteration && (
-                    <div className="mb-3">
-                      <p className="text-lg italic text-muted-foreground leading-relaxed">
+                    <div className="mb-2">
+                      <p className="text-sm italic text-muted-foreground leading-relaxed">
                         {verse.transliteration}
                       </p>
                     </div>
@@ -585,21 +507,21 @@ export const QuranReader = ({ onClose }: QuranReaderProps) => {
                   
                   {showTranslation && (
                     <div>
-                      <p className="text-base text-card-foreground leading-relaxed">
+                      <p className="text-sm text-card-foreground leading-relaxed">
                         {verse.translation}
                       </p>
                     </div>
                   )}
                   
-                  <div className="flex justify-between items-center mt-4 pt-3 border-t border-border/50">
-                    <span className="text-sm text-muted-foreground">
+                  <div className="flex justify-between items-center mt-3 pt-2 border-t border-border/50">
+                    <span className="text-xs text-muted-foreground">
                       Verse {index + 1}
                     </span>
                     <Button
                       onClick={() => setCurrentVerse(index)}
                       variant="ghost"
                       size="sm"
-                      className="text-accent hover:text-accent-foreground"
+                      className="text-accent hover:text-accent-foreground h-6"
                     >
                       <Play className="w-3 h-3 mr-1" />
                       Play
@@ -610,18 +532,18 @@ export const QuranReader = ({ onClose }: QuranReaderProps) => {
             </div>
           </div>
         </div>
+      )}
 
-        {/* Hidden audio element - in production, this would have actual audio sources */}
-        <audio
-          ref={audioRef}
-          onEnded={() => {
-            setIsPlaying(false);
-            if (currentVerse < verses.length - 1) {
-              setCurrentVerse(currentVerse + 1);
-            }
-          }}
-        />
-      </DialogContent>
-    </Dialog>
+      {/* Hidden audio element - in production, this would have actual audio sources */}
+      <audio
+        ref={audioRef}
+        onEnded={() => {
+          setIsPlaying(false);
+          if (currentVerse < verses.length - 1) {
+            setCurrentVerse(currentVerse + 1);
+          }
+        }}
+      />
+    </div>
   );
 };
