@@ -400,6 +400,7 @@ export const Room = ({ roomId, onBack }: RoomProps) => {
   const [isDarkMode, setIsDarkMode] = useState(false);
   const [isQuranOpen, setIsQuranOpen] = useState(false);
   const [isLoaded, setIsLoaded] = useState(false);
+  const [rgbColor, setRgbColor] = useState('purple'); // For RGB room color control
   const audioRef = useRef<HTMLAudioElement>(null);
 
   const roomConfig = roomConfigs[roomId];
@@ -435,6 +436,21 @@ export const Room = ({ roomId, onBack }: RoomProps) => {
 
   const handleQuranClick = () => {
     setIsQuranOpen(true);
+  };
+
+  const colorOptions = [
+    { name: 'Purple', value: 'purple', bg: 'bg-purple-500', glow: 'bg-purple-500/30' },
+    { name: 'Blue', value: 'blue', bg: 'bg-blue-500', glow: 'bg-blue-500/30' },
+    { name: 'Red', value: 'red', bg: 'bg-red-500', glow: 'bg-red-500/30' },
+    { name: 'Green', value: 'green', bg: 'bg-green-500', glow: 'bg-green-500/30' },
+    { name: 'Orange', value: 'orange', bg: 'bg-orange-500', glow: 'bg-orange-500/30' }
+  ];
+
+  const getRgbGlowClass = (baseClass: string) => {
+    if (roomId !== 'rgb-room') return baseClass;
+    
+    const currentColor = colorOptions.find(color => color.value === rgbColor);
+    return baseClass.replace(/bg-\w+-500\/30/, currentColor?.glow || 'bg-purple-500/30');
   };
 
   if (!roomConfig) {
@@ -486,7 +502,7 @@ export const Room = ({ roomId, onBack }: RoomProps) => {
         isLoaded ? 'opacity-100' : 'opacity-0'
       }`}>
         {roomConfig.interactiveElements.map((element, index) => (
-          <div key={index} className={`${element.className} ${element.animation}`}>
+          <div key={index} className={`${getRgbGlowClass(element.className)} ${element.animation}`}>
             {element.type === 'floating' && (
               <>
                 {roomId === 'sunny-garden' && '🦋'}
@@ -619,6 +635,27 @@ export const Room = ({ roomId, onBack }: RoomProps) => {
           {t('room.audio.warning')}
         </p>
       </Card>
+
+      {/* RGB Color Controls - Only show in RGB room */}
+      {roomId === 'rgb-room' && (
+        <Card className="absolute top-1/2 right-4 sm:right-6 p-3 bg-card/80 backdrop-blur-sm border-border/50 transform -translate-y-1/2">
+          <h4 className="text-sm font-semibold text-card-foreground mb-2">Lighting</h4>
+          <div className="flex flex-col gap-2">
+            {colorOptions.map((color) => (
+              <Button
+                key={color.value}
+                onClick={() => setRgbColor(color.value)}
+                variant={rgbColor === color.value ? "default" : "outline"}
+                size="sm"
+                className={`w-full justify-start text-xs ${color.bg} hover:${color.bg}/80 text-white border-none`}
+              >
+                <div className={`w-3 h-3 rounded-full ${color.bg} mr-2`} />
+                {color.name}
+              </Button>
+            ))}
+          </div>
+        </Card>
+      )}
 
       {/* Room Info */}
       <Card className="absolute bottom-4 sm:bottom-6 right-4 sm:right-6 p-3 sm:p-4 bg-card/80 backdrop-blur-sm border-border/50 w-[calc(100%-2rem)] sm:w-auto max-w-xs">
