@@ -92,79 +92,62 @@ const roomConfigs: Record<string, RoomConfig> = {
 };
 
 export const Room = ({ roomId, onBack }: RoomProps) => {
-  const [volume, setVolume] = useState([50]);
-  const [isMuted, setIsMuted] = useState(false);
-  const [isDarkMode, setIsDarkMode] = useState(false);
-  const [isQuranOpen, setIsQuranOpen] = useState(false);
-  const audioRef = useRef<HTMLAudioElement>(null);
-
+  console.log('🏠 Room component starting with ID:', roomId);
+  
   const roomConfig = roomConfigs[roomId];
   
-  console.log('🏠 Room component rendering:', roomId);
-  console.log('🏠 Room config:', roomConfig);
-
-  useEffect(() => {
-    console.log('🏠 Room component mounted successfully');
-    return () => console.log('🏠 Room component unmounting');
-  }, []);
-
-  useEffect(() => {
-    if (isDarkMode) {
-      document.documentElement.classList.add('dark');
-    } else {
-      document.documentElement.classList.remove('dark');
-    }
-  }, [isDarkMode]);
-
-  useEffect(() => {
-    if (audioRef.current) {
-      audioRef.current.volume = isMuted ? 0 : volume[0] / 100;
-    }
-  }, [volume, isMuted]);
-
-  const toggleMute = () => {
-    setIsMuted(!isMuted);
-  };
-
-  const handleQuranClick = () => {
-    setIsQuranOpen(true);
-  };
-
   if (!roomConfig) {
-    console.log('❌ No room config found for:', roomId);
+    console.log('❌ No room config found');
     return (
-      <div className="min-h-screen flex items-center justify-center bg-destructive">
-        <p className="text-xl text-destructive-foreground">Room not found: {roomId}</p>
+      <div style={{ minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center', backgroundColor: 'red' }}>
+        <p style={{ color: 'white', fontSize: '24px' }}>Room not found: {roomId}</p>
       </div>
     );
   }
 
-  console.log('✅ About to render room:', roomConfig.name);
-
+  console.log('✅ Room config found, rendering room');
+  
   return (
-    <div className="min-h-screen bg-primary text-primary-foreground p-8">
-      <h1 className="text-4xl font-bold mb-4">🏠 {roomConfig.name}</h1>
-      <p className="text-xl mb-8">{roomConfig.description}</p>
+    <div style={{ 
+      minHeight: '100vh', 
+      backgroundColor: '#8B4513', 
+      color: 'white',
+      padding: '40px',
+      fontFamily: 'Arial, sans-serif'
+    }}>
+      <h1 style={{ fontSize: '48px', marginBottom: '20px' }}>
+        🏠 {roomConfig.name}
+      </h1>
       
-      <Button
+      <p style={{ fontSize: '24px', marginBottom: '40px' }}>
+        {roomConfig.description}
+      </p>
+      
+      <button 
         onClick={onBack}
-        variant="secondary"
-        className="mb-4"
+        style={{
+          padding: '12px 24px',
+          fontSize: '18px',
+          backgroundColor: '#654321',
+          color: 'white',
+          border: 'none',
+          borderRadius: '8px',
+          cursor: 'pointer'
+        }}
       >
-        <ArrowLeft className="w-4 h-4 mr-2" />
-        Back to Rooms
-      </Button>
-
-      <div className="bg-card p-4 rounded-lg">
-        <p className="text-card-foreground">
-          Room is working! ID: {roomId}
-        </p>
+        ← Back to Rooms
+      </button>
+      
+      <div style={{
+        marginTop: '40px',
+        padding: '20px',
+        backgroundColor: 'rgba(255,255,255,0.1)',
+        borderRadius: '8px'
+      }}>
+        <p>✅ Room is working! ID: {roomId}</p>
+        <p>✅ Room name: {roomConfig.name}</p>
+        <p>✅ No crashes detected</p>
       </div>
-
-      {/* Qur'an Reader Modal */}
-      {isQuranOpen && (
-        <QuranReader onClose={() => setIsQuranOpen(false)} />
-      )}
     </div>
   );
 };
