@@ -3,7 +3,7 @@ import { Button } from "@/components/ui/button";
 import { Slider } from "@/components/ui/slider";
 import { Card } from "@/components/ui/card";
 import { QuranReader } from './QuranReader';
-import { Volume2, VolumeX, ArrowLeft, Moon, Sun } from 'lucide-react';
+import { Volume2, VolumeX, ArrowLeft, Moon, Sun, RotateCcw } from 'lucide-react';
 
 interface RoomProps {
   roomId: string;
@@ -122,6 +122,10 @@ export const Room = ({ roomId, onBack }: RoomProps) => {
 
   const toggleMute = () => {
     setIsMuted(!isMuted);
+  };
+
+  const handleReload = () => {
+    window.location.reload();
   };
 
   const handleQuranClick = () => {
@@ -257,6 +261,16 @@ export const Room = ({ roomId, onBack }: RoomProps) => {
         </Button>
 
         <div className="flex gap-3">
+          <Button
+            onClick={handleReload}
+            variant="secondary"
+            size="sm"
+            className="bg-card/80 hover:bg-card text-card-foreground"
+            title="Reload page if room or Quran isn't loading"
+          >
+            <RotateCcw className="w-4 h-4" />
+          </Button>
+          
           <Button
             onClick={() => setIsDarkMode(!isDarkMode)}
             variant="secondary"
