@@ -84,6 +84,8 @@ export const QuranReader = ({ onClose }: QuranReaderProps) => {
   const [currentWordRepeat, setCurrentWordRepeat] = useState(0);
   const [currentVerseRepeat, setCurrentVerseRepeat] = useState(0);
   const [currentSurahRepeat, setCurrentSurahRepeat] = useState(0);
+  const [clickedWordIndex, setClickedWordIndex] = useState<number | null>(null);
+  const [isWordClickMode, setIsWordClickMode] = useState(false);
   
   const audioRef = useRef<HTMLAudioElement>(null);
 
@@ -159,15 +161,19 @@ export const QuranReader = ({ onClose }: QuranReaderProps) => {
       if (isPlaying) {
         audioRef.current.pause();
         setIsAutoReading(false);
+        setIsWordClickMode(false);
+        setClickedWordIndex(null);
       } else {
         // In a real app, this would load the actual audio file
         // audioRef.current.src = `/quran-audio/mishary/${selectedSurah}/${currentVerse + 1}.mp3`;
         audioRef.current.play();
         setIsAutoReading(true);
+        setIsWordClickMode(false);
         setCurrentWordIndex(0);
         setCurrentWordRepeat(0);
         setCurrentVerseRepeat(0);
         setCurrentSurahRepeat(0);
+        setClickedWordIndex(null);
       }
       setIsPlaying(!isPlaying);
     }
@@ -181,6 +187,8 @@ export const QuranReader = ({ onClose }: QuranReaderProps) => {
       setCurrentVerseRepeat(0);
       setIsPlaying(false);
       setIsAutoReading(false);
+      setIsWordClickMode(false);
+      setClickedWordIndex(null);
     }
   };
 
@@ -192,31 +200,81 @@ export const QuranReader = ({ onClose }: QuranReaderProps) => {
       setCurrentVerseRepeat(0);
       setIsPlaying(false);
       setIsAutoReading(false);
+      setIsWordClickMode(false);
+      setClickedWordIndex(null);
     }
   };
 
-  // Word highlighting rendering helper
+  // Handle clicking on a specific word
+  const handleWordClick = (verseIndex: number, wordIndex: number) => {
+    if (verseIndex === currentVerse) {
+      // Set up word click mode
+      setIsWordClickMode(true);
+      setClickedWordIndex(wordIndex);
+      setCurrentWordIndex(wordIndex);
+      setCurrentWordRepeat(0);
+      setIsAutoReading(true);
+      setIsPlaying(true);
+      
+      // Stop any existing audio and start word repetition
+      if (audioRef.current) {
+        audioRef.current.play();
+      }
+    }
+  };
+
+  // Enhanced word repetition for clicked words
+  const simulateWordClickRepetition = () => {
+    if (!isWordClickMode || clickedWordIndex === null) return;
+    
+    const baseDelay = 800;
+    const speedMultiplier = recitationSpeed[0] / 100;
+    const wordDelay = baseDelay / speedMultiplier;
+    
+    if (currentWordRepeat < wordRepeatCount - 1) {
+      setTimeout(() => {
+        setCurrentWordRepeat(prev => prev + 1);
+      }, wordDelay);
+    } else {
+      // Finished repeating the clicked word
+      setTimeout(() => {
+        setIsWordClickMode(false);
+        setClickedWordIndex(null);
+        setIsAutoReading(false);
+        setIsPlaying(false);
+      }, wordDelay);
+    }
+  };
+
+  // Word highlighting rendering helper with click functionality
   const renderHighlightedText = (arabicText: string, verseIndex: number) => {
     const words = arabicText.split(" ");
     
     return words.map((word, wordIndex) => {
       const isCurrentVerse = verseIndex === currentVerse;
-      const isCurrentWord = isCurrentVerse && wordIndex === currentWordIndex && isAutoReading;
-      const isPastWord = isCurrentVerse && wordIndex < currentWordIndex && isAutoReading;
+      const isCurrentWord = isCurrentVerse && wordIndex === currentWordIndex && (isAutoReading || isWordClickMode);
+      const isPastWord = isCurrentVerse && wordIndex < currentWordIndex && isAutoReading && !isWordClickMode;
+      const isClickedWord = isCurrentVerse && wordIndex === clickedWordIndex && isWordClickMode;
       
       return (
         <span
           key={wordIndex}
-          className={`inline-block transition-all duration-300 ${
-            isCurrentWord 
+          onClick={() => handleWordClick(verseIndex, wordIndex)}
+          className={`inline-block transition-all duration-300 cursor-pointer hover:scale-105 hover:text-accent ${
+            isClickedWord 
               ? 'bg-accent text-accent-foreground px-1 rounded scale-110 shadow-glow animate-pulse ring-2 ring-accent' 
+              : isCurrentWord 
+              ? 'bg-accent/80 text-accent-foreground px-1 rounded scale-105 shadow-glow ring-1 ring-accent' 
               : isPastWord 
               ? 'text-accent/70'
-              : ''
+              : isCurrentVerse
+              ? 'hover:bg-accent/20 hover:px-1 hover:rounded'
+              : 'hover:bg-accent/10'
           }`}
           style={{
             marginLeft: wordIndex > 0 ? '0.5rem' : '0'
           }}
+          title={`Click to repeat this word ${wordRepeatCount} time(s)`}
         >
           {word}
         </span>
@@ -226,9 +284,13 @@ export const QuranReader = ({ onClose }: QuranReaderProps) => {
 
   useEffect(() => {
     if (isAutoReading && isPlaying) {
-      simulateReading();
+      if (isWordClickMode) {
+        simulateWordClickRepetition();
+      } else {
+        simulateReading();
+      }
     }
-  }, [currentWordIndex, currentVerse, isAutoReading, isPlaying, currentWordRepeat, currentVerseRepeat]);
+  }, [currentWordIndex, currentVerse, isAutoReading, isPlaying, currentWordRepeat, currentVerseRepeat, isWordClickMode]);
 
   useEffect(() => {
     if (audioRef.current) {
@@ -313,6 +375,8 @@ export const QuranReader = ({ onClose }: QuranReaderProps) => {
                     
                     <p className="text-xs text-muted-foreground">
                       Reciter: Sheikh Mishary bin Rashid Al-Afasy | Word-by-word highlighting enabled
+                      <br />
+                      💡 Click any word to repeat it {wordRepeatCount} time(s)
                     </p>
                   </div>
                 </Card>
@@ -451,9 +515,15 @@ export const QuranReader = ({ onClose }: QuranReaderProps) => {
                     </p>
                     {isAutoReading && (
                       <div className="text-xs text-muted-foreground space-y-1">
-                        <p>Word repetition: {currentWordRepeat + 1}/{wordRepeatCount}</p>
-                        <p>Verse repetition: {currentVerseRepeat + 1}/{verseRepeatCount}</p>
-                        <p>Surah repetition: {currentSurahRepeat + 1}/{surahRepeatCount}</p>
+                        {isWordClickMode ? (
+                          <p className="text-accent">🎯 Repeating clicked word: {currentWordRepeat + 1}/{wordRepeatCount}</p>
+                        ) : (
+                          <>
+                            <p>Word repetition: {currentWordRepeat + 1}/{wordRepeatCount}</p>
+                            <p>Verse repetition: {currentVerseRepeat + 1}/{verseRepeatCount}</p>
+                            <p>Surah repetition: {currentSurahRepeat + 1}/{surahRepeatCount}</p>
+                          </>
+                        )}
                       </div>
                     )}
                   </div>
