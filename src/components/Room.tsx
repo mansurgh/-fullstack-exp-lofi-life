@@ -23,7 +23,7 @@ const roomConfigs: Record<string, RoomConfig> = {
     name: 'Rainy Study',
     description: 'Rain gently pattering against the window',
     ambientSound: 'rain',
-    backgroundClass: 'bg-gradient-to-br from-slate-400 via-slate-300 to-slate-500',
+    backgroundClass: 'bg-gradient-to-br from-muted via-secondary to-primary',
     quranPosition: { x: 'left-1/2', y: 'top-3/4' }
   },
   'sunny-garden': {
@@ -153,21 +153,23 @@ export const Room = ({ roomId, onBack }: RoomProps) => {
       className={`min-h-screen relative overflow-hidden transition-all duration-1000 ${
         isDarkMode ? 'bg-gradient-night' : roomConfig.backgroundClass
       }`}
-      style={{ 
-        // Fallback background color to ensure room is always visible
-        backgroundColor: isDarkMode ? '#1a1a1a' : '#f5f5f5'
-      }}
     >
-      {/* Debug info */}
-      <div className="absolute top-0 left-0 bg-red-500 text-white p-2 z-50">
-        Room: {roomConfig.name} | Loaded: {isLoaded ? 'Yes' : 'No'}
-      </div>
-      {/* Ambient Audio */}
+      {/* Ambient Audio - with error handling */}
       <audio
         ref={audioRef}
         loop
-        autoPlay
         src={`/sounds/${roomConfig.ambientSound}.mp3`}
+        onError={(e) => {
+          console.log('Audio failed to load:', `/sounds/${roomConfig.ambientSound}.mp3`);
+        }}
+        onLoadedData={() => {
+          console.log('Audio loaded successfully');
+          if (audioRef.current) {
+            audioRef.current.play().catch(e => {
+              console.log('Autoplay blocked, user interaction required');
+            });
+          }
+        }}
       />
 
       {/* Background Elements */}
