@@ -46,6 +46,7 @@ import prisonCell from "@/assets/prison-cell.jpg";
 import skyscraperView from "@/assets/skyscraper-view.jpg";
 import submarineView from "@/assets/submarine-view.jpg";
 import pirateShip from "@/assets/pirate-ship.jpg";
+import pirateDeckView from "@/assets/pirate-deck-view.jpg";
 
 interface RoomProps {
   roomId: string;
@@ -481,6 +482,17 @@ const roomConfigs: Record<string, RoomConfig> = {
     interactiveElements: [
       { type: 'floating', className: 'absolute top-24 left-16 w-6 h-6 text-blue-300 text-xl', animation: 'animate-bounce' },
       { type: 'glow', className: 'absolute bottom-32 right-24 w-20 h-20 bg-amber-400/20 rounded-full blur-xl', animation: 'animate-pulse' }
+    ]
+  },
+  'pirate-deck-view': {
+    name: 'Captain\'s View',
+    description: 'Standing at the helm with adventure gear around',
+    ambientSound: 'waves',
+    backgroundImage: pirateDeckView,
+    quranPosition: { x: 'left-1/4', y: 'top-1/2' },
+    interactiveElements: [
+      { type: 'floating', className: 'absolute top-20 right-20 w-5 h-5 text-orange-300 text-lg', animation: 'animate-bounce' },
+      { type: 'glow', className: 'absolute bottom-40 left-1/3 w-24 h-16 bg-amber-500/25 rounded-full blur-xl', animation: 'animate-pulse' }
     ]
   }
 };
