@@ -1,5 +1,7 @@
+import { useState } from "react";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
+import { ChevronLeft, ChevronRight } from "lucide-react";
 import { useTranslation } from '@/contexts/TranslationContext';
 import rainyStudyRoom from "@/assets/rainy-study-room.jpg";
 import sunnyGardenRoom from "@/assets/sunny-garden-room.jpg";
@@ -41,6 +43,8 @@ import pinkCandy from "@/assets/pink-candy.jpg";
 import prisonCell from "@/assets/prison-cell.jpg";
 import skyscraperView from "@/assets/skyscraper-view.jpg";
 import submarineView from "@/assets/submarine-view.jpg";
+import pirateShip from "@/assets/pirate-ship.jpg";
+import pirateDeckView from "@/assets/pirate-deck-view.jpg";
 
 interface Room {
   id: string;
@@ -334,11 +338,42 @@ const rooms: Room[] = [
     description: 'Submarine with underwater bubble sounds and sea plant view',
     thumbnail: submarineView,
     ambientType: 'underwater'
+  },
+  {
+    id: 'pirate-ship',
+    name: 'Pirate Ship',
+    description: 'Adventure on the high seas from the ship deck',
+    thumbnail: pirateShip,
+    ambientType: 'waves'
+  },
+  {
+    id: 'pirate-deck-view',
+    name: 'Captain\'s View',
+    description: 'Standing at the helm with adventure gear around',
+    thumbnail: pirateDeckView,
+    ambientType: 'waves'
   }
 ];
 
 export const RoomSelector = ({ onSelectRoom }: RoomSelectorProps) => {
   const { t } = useTranslation();
+  const [currentPage, setCurrentPage] = useState(0);
+  
+  const ROOMS_PER_PAGE = 24;
+  const totalPages = Math.ceil(rooms.length / ROOMS_PER_PAGE);
+  
+  const currentRooms = rooms.slice(
+    currentPage * ROOMS_PER_PAGE,
+    (currentPage + 1) * ROOMS_PER_PAGE
+  );
+  
+  const goToNextPage = () => {
+    setCurrentPage((prev) => (prev + 1) % totalPages);
+  };
+  
+  const goToPrevPage = () => {
+    setCurrentPage((prev) => (prev - 1 + totalPages) % totalPages);
+  };
   
   return (
     <div className="min-h-screen bg-gradient-cozy p-4 sm:p-6 lg:p-8">
@@ -355,8 +390,35 @@ export const RoomSelector = ({ onSelectRoom }: RoomSelectorProps) => {
           </p>
         </div>
         
+        {/* Page Navigation */}
+        <div className="flex justify-center items-center gap-4 mb-8">
+          <Button
+            onClick={goToPrevPage}
+            variant="outline"
+            size="sm"
+            className="flex items-center gap-2"
+          >
+            <ChevronLeft className="w-4 h-4" />
+            Previous
+          </Button>
+          
+          <span className="text-sm text-muted-foreground">
+            Page {currentPage + 1} of {totalPages}
+          </span>
+          
+          <Button
+            onClick={goToNextPage}
+            variant="outline"
+            size="sm"
+            className="flex items-center gap-2"
+          >
+            Next
+            <ChevronRight className="w-4 h-4" />
+          </Button>
+        </div>
+        
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 lg:gap-8">
-          {rooms.map((room) => (
+          {currentRooms.map((room) => (
             <Card 
               key={room.id}
               className="overflow-hidden shadow-soft hover:shadow-glow transition-all duration-300 hover:scale-[1.02] bg-card border-border"
@@ -410,7 +472,34 @@ export const RoomSelector = ({ onSelectRoom }: RoomSelectorProps) => {
           ))}
         </div>
         
-        <div className="text-center mt-12 sm:mt-16 px-4">
+        {/* Bottom Navigation */}
+        <div className="flex justify-center items-center gap-4 mt-12">
+          <Button
+            onClick={goToPrevPage}
+            variant="outline"
+            size="sm"
+            className="flex items-center gap-2"
+          >
+            <ChevronLeft className="w-4 h-4" />
+            Previous
+          </Button>
+          
+          <span className="text-sm text-muted-foreground">
+            Page {currentPage + 1} of {totalPages}
+          </span>
+          
+          <Button
+            onClick={goToNextPage}
+            variant="outline"
+            size="sm"
+            className="flex items-center gap-2"
+          >
+            Next
+            <ChevronRight className="w-4 h-4" />
+          </Button>
+        </div>
+        
+        <div className="text-center mt-8 sm:mt-12 px-4">
           <p className="text-xs sm:text-sm text-muted-foreground">
             {t('main.verse')}
             <br />
