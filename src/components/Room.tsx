@@ -381,14 +381,15 @@ const roomConfigs: Record<string, RoomConfig> = {
     ]
   },
   'rgb-room': {
-    name: 'RGB Gaming Room',
-    description: 'Modern room with RGB lighting',
+    name: 'Gaming Room',
+    description: 'Gaming setup with customizable RGB lighting',
     ambientSound: 'electronic',
     backgroundImage: rgbRoom,
     quranPosition: { x: 'left-1/3', y: 'top-1/2' },
     interactiveElements: [
-      { type: 'glow', className: 'absolute top-20 right-20 w-16 h-16 bg-purple-500/30 rounded-full blur-xl', animation: 'animate-pulse' },
-      { type: 'glow', className: 'absolute bottom-24 left-16 w-16 h-16 bg-blue-500/30 rounded-full blur-xl', animation: 'animate-pulse' }
+      { type: 'glow', className: 'absolute top-20 right-20 w-20 h-20 bg-purple-500/30 rounded-full blur-xl', animation: 'animate-pulse' },
+      { type: 'glow', className: 'absolute bottom-24 left-16 w-24 h-16 bg-purple-500/25 rounded-full blur-xl', animation: 'animate-pulse' },
+      { type: 'glow', className: 'absolute top-1/2 right-1/3 w-16 h-32 bg-purple-500/20 rounded-full blur-2xl', animation: 'animate-pulse' }
     ]
   }
 };
@@ -439,11 +440,13 @@ export const Room = ({ roomId, onBack }: RoomProps) => {
   };
 
   const colorOptions = [
-    { name: 'Purple', value: 'purple', bg: 'bg-purple-500', glow: 'bg-purple-500/30' },
-    { name: 'Blue', value: 'blue', bg: 'bg-blue-500', glow: 'bg-blue-500/30' },
     { name: 'Red', value: 'red', bg: 'bg-red-500', glow: 'bg-red-500/30' },
-    { name: 'Green', value: 'green', bg: 'bg-green-500', glow: 'bg-green-500/30' },
-    { name: 'Orange', value: 'orange', bg: 'bg-orange-500', glow: 'bg-orange-500/30' }
+    { name: 'Blue', value: 'blue', bg: 'bg-blue-500', glow: 'bg-blue-500/30' },
+    { name: 'Pink', value: 'pink', bg: 'bg-pink-500', glow: 'bg-pink-500/30' },
+    { name: 'Yellow', value: 'yellow', bg: 'bg-yellow-500', glow: 'bg-yellow-500/30' },
+    { name: 'Orange', value: 'orange', bg: 'bg-orange-500', glow: 'bg-orange-500/30' },
+    { name: 'Purple', value: 'purple', bg: 'bg-purple-500', glow: 'bg-purple-500/30' },
+    { name: 'Green', value: 'green', bg: 'bg-green-500', glow: 'bg-green-500/30' }
   ];
 
   const getRgbGlowClass = (baseClass: string) => {
