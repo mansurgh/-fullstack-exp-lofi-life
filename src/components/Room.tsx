@@ -404,6 +404,8 @@ export const Room = ({ roomId, onBack }: RoomProps) => {
   const [isLoaded, setIsLoaded] = useState(false);
   const [roomColor, setRoomColor] = useState('default'); // For all room color control
   const [brightness, setBrightness] = useState(50); // Brightness control for disco room
+  const [isRainbowMode, setIsRainbowMode] = useState(false); // Rainbow cycling mode
+  const [currentRainbowIndex, setCurrentRainbowIndex] = useState(0); // Current color in rainbow cycle
   const audioRef = useRef<HTMLAudioElement>(null);
 
   const roomConfig = roomConfigs[roomId];
@@ -450,6 +452,17 @@ export const Room = ({ roomId, onBack }: RoomProps) => {
     { name: 'Purple', value: 'purple', bg: 'bg-purple-500', glow: 'bg-purple-500/15' },
     { name: 'Green', value: 'green', bg: 'bg-green-500', glow: 'bg-green-500/15' }
   ];
+
+  // Rainbow cycling effect for disco room
+  useEffect(() => {
+    if (isRainbowMode && roomId === 'rgb-room') {
+      const interval = setInterval(() => {
+        setCurrentRainbowIndex((prev) => (prev + 1) % colorOptions.length);
+      }, 1500); // Change color every 1.5 seconds
+      
+      return () => clearInterval(interval);
+    }
+  }, [isRainbowMode, roomId, colorOptions.length]);
 
   const getRoomGlowClass = (baseClass: string) => {
     if (roomColor === 'default') return baseClass;
@@ -677,21 +690,41 @@ export const Room = ({ roomId, onBack }: RoomProps) => {
           
           <div className="flex flex-col gap-2">
             <Button
-              onClick={() => setRoomColor('default')}
-              variant={roomColor === 'default' ? "default" : "outline"}
+              onClick={() => {
+                setRoomColor('default');
+                setIsRainbowMode(false);
+              }}
+              variant={roomColor === 'default' && !isRainbowMode ? "default" : "outline"}
               size="sm"
               className="w-full justify-start text-xs"
             >
               <div className="w-3 h-3 rounded-full bg-gray-400 mr-2" />
               Default
             </Button>
+            
+            <Button
+              onClick={() => {
+                setIsRainbowMode(true);
+                setRoomColor('rainbow');
+              }}
+              variant={isRainbowMode ? "default" : "outline"}
+              size="sm"
+              className={`w-full justify-start text-xs ${isRainbowMode ? 'bg-gradient-to-r from-red-500 via-yellow-500 to-blue-500 text-white border-none' : ''}`}
+            >
+              <div className="w-3 h-3 rounded-full bg-gradient-to-r from-red-500 via-yellow-500 to-blue-500 mr-2" />
+              Rainbow
+            </Button>
+            
             {colorOptions.map((color) => (
               <Button
                 key={color.value}
-                onClick={() => setRoomColor(color.value)}
-                variant={roomColor === color.value ? "default" : "outline"}
+                onClick={() => {
+                  setRoomColor(color.value);
+                  setIsRainbowMode(false);
+                }}
+                variant={roomColor === color.value && !isRainbowMode ? "default" : "outline"}
                 size="sm"
-                className={`w-full justify-start text-xs ${roomColor === color.value ? color.bg + ' text-white border-none' : ''}`}
+                className={`w-full justify-start text-xs ${roomColor === color.value && !isRainbowMode ? color.bg + ' text-white border-none' : ''}`}
               >
                 <div className={`w-3 h-3 rounded-full ${color.bg} mr-2`} />
                 {color.name}
