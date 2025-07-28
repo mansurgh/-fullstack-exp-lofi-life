@@ -374,9 +374,11 @@ export const QuranReader = ({ onClose }: QuranReaderProps) => {
                     </div>
                     
                     <p className="text-xs text-muted-foreground">
-                      Reciter: Sheikh Mishary bin Rashid Al-Afasy | Word-by-word highlighting enabled
+                      ⚠️ Audio recitation not included - this is a visual demonstration
                       <br />
-                      💡 Click any word to repeat it {wordRepeatCount} time(s)
+                      💡 Click any word to see word-by-word highlighting simulation
+                      <br />
+                      To add real audio: Add MP3 files to /public/quran-audio/mishary/[surah]/[verse].mp3
                     </p>
                   </div>
                 </Card>

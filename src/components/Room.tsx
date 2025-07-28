@@ -212,6 +212,7 @@ export const Room = ({ roomId, onBack }: RoomProps) => {
         src={`/sounds/${roomConfig.ambientSound}.mp3`}
         onError={(e) => {
           console.log('Audio failed to load:', `/sounds/${roomConfig.ambientSound}.mp3`);
+          console.log('Note: Audio files are not included. Add your own ambient sounds to /public/sounds/');
         }}
         onLoadedData={() => {
           console.log('Audio loaded successfully');
@@ -356,6 +357,9 @@ export const Room = ({ roomId, onBack }: RoomProps) => {
         </div>
         <p className="text-xs text-muted-foreground mt-2">
           {roomConfig.description}
+        </p>
+        <p className="text-xs text-amber-600 mt-1">
+          ⚠️ Audio files not included - add your own to /public/sounds/
         </p>
       </Card>
 
