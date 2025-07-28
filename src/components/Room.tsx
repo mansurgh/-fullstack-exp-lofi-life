@@ -600,7 +600,7 @@ export const Room = ({ roomId, onBack }: RoomProps) => {
         className="absolute inset-0 bg-cover bg-center bg-no-repeat transition-all duration-1000 cursor-grab active:cursor-grabbing"
         style={{ 
           backgroundImage: `url(${roomConfig.backgroundImage})`,
-          transform: `translate(${roomOffset.x}px, ${roomOffset.y}px) scale(1.1)`,
+          transform: `translate(${roomOffset.x}px, ${roomOffset.y}px) scale(1.4)`,
           transition: 'transform 0.1s ease-out',
           filter: isDarkMode ? 'brightness(0.3) contrast(1.2)' : 'brightness(0.8) contrast(1.1)'
         }}
