@@ -98,22 +98,22 @@ const rooms: Room[] = [
 
 export const RoomSelector = ({ onSelectRoom }: RoomSelectorProps) => {
   return (
-    <div className="min-h-screen bg-gradient-cozy p-8">
+    <div className="min-h-screen bg-gradient-cozy p-4 sm:p-6 lg:p-8">
       <div className="max-w-6xl mx-auto">
-        <div className="text-center mb-12">
-          <h1 className="text-5xl font-bold text-foreground mb-4">
+        <div className="text-center mb-8 sm:mb-12">
+          <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-foreground mb-4">
             Islamic Lofi Rooms
           </h1>
-          <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
+          <p className="text-lg sm:text-xl text-muted-foreground max-w-2xl mx-auto px-4">
             Choose your peaceful sanctuary for Qur'an reading and reflection. 
             Each room offers its own unique ambiance and sounds.
           </p>
-          <p className="text-sm text-muted-foreground/80 max-w-3xl mx-auto mt-6 leading-relaxed">
+          <p className="text-xs sm:text-sm text-muted-foreground/80 max-w-3xl mx-auto mt-4 sm:mt-6 leading-relaxed px-4">
             Assalamu Aleykum Waramatullahi Wabarakatuh, dear brothers and sisters, I have not much knowledge on making sites nor do I have the necessary money to invest in my plans. So I would like your help if you like the concept that u see before you. I don't know how to make this work, but my intentions are to attract more muslims that can just relax and listen, study or read the Qur'an in a lofi style for the more calm people. For people that like nature, knowledge and calmness of mind. So please feel free to aid me or use my site to its fullest, May Allah make it easy for all of you and may Allah reward you all nonetheless.
           </p>
         </div>
         
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 lg:gap-8">
           {rooms.map((room) => (
             <Card 
               key={room.id}
@@ -126,7 +126,7 @@ export const RoomSelector = ({ onSelectRoom }: RoomSelectorProps) => {
                   className="aspect-video w-full object-cover rounded-t-lg"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
-                <div className="absolute top-4 right-4 text-3xl opacity-80">
+                <div className="absolute top-2 sm:top-4 right-2 sm:right-4 text-2xl sm:text-3xl opacity-80">
                   {room.ambientType === 'rain' && '🌧️'}
                   {room.ambientType === 'birds' && '☀️'}
                   {room.ambientType === 'fire' && '🔥'}
@@ -140,16 +140,16 @@ export const RoomSelector = ({ onSelectRoom }: RoomSelectorProps) => {
                 </div>
               </div>
               
-              <div className="p-6">
-                <h3 className="text-2xl font-semibold text-card-foreground mb-2">
+              <div className="p-4 sm:p-6">
+                <h3 className="text-xl sm:text-2xl font-semibold text-card-foreground mb-2">
                   {room.name}
                 </h3>
-                <p className="text-muted-foreground mb-4 leading-relaxed">
+                <p className="text-sm sm:text-base text-muted-foreground mb-4 leading-relaxed">
                   {room.description}
                 </p>
                 <Button 
                   onClick={() => onSelectRoom(room.id)}
-                  className="w-full bg-primary hover:bg-primary/90 text-primary-foreground font-medium py-3"
+                  className="w-full bg-primary hover:bg-primary/90 text-primary-foreground font-medium py-2 sm:py-3"
                 >
                   Enter Room
                 </Button>
@@ -158,8 +158,8 @@ export const RoomSelector = ({ onSelectRoom }: RoomSelectorProps) => {
           ))}
         </div>
         
-        <div className="text-center mt-16">
-          <p className="text-sm text-muted-foreground">
+        <div className="text-center mt-12 sm:mt-16 px-4">
+          <p className="text-xs sm:text-sm text-muted-foreground">
             "And it is He who sends down rain from heaven, and We produce thereby the vegetation of every kind."
             <br />
             <span className="text-accent font-medium">- Qur'an 6:99</span>

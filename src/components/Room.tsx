@@ -300,18 +300,18 @@ export const Room = ({ roomId, onBack }: RoomProps) => {
       </div>
 
       {/* Controls */}
-      <div className="absolute top-6 left-6 right-6 flex justify-between items-start">
+      <div className="absolute top-4 sm:top-6 left-4 sm:left-6 right-4 sm:right-6 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
         <Button
           onClick={onBack}
           variant="secondary"
           size="sm"
-          className="bg-card/80 hover:bg-card text-card-foreground"
+          className="bg-card/80 hover:bg-card text-card-foreground w-full sm:w-auto"
         >
           <ArrowLeft className="w-4 h-4 mr-2" />
           Back to Rooms
         </Button>
 
-        <div className="flex gap-3">
+        <div className="flex gap-2 w-full sm:w-auto justify-end">
           <Button
             onClick={handleReload}
             variant="secondary"
@@ -334,13 +334,13 @@ export const Room = ({ roomId, onBack }: RoomProps) => {
       </div>
 
       {/* Volume Control */}
-      <Card className="absolute bottom-6 left-6 p-4 bg-card/80 backdrop-blur-sm border-border/50">
-        <div className="flex items-center gap-3 min-w-48">
+      <Card className="absolute bottom-4 sm:bottom-6 left-4 sm:left-6 p-3 sm:p-4 bg-card/80 backdrop-blur-sm border-border/50 w-[calc(100%-2rem)] sm:w-auto max-w-xs">
+        <div className="flex items-center gap-2 sm:gap-3">
           <Button
             onClick={toggleMute}
             variant="ghost"
             size="sm"
-            className="text-card-foreground hover:text-accent"
+            className="text-card-foreground hover:text-accent flex-shrink-0"
           >
             {isMuted ? <VolumeX className="w-4 h-4" /> : <Volume2 className="w-4 h-4" />}
           </Button>
@@ -353,11 +353,11 @@ export const Room = ({ roomId, onBack }: RoomProps) => {
             className="flex-1"
             disabled={isMuted}
           />
-          <span className="text-sm text-muted-foreground min-w-8">
+          <span className="text-sm text-muted-foreground min-w-8 text-right">
             {isMuted ? 0 : volume[0]}%
           </span>
         </div>
-        <p className="text-xs text-muted-foreground mt-2">
+        <p className="text-xs text-muted-foreground mt-2 hidden sm:block">
           {roomConfig.description}
         </p>
         <p className="text-xs text-amber-600 mt-1">
@@ -366,8 +366,8 @@ export const Room = ({ roomId, onBack }: RoomProps) => {
       </Card>
 
       {/* Room Info */}
-      <Card className="absolute bottom-6 right-6 p-4 bg-card/80 backdrop-blur-sm border-border/50">
-        <h3 className="font-semibold text-card-foreground mb-1">
+      <Card className="absolute bottom-4 sm:bottom-6 right-4 sm:right-6 p-3 sm:p-4 bg-card/80 backdrop-blur-sm border-border/50 w-[calc(100%-2rem)] sm:w-auto max-w-xs">
+        <h3 className="font-semibold text-card-foreground mb-1 text-sm sm:text-base">
           {roomConfig.name}
         </h3>
         <p className="text-xs text-muted-foreground">

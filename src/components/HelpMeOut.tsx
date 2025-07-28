@@ -19,30 +19,30 @@ export const HelpMeOut = () => {
   };
 
   return (
-    <div className="w-full max-w-md mx-auto mt-8">
+    <div className="w-full max-w-md mx-auto mt-6 sm:mt-8 px-4">
       <Card className="bg-card/50 backdrop-blur-sm border-border/20">
-        <CardHeader className="text-center">
-          <CardTitle className="flex items-center justify-center gap-2 text-foreground">
-            <Heart className="h-5 w-5 text-primary" />
+        <CardHeader className="text-center pb-4 sm:pb-6">
+          <CardTitle className="flex items-center justify-center gap-2 text-foreground text-lg sm:text-xl">
+            <Heart className="h-4 w-4 sm:h-5 sm:w-5 text-primary" />
             Help Me Out
           </CardTitle>
-          <CardDescription>
+          <CardDescription className="text-sm sm:text-base">
             Support this project and help me improve it
           </CardDescription>
         </CardHeader>
-        <CardContent className="space-y-4">
+        <CardContent className="space-y-3 sm:space-y-4 px-4 sm:px-6">
           {/* Money Support */}
           <Dialog>
             <DialogTrigger asChild>
-              <Button variant="default" className="w-full">
+              <Button variant="default" className="w-full text-sm sm:text-base py-2 sm:py-3">
                 <CreditCard className="h-4 w-4 mr-2" />
                 With Money
               </Button>
             </DialogTrigger>
-            <DialogContent>
+            <DialogContent className="w-[95vw] max-w-md mx-auto">
               <DialogHeader>
-                <DialogTitle>Support with Donation</DialogTitle>
-                <DialogDescription>
+                <DialogTitle className="text-lg sm:text-xl">Support with Donation</DialogTitle>
+                <DialogDescription className="text-sm sm:text-base">
                   Choose an amount to support the development of this project
                 </DialogDescription>
               </DialogHeader>
@@ -79,15 +79,15 @@ export const HelpMeOut = () => {
           {/* Knowledge Support */}
           <Dialog>
             <DialogTrigger asChild>
-              <Button variant="outline" className="w-full">
+              <Button variant="outline" className="w-full text-sm sm:text-base py-2 sm:py-3">
                 <Mail className="h-4 w-4 mr-2" />
                 With Knowledge
               </Button>
             </DialogTrigger>
-            <DialogContent>
+            <DialogContent className="w-[95vw] max-w-md mx-auto">
               <DialogHeader>
-                <DialogTitle>Contact Me</DialogTitle>
-                <DialogDescription>
+                <DialogTitle className="text-lg sm:text-xl">Contact Me</DialogTitle>
+                <DialogDescription className="text-sm sm:text-base">
                   Share your knowledge, ideas, or feedback
                 </DialogDescription>
               </DialogHeader>

@@ -302,12 +302,13 @@ export const QuranReader = ({ onClose }: QuranReaderProps) => {
 
   return (
     <Dialog open={true} onOpenChange={onClose}>
-      <DialogContent className="max-w-4xl max-h-[90vh] overflow-hidden bg-card border-border">
-        <DialogHeader className="border-b border-border pb-4">
+      <DialogContent className="w-[95vw] max-w-6xl h-[95vh] max-h-[95vh] overflow-hidden bg-card border-border p-0">
+        <DialogHeader className="border-b border-border pb-4 px-4 sm:px-6 pt-4 sm:pt-6">
           <div className="flex items-center justify-between">
-            <DialogTitle className="flex items-center gap-3 text-2xl text-card-foreground">
-              <BookOpen className="w-6 h-6 text-accent" />
-              القرآن الكريم - Noble Qur'an
+            <DialogTitle className="flex items-center gap-2 sm:gap-3 text-lg sm:text-2xl text-card-foreground">
+              <BookOpen className="w-5 h-5 sm:w-6 sm:h-6 text-accent" />
+              <span className="hidden sm:inline">القرآن الكريم - Noble Qur'an</span>
+              <span className="sm:hidden">القرآن الكريم</span>
             </DialogTitle>
             <Button
               onClick={onClose}
@@ -320,18 +321,19 @@ export const QuranReader = ({ onClose }: QuranReaderProps) => {
           </div>
         </DialogHeader>
 
-        <div className="flex gap-6 h-[70vh]">
-          {/* Controls Panel with Horizontal Scroll */}
-          <div className="w-80 flex flex-col">
-            <div className="flex-1 overflow-x-auto overflow-y-hidden">
-              <div className="flex gap-4 pb-4 min-w-max">
+        <div className="flex flex-col lg:flex-row gap-4 lg:gap-6 h-[calc(95vh-8rem)] px-4 sm:px-6 pb-4 sm:pb-6">
+          {/* Controls Panel - Stacked on mobile, horizontal scroll on larger screens */}
+          <div className="w-full lg:w-80 flex flex-col order-2 lg:order-1">
+            <div className="flex-1 overflow-x-auto overflow-y-auto lg:overflow-y-hidden">
+              <div className="flex flex-col lg:flex-row gap-4 lg:pb-4 lg:min-w-max">
                 {/* Each control group as a separate card */}
                 
                 {/* Surah Selection */}
-                <Card className="p-4 min-w-64 flex-shrink-0">
-                  <h3 className="font-semibold text-card-foreground mb-3">Select Surah</h3>
+                <Card className="p-3 sm:p-4 w-full lg:min-w-64 flex-shrink-0">
+                  <h3 className="font-semibold text-card-foreground mb-3 text-sm sm:text-base">Select Surah</h3>
                   <Select value={selectedSurah} onValueChange={setSelectedSurah}>
-                    <SelectTrigger>
+                    <SelectTrigger className="text-sm">
+                      <SelectValue />
                       <SelectValue />
                     </SelectTrigger>
                     <SelectContent className="bg-card border-border z-50">
