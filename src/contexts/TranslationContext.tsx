@@ -107,6 +107,8 @@ const translations = {
     'room.skyscraper-view.description': 'High-rise room with city sounds from far below',
     'room.submarine-view.name': 'Deep Sea',
     'room.submarine-view.description': 'Submarine with underwater bubble sounds and sea plant view',
+    'room.pirate-deck-view.name': 'Nakama',
+    'room.pirate-deck-view.description': 'Standing at the helm with adventure gear around',
     
     // Room interface
     'room.back': 'Back to Rooms',
