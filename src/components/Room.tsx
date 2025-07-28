@@ -4,6 +4,16 @@ import { Slider } from "@/components/ui/slider";
 import { Card } from "@/components/ui/card";
 import { QuranReader } from './QuranReader';
 import { Volume2, VolumeX, ArrowLeft, Moon, Sun, RotateCcw } from 'lucide-react';
+import rainyStudyRoom from "@/assets/rainy-study-room.jpg";
+import sunnyGardenRoom from "@/assets/sunny-garden-room.jpg";
+import fireplaceNook from "@/assets/fireplace-nook.jpg";
+import moonlitCorner from "@/assets/moonlit-corner.jpg";
+import seasideSanctuary from "@/assets/seaside-sanctuary.jpg";
+import desertMirage from "@/assets/desert-mirage.jpg";
+import tuscanVista from "@/assets/tuscan-vista.jpg";
+import stellarMeditation from "@/assets/stellar-meditation.jpg";
+import alpineRetreat from "@/assets/alpine-retreat.jpg";
+import woodlandHaven from "@/assets/woodland-haven.jpg";
 
 interface RoomProps {
   roomId: string;
@@ -14,8 +24,13 @@ interface RoomConfig {
   name: string;
   description: string;
   ambientSound: string;
-  backgroundClass: string;
+  backgroundImage: string;
   quranPosition: { x: string; y: string };
+  interactiveElements: Array<{
+    type: 'floating' | 'glow' | 'particles';
+    className: string;
+    animation: string;
+  }>;
 }
 
 const roomConfigs: Record<string, RoomConfig> = {
@@ -23,71 +38,102 @@ const roomConfigs: Record<string, RoomConfig> = {
     name: 'Rainy Study',
     description: 'Rain gently pattering against the window',
     ambientSound: 'rain',
-    backgroundClass: 'bg-gradient-to-br from-muted via-secondary to-primary',
-    quranPosition: { x: 'left-1/2', y: 'top-3/4' }
+    backgroundImage: rainyStudyRoom,
+    quranPosition: { x: 'left-1/2', y: 'top-3/4' },
+    interactiveElements: [
+      { type: 'particles', className: 'absolute top-0 left-0 w-full h-full opacity-30', animation: 'animate-pulse' }
+    ]
   },
   'sunny-garden': {
     name: 'Garden View',
     description: 'Birds chirping in the sunny garden',
     ambientSound: 'birds',
-    backgroundClass: 'bg-gradient-to-br from-warm-glow via-accent to-secondary',
-    quranPosition: { x: 'right-1/4', y: 'top-2/3' }
+    backgroundImage: sunnyGardenRoom,
+    quranPosition: { x: 'right-1/4', y: 'top-2/3' },
+    interactiveElements: [
+      { type: 'floating', className: 'absolute top-20 left-10 w-8 h-8 text-yellow-400 text-2xl', animation: 'animate-bounce' }
+    ]
   },
   'fireplace-nook': {
     name: 'Fireplace Nook',
     description: 'Crackling fire warming the cozy space',
     ambientSound: 'fire',
-    backgroundClass: 'bg-gradient-to-br from-firelight via-primary to-secondary',
-    quranPosition: { x: 'left-1/3', y: 'top-1/2' }
+    backgroundImage: fireplaceNook,
+    quranPosition: { x: 'left-1/3', y: 'top-1/2' },
+    interactiveElements: [
+      { type: 'glow', className: 'absolute bottom-20 left-1/4 w-32 h-16 bg-orange-500/20 rounded-full blur-xl', animation: 'animate-pulse' }
+    ]
   },
   'moonlit-corner': {
     name: 'Moonlit Corner',
     description: 'Peaceful moonlight through the window',
     ambientSound: 'night',
-    backgroundClass: 'bg-gradient-to-br from-moonlight via-secondary to-muted',
-    quranPosition: { x: 'right-1/3', y: 'top-3/5' }
+    backgroundImage: moonlitCorner,
+    quranPosition: { x: 'right-1/3', y: 'top-3/5' },
+    interactiveElements: [
+      { type: 'glow', className: 'absolute top-10 right-20 w-24 h-24 bg-blue-300/20 rounded-full blur-2xl', animation: 'animate-pulse' }
+    ]
   },
   'seaside-sanctuary': {
     name: 'Seaside Sanctuary',
     description: 'Ocean waves and distant seagulls',
     ambientSound: 'waves',
-    backgroundClass: 'bg-gradient-to-br from-ocean-blue via-secondary to-muted',
-    quranPosition: { x: 'left-1/4', y: 'top-1/2' }
+    backgroundImage: seasideSanctuary,
+    quranPosition: { x: 'left-1/4', y: 'top-1/2' },
+    interactiveElements: [
+      { type: 'floating', className: 'absolute top-32 right-10 w-6 h-6 text-blue-300 text-xl', animation: 'animate-bounce' }
+    ]
   },
   'desert-mirage': {
     name: 'Desert Mirage',
     description: 'Gentle desert winds and sandy whispers',
     ambientSound: 'desert',
-    backgroundClass: 'bg-gradient-to-br from-sandy-gold via-accent to-primary',
-    quranPosition: { x: 'right-1/2', y: 'top-2/3' }
+    backgroundImage: desertMirage,
+    quranPosition: { x: 'right-1/2', y: 'top-2/3' },
+    interactiveElements: [
+      { type: 'particles', className: 'absolute inset-0 bg-gradient-to-t from-yellow-600/10 via-transparent to-transparent', animation: 'animate-pulse' }
+    ]
   },
   'tuscan-vista': {
     name: 'Tuscan Vista',
     description: 'Italian breeze and distant city murmurs',
     ambientSound: 'city',
-    backgroundClass: 'bg-gradient-to-br from-tuscan-terracotta via-secondary to-warm-glow',
-    quranPosition: { x: 'left-1/3', y: 'top-3/5' }
+    backgroundImage: tuscanVista,
+    quranPosition: { x: 'left-1/3', y: 'top-3/5' },
+    interactiveElements: [
+      { type: 'glow', className: 'absolute bottom-32 right-20 w-20 h-20 bg-orange-400/15 rounded-full blur-xl', animation: 'animate-pulse' }
+    ]
   },
   'stellar-meditation': {
     name: 'Stellar Meditation',
     description: 'Cosmic silence and ethereal space ambiance',
     ambientSound: 'space',
-    backgroundClass: 'bg-gradient-to-br from-cosmic-purple via-primary to-muted',
-    quranPosition: { x: 'right-1/4', y: 'top-1/2' }
+    backgroundImage: stellarMeditation,
+    quranPosition: { x: 'right-1/4', y: 'top-1/2' },
+    interactiveElements: [
+      { type: 'floating', className: 'absolute top-1/4 left-1/4 w-4 h-4 text-purple-300 text-lg', animation: 'animate-ping' },
+      { type: 'floating', className: 'absolute bottom-1/3 right-1/4 w-3 h-3 text-blue-300 text-sm', animation: 'animate-pulse' }
+    ]
   },
   'alpine-retreat': {
     name: 'Alpine Retreat',
     description: 'Mountain winds through peaceful peaks',
     ambientSound: 'wind',
-    backgroundClass: 'bg-gradient-to-br from-alpine-white via-secondary to-primary',
-    quranPosition: { x: 'left-1/2', y: 'top-3/4' }
+    backgroundImage: alpineRetreat,
+    quranPosition: { x: 'left-1/2', y: 'top-3/4' },
+    interactiveElements: [
+      { type: 'particles', className: 'absolute inset-0 bg-gradient-to-b from-white/5 via-transparent to-transparent', animation: 'animate-pulse' }
+    ]
   },
   'woodland-haven': {
     name: 'Woodland Haven',
     description: 'Forest sounds and rustling leaves',
     ambientSound: 'forest',
-    backgroundClass: 'bg-gradient-to-br from-forest-green via-secondary to-primary',
-    quranPosition: { x: 'right-1/3', y: 'top-1/3' }
+    backgroundImage: woodlandHaven,
+    quranPosition: { x: 'right-1/3', y: 'top-1/3' },
+    interactiveElements: [
+      { type: 'floating', className: 'absolute top-40 left-16 w-6 h-6 text-green-400 text-xl', animation: 'animate-bounce' }
+    ]
   }
 };
 
@@ -143,11 +189,22 @@ export const Room = ({ roomId, onBack }: RoomProps) => {
   }
 
   return (
-    <div 
-      className={`min-h-screen relative overflow-hidden transition-all duration-1000 ${
-        isDarkMode ? 'bg-gradient-night' : roomConfig.backgroundClass
-      }`}
-    >
+    <div className="min-h-screen relative overflow-hidden">
+      {/* Full-screen Background Image */}
+      <div 
+        className="absolute inset-0 bg-cover bg-center bg-no-repeat transition-all duration-1000"
+        style={{ 
+          backgroundImage: `url(${roomConfig.backgroundImage})`,
+          filter: isDarkMode ? 'brightness(0.3) contrast(1.2)' : 'brightness(0.8) contrast(1.1)'
+        }}
+      >
+        {/* Dark overlay for better readability */}
+        <div className={`absolute inset-0 transition-all duration-1000 ${
+          isDarkMode 
+            ? 'bg-gradient-to-br from-black/60 via-blue-900/40 to-black/70' 
+            : 'bg-gradient-to-br from-black/20 via-transparent to-black/30'
+        }`} />
+      </div>
       {/* Ambient Audio */}
       <audio
         ref={audioRef}
@@ -166,79 +223,56 @@ export const Room = ({ roomId, onBack }: RoomProps) => {
         }}
       />
 
-      {/* Background Elements */}
+      {/* Interactive Elements */}
       <div className={`absolute inset-0 transition-opacity duration-1000 ${
         isLoaded ? 'opacity-100' : 'opacity-0'
       }`}>
-        {/* Room-specific visual elements */}
+        {roomConfig.interactiveElements.map((element, index) => (
+          <div key={index} className={`${element.className} ${element.animation}`}>
+            {element.type === 'floating' && (
+              <>
+                {roomId === 'sunny-garden' && '🦋'}
+                {roomId === 'seaside-sanctuary' && '🐚'}
+                {roomId === 'stellar-meditation' && '✨'}
+                {roomId === 'woodland-haven' && '🍃'}
+              </>
+            )}
+          </div>
+        ))}
+        
+        {/* Ambient particles for certain rooms */}
         {roomId === 'rainy-study' && (
-          <>
-            <div className="absolute top-10 left-10 w-64 h-80 bg-card/30 rounded-lg shadow-soft" />
-            <div className="absolute top-20 right-20 w-48 h-64 bg-primary/20 rounded-lg" />
-          </>
-        )}
-        
-        {roomId === 'sunny-garden' && (
-          <>
-            <div className="absolute bottom-10 left-10 w-72 h-40 bg-secondary/40 rounded-t-full" />
-            <div className="absolute top-1/4 right-10 w-32 h-48 bg-primary/30 rounded-lg" />
-          </>
-        )}
-        
-        {roomId === 'fireplace-nook' && (
-          <>
-            <div className="absolute bottom-0 left-1/4 w-64 h-32 bg-firelight/60 rounded-t-lg shadow-fire" />
-            <div className="absolute top-1/3 right-20 w-40 h-56 bg-primary/40 rounded-lg" />
-          </>
-        )}
-        
-        {roomId === 'moonlit-corner' && (
-          <>
-            <div className="absolute top-20 left-20 w-80 h-60 bg-moonlight/20 rounded-lg" />
-            <div className="absolute bottom-20 right-20 w-48 h-32 bg-secondary/30 rounded-lg" />
-          </>
-        )}
-        
-        {roomId === 'seaside-sanctuary' && (
-          <>
-            <div className="absolute bottom-0 left-0 w-full h-32 bg-ocean-blue/40 rounded-t-3xl" />
-            <div className="absolute top-1/4 right-10 w-40 h-60 bg-secondary/30 rounded-lg" />
-          </>
-        )}
-        
-        {roomId === 'desert-mirage' && (
-          <>
-            <div className="absolute bottom-0 right-1/4 w-80 h-24 bg-sandy-gold/50 rounded-t-full" />
-            <div className="absolute top-20 left-10 w-32 h-48 bg-primary/30 rounded-lg" />
-          </>
-        )}
-        
-        {roomId === 'tuscan-vista' && (
-          <>
-            <div className="absolute top-10 right-10 w-56 h-72 bg-tuscan-terracotta/40 rounded-lg" />
-            <div className="absolute bottom-10 left-20 w-64 h-40 bg-secondary/30 rounded-lg" />
-          </>
+          <div className="absolute inset-0 pointer-events-none">
+            {[...Array(20)].map((_, i) => (
+              <div
+                key={i}
+                className="absolute w-0.5 h-8 bg-blue-200/30 rounded-full animate-pulse"
+                style={{
+                  left: `${Math.random() * 100}%`,
+                  top: `${Math.random() * 100}%`,
+                  animationDelay: `${Math.random() * 2}s`,
+                  animationDuration: `${2 + Math.random() * 2}s`
+                }}
+              />
+            ))}
+          </div>
         )}
         
         {roomId === 'stellar-meditation' && (
-          <>
-            <div className="absolute top-1/4 left-1/4 w-32 h-32 bg-cosmic-purple/30 rounded-full animate-pulse" />
-            <div className="absolute bottom-1/3 right-1/4 w-24 h-24 bg-cosmic-purple/20 rounded-full animate-pulse" />
-          </>
-        )}
-        
-        {roomId === 'alpine-retreat' && (
-          <>
-            <div className="absolute bottom-0 left-0 w-full h-40 bg-alpine-white/30 rounded-t-3xl" />
-            <div className="absolute top-20 right-1/4 w-48 h-64 bg-primary/20 rounded-lg" />
-          </>
-        )}
-        
-        {roomId === 'woodland-haven' && (
-          <>
-            <div className="absolute bottom-10 left-10 w-80 h-48 bg-forest-green/40 rounded-t-2xl" />
-            <div className="absolute top-1/4 right-20 w-36 h-56 bg-secondary/30 rounded-lg" />
-          </>
+          <div className="absolute inset-0 pointer-events-none">
+            {[...Array(15)].map((_, i) => (
+              <div
+                key={i}
+                className="absolute w-1 h-1 bg-white/60 rounded-full animate-ping"
+                style={{
+                  left: `${Math.random() * 100}%`,
+                  top: `${Math.random() * 100}%`,
+                  animationDelay: `${Math.random() * 3}s`,
+                  animationDuration: `${3 + Math.random() * 2}s`
+                }}
+              />
+            ))}
+          </div>
         )}
       </div>
 
