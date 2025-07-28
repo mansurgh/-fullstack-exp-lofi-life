@@ -146,9 +146,19 @@ export const Room = ({ roomId, onBack }: RoomProps) => {
   }
 
   return (
-    <div className={`min-h-screen relative overflow-hidden transition-all duration-1000 ${
-      isDarkMode ? 'bg-gradient-night' : roomConfig.backgroundClass
-    }`}>
+    <div 
+      className={`min-h-screen relative overflow-hidden transition-all duration-1000 ${
+        isDarkMode ? 'bg-gradient-night' : roomConfig.backgroundClass
+      }`}
+      style={{ 
+        // Fallback background color to ensure room is always visible
+        backgroundColor: isDarkMode ? '#1a1a1a' : '#f5f5f5'
+      }}
+    >
+      {/* Debug info */}
+      <div className="absolute top-0 left-0 bg-red-500 text-white p-2 z-50">
+        Room: {roomConfig.name} | Loaded: {isLoaded ? 'Yes' : 'No'}
+      </div>
       {/* Ambient Audio */}
       <audio
         ref={audioRef}
