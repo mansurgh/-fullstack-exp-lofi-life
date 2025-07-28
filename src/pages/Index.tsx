@@ -14,10 +14,15 @@ const Index = () => {
     setSelectedRoom(null);
   };
 
+  console.log('Current selectedRoom state:', selectedRoom);
+  console.log('Should show Room component:', !!selectedRoom);
+
   if (selectedRoom) {
+    console.log('Rendering Room component with ID:', selectedRoom);
     return <Room roomId={selectedRoom} onBack={handleBackToRooms} />;
   }
 
+  console.log('Rendering RoomSelector component');
   return <RoomSelector onSelectRoom={handleSelectRoom} />;
 };
 

@@ -138,12 +138,15 @@ export const Room = ({ roomId, onBack }: RoomProps) => {
   };
 
   if (!roomConfig) {
+    console.log('No room config found for:', roomId);
     return (
-      <div className="min-h-screen flex items-center justify-center bg-background">
-        <p className="text-xl text-foreground">Room not found</p>
+      <div className="min-h-screen flex items-center justify-center bg-red-500">
+        <p className="text-xl text-white">Room not found: {roomId}</p>
       </div>
     );
   }
+
+  console.log('About to render room:', roomConfig.name);
 
   return (
     <div 
