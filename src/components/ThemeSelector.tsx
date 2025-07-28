@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
+import { useTranslation } from '@/contexts/TranslationContext';
 import { 
   Sun, 
   Moon, 
@@ -26,6 +27,7 @@ const themes = {
 };
 
 export const ThemeSelector = () => {
+  const { t } = useTranslation();
   const [selectedTheme, setSelectedTheme] = useState<ThemeType>('default');
 
   const handleThemeChange = (theme: ThemeType) => {
@@ -47,9 +49,9 @@ export const ThemeSelector = () => {
     <Card className="w-full max-w-4xl mx-auto mb-8">
       <CardContent className="p-6">
         <div className="text-center mb-6">
-          <h3 className="text-lg font-semibold mb-2">Choose Your Theme</h3>
+          <h3 className="text-lg font-semibold mb-2">{t('theme.title')}</h3>
           <p className="text-sm text-muted-foreground">
-            Select a theme that matches your mood and the atmosphere you desire
+            {t('theme.subtitle')}
           </p>
         </div>
         
@@ -68,7 +70,7 @@ export const ThemeSelector = () => {
                 }`}
               >
                 <IconComponent className={`h-5 w-5 ${theme.color}`} />
-                <span className="text-xs font-medium">{theme.name}</span>
+                <span className="text-xs font-medium">{t(`theme.${key}`)}</span>
               </Button>
             );
           })}
@@ -76,7 +78,7 @@ export const ThemeSelector = () => {
         
         <div className="mt-4 text-center">
           <p className="text-xs text-muted-foreground">
-            Current theme: <span className="font-medium">{themes[selectedTheme].name}</span>
+            {t('theme.current')}: <span className="font-medium">{t(`theme.${selectedTheme}`)}</span>
           </p>
         </div>
       </CardContent>

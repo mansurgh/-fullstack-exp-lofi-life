@@ -85,6 +85,19 @@ const translations = {
     'quran.1.7.transliteration': 'Sirata l-ladheena an\'amta \'alayhim ghayri l-maghdoobi \'alayhim wa la d-dalleen',
     'quran.1.7.translation': 'The path of those upon whom You have bestowed favor, not of those who have evoked [Your] anger or of those who are astray.',
     
+    // Theme selector
+    'theme.title': 'Choose Your Theme',
+    'theme.subtitle': 'Select a theme that matches your mood and the atmosphere you desire',
+    'theme.current': 'Current theme',
+    'theme.default': 'Default',
+    'theme.spring': 'Spring',
+    'theme.summer': 'Summer',
+    'theme.autumn': 'Autumn',
+    'theme.winter': 'Winter',
+    'theme.day': 'Day Cycle',
+    'theme.night': 'Night Cycle',
+    'theme.rainy': 'Rainy Days',
+    
     // Help section
     'help.title': 'Help Me Out',
     'help.subtitle': 'Support this project and help me improve it',
