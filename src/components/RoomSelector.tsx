@@ -108,6 +108,9 @@ export const RoomSelector = ({ onSelectRoom }: RoomSelectorProps) => {
             Choose your peaceful sanctuary for Qur'an reading and reflection. 
             Each room offers its own unique ambiance and sounds.
           </p>
+          <p className="text-sm text-muted-foreground/80 max-w-3xl mx-auto mt-6 leading-relaxed">
+            Assalamu Aleykum Waramatullahi Wabarakatuh, dear brothers and sisters, I have not much knowledge on making sites nor do I have the necessary money to invest in my plans. So I would like your help if you like the concept that u see before you. I don't know how to make this work, but my intentions are to attract more muslims that can just relax and listen, study or read the Qur'an in a lofi style for the more calm people. For people that like nature, knowledge and calmness of mind. So please feel free to aid me or use my site to its fullest, May Allah make it easy for all of you and may Allah reward you all nonetheless.
+          </p>
         </div>
         
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
