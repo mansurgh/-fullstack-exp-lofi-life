@@ -6,6 +6,7 @@ const Index = () => {
   const [selectedRoom, setSelectedRoom] = useState<string | null>(null);
 
   const handleSelectRoom = (roomId: string) => {
+    console.log('Selecting room:', roomId);
     setSelectedRoom(roomId);
   };
 

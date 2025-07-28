@@ -100,6 +100,11 @@ export const Room = ({ roomId, onBack }: RoomProps) => {
   const audioRef = useRef<HTMLAudioElement>(null);
 
   const roomConfig = roomConfigs[roomId];
+  
+  // Debug logging
+  console.log('Room ID:', roomId);
+  console.log('Available room configs:', Object.keys(roomConfigs));
+  console.log('Room config found:', roomConfig);
 
   useEffect(() => {
     const timer = setTimeout(() => setIsLoaded(true), 500);
