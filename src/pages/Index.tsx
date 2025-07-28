@@ -30,11 +30,10 @@ const Index = () => {
   console.log('Rendering RoomSelector component');
   return (
     <div className="min-h-screen p-4 space-y-6">
-      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-4">
-        <h1 className="text-xl sm:text-2xl font-bold">{t('app.title')}</h1>
-        <div className="flex gap-2">
-          <LanguageSelector />
+      <div className="flex justify-end items-center mb-4">
+        <div className="flex flex-col gap-2">
           <ThemeSelector />
+          <LanguageSelector />
         </div>
       </div>
       <RoomSelector onSelectRoom={handleSelectRoom} />
