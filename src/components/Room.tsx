@@ -45,6 +45,7 @@ import pinkCandy from "@/assets/pink-candy.jpg";
 import prisonCell from "@/assets/prison-cell.jpg";
 import skyscraperView from "@/assets/skyscraper-view.jpg";
 import submarineView from "@/assets/submarine-view.jpg";
+import pirateShip from "@/assets/pirate-ship.jpg";
 
 interface RoomProps {
   roomId: string;
@@ -469,6 +470,17 @@ const roomConfigs: Record<string, RoomConfig> = {
     interactiveElements: [
       { type: 'floating', className: 'absolute top-20 right-12 w-5 h-5 text-cyan-300 text-lg', animation: 'animate-bounce' },
       { type: 'glow', className: 'absolute bottom-24 left-20 w-24 h-16 bg-teal-400/25 rounded-full blur-xl', animation: 'animate-pulse' }
+    ]
+  },
+  'pirate-ship': {
+    name: 'Pirate Ship',
+    description: 'Adventure on the high seas from the ship deck',
+    ambientSound: 'waves',
+    backgroundImage: pirateShip,
+    quranPosition: { x: 'right-1/3', y: 'top-2/3' },
+    interactiveElements: [
+      { type: 'floating', className: 'absolute top-24 left-16 w-6 h-6 text-blue-300 text-xl', animation: 'animate-bounce' },
+      { type: 'glow', className: 'absolute bottom-32 right-24 w-20 h-20 bg-amber-400/20 rounded-full blur-xl', animation: 'animate-pulse' }
     ]
   }
 };
