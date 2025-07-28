@@ -138,6 +138,141 @@
     --shadow-glow: 0 0 40px hsl(var(--quran-glow) / 0.6);
     --shadow-fire: 0 0 50px hsl(var(--firelight) / 0.7);
   }
+
+  /* ==================== SEASONAL THEMES ==================== */
+  
+  /* Spring Theme - Pink cherry blossoms and fresh greens */
+  .theme-spring {
+    --background: 330 45% 96%;
+    --foreground: 330 15% 15%;
+    --card: 330 25% 93%;
+    --card-foreground: 330 15% 15%;
+    --primary: 330 60% 55%;
+    --primary-foreground: 330 15% 95%;
+    --secondary: 340 30% 88%;
+    --secondary-foreground: 330 25% 25%;
+    --accent: 320 70% 70%;
+    --accent-foreground: 330 15% 15%;
+    --border: 335 25% 85%;
+    --warm-glow: 320 80% 80%;
+    --quran-glow: 330 85% 75%;
+    --gradient-warm: linear-gradient(135deg, hsl(320 80% 80%), hsl(340 70% 75%));
+    --shadow-glow: 0 0 30px hsl(330 70% 70% / 0.4);
+  }
+
+  /* Summer Theme - Vibrant greens and warm sunshine */
+  .theme-summer {
+    --background: 120 35% 96%;
+    --foreground: 120 15% 15%;
+    --card: 120 25% 93%;
+    --card-foreground: 120 15% 15%;
+    --primary: 120 50% 45%;
+    --primary-foreground: 120 15% 95%;
+    --secondary: 110 30% 88%;
+    --secondary-foreground: 120 25% 25%;
+    --accent: 100 70% 60%;
+    --accent-foreground: 120 15% 15%;
+    --border: 115 25% 85%;
+    --warm-glow: 100 80% 70%;
+    --quran-glow: 120 85% 65%;
+    --gradient-warm: linear-gradient(135deg, hsl(100 80% 70%), hsl(120 70% 60%));
+    --shadow-glow: 0 0 30px hsl(120 70% 50% / 0.4);
+  }
+
+  /* Autumn Theme - Warm oranges, reds, and golden yellows */
+  .theme-autumn {
+    --background: 35 40% 96%;
+    --foreground: 35 15% 15%;
+    --card: 35 30% 93%;
+    --card-foreground: 35 15% 15%;
+    --primary: 25 70% 50%;
+    --primary-foreground: 35 15% 95%;
+    --secondary: 45 35% 88%;
+    --secondary-foreground: 35 25% 25%;
+    --accent: 15 80% 65%;
+    --accent-foreground: 35 15% 15%;
+    --border: 40 30% 85%;
+    --warm-glow: 15 90% 70%;
+    --quran-glow: 35 85% 70%;
+    --gradient-warm: linear-gradient(135deg, hsl(15 90% 70%), hsl(45 80% 65%));
+    --shadow-glow: 0 0 30px hsl(25 70% 60% / 0.4);
+  }
+
+  /* Winter Theme - Cool whites, light blues, and silver */
+  .theme-winter {
+    --background: 200 25% 97%;
+    --foreground: 200 15% 15%;
+    --card: 200 20% 94%;
+    --card-foreground: 200 15% 15%;
+    --primary: 200 40% 60%;
+    --primary-foreground: 200 15% 95%;
+    --secondary: 210 25% 90%;
+    --secondary-foreground: 200 25% 25%;
+    --accent: 190 50% 75%;
+    --accent-foreground: 200 15% 15%;
+    --border: 205 20% 87%;
+    --warm-glow: 190 60% 85%;
+    --quran-glow: 200 70% 80%;
+    --gradient-warm: linear-gradient(135deg, hsl(190 60% 85%), hsl(210 50% 80%));
+    --shadow-glow: 0 0 30px hsl(200 60% 70% / 0.4);
+  }
+
+  /* Day Cycle Theme - Bright sunny colors */
+  .theme-day {
+    --background: 45 50% 96%;
+    --foreground: 45 15% 15%;
+    --card: 45 30% 93%;
+    --card-foreground: 45 15% 15%;
+    --primary: 45 80% 55%;
+    --primary-foreground: 45 15% 95%;
+    --secondary: 50 35% 88%;
+    --secondary-foreground: 45 25% 25%;
+    --accent: 40 90% 65%;
+    --accent-foreground: 45 15% 15%;
+    --border: 47 30% 85%;
+    --warm-glow: 40 95% 75%;
+    --quran-glow: 45 90% 70%;
+    --gradient-warm: linear-gradient(135deg, hsl(40 95% 75%), hsl(50 85% 70%));
+    --shadow-glow: 0 0 30px hsl(45 80% 60% / 0.4);
+  }
+
+  /* Night Cycle Theme - Deep blues with starlight */
+  .theme-night {
+    --background: 220 30% 12%;
+    --foreground: 220 25% 85%;
+    --card: 220 25% 15%;
+    --card-foreground: 220 25% 85%;
+    --primary: 220 60% 65%;
+    --primary-foreground: 220 15% 8%;
+    --secondary: 225 20% 20%;
+    --secondary-foreground: 220 25% 85%;
+    --accent: 210 70% 75%;
+    --accent-foreground: 220 15% 8%;
+    --border: 222 20% 22%;
+    --warm-glow: 210 70% 60%;
+    --quran-glow: 220 80% 75%;
+    --gradient-warm: linear-gradient(135deg, hsl(210 70% 60%), hsl(230 60% 65%));
+    --shadow-glow: 0 0 40px hsl(220 70% 70% / 0.5);
+  }
+
+  /* Rainy Theme - Grey tones with subtle blue */
+  .theme-rainy {
+    --background: 210 15% 92%;
+    --foreground: 210 15% 20%;
+    --card: 210 12% 89%;
+    --card-foreground: 210 15% 20%;
+    --primary: 210 25% 45%;
+    --primary-foreground: 210 15% 95%;
+    --secondary: 215 15% 85%;
+    --secondary-foreground: 210 20% 25%;
+    --accent: 200 30% 60%;
+    --accent-foreground: 210 15% 15%;
+    --border: 212 12% 82%;
+    --warm-glow: 200 40% 70%;
+    --quran-glow: 210 50% 65%;
+    --gradient-warm: linear-gradient(135deg, hsl(200 40% 70%), hsl(220 30% 65%));
+    --shadow-glow: 0 0 25px hsl(210 40% 60% / 0.3);
+  }
 }
 
 @layer base {

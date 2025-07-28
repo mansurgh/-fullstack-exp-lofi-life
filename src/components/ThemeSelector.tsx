@@ -1,0 +1,85 @@
+import { useState } from 'react';
+import { Button } from '@/components/ui/button';
+import { Card, CardContent } from '@/components/ui/card';
+import { 
+  Sun, 
+  Moon, 
+  Flower, 
+  TreePine, 
+  Leaf, 
+  Snowflake, 
+  CloudRain,
+  Palette
+} from 'lucide-react';
+
+type ThemeType = 'default' | 'spring' | 'summer' | 'autumn' | 'winter' | 'day' | 'night' | 'rainy';
+
+const themes = {
+  default: { name: 'Default', icon: Palette, color: 'text-primary' },
+  spring: { name: 'Spring', icon: Flower, color: 'text-pink-500' },
+  summer: { name: 'Summer', icon: Sun, color: 'text-green-500' },
+  autumn: { name: 'Autumn', icon: Leaf, color: 'text-orange-500' },
+  winter: { name: 'Winter', icon: Snowflake, color: 'text-blue-200' },
+  day: { name: 'Day Cycle', icon: Sun, color: 'text-yellow-400' },
+  night: { name: 'Night Cycle', icon: Moon, color: 'text-blue-300' },
+  rainy: { name: 'Rainy Days', icon: CloudRain, color: 'text-gray-400' }
+};
+
+export const ThemeSelector = () => {
+  const [selectedTheme, setSelectedTheme] = useState<ThemeType>('default');
+
+  const handleThemeChange = (theme: ThemeType) => {
+    setSelectedTheme(theme);
+    
+    // Remove all theme classes
+    document.documentElement.classList.remove(
+      'theme-spring', 'theme-summer', 'theme-autumn', 'theme-winter',
+      'theme-day', 'theme-night', 'theme-rainy'
+    );
+    
+    // Add new theme class
+    if (theme !== 'default') {
+      document.documentElement.classList.add(`theme-${theme}`);
+    }
+  };
+
+  return (
+    <Card className="w-full max-w-4xl mx-auto mb-8">
+      <CardContent className="p-6">
+        <div className="text-center mb-6">
+          <h3 className="text-lg font-semibold mb-2">Choose Your Theme</h3>
+          <p className="text-sm text-muted-foreground">
+            Select a theme that matches your mood and the atmosphere you desire
+          </p>
+        </div>
+        
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+          {Object.entries(themes).map(([key, theme]) => {
+            const IconComponent = theme.icon;
+            const isSelected = selectedTheme === key;
+            
+            return (
+              <Button
+                key={key}
+                variant={isSelected ? "default" : "outline"}
+                onClick={() => handleThemeChange(key as ThemeType)}
+                className={`h-auto py-4 px-3 flex flex-col items-center gap-2 ${
+                  isSelected ? 'ring-2 ring-primary' : ''
+                }`}
+              >
+                <IconComponent className={`h-5 w-5 ${theme.color}`} />
+                <span className="text-xs font-medium">{theme.name}</span>
+              </Button>
+            );
+          })}
+        </div>
+        
+        <div className="mt-4 text-center">
+          <p className="text-xs text-muted-foreground">
+            Current theme: <span className="font-medium">{themes[selectedTheme].name}</span>
+          </p>
+        </div>
+      </CardContent>
+    </Card>
+  );
+};
