@@ -1,5 +1,6 @@
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
+import { useTranslation } from '@/contexts/TranslationContext';
 import rainyStudyRoom from "@/assets/rainy-study-room.jpg";
 import sunnyGardenRoom from "@/assets/sunny-garden-room.jpg";
 import fireplaceNook from "@/assets/fireplace-nook.jpg";
@@ -97,19 +98,20 @@ const rooms: Room[] = [
 ];
 
 export const RoomSelector = ({ onSelectRoom }: RoomSelectorProps) => {
+  const { t } = useTranslation();
+  
   return (
     <div className="min-h-screen bg-gradient-cozy p-4 sm:p-6 lg:p-8">
       <div className="max-w-6xl mx-auto">
         <div className="text-center mb-8 sm:mb-12">
           <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-foreground mb-4">
-            Islamic Lofi Rooms
+            {t('app.title')}
           </h1>
           <p className="text-lg sm:text-xl text-muted-foreground max-w-2xl mx-auto px-4">
-            Choose your peaceful sanctuary for Qur'an reading and reflection. 
-            Each room offers its own unique ambiance and sounds.
+            {t('main.subtitle')}
           </p>
           <p className="text-xs sm:text-sm text-muted-foreground/80 max-w-3xl mx-auto mt-4 sm:mt-6 leading-relaxed px-4">
-            Assalamu Aleykum Waramatullahi Wabarakatuh, dear brothers and sisters, I have not much knowledge on making sites nor do I have the necessary money to invest in my plans. So I would like your help if you like the concept that u see before you. I don't know how to make this work, but my intentions are to attract more muslims that can just relax and listen, study or read the Qur'an in a lofi style for the more calm people. For people that like nature, knowledge and calmness of mind. So please feel free to aid me or use my site to its fullest, May Allah make it easy for all of you and may Allah reward you all nonetheless.
+            {t('main.message')}
           </p>
         </div>
         
@@ -142,16 +144,16 @@ export const RoomSelector = ({ onSelectRoom }: RoomSelectorProps) => {
               
               <div className="p-4 sm:p-6">
                 <h3 className="text-xl sm:text-2xl font-semibold text-card-foreground mb-2">
-                  {room.name}
+                  {t(`room.${room.id}.name`)}
                 </h3>
                 <p className="text-sm sm:text-base text-muted-foreground mb-4 leading-relaxed">
-                  {room.description}
+                  {t(`room.${room.id}.description`)}
                 </p>
                 <Button 
                   onClick={() => onSelectRoom(room.id)}
                   className="w-full bg-primary hover:bg-primary/90 text-primary-foreground font-medium py-2 sm:py-3"
                 >
-                  Enter Room
+                  {t('main.enter.room')}
                 </Button>
               </div>
             </Card>
@@ -160,9 +162,9 @@ export const RoomSelector = ({ onSelectRoom }: RoomSelectorProps) => {
         
         <div className="text-center mt-12 sm:mt-16 px-4">
           <p className="text-xs sm:text-sm text-muted-foreground">
-            "And it is He who sends down rain from heaven, and We produce thereby the vegetation of every kind."
+            {t('main.verse')}
             <br />
-            <span className="text-accent font-medium">- Qur'an 6:99</span>
+            <span className="text-accent font-medium">{t('main.verse.reference')}</span>
           </p>
         </div>
       </div>

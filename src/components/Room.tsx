@@ -308,7 +308,7 @@ export const Room = ({ roomId, onBack }: RoomProps) => {
           className="bg-card/80 hover:bg-card text-card-foreground w-full sm:w-auto"
         >
           <ArrowLeft className="w-4 h-4 mr-2" />
-          Back to Rooms
+          {t('room.back')}
         </Button>
 
         <div className="flex gap-2 w-full sm:w-auto justify-end">
@@ -368,10 +368,10 @@ export const Room = ({ roomId, onBack }: RoomProps) => {
       {/* Room Info */}
       <Card className="absolute bottom-4 sm:bottom-6 right-4 sm:right-6 p-3 sm:p-4 bg-card/80 backdrop-blur-sm border-border/50 w-[calc(100%-2rem)] sm:w-auto max-w-xs">
         <h3 className="font-semibold text-card-foreground mb-1 text-sm sm:text-base">
-          {roomConfig.name}
+          {t(`room.${roomId}.name`)}
         </h3>
         <p className="text-xs text-muted-foreground">
-          Click the Qur'an to begin reading
+          {t('room.quran.click')}
         </p>
       </Card>
 

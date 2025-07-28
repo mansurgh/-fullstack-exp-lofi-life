@@ -29,42 +29,42 @@ const surahs: Surah[] = [
   { number: 114, name: "الناس", englishName: "An-Nas", verses: 6 },
 ];
 
-// Sample verse data for Al-Fatihah
-const sampleVerses = [
+// Sample verse data for Al-Fatihah - using translation keys
+const getSampleVerses = (t: (key: string) => string) => [
   {
     arabic: "بِسْمِ ٱللَّهِ ٱلرَّحْمَٰنِ ٱلرَّحِيمِ",
-    transliteration: "Bismillahi r-rahmani r-raheem",
-    translation: "In the name of Allah, the Entirely Merciful, the Especially Merciful."
+    transliteration: t('quran.1.1.transliteration'),
+    translation: t('quran.1.1.translation')
   },
   {
     arabic: "ٱلْحَمْدُ لِلَّهِ رَبِّ ٱلْعَٰلَمِينَ",
-    transliteration: "Alhamdu lillahi rabbi l-'alameen",
-    translation: "All praise is due to Allah, Lord of the worlds."
+    transliteration: t('quran.1.2.transliteration'),
+    translation: t('quran.1.2.translation')
   },
   {
     arabic: "ٱلرَّحْمَٰنِ ٱلرَّحِيمِ",
-    transliteration: "Ar-rahmani r-raheem",
-    translation: "The Entirely Merciful, the Especially Merciful."
+    transliteration: t('quran.1.3.transliteration'),
+    translation: t('quran.1.3.translation')
   },
   {
     arabic: "مَٰلِكِ يَوْمِ ٱلدِّينِ",
-    transliteration: "Maliki yawmi d-deen",
-    translation: "Sovereign of the Day of Recompense."
+    transliteration: t('quran.1.4.transliteration'),
+    translation: t('quran.1.4.translation')
   },
   {
     arabic: "إِيَّاكَ نَعْبُدُ وَإِيَّاكَ نَسْتَعِينُ",
-    transliteration: "Iyyaka na'budu wa iyyaka nasta'een",
-    translation: "It is You we worship and You we ask for help."
+    transliteration: t('quran.1.5.transliteration'),
+    translation: t('quran.1.5.translation')
   },
   {
     arabic: "ٱهْدِنَا ٱلصِّرَٰطَ ٱلْمُسْتَقِيمَ",
-    transliteration: "Ihdina s-sirata l-mustaqeem",
-    translation: "Guide us to the straight path."
+    transliteration: t('quran.1.6.transliteration'),
+    translation: t('quran.1.6.translation')
   },
   {
     arabic: "صِرَٰطَ ٱلَّذِينَ أَنْعَمْتَ عَلَيْهِمْ غَيْرِ ٱلْمَغْضُوبِ عَلَيْهِمْ وَلَا ٱلضَّآلِّينَ",
-    transliteration: "Sirata l-ladheena an'amta 'alayhim ghayri l-maghdoobi 'alayhim wa la d-dalleen",
-    translation: "The path of those upon whom You have bestowed favor, not of those who have evoked [Your] anger or of those who are astray."
+    transliteration: t('quran.1.7.transliteration'),
+    translation: t('quran.1.7.translation')
   }
 ];
 
@@ -77,7 +77,7 @@ export const QuranReader = ({ onClose }: QuranReaderProps) => {
   const [showTransliteration, setShowTransliteration] = useState(true);
   const [showTranslation, setShowTranslation] = useState(true);
   const [audioVolume, setAudioVolume] = useState([75]);
-  const [verses] = useState(sampleVerses);
+  const [verses] = useState(() => getSampleVerses(t));
   const [isAutoReading, setIsAutoReading] = useState(false);
   const [recitationSpeed, setRecitationSpeed] = useState([100]); // 100% = normal speed
   const [wordRepeatCount, setWordRepeatCount] = useState(1);
@@ -307,7 +307,7 @@ export const QuranReader = ({ onClose }: QuranReaderProps) => {
           <div className="flex items-center justify-between">
             <DialogTitle className="flex items-center gap-2 sm:gap-3 text-lg sm:text-2xl text-card-foreground">
               <BookOpen className="w-5 h-5 sm:w-6 sm:h-6 text-accent" />
-              <span className="hidden sm:inline">القرآن الكريم - Noble Qur'an</span>
+              <span className="hidden sm:inline">{t('quran.title')} - القرآن الكريم</span>
               <span className="sm:hidden">القرآن الكريم</span>
             </DialogTitle>
             <Button
@@ -330,10 +330,9 @@ export const QuranReader = ({ onClose }: QuranReaderProps) => {
                 
                 {/* Surah Selection */}
                 <Card className="p-3 sm:p-4 w-full lg:min-w-64 flex-shrink-0">
-                  <h3 className="font-semibold text-card-foreground mb-3 text-sm sm:text-base">Select Surah</h3>
-                  <Select value={selectedSurah} onValueChange={setSelectedSurah}>
+                  <h3 className="font-semibold text-card-foreground mb-3 text-sm sm:text-base">{t('quran.select.surah')}</h3>
+                   <Select value={selectedSurah} onValueChange={setSelectedSurah}>
                     <SelectTrigger className="text-sm">
-                      <SelectValue />
                       <SelectValue />
                     </SelectTrigger>
                     <SelectContent className="bg-card border-border z-50">
