@@ -381,8 +381,8 @@ const roomConfigs: Record<string, RoomConfig> = {
     ]
   },
   'rgb-room': {
-    name: 'Gaming Room',
-    description: 'Gaming setup with customizable RGB lighting',
+    name: 'Disco',
+    description: 'Dark room with customizable lighting effects',
     ambientSound: 'electronic',
     backgroundImage: rgbRoom,
     quranPosition: { x: 'left-1/3', y: 'top-1/2' },

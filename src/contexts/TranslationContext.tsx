@@ -91,8 +91,8 @@ const translations = {
     'room.mosque-interior.description': 'Peaceful mosque interior with spiritual silence',
     'room.library-room.name': 'Quiet Library',
     'room.library-room.description': 'Silent library with gentle page turning sounds',
-    'room.rgb-room.name': 'Gaming Room',
-    'room.rgb-room.description': 'Gaming setup with customizable RGB lighting and electronic ambiance',
+    'room.rgb-room.name': 'Disco',
+    'room.rgb-room.description': 'Dark room with customizable lighting effects and electronic ambiance',
     
     // Room interface
     'room.back': 'Back to Rooms',
