@@ -438,7 +438,7 @@ export const RoomSelector = ({ onSelectRoom }: RoomSelectorProps) => {
   const [currentPage, setCurrentPage] = useState(initialPage);
   const [selectedFilter, setSelectedFilter] = useState<FilterCategory>(initialFilter);
   
-  const ROOMS_PER_PAGE = 24;
+  const ROOMS_PER_PAGE = 9;
   
   const filteredRooms = selectedFilter === 'all' 
     ? rooms 
