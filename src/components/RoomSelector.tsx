@@ -72,140 +72,140 @@ const rooms: Room[] = [
     id: 'rainy-study',
     name: 'Rainy Study',
     description: 'A cozy study room with rain gently falling outside the window',
-    thumbnail: rainyStudyRoom,
+    thumbnail: cleanRainyStudy,
     ambientType: 'rain'
   },
   {
     id: 'sunny-garden',
     name: 'Garden View',
     description: 'A bright room overlooking a peaceful garden with chirping birds',
-    thumbnail: sunnyGardenRoom,
+    thumbnail: cleanSunnyGarden,
     ambientType: 'birds'
   },
   {
     id: 'fireplace-nook',
     name: 'Fireplace Nook',
     description: 'A warm corner with a crackling fireplace and comfortable seating',
-    thumbnail: fireplaceNook,
+    thumbnail: cleanFireplaceNook,
     ambientType: 'fire'
   },
   {
     id: 'moonlit-corner',
     name: 'Moonlit Corner',
     description: 'A serene nighttime space bathed in gentle moonlight',
-    thumbnail: moonlitCorner,
+    thumbnail: cleanMoonlitCorner,
     ambientType: 'night'
   },
   {
     id: 'seaside-sanctuary',
     name: 'Seaside Room',
     description: 'Ocean waves and distant seagulls create peaceful coastal ambiance',
-    thumbnail: seasideSanctuary,
+    thumbnail: cleanSeasideSanctuary,
     ambientType: 'waves'
   },
   {
     id: 'desert-mirage',
     name: 'Desert Mirage',
     description: 'Gentle desert winds with distant sandy whispers and silence',
-    thumbnail: desertMirage,
+    thumbnail: cleanDesertMirage,
     ambientType: 'desert'
   },
   {
     id: 'tuscan-vista',
     name: 'Tuscan Vista',
     description: 'Soft Italian breeze with distant city murmurs and gentle wind',
-    thumbnail: tuscanVista,
+    thumbnail: cleanTuscanVista,
     ambientType: 'city'
   },
   {
     id: 'stellar-meditation',
     name: 'Stellar Meditation',
     description: 'Cosmic silence with ethereal space ambiance and celestial sounds',
-    thumbnail: stellarMeditation,
+    thumbnail: cleanStellarMeditation,
     ambientType: 'space'
   },
   {
     id: 'alpine-retreat',
     name: 'Alpine Retreat',
     description: 'Mountain winds whistling through peaceful snow-capped peaks',
-    thumbnail: alpineRetreat,
+    thumbnail: cleanAlpineRetreat,
     ambientType: 'wind'
   },
   {
     id: 'woodland-haven',
     name: 'Woodland Haven',
     description: 'Forest sounds with gentle rustling leaves and nature\'s symphony',
-    thumbnail: woodlandHaven,
+    thumbnail: cleanWoodlandHaven,
     ambientType: 'forest'
   },
   {
     id: 'russian-winter',
     name: 'Russian Winter',
     description: 'Snow falling gently outside with peaceful winter ambiance',
-    thumbnail: russianWinter,
+    thumbnail: cleanRussianWinter,
     ambientType: 'snow'
   },
   {
     id: 'chechen-tower',
     name: 'Chechen Tower',
     description: 'Mountain winds around the ancient Vainakh tower',
-    thumbnail: chechenTower,
+    thumbnail: cleanChechenTower,
     ambientType: 'mountain'
   },
   {
     id: 'french-eiffel',
     name: 'French Elegance',
     description: 'Parisian streets with distant Eiffel Tower view',
-    thumbnail: frenchEiffel,
+    thumbnail: cleanFrenchEiffel,
     ambientType: 'city'
   },
   {
     id: 'norwegian-landscape',
     name: 'Norwegian Sky',
     description: 'Open Norwegian landscape with mountain winds',
-    thumbnail: norwegianLandscape,
+    thumbnail: cleanNorwegianLandscape,
     ambientType: 'wind'
   },
   {
     id: 'tokyo-neon',
     name: 'Tokyo Nights',
     description: 'Neon-lit cityscape with urban night sounds',
-    thumbnail: tokyoNeon,
+    thumbnail: cleanTokyoNeon,
     ambientType: 'traffic'
   },
   {
     id: 'belgian-grey',
     name: 'Belgian Streets',
     description: 'Grey city atmosphere with gentle rain sounds',
-    thumbnail: belgianGrey,
+    thumbnail: cleanBelgianGrey,
     ambientType: 'rain'
   },
   {
     id: 'german-brown',
     name: 'German Village',
     description: 'Traditional brown-roofed cityscape with peaceful ambiance',
-    thumbnail: germanBrown,
+    thumbnail: cleanGermanBrown,
     ambientType: 'city'
   },
   {
     id: 'dutch-farm',
     name: 'Dutch Countryside',
     description: 'Peaceful farmland with nature sounds and gentle breeze',
-    thumbnail: dutchFarm,
+    thumbnail: cleanDutchFarm,
     ambientType: 'nature'
   },
   {
     id: 'chinese-lake',
     name: 'Chinese Serenity',
     description: 'Tranquil lake view with gentle water sounds',
-    thumbnail: chineseLake,
+    thumbnail: cleanChineseLake,
     ambientType: 'water'
   },
   {
     id: 'circus-tent',
     name: 'Circus Memories',
     description: 'Inside the big tent with nostalgic circus atmosphere',
-    thumbnail: circusTent,
+    thumbnail: cleanCircusTent,
     ambientType: 'silence'
   },
   {
@@ -267,113 +267,113 @@ const rooms: Room[] = [
   {
     id: 'spongebob-pineapple',
     name: 'Underwater Home',
-    description: 'SpongeBob\'s pineapple with underwater bubble sounds',
-    thumbnail: spongebobPineapple,
+    description: 'Underwater environment with bubble sounds',
+    thumbnail: cleanSpongebobPineapple,
     ambientType: 'underwater'
   },
   {
     id: 'minecraft-room',
     name: 'Minecraft World',
     description: 'Blocky world with peaceful ambient cube sounds',
-    thumbnail: minecraftRoom,
+    thumbnail: cleanMinecraftRoom,
     ambientType: 'electronic'
   },
   {
     id: 'mosque-interior',
     name: 'Sacred Mosque',
     description: 'Peaceful mosque interior with spiritual silence',
-    thumbnail: mosqueInterior,
+    thumbnail: cleanMosqueInterior,
     ambientType: 'silence'
   },
   {
     id: 'library-room',
     name: 'Quiet Library',
     description: 'Silent library with gentle page turning sounds',
-    thumbnail: libraryRoom,
+    thumbnail: cleanLibraryRoom,
     ambientType: 'pages'
   },
   {
     id: 'rgb-room',
     name: 'Disco',
     description: 'Dark room with customizable lighting effects and electronic ambiance',
-    thumbnail: rgbRoom,
+    thumbnail: cleanRgbRoom,
     ambientType: 'electronic'
   },
   {
     id: 'poland-snow',
     name: 'Polish Winter',
     description: 'Cozy Polish room with peaceful snowy winter sounds',
-    thumbnail: polandSnow,
+    thumbnail: cleanPolandSnow,
     ambientType: 'snow'
   },
   {
     id: 'antarctic-igloo',
     name: 'Antarctic Igloo',
     description: 'Inside an igloo with cold Antarctic wind sounds',
-    thumbnail: antarcticIgloo,
+    thumbnail: cleanAntarcticIgloo,
     ambientType: 'wind'
   },
   {
     id: 'space-ship',
     name: 'Space Station',
     description: 'Spaceship with cosmic silence and Earth view',
-    thumbnail: spaceShip,
+    thumbnail: cleanSpaceShip,
     ambientType: 'space'
   },
   {
     id: 'pink-candy',
     name: 'Sweet Dreams',
     description: 'Pink room with magical candy field view and peaceful silence',
-    thumbnail: pinkCandy,
+    thumbnail: cleanPinkCandy,
     ambientType: 'silence'
   },
   {
     id: 'prison-cell',
     name: 'Prison Cell',
     description: 'Institutional cell with echoing silence',
-    thumbnail: prisonCell,
+    thumbnail: cleanPrisonCell,
     ambientType: 'silence'
   },
   {
     id: 'skyscraper-view',
     name: 'Sky High',
     description: 'High-rise room with city sounds from far below',
-    thumbnail: skyscraperView,
+    thumbnail: cleanSkyscraperView,
     ambientType: 'city'
   },
   {
     id: 'submarine-view',
     name: 'Deep Sea',
     description: 'Submarine with underwater bubble sounds and sea plant view',
-    thumbnail: submarineView,
+    thumbnail: cleanSubmarineView,
     ambientType: 'underwater'
   },
   {
     id: 'pirate-deck-view',
     name: 'Nakama',
     description: 'Standing at the helm with adventure gear around',
-    thumbnail: pirateDeckView,
+    thumbnail: cleanPirateDeckView,
     ambientType: 'waves'
   },
   {
     id: 'naruto-room',
     name: 'Ninja Hideout',
-    description: 'Ramen restaurant with ninja weapons and peaceful atmosphere',
-    thumbnail: narutoRoom,
-    ambientType: 'japanese'
+    description: 'Restaurant with peaceful atmosphere',
+    thumbnail: cleanNarutoRoom,
+    ambientType: 'silence'
   },
   {
     id: 'tetris-room',
     name: 'Tetris Arcade',
     description: 'Retro gaming room with playable tetris using WASD controls',
-    thumbnail: tetrisRoom,
+    thumbnail: cleanTetrisRoom,
     ambientType: 'electronic'
   },
   {
     id: 'clicker-arcade',
     name: 'Clicker Arcade',
     description: 'Click gift packages to discover ahadith wisdom',
-    thumbnail: clickerArcade,
+    thumbnail: cleanClickerArcade,
     ambientType: 'electronic'
   }
 ];
