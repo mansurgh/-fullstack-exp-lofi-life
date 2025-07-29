@@ -7,6 +7,7 @@ const ClickerGame = () => {
   const [clicks, setClicks] = useState(0);
   const [isOpened, setIsOpened] = useState(false);
   const [currentHadith, setCurrentHadith] = useState<{text: string, source: string} | null>(null);
+  const [lastHadithIndex, setLastHadithIndex] = useState<number | null>(null);
 
   const ahadith = [
     {
@@ -59,8 +60,14 @@ const ClickerGame = () => {
     
     if (newClicks >= 100) {
       setIsOpened(true);
-      const randomHadith = ahadith[Math.floor(Math.random() * ahadith.length)];
-      setCurrentHadith(randomHadith);
+      // Ensure we get a different hadith each time
+      let randomIndex;
+      do {
+        randomIndex = Math.floor(Math.random() * ahadith.length);
+      } while (randomIndex === lastHadithIndex && ahadith.length > 1);
+      
+      setLastHadithIndex(randomIndex);
+      setCurrentHadith(ahadith[randomIndex]);
     }
   };
 
