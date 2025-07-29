@@ -111,6 +111,8 @@ const translations = {
     'room.pirate-deck-view.description': 'Standing at the helm with adventure gear around',
     'room.naruto-room.name': 'Ninja Hideout',
     'room.naruto-room.description': 'Ramen restaurant with ninja weapons and peaceful atmosphere',
+    'room.tetris-room.name': 'Tetris Arcade',
+    'room.tetris-room.description': 'Retro gaming room with playable tetris using WASD controls',
     
     // Room interface
     'room.back': 'Back to Rooms',

@@ -3,6 +3,7 @@ import { Button } from "@/components/ui/button";
 import { Slider } from "@/components/ui/slider";
 import { Card } from "@/components/ui/card";
 import { QuranReader } from './QuranReader';
+import { TetrisGame } from './TetrisGame';
 import { Volume2, VolumeX, ArrowLeft, Moon, Sun, RotateCcw } from 'lucide-react';
 import { useTranslation } from '@/contexts/TranslationContext';
 import rainyStudyRoom from "@/assets/rainy-study-room.jpg";
@@ -48,6 +49,7 @@ import submarineView from "@/assets/submarine-view.jpg";
 import pirateShip from "@/assets/pirate-ship.jpg";
 import pirateDeckView from "@/assets/pirate-deck-view.jpg";
 import narutoRoom from "@/assets/naruto-room.jpg";
+import tetrisRoom from "@/assets/tetris-room.jpg";
 
 interface RoomProps {
   roomId: string;
@@ -495,6 +497,17 @@ const roomConfigs: Record<string, RoomConfig> = {
       { type: 'floating', className: 'absolute top-24 left-20 w-6 h-6 text-orange-300 text-lg', animation: 'animate-bounce' },
       { type: 'glow', className: 'absolute bottom-32 right-24 w-20 h-20 bg-amber-400/20 rounded-full blur-xl', animation: 'animate-pulse' }
     ]
+  },
+  'tetris-room': {
+    name: 'Tetris Arcade',
+    description: 'Retro gaming room with playable tetris using WASD controls',
+    ambientSound: 'electronic',
+    backgroundImage: tetrisRoom,
+    quranPosition: { x: 'left-1/4', y: 'top-1/4' },
+    interactiveElements: [
+      { type: 'glow', className: 'absolute top-16 right-16 w-20 h-20 bg-blue-500/25 rounded-full blur-xl', animation: 'animate-pulse' },
+      { type: 'glow', className: 'absolute bottom-20 left-20 w-24 h-24 bg-purple-500/20 rounded-full blur-xl', animation: 'animate-pulse' }
+    ]
   }
 };
 
@@ -817,13 +830,20 @@ export const Room = ({ roomId, onBack }: RoomProps) => {
         </Card>
       )}
 
+      {/* Tetris Game - Only for tetris room */}
+      {roomId === 'tetris-room' && (
+        <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
+          <TetrisGame className="w-auto max-w-sm" />
+        </div>
+      )}
+
       {/* Room Info */}
       <Card className="absolute bottom-4 sm:bottom-6 right-4 sm:right-6 p-3 sm:p-4 bg-card/80 backdrop-blur-sm border-border/50 w-[calc(100%-2rem)] sm:w-auto max-w-xs">
         <h3 className="font-semibold text-card-foreground mb-1 text-sm sm:text-base">
           {t(`room.${roomId}.name`)}
         </h3>
         <p className="text-xs text-muted-foreground">
-          {t('room.quran.click')}
+          {roomId === 'tetris-room' ? 'Use WASD keys to play!' : t('room.quran.click')}
         </p>
       </Card>
 
