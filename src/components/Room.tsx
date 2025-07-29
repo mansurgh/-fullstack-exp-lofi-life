@@ -23,6 +23,16 @@ import chechenTower from "@/assets/chechen-tower.jpg";
 import frenchEiffel from "@/assets/french-eiffel.jpg";
 import norwegianLandscape from "@/assets/norwegian-landscape.jpg";
 import tokyoNeon from "@/assets/tokyo-neon.jpg";
+
+// High-quality images
+import hqRainyStudy from "@/assets/hq-rainy-study.jpg";
+import hqSunnyGarden from "@/assets/hq-sunny-garden.jpg";
+import hqFireplaceNook from "@/assets/hq-fireplace-nook.jpg";
+import hqMoonlitCorner from "@/assets/hq-moonlit-corner.jpg";
+import hqSeasideSanctuary from "@/assets/hq-seaside-sanctuary.jpg";
+import hqDesertMirage from "@/assets/hq-desert-mirage.jpg";
+import hqTuscanVista from "@/assets/hq-tuscan-vista.jpg";
+import hqStellarMeditation from "@/assets/hq-stellar-meditation.jpg";
 import belgianGrey from "@/assets/belgian-grey.jpg";
 import germanBrown from "@/assets/german-brown.jpg";
 import dutchFarm from "@/assets/dutch-farm.jpg";
@@ -77,7 +87,7 @@ const roomConfigs: Record<string, RoomConfig> = {
     name: 'Rainy Study',
     description: 'Rain gently pattering against the window',
     ambientSound: 'rain',
-    backgroundImage: rainyStudyRoom,
+    backgroundImage: hqRainyStudy,
     quranPosition: { x: 'left-1/2', y: 'top-3/4' },
     interactiveElements: []
   },
@@ -85,7 +95,7 @@ const roomConfigs: Record<string, RoomConfig> = {
     name: 'Garden View',
     description: 'Birds chirping in the sunny garden',
     ambientSound: 'birds',
-    backgroundImage: sunnyGardenRoom,
+    backgroundImage: hqSunnyGarden,
     quranPosition: { x: 'right-1/4', y: 'top-2/3' },
     interactiveElements: [
       { type: 'floating', className: 'absolute top-20 left-10 w-8 h-8 text-yellow-400 text-2xl', animation: 'animate-bounce' }
@@ -95,7 +105,7 @@ const roomConfigs: Record<string, RoomConfig> = {
     name: 'Fireplace Nook',
     description: 'Crackling fire warming the cozy space',
     ambientSound: 'fire',
-    backgroundImage: fireplaceNook,
+    backgroundImage: hqFireplaceNook,
     quranPosition: { x: 'left-1/3', y: 'top-1/2' },
     interactiveElements: [
       { type: 'glow', className: 'absolute bottom-20 left-1/4 w-32 h-16 bg-orange-500/20 rounded-full blur-xl', animation: 'animate-pulse' }
@@ -105,7 +115,7 @@ const roomConfigs: Record<string, RoomConfig> = {
     name: 'Moonlit Corner',
     description: 'Peaceful moonlight through the window',
     ambientSound: 'night',
-    backgroundImage: moonlitCorner,
+    backgroundImage: hqMoonlitCorner,
     quranPosition: { x: 'right-1/3', y: 'top-3/5' },
     interactiveElements: [
       { type: 'glow', className: 'absolute top-10 right-20 w-24 h-24 bg-blue-300/20 rounded-full blur-2xl', animation: 'animate-pulse' }
@@ -115,7 +125,7 @@ const roomConfigs: Record<string, RoomConfig> = {
     name: 'Seaside Room',
     description: 'Peaceful ocean waves',
     ambientSound: 'waves',
-    backgroundImage: seasideSanctuary,
+    backgroundImage: hqSeasideSanctuary,
     quranPosition: { x: 'left-1/4', y: 'top-1/2' },
     interactiveElements: [
       { type: 'floating', className: 'absolute top-32 right-10 w-6 h-6 text-blue-300 text-xl', animation: 'animate-bounce' }
@@ -125,7 +135,7 @@ const roomConfigs: Record<string, RoomConfig> = {
     name: 'Desert Mirage',
     description: 'Gentle desert winds and sandy whispers',
     ambientSound: 'desert',
-    backgroundImage: desertMirage,
+    backgroundImage: hqDesertMirage,
     quranPosition: { x: 'right-1/2', y: 'top-2/3' },
     interactiveElements: [
       { type: 'particles', className: 'absolute inset-0 bg-gradient-to-t from-yellow-600/10 via-transparent to-transparent', animation: 'animate-pulse' }
@@ -135,7 +145,7 @@ const roomConfigs: Record<string, RoomConfig> = {
     name: 'Tuscan Vista',
     description: 'Italian breeze and distant city murmurs',
     ambientSound: 'city',
-    backgroundImage: tuscanVista,
+    backgroundImage: hqTuscanVista,
     quranPosition: { x: 'left-1/3', y: 'top-3/5' },
     interactiveElements: [
       { type: 'glow', className: 'absolute bottom-32 right-20 w-20 h-20 bg-orange-400/15 rounded-full blur-xl', animation: 'animate-pulse' }
@@ -145,7 +155,7 @@ const roomConfigs: Record<string, RoomConfig> = {
     name: 'Stellar Meditation',
     description: 'Cosmic silence and ethereal space ambiance',
     ambientSound: 'space',
-    backgroundImage: stellarMeditation,
+    backgroundImage: hqStellarMeditation,
     quranPosition: { x: 'right-1/4', y: 'top-1/2' },
     interactiveElements: [
       { type: 'floating', className: 'absolute top-1/4 left-1/4 w-4 h-4 text-purple-300 text-lg', animation: 'animate-ping' },
