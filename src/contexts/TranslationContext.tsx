@@ -176,6 +176,21 @@ const translations = {
     'help.contact.title': 'Contact Me',
     'help.contact.subtitle': 'Share your knowledge, ideas, or feedback',
     
+    // Clicker Game
+    'clicker.title': 'Clicker Arcade',
+    'clicker.instruction': 'Click the gift package to open it!',
+    'clicker.dhikr.reminder': 'Never forget to do dhikr',
+    'clicker.clicks.remaining': 'Clicks remaining',
+    'clicker.clicked.times': 'You\'ve clicked {count} times!',
+    'clicker.gift.opened': 'Gift Opened!',
+    'clicker.open.another': 'Open Another Gift',
+    
+    // Recitation Controls
+    'recitation.start': 'Start Qur\'an Recitation',
+    'recitation.start.fatihah': 'Start Al-Fatihah',
+    'recitation.surah.verse': 'Surah {surah}, Verse {verse}',
+    'recitation.audio.warning': '⚠️ Audio files not included - add to /public/quran-audio/',
+    
     // Ahadith
     'hadith.1.text': 'The believer is not one who eats his fill while his neighbor goes hungry.',
     'hadith.1.source': 'Al-Bukhari',
@@ -320,6 +335,21 @@ const translations = {
     'hadith.9.source': 'Аль-Бухари',
     'hadith.10.text': 'Доброта - признак веры, и у кого нет доброты, у того нет веры.',
     'hadith.10.source': 'Муслим',
+    
+    // Clicker Game
+    'clicker.title': 'Кликер Аркада',
+    'clicker.instruction': 'Нажмите на подарочную упаковку, чтобы открыть её!',
+    'clicker.dhikr.reminder': 'Никогда не забывайте делать зикр',
+    'clicker.clicks.remaining': 'Кликов осталось',
+    'clicker.clicked.times': 'Вы кликнули {count} раз!',
+    'clicker.gift.opened': 'Подарок Открыт!',
+    'clicker.open.another': 'Открыть Ещё Подарок',
+    
+    // Recitation Controls
+    'recitation.start': 'Начать Чтение Корана',
+    'recitation.start.fatihah': 'Начать Аль-Фатиха',
+    'recitation.surah.verse': 'Сура {surah}, Аят {verse}',
+    'recitation.audio.warning': '⚠️ Аудиофайлы не включены - добавьте в /public/quran-audio/',
   },
   nl: {
     // Navigation & General
@@ -439,6 +469,21 @@ const translations = {
     'hadith.9.source': 'Al-Bukhari',
     'hadith.10.text': 'Vriendelijkheid is een teken van geloof, en wie niet vriendelijk is heeft geen geloof.',
     'hadith.10.source': 'Muslim',
+    
+    // Clicker Game
+    'clicker.title': 'Clicker Arcade',
+    'clicker.instruction': 'Klik op het cadeaupakket om het te openen!',
+    'clicker.dhikr.reminder': 'Vergeet nooit dhikr te doen',
+    'clicker.clicks.remaining': 'Kliks resterend',
+    'clicker.clicked.times': 'Je hebt {count} keer geklikt!',
+    'clicker.gift.opened': 'Cadeau Geopend!',
+    'clicker.open.another': 'Open Een Ander Cadeau',
+    
+    // Recitation Controls
+    'recitation.start': 'Start Koran Recitatie',
+    'recitation.start.fatihah': 'Start Al-Fatihah',
+    'recitation.surah.verse': 'Soera {surah}, Vers {verse}',
+    'recitation.audio.warning': '⚠️ Audiobestanden niet inbegrepen - voeg toe aan /public/quran-audio/',
   },
   fr: {
     // Navigation & General
@@ -522,6 +567,21 @@ const translations = {
     'hadith.9.source': 'Al-Bukhari',
     'hadith.10.text': 'La bonté est une marque de foi, et celui qui n\'est pas bon n\'a pas de foi.',
     'hadith.10.source': 'Muslim',
+    
+    // Clicker Game
+    'clicker.title': 'Clicker Arcade',
+    'clicker.instruction': 'Cliquez sur le paquet cadeau pour l\'ouvrir !',
+    'clicker.dhikr.reminder': 'N\'oubliez jamais de faire le dhikr',
+    'clicker.clicks.remaining': 'Clics restants',
+    'clicker.clicked.times': 'Vous avez cliqué {count} fois !',
+    'clicker.gift.opened': 'Cadeau Ouvert !',
+    'clicker.open.another': 'Ouvrir Un Autre Cadeau',
+    
+    // Recitation Controls
+    'recitation.start': 'Commencer la Récitation du Coran',
+    'recitation.start.fatihah': 'Commencer Al-Fatihah',
+    'recitation.surah.verse': 'Sourate {surah}, Verset {verse}',
+    'recitation.audio.warning': '⚠️ Fichiers audio non inclus - ajoutez dans /public/quran-audio/',
   },
   de: {
     // All German translations including theme selector
@@ -564,6 +624,21 @@ const translations = {
     'hadith.9.source': 'Al-Bukhari',
     'hadith.10.text': 'Freundlichkeit ist ein Zeichen des Glaubens, und wer nicht freundlich ist, hat keinen Glauben.',
     'hadith.10.source': 'Muslim',
+    
+    // Clicker Game
+    'clicker.title': 'Klicker Spielhalle',
+    'clicker.instruction': 'Klicken Sie auf das Geschenkpaket, um es zu öffnen!',
+    'clicker.dhikr.reminder': 'Vergessen Sie nie, Dhikr zu machen',
+    'clicker.clicks.remaining': 'Verbleibende Klicks',
+    'clicker.clicked.times': 'Sie haben {count} Mal geklickt!',
+    'clicker.gift.opened': 'Geschenk Geöffnet!',
+    'clicker.open.another': 'Ein Anderes Geschenk Öffnen',
+    
+    // Recitation Controls
+    'recitation.start': 'Koran-Rezitation Starten',
+    'recitation.start.fatihah': 'Al-Fatihah Starten',
+    'recitation.surah.verse': 'Sure {surah}, Vers {verse}',
+    'recitation.audio.warning': '⚠️ Audiodateien nicht enthalten - hinzufügen zu /public/quran-audio/',
   }
 };
 

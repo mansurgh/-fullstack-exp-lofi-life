@@ -27,14 +27,14 @@ export const RecitationControls = ({ className = '' }: RecitationControlsProps) 
     return (
       <Card className={`p-3 bg-background/90 backdrop-blur-sm ${className}`}>
         <div className="text-center">
-          <p className="text-sm text-muted-foreground mb-2">Start Qur'an Recitation</p>
+          <p className="text-sm text-muted-foreground mb-2">{t('recitation.start')}</p>
           <Button
             onClick={() => startRecitation(1, 1)}
             size="sm"
             className="gap-2"
           >
             <Play size={16} />
-            Start Al-Fatihah
+            {t('recitation.start.fatihah')}
           </Button>
         </div>
       </Card>
@@ -45,7 +45,7 @@ export const RecitationControls = ({ className = '' }: RecitationControlsProps) 
     <Card className={`p-3 bg-background/90 backdrop-blur-sm ${className}`}>
       <div className="space-y-2">
         <div className="text-center">
-          <div className="text-sm font-medium">Surah {currentSurah}, Verse {currentVerse}</div>
+          <div className="text-sm font-medium">{t('recitation.surah.verse').replace('{surah}', currentSurah.toString()).replace('{verse}', currentVerse.toString())}</div>
         </div>
         
         <div className="flex items-center justify-center gap-2">
@@ -86,7 +86,7 @@ export const RecitationControls = ({ className = '' }: RecitationControlsProps) 
         </div>
         
         <div className="text-xs text-center text-muted-foreground">
-          ⚠️ Audio files not included - add to /public/quran-audio/
+          {t('recitation.audio.warning')}
         </div>
       </div>
     </Card>

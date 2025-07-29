@@ -46,19 +46,19 @@ const ClickerGame = () => {
     <div className="min-h-screen bg-gradient-to-br from-purple-900 via-blue-900 to-indigo-900 flex items-center justify-center p-4">
       <Card className="w-full max-w-2xl bg-card/90 backdrop-blur-sm">
         <CardContent className="p-8 text-center">
-          <h2 className="text-3xl font-bold mb-6 text-primary">Clicker Arcade</h2>
+          <h2 className="text-3xl font-bold mb-6 text-primary">{t('clicker.title')}</h2>
           
           {!isOpened ? (
             <>
               <div className="mb-6">
                 <p className="text-lg mb-4 text-muted-foreground">
-                  Click the gift package to open it!
+                  {t('clicker.instruction')}
                 </p>
                 <p className="text-base mb-2 text-primary font-semibold">
-                  Never forget to do dhikr
+                  {t('clicker.dhikr.reminder')}
                 </p>
                 <p className="text-sm text-muted-foreground">
-                  Clicks remaining: <span className="font-bold text-primary">{clicksRemaining}</span>
+                  {t('clicker.clicks.remaining')}: <span className="font-bold text-primary">{clicksRemaining}</span>
                 </p>
               </div>
 
@@ -82,14 +82,14 @@ const ClickerGame = () => {
               </div>
 
               <p className="text-sm text-muted-foreground">
-                {clicks > 0 && `You've clicked ${clicks} times!`}
+                {clicks > 0 && t('clicker.clicked.times').replace('{count}', clicks.toString())}
               </p>
             </>
           ) : (
             <>
               <div className="mb-6">
                 <div className="text-6xl mb-4">🎁</div>
-                <h3 className="text-2xl font-bold mb-4 text-primary">Gift Opened!</h3>
+                <h3 className="text-2xl font-bold mb-4 text-primary">{t('clicker.gift.opened')}</h3>
               </div>
 
               {currentHadithIndex && (
@@ -105,7 +105,7 @@ const ClickerGame = () => {
 
               <Button onClick={resetGame} variant="outline" className="mt-4">
                 <RotateCcw className="w-4 h-4 mr-2" />
-                Open Another Gift
+                {t('clicker.open.another')}
               </Button>
             </>
           )}
