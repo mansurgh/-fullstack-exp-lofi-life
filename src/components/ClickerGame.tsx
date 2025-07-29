@@ -57,7 +57,7 @@ const ClickerGame = () => {
     const newClicks = clicks + 1;
     setClicks(newClicks);
     
-    if (newClicks >= 1000) {
+    if (newClicks >= 100) {
       setIsOpened(true);
       const randomHadith = ahadith[Math.floor(Math.random() * ahadith.length)];
       setCurrentHadith(randomHadith);
@@ -70,8 +70,8 @@ const ClickerGame = () => {
     setCurrentHadith(null);
   };
 
-  const clicksRemaining = Math.max(0, 1000 - clicks);
-  const progress = (clicks / 1000) * 100;
+  const clicksRemaining = Math.max(0, 100 - clicks);
+  const progress = (clicks / 100) * 100;
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-purple-900 via-blue-900 to-indigo-900 flex items-center justify-center p-4">
@@ -84,6 +84,9 @@ const ClickerGame = () => {
               <div className="mb-6">
                 <p className="text-lg mb-4 text-muted-foreground">
                   Click the gift package to open it!
+                </p>
+                <p className="text-base mb-2 text-primary font-semibold">
+                  Never forget to do dhikr
                 </p>
                 <p className="text-sm text-muted-foreground">
                   Clicks remaining: <span className="font-bold text-primary">{clicksRemaining}</span>
