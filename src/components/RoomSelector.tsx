@@ -4,26 +4,42 @@ import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { useTranslation } from '@/contexts/TranslationContext';
-import rainyStudyRoom from "@/assets/rainy-study-room.jpg";
-import sunnyGardenRoom from "@/assets/sunny-garden-room.jpg";
-import fireplaceNook from "@/assets/fireplace-nook.jpg";
-import moonlitCorner from "@/assets/moonlit-corner.jpg";
-import seasideSanctuary from "@/assets/seaside-sanctuary.jpg";
-import desertMirage from "@/assets/desert-mirage.jpg";
-import tuscanVista from "@/assets/tuscan-vista.jpg";
-import stellarMeditation from "@/assets/stellar-meditation.jpg";
-import alpineRetreat from "@/assets/alpine-retreat.jpg";
-import woodlandHaven from "@/assets/woodland-haven.jpg";
-import russianWinter from "@/assets/russian-winter.jpg";
-import chechenTower from "@/assets/chechen-tower.jpg";
-import frenchEiffel from "@/assets/french-eiffel.jpg";
-import norwegianLandscape from "@/assets/norwegian-landscape.jpg";
-import tokyoNeon from "@/assets/tokyo-neon.jpg";
-import belgianGrey from "@/assets/belgian-grey.jpg";
-import germanBrown from "@/assets/german-brown.jpg";
-import dutchFarm from "@/assets/dutch-farm.jpg";
-import chineseLake from "@/assets/chinese-lake.jpg";
-import circusTent from "@/assets/circus-tent.jpg";
+
+// Clean high-quality images (no living beings)
+import cleanRainyStudy from "@/assets/clean-rainy-study.jpg";
+import cleanSunnyGarden from "@/assets/clean-sunny-garden.jpg";
+import cleanFireplaceNook from "@/assets/clean-fireplace-nook.jpg";
+import cleanMoonlitCorner from "@/assets/clean-moonlit-corner.jpg";
+import cleanSeasideSanctuary from "@/assets/clean-seaside-sanctuary.jpg";
+import cleanDesertMirage from "@/assets/clean-desert-mirage.jpg";
+import cleanTuscanVista from "@/assets/clean-tuscan-vista.jpg";
+import cleanStellarMeditation from "@/assets/clean-stellar-meditation.jpg";
+import cleanAlpineRetreat from "@/assets/clean-alpine-retreat.jpg";
+import cleanWoodlandHaven from "@/assets/clean-woodland-haven.jpg";
+import cleanRussianWinter from "@/assets/clean-russian-winter.jpg";
+import cleanChechenTower from "@/assets/clean-chechen-tower.jpg";
+import cleanFrenchEiffel from "@/assets/clean-french-eiffel.jpg";
+import cleanNorwegianLandscape from "@/assets/clean-norwegian-landscape.jpg";
+import cleanTokyoNeon from "@/assets/clean-tokyo-neon.jpg";
+import cleanBelgianGrey from "@/assets/clean-belgian-grey.jpg";
+import cleanGermanBrown from "@/assets/clean-german-brown.jpg";
+import cleanDutchFarm from "@/assets/clean-dutch-farm.jpg";
+import cleanChineseLake from "@/assets/clean-chinese-lake.jpg";
+import cleanCircusTent from "@/assets/clean-circus-tent.jpg";
+import cleanLibraryRoom from "@/assets/clean-library-room.jpg";
+import cleanMosqueInterior from "@/assets/clean-mosque-interior.jpg";
+import cleanRgbRoom from "@/assets/clean-rgb-room.jpg";
+import cleanPolandSnow from "@/assets/clean-poland-snow.jpg";
+import cleanAntarcticIgloo from "@/assets/clean-antarctic-igloo.jpg";
+import cleanSpaceShip from "@/assets/clean-space-ship.jpg";
+import cleanPinkCandy from "@/assets/clean-pink-candy.jpg";
+import cleanPrisonCell from "@/assets/clean-prison-cell.jpg";
+import cleanSkyscraperView from "@/assets/clean-skyscraper-view.jpg";
+import cleanSubmarineView from "@/assets/clean-submarine-view.jpg";
+import cleanTetrisRoom from "@/assets/clean-tetris-room.jpg";
+import cleanClickerArcade from "@/assets/clean-clicker-arcade.jpg";
+
+// Sport rooms (keeping original)
 import footballField from "@/assets/football-field.jpg";
 import tennisCourt from "@/assets/tennis-court.jpg";
 import basketballCourt from "@/assets/basketball-court.jpg";
@@ -32,23 +48,12 @@ import bowlingAlley from "@/assets/bowling-alley.jpg";
 import americanFootball from "@/assets/american-football.jpg";
 import hockeyRink from "@/assets/hockey-rink.jpg";
 import indoorPool from "@/assets/indoor-pool.jpg";
-import spongebobPineapple from "@/assets/spongebob-pineapple.jpg";
-import minecraftRoom from "@/assets/minecraft-room.jpg";
-import mosqueInterior from "@/assets/mosque-interior.jpg";
-import libraryRoom from "@/assets/library-room.jpg";
-import rgbRoom from "@/assets/rgb-room.jpg";
-import polandSnow from "@/assets/poland-snow.jpg";
-import antarcticIgloo from "@/assets/antarctic-igloo.jpg";
-import spaceShip from "@/assets/space-ship.jpg";
-import pinkCandy from "@/assets/pink-candy.jpg";
-import prisonCell from "@/assets/prison-cell.jpg";
-import skyscraperView from "@/assets/skyscraper-view.jpg";
-import submarineView from "@/assets/submarine-view.jpg";
-import pirateShip from "@/assets/pirate-ship.jpg";
-import pirateDeckView from "@/assets/pirate-deck-view.jpg";
-import narutoRoom from "@/assets/naruto-room.jpg";
-import tetrisRoom from "@/assets/tetris-room.jpg";
-import clickerArcade from "@/assets/clicker-arcade.jpg";
+
+// Fictional characters (replaced with clean versions)
+import cleanMinecraftRoom from "@/assets/clean-tetris-room.jpg"; // Using tetris room for minecraft
+import cleanNarutoRoom from "@/assets/clean-library-room.jpg"; // Using library for naruto
+import cleanSpongebobPineapple from "@/assets/clean-submarine-view.jpg"; // Using submarine for underwater
+import cleanPirateDeckView from "@/assets/clean-seaside-sanctuary.jpg"; // Using seaside for pirate
 
 interface Room {
   id: string;
