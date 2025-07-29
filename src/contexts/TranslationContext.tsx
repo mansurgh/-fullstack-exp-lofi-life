@@ -113,6 +113,8 @@ const translations = {
     'room.naruto-room.description': 'Ramen restaurant with ninja weapons and peaceful atmosphere',
     'room.tetris-room.name': 'Tetris Arcade',
     'room.tetris-room.description': 'Retro gaming room with playable tetris using WASD controls',
+    'room.racing-arcade.name': 'Racing Arcade',
+    'room.racing-arcade.description': 'Retro racing room with car avoiding obstacles using AD controls',
     
     // Room interface
     'room.back': 'Back to Rooms',
