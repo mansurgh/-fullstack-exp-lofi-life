@@ -4,6 +4,7 @@ import { Room } from '@/components/Room';
 import { HelpMeOut } from '@/components/HelpMeOut';
 import { ThemeSelector } from '@/components/ThemeSelector';
 import { LanguageSelector } from '@/components/LanguageSelector';
+import { RecitationControls } from '@/components/RecitationControls';
 import { useTranslation } from '@/contexts/TranslationContext';
 
 const Index = () => {
@@ -24,7 +25,16 @@ const Index = () => {
 
   if (selectedRoom) {
     console.log('Rendering Room component with ID:', selectedRoom);
-    return <Room roomId={selectedRoom} onBack={handleBackToRooms} />;
+    return (
+      <>
+        <Room roomId={selectedRoom} onBack={handleBackToRooms} />
+        
+        {/* Persistent Recitation Controls */}
+        <div className="fixed bottom-4 right-4 z-50">
+          <RecitationControls />
+        </div>
+      </>
+    );
   }
 
   console.log('Rendering RoomSelector component');
@@ -35,6 +45,11 @@ const Index = () => {
       </div>
       <RoomSelector onSelectRoom={handleSelectRoom} />
       <HelpMeOut />
+      
+      {/* Persistent Recitation Controls */}
+      <div className="fixed bottom-4 right-4 z-50">
+        <RecitationControls />
+      </div>
     </div>
   );
 };

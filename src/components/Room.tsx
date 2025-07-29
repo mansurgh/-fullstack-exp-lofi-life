@@ -832,8 +832,8 @@ export const Room = ({ roomId, onBack }: RoomProps) => {
 
       {/* Tetris Game - Only for tetris room */}
       {roomId === 'tetris-room' && (
-        <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
-          <TetrisGame className="w-auto max-w-sm" />
+        <div className="absolute top-4 right-4 w-64">
+          <TetrisGame className="w-full" />
         </div>
       )}
 
