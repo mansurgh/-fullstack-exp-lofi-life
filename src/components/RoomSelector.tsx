@@ -497,13 +497,13 @@ export const RoomSelector = ({ onSelectRoom }: RoomSelectorProps) => {
           </p>
         </div>
         
-        {/* Filter Buttons */}
-        <div className="flex justify-center items-center gap-2 mb-8">
+        {/* Filter Buttons - more compact on mobile */}
+        <div className="flex justify-center items-center gap-1 sm:gap-2 mb-4 sm:mb-8">
           <Button
             onClick={() => handleFilterChange('all')}
             variant={selectedFilter === 'all' ? 'default' : 'outline'}
             size="sm"
-            className="px-4 py-2"
+            className="px-2 py-1 text-xs sm:px-4 sm:py-2 sm:text-sm"
           >
             All
           </Button>
@@ -511,7 +511,7 @@ export const RoomSelector = ({ onSelectRoom }: RoomSelectorProps) => {
             onClick={() => handleFilterChange('places')}
             variant={selectedFilter === 'places' ? 'default' : 'outline'}
             size="sm"
-            className="px-4 py-2"
+            className="px-2 py-1 text-xs sm:px-4 sm:py-2 sm:text-sm"
           >
             Places
           </Button>
@@ -519,7 +519,7 @@ export const RoomSelector = ({ onSelectRoom }: RoomSelectorProps) => {
             onClick={() => handleFilterChange('hobbies')}
             variant={selectedFilter === 'hobbies' ? 'default' : 'outline'}
             size="sm"
-            className="px-4 py-2"
+            className="px-2 py-1 text-xs sm:px-4 sm:py-2 sm:text-sm"
           >
             Hobbies
           </Button>
@@ -527,53 +527,56 @@ export const RoomSelector = ({ onSelectRoom }: RoomSelectorProps) => {
             onClick={() => handleFilterChange('fantasy')}
             variant={selectedFilter === 'fantasy' ? 'default' : 'outline'}
             size="sm"
-            className="px-4 py-2"
+            className="px-2 py-1 text-xs sm:px-4 sm:py-2 sm:text-sm"
           >
             Fantasy
           </Button>
         </div>
         
-        {/* Page Navigation */}
-        <div className="flex justify-center items-center gap-4 mb-8">
-          <Button
-            onClick={goToPrevPage}
-            variant="outline"
-            size="sm"
-            className="flex items-center gap-2"
-          >
-            <ChevronLeft className="w-4 h-4" />
-            Previous
-          </Button>
-          
-          <span className="text-sm text-muted-foreground">
-            Page {currentPage + 1} of {totalPages}
-          </span>
-          
-          <Button
-            onClick={goToNextPage}
-            variant="outline"
-            size="sm"
-            className="flex items-center gap-2"
-          >
-            Next
-            <ChevronRight className="w-4 h-4" />
-          </Button>
-        </div>
+        {/* Page Navigation - hide on mobile if only one page */}
+        {totalPages > 1 && (
+          <div className="flex justify-center items-center gap-2 sm:gap-4 mb-4 sm:mb-8">
+            <Button
+              onClick={goToPrevPage}
+              variant="outline"
+              size="sm"
+              className="flex items-center gap-1 px-2 sm:px-4"
+            >
+              <ChevronLeft className="w-3 h-3 sm:w-4 sm:h-4" />
+              <span className="hidden sm:inline">Previous</span>
+            </Button>
+            
+            <span className="text-xs sm:text-sm text-muted-foreground px-2">
+              {currentPage + 1}/{totalPages}
+            </span>
+            
+            <Button
+              onClick={goToNextPage}
+              variant="outline"
+              size="sm"
+              className="flex items-center gap-1 px-2 sm:px-4"
+            >
+              <span className="hidden sm:inline">Next</span>
+              <ChevronRight className="w-3 h-3 sm:w-4 sm:h-4" />
+            </Button>
+          </div>
+        )}
         
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 lg:gap-8">
+        <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-3 gap-2 sm:gap-6 lg:gap-8">
           {currentRooms.map((room) => (
             <Card 
               key={room.id}
-              className="overflow-hidden shadow-soft hover:shadow-glow transition-all duration-300 hover:scale-[1.02] bg-card border-border"
+              className="overflow-hidden shadow-soft hover:shadow-glow transition-all duration-300 hover:scale-[1.02] bg-card border-border cursor-pointer"
+              onClick={() => onSelectRoom(room.id)}
             >
               <div className="relative">
                 <img 
                   src={room.thumbnail} 
                   alt={room.name}
-                  className="aspect-video w-full object-cover rounded-t-lg"
+                  className="aspect-video w-full object-cover"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
-                <div className="absolute top-2 sm:top-4 right-2 sm:right-4 text-2xl sm:text-3xl opacity-80">
+                <div className="absolute top-1 sm:top-4 right-1 sm:right-4 text-sm sm:text-2xl opacity-80">
                   {room.ambientType === 'rain' && '🌧️'}
                   {room.ambientType === 'birds' && '☀️'}
                   {room.ambientType === 'fire' && '🔥'}
@@ -596,52 +599,19 @@ export const RoomSelector = ({ onSelectRoom }: RoomSelectorProps) => {
                   {room.ambientType === 'pages' && '📚'}
                   {room.ambientType === 'japanese' && '🍜'}
                 </div>
-              </div>
-              
-              <div className="p-4 sm:p-6">
-                <h3 className="text-xl sm:text-2xl font-semibold text-card-foreground mb-2">
-                  {t(`room.${room.id}.name`)}
-                </h3>
-                <p className="text-sm sm:text-base text-muted-foreground mb-4 leading-relaxed">
-                  {t(`room.${room.id}.description`)}
-                </p>
-                <Button 
-                  onClick={() => onSelectRoom(room.id)}
-                  className="w-full bg-primary hover:bg-primary/90 text-primary-foreground font-medium py-2 sm:py-3"
-                >
-                  {t('main.enter.room')}
-                </Button>
+                <div className="absolute bottom-1 sm:bottom-3 left-1 sm:left-3 right-1 sm:right-3">
+                  <h3 className="text-white font-semibold text-sm sm:text-lg mb-1 drop-shadow-lg">
+                    {t(`room.${room.id}.name`)}
+                  </h3>
+                  <p className="text-white/90 text-xs line-clamp-2 drop-shadow hidden sm:block">
+                    {t(`room.${room.id}.description`)}
+                  </p>
+                </div>
               </div>
             </Card>
           ))}
         </div>
         
-        {/* Bottom Navigation */}
-        <div className="flex justify-center items-center gap-4 mt-12">
-          <Button
-            onClick={goToPrevPage}
-            variant="outline"
-            size="sm"
-            className="flex items-center gap-2"
-          >
-            <ChevronLeft className="w-4 h-4" />
-            Previous
-          </Button>
-          
-          <span className="text-sm text-muted-foreground">
-            Page {currentPage + 1} of {totalPages}
-          </span>
-          
-          <Button
-            onClick={goToNextPage}
-            variant="outline"
-            size="sm"
-            className="flex items-center gap-2"
-          >
-            Next
-            <ChevronRight className="w-4 h-4" />
-          </Button>
-        </div>
         
         <div className="text-center mt-8 sm:mt-12 px-4">
           <p className="text-xs sm:text-sm text-muted-foreground">

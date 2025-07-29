@@ -57,15 +57,21 @@ const Index = () => {
 
   console.log('Rendering RoomSelector component');
   return (
-    <div className="min-h-screen p-4 space-y-6">
-      <div className="flex justify-end items-center mb-4">
+    <div className="min-h-screen p-2 sm:p-4 space-y-4 sm:space-y-6">
+      {/* Theme selector - hidden on mobile, shown on larger screens */}
+      <div className="hidden sm:flex justify-end items-center mb-4">
         <ThemeSelector />
       </div>
-      <RoomSelector onSelectRoom={handleSelectRoom} />
-      <HelpMeOut />
       
-      {/* Persistent Recitation Controls */}
-      <div className="fixed bottom-4 right-4 z-50">
+      <RoomSelector onSelectRoom={handleSelectRoom} />
+      
+      {/* HelpMeOut - hidden on mobile to reduce clutter */}
+      <div className="hidden sm:block">
+        <HelpMeOut />
+      </div>
+      
+      {/* Persistent Recitation Controls - mobile friendly */}
+      <div className="fixed bottom-2 right-2 sm:bottom-4 sm:right-4 z-50">
         <RecitationControls />
       </div>
     </div>
