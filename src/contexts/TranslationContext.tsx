@@ -113,6 +113,8 @@ const translations = {
     'room.naruto-room.description': 'Ramen restaurant with ninja weapons and peaceful atmosphere',
     'room.tetris-room.name': 'Tetris Arcade',
     'room.tetris-room.description': 'Retro gaming room with playable tetris using WASD controls',
+    'room.clicker-arcade.name': 'Clicker Arcade',
+    'room.clicker-arcade.description': 'Click gift packages to discover ahadith wisdom',
     
     // Room interface
     'room.back': 'Back to Rooms',
@@ -210,6 +212,10 @@ const translations = {
     'room.alpine-retreat.description': 'Горные ветра, свистящие через мирные заснеженные вершины',
     'room.woodland-haven.name': 'Лесная Гавань',
     'room.woodland-haven.description': 'Лесные звуки с нежным шелестом листьев и симфонией природы',
+    'room.tetris-room.name': 'Тетрис Аркада',
+    'room.tetris-room.description': 'Ретро игровая комната с играбельным тетрисом с управлением WASD',
+    'room.clicker-arcade.name': 'Кликер Аркада',
+    'room.clicker-arcade.description': 'Кликайте по подарочным коробкам, чтобы открыть мудрость хадисов',
     
     // Room interface
     'room.back': 'Вернуться к Комнатам',

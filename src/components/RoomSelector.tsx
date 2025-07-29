@@ -47,6 +47,7 @@ import pirateShip from "@/assets/pirate-ship.jpg";
 import pirateDeckView from "@/assets/pirate-deck-view.jpg";
 import narutoRoom from "@/assets/naruto-room.jpg";
 import tetrisRoom from "@/assets/tetris-room.jpg";
+import clickerArcade from "@/assets/clicker-arcade.jpg";
 
 interface Room {
   id: string;
@@ -361,6 +362,13 @@ const rooms: Room[] = [
     description: 'Retro gaming room with playable tetris using WASD controls',
     thumbnail: tetrisRoom,
     ambientType: 'electronic'
+  },
+  {
+    id: 'clicker-arcade',
+    name: 'Clicker Arcade',
+    description: 'Click gift packages to discover ahadith wisdom',
+    thumbnail: clickerArcade,
+    ambientType: 'electronic'
   }
 ];
 
@@ -414,7 +422,8 @@ const roomCategories: Record<string, FilterCategory> = {
   'pink-candy': 'fantasy',
   'pirate-deck-view': 'fantasy',
   'naruto-room': 'fantasy',
-  'tetris-room': 'hobbies'
+  'tetris-room': 'hobbies',
+  'clicker-arcade': 'hobbies'
 };
 
 export const RoomSelector = ({ onSelectRoom }: RoomSelectorProps) => {

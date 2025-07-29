@@ -4,6 +4,7 @@ import { Slider } from "@/components/ui/slider";
 import { Card } from "@/components/ui/card";
 import { QuranReader } from './QuranReader';
 import { TetrisGame } from './TetrisGame';
+import ClickerGame from './ClickerGame';
 import { Volume2, VolumeX, ArrowLeft, Moon, Sun, RotateCcw } from 'lucide-react';
 import { useTranslation } from '@/contexts/TranslationContext';
 import rainyStudyRoom from "@/assets/rainy-study-room.jpg";
@@ -50,6 +51,7 @@ import pirateShip from "@/assets/pirate-ship.jpg";
 import pirateDeckView from "@/assets/pirate-deck-view.jpg";
 import narutoRoom from "@/assets/naruto-room.jpg";
 import tetrisRoom from "@/assets/tetris-room.jpg";
+import clickerArcade from '@/assets/clicker-arcade.jpg';
 
 interface RoomProps {
   roomId: string;
@@ -508,6 +510,17 @@ const roomConfigs: Record<string, RoomConfig> = {
       { type: 'glow', className: 'absolute top-16 right-16 w-20 h-20 bg-blue-500/25 rounded-full blur-xl', animation: 'animate-pulse' },
       { type: 'glow', className: 'absolute bottom-20 left-20 w-24 h-24 bg-purple-500/20 rounded-full blur-xl', animation: 'animate-pulse' }
     ]
+  },
+  'clicker-arcade': {
+    name: 'Clicker Arcade',
+    description: 'Click gift packages to discover ahadith wisdom',
+    ambientSound: 'electronic',
+    backgroundImage: clickerArcade,
+    quranPosition: { x: 'right-1/3', y: 'top-1/2' },
+    interactiveElements: [
+      { type: 'glow', className: 'absolute top-20 left-20 w-24 h-24 bg-pink-500/25 rounded-full blur-xl', animation: 'animate-pulse' },
+      { type: 'glow', className: 'absolute bottom-24 right-24 w-20 h-20 bg-purple-500/20 rounded-full blur-xl', animation: 'animate-pulse' }
+    ]
   }
 };
 
@@ -837,13 +850,22 @@ export const Room = ({ roomId, onBack }: RoomProps) => {
         </div>
       )}
 
+      {/* Clicker Game - Only for clicker arcade */}
+      {roomId === 'clicker-arcade' && (
+        <div className="fixed inset-0 z-50">
+          <ClickerGame />
+        </div>
+      )}
+
       {/* Room Info */}
       <Card className="absolute bottom-4 sm:bottom-6 right-4 sm:right-6 p-3 sm:p-4 bg-card/80 backdrop-blur-sm border-border/50 w-[calc(100%-2rem)] sm:w-auto max-w-xs">
         <h3 className="font-semibold text-card-foreground mb-1 text-sm sm:text-base">
           {t(`room.${roomId}.name`)}
         </h3>
         <p className="text-xs text-muted-foreground">
-          {roomId === 'tetris-room' ? 'Use WASD keys to play!' : t('room.quran.click')}
+          {roomId === 'tetris-room' ? 'Use WASD keys to play!' : 
+           roomId === 'clicker-arcade' ? 'Click the gift package 1000 times!' : 
+           t('room.quran.click')}
         </p>
       </Card>
 
