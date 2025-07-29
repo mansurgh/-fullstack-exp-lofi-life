@@ -72,7 +72,7 @@ const rooms: Room[] = [
     id: 'rainy-study',
     name: 'Rainy Study',
     description: 'A cozy study room with rain gently falling outside the window',
-    thumbnail: cleanRainyStudy,
+    thumbnail: lofiRainyStudy,
     ambientType: 'rain'
   },
   {

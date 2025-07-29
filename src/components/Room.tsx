@@ -8,60 +8,46 @@ import { TetrisGame } from './TetrisGame';
 import ClickerGame from './ClickerGame';
 import { Volume2, VolumeX, ArrowLeft, Moon, Sun, RotateCcw } from 'lucide-react';
 import { useTranslation } from '@/contexts/TranslationContext';
-import rainyStudyRoom from "@/assets/rainy-study-room.jpg";
-import sunnyGardenRoom from "@/assets/sunny-garden-room.jpg";
-import fireplaceNook from "@/assets/fireplace-nook.jpg";
-import moonlitCorner from "@/assets/moonlit-corner.jpg";
-import seasideSanctuary from "@/assets/seaside-sanctuary.jpg";
-import desertMirage from "@/assets/desert-mirage.jpg";
-import tuscanVista from "@/assets/tuscan-vista.jpg";
-import stellarMeditation from "@/assets/stellar-meditation.jpg";
-import alpineRetreat from "@/assets/alpine-retreat.jpg";
-import woodlandHaven from "@/assets/woodland-haven.jpg";
-import russianWinter from "@/assets/russian-winter.jpg";
-import chechenTower from "@/assets/chechen-tower.jpg";
-import frenchEiffel from "@/assets/french-eiffel.jpg";
-import norwegianLandscape from "@/assets/norwegian-landscape.jpg";
-import tokyoNeon from "@/assets/tokyo-neon.jpg";
 
-// Clean high-quality images (no living beings)
-import cleanRainyStudy from "@/assets/clean-rainy-study.jpg";
-import cleanSunnyGarden from "@/assets/clean-sunny-garden.jpg";
-import cleanFireplaceNook from "@/assets/clean-fireplace-nook.jpg";
-import cleanMoonlitCorner from "@/assets/clean-moonlit-corner.jpg";
-import cleanSeasideSanctuary from "@/assets/clean-seaside-sanctuary.jpg";
-import cleanDesertMirage from "@/assets/clean-desert-mirage.jpg";
-import cleanTuscanVista from "@/assets/clean-tuscan-vista.jpg";
-import cleanStellarMeditation from "@/assets/clean-stellar-meditation.jpg";
-import cleanAlpineRetreat from "@/assets/clean-alpine-retreat.jpg";
-import cleanWoodlandHaven from "@/assets/clean-woodland-haven.jpg";
-import cleanRussianWinter from "@/assets/clean-russian-winter.jpg";
-import cleanChechenTower from "@/assets/clean-chechen-tower.jpg";
-import cleanFrenchEiffel from "@/assets/clean-french-eiffel.jpg";
-import cleanNorwegianLandscape from "@/assets/clean-norwegian-landscape.jpg";
-import cleanTokyoNeon from "@/assets/clean-tokyo-neon.jpg";
-import cleanDutchFarm from "@/assets/clean-dutch-farm.jpg";
-import cleanChineseLake from "@/assets/clean-chinese-lake.jpg";
-import cleanLibraryRoom from "@/assets/clean-library-room.jpg";
-import cleanMosqueInterior from "@/assets/clean-mosque-interior.jpg";
-import cleanSpaceShip from "@/assets/clean-space-ship.jpg";
-import cleanRgbRoom from "@/assets/clean-rgb-room.jpg";
-import cleanAntarcticIgloo from "@/assets/clean-antarctic-igloo.jpg";
-import cleanPinkCandy from "@/assets/clean-pink-candy.jpg";
-import cleanPrisonCell from "@/assets/clean-prison-cell.jpg";
-import cleanSkyscraperView from "@/assets/clean-skyscraper-view.jpg";
-import cleanSubmarineView from "@/assets/clean-submarine-view.jpg";
-import cleanCircusTent from "@/assets/clean-circus-tent.jpg";
-import cleanTetrisRoom from "@/assets/clean-tetris-room.jpg";
-import cleanClickerArcade from "@/assets/clean-clicker-arcade.jpg";
-import cleanPolandSnow from "@/assets/clean-poland-snow.jpg";
-import cleanBelgianGrey from "@/assets/clean-belgian-grey.jpg";
-import cleanGermanBrown from "@/assets/clean-german-brown.jpg";
-import belgianGrey from "@/assets/belgian-grey.jpg";
-import germanBrown from "@/assets/german-brown.jpg";
-import dutchFarm from "@/assets/dutch-farm.jpg";
-import chineseLake from "@/assets/chinese-lake.jpg";
-import circusTent from "@/assets/circus-tent.jpg";
+// Lofi first-person room images
+import lofiRainyStudy from '@/assets/lofi-rainy-study.jpg';
+import lofiSunnyGarden from '@/assets/lofi-sunny-garden.jpg';
+import lofiFireplaceNook from '@/assets/lofi-fireplace-nook.jpg';
+import lofiMoonlitCorner from '@/assets/lofi-moonlit-corner.jpg';
+import lofiSeasideSanctuary from '@/assets/lofi-seaside-sanctuary.jpg';
+import lofiDesertMirage from '@/assets/lofi-desert-mirage.jpg';
+import lofiTuscanVista from '@/assets/lofi-tuscan-vista.jpg';
+import lofiStellarMeditation from '@/assets/lofi-stellar-meditation.jpg';
+import lofiAlpineRetreat from '@/assets/lofi-alpine-retreat.jpg';
+import lofiWoodlandHaven from '@/assets/lofi-woodland-haven.jpg';
+import lofiRussianWinter from '@/assets/lofi-russian-winter.jpg';
+import lofiChechenTower from '@/assets/lofi-chechen-tower.jpg';
+import lofiFrenchEiffel from '@/assets/lofi-french-eiffel.jpg';
+import lofiNorwegianLandscape from '@/assets/lofi-norwegian-landscape.jpg';
+import lofiTokyoNeon from '@/assets/lofi-tokyo-neon.jpg';
+import lofiBelgianGrey from '@/assets/lofi-belgian-grey.jpg';
+import lofiGermanBrown from '@/assets/lofi-german-brown.jpg';
+import lofiDutchFarm from '@/assets/lofi-dutch-farm.jpg';
+import lofiChineseLake from '@/assets/lofi-chinese-lake.jpg';
+import lofiCircusTent from '@/assets/lofi-circus-tent.jpg';
+import lofiMosqueInterior from '@/assets/lofi-mosque-interior.jpg';
+import lofiLibraryRoom from '@/assets/lofi-library-room.jpg';
+import lofiRgbRoom from '@/assets/lofi-rgb-room.jpg';
+import lofiPolandSnow from '@/assets/lofi-poland-snow.jpg';
+import lofiAntarcticIgloo from '@/assets/lofi-antarctic-igloo.jpg';
+import lofiSpaceShip from '@/assets/lofi-space-ship.jpg';
+import lofiPinkCandy from '@/assets/lofi-pink-candy.jpg';
+import lofiPrisonCell from '@/assets/lofi-prison-cell.jpg';
+import lofiSkyscraperView from '@/assets/lofi-skyscraper-view.jpg';
+import lofiSubmarineView from '@/assets/lofi-submarine-view.jpg';
+import lofiClickerArcade from '@/assets/lofi-clicker-arcade.jpg';
+import lofiTetrisRoom from '@/assets/lofi-tetris-room.jpg';
+import lofiSpongebobPineapple from '@/assets/lofi-spongebob-pineapple.jpg';
+import lofiMinecraftRoom from '@/assets/lofi-minecraft-room.jpg';
+import lofiPirateDeckView from '@/assets/lofi-pirate-deck-view.jpg';
+import lofiNarutoRoom from '@/assets/lofi-naruto-room.jpg';
+
+// Sports images (keep original as requested)
 import footballField from "@/assets/football-field.jpg";
 import tennisCourt from "@/assets/tennis-court.jpg";
 import basketballCourt from "@/assets/basketball-court.jpg";
@@ -70,23 +56,6 @@ import bowlingAlley from "@/assets/bowling-alley.jpg";
 import americanFootball from "@/assets/american-football.jpg";
 import hockeyRink from "@/assets/hockey-rink.jpg";
 import indoorPool from "@/assets/indoor-pool.jpg";
-import spongebobPineapple from "@/assets/spongebob-pineapple.jpg";
-import minecraftRoom from "@/assets/minecraft-room.jpg";
-import mosqueInterior from "@/assets/mosque-interior.jpg";
-import libraryRoom from "@/assets/library-room.jpg";
-import rgbRoom from "@/assets/rgb-room.jpg";
-import polandSnow from "@/assets/poland-snow.jpg";
-import antarcticIgloo from "@/assets/antarctic-igloo.jpg";
-import spaceShip from "@/assets/space-ship.jpg";
-import pinkCandy from "@/assets/pink-candy.jpg";
-import prisonCell from "@/assets/prison-cell.jpg";
-import skyscraperView from "@/assets/skyscraper-view.jpg";
-import submarineView from "@/assets/submarine-view.jpg";
-import pirateShip from "@/assets/pirate-ship.jpg";
-import pirateDeckView from "@/assets/pirate-deck-view.jpg";
-import narutoRoom from "@/assets/naruto-room.jpg";
-import tetrisRoom from "@/assets/tetris-room.jpg";
-import clickerArcade from '@/assets/clicker-arcade.jpg';
 
 interface RoomProps {
   roomId: string;
@@ -111,7 +80,7 @@ const roomConfigs: Record<string, RoomConfig> = {
     name: 'Rainy Study',
     description: 'Rain gently pattering against the window',
     ambientSound: 'rain',
-    backgroundImage: cleanRainyStudy,
+    backgroundImage: lofiRainyStudy,
     quranPosition: { x: 'left-1/2', y: 'top-3/4' },
     interactiveElements: []
   },
@@ -119,7 +88,7 @@ const roomConfigs: Record<string, RoomConfig> = {
     name: 'Garden View',
     description: 'Birds chirping in the sunny garden',
     ambientSound: 'birds',
-    backgroundImage: cleanSunnyGarden,
+    backgroundImage: lofiSunnyGarden,
     quranPosition: { x: 'right-1/4', y: 'top-2/3' },
     interactiveElements: [
       { type: 'floating', className: 'absolute top-20 left-10 w-8 h-8 text-yellow-400 text-2xl', animation: 'animate-bounce' }
@@ -129,7 +98,7 @@ const roomConfigs: Record<string, RoomConfig> = {
     name: 'Fireplace Nook',
     description: 'Crackling fire warming the cozy space',
     ambientSound: 'fire',
-    backgroundImage: cleanFireplaceNook,
+    backgroundImage: lofiFireplaceNook,
     quranPosition: { x: 'left-1/3', y: 'top-1/2' },
     interactiveElements: [
       { type: 'glow', className: 'absolute bottom-20 left-1/4 w-32 h-16 bg-orange-500/20 rounded-full blur-xl', animation: 'animate-pulse' }
@@ -139,7 +108,7 @@ const roomConfigs: Record<string, RoomConfig> = {
     name: 'Moonlit Corner',
     description: 'Peaceful moonlight through the window',
     ambientSound: 'night',
-    backgroundImage: cleanMoonlitCorner,
+    backgroundImage: lofiMoonlitCorner,
     quranPosition: { x: 'right-1/3', y: 'top-3/5' },
     interactiveElements: [
       { type: 'glow', className: 'absolute top-10 right-20 w-24 h-24 bg-blue-300/20 rounded-full blur-2xl', animation: 'animate-pulse' }
@@ -149,7 +118,7 @@ const roomConfigs: Record<string, RoomConfig> = {
     name: 'Seaside Room',
     description: 'Peaceful ocean waves',
     ambientSound: 'waves',
-    backgroundImage: cleanSeasideSanctuary,
+    backgroundImage: lofiSeasideSanctuary,
     quranPosition: { x: 'left-1/4', y: 'top-1/2' },
     interactiveElements: [
       { type: 'floating', className: 'absolute top-32 right-10 w-6 h-6 text-blue-300 text-xl', animation: 'animate-bounce' }
@@ -159,7 +128,7 @@ const roomConfigs: Record<string, RoomConfig> = {
     name: 'Desert Mirage',
     description: 'Gentle desert winds and sandy whispers',
     ambientSound: 'desert',
-    backgroundImage: cleanDesertMirage,
+    backgroundImage: lofiDesertMirage,
     quranPosition: { x: 'right-1/2', y: 'top-2/3' },
     interactiveElements: [
       { type: 'particles', className: 'absolute inset-0 bg-gradient-to-t from-yellow-600/10 via-transparent to-transparent', animation: 'animate-pulse' }
@@ -169,7 +138,7 @@ const roomConfigs: Record<string, RoomConfig> = {
     name: 'Tuscan Vista',
     description: 'Italian breeze and distant city murmurs',
     ambientSound: 'city',
-    backgroundImage: cleanTuscanVista,
+    backgroundImage: lofiTuscanVista,
     quranPosition: { x: 'left-1/3', y: 'top-3/5' },
     interactiveElements: [
       { type: 'glow', className: 'absolute bottom-32 right-20 w-20 h-20 bg-orange-400/15 rounded-full blur-xl', animation: 'animate-pulse' }
@@ -179,7 +148,7 @@ const roomConfigs: Record<string, RoomConfig> = {
     name: 'Stellar Meditation',
     description: 'Cosmic silence and ethereal space ambiance',
     ambientSound: 'space',
-    backgroundImage: cleanStellarMeditation,
+    backgroundImage: lofiStellarMeditation,
     quranPosition: { x: 'right-1/4', y: 'top-1/2' },
     interactiveElements: [
       { type: 'floating', className: 'absolute top-1/4 left-1/4 w-4 h-4 text-purple-300 text-lg', animation: 'animate-ping' },
@@ -190,7 +159,7 @@ const roomConfigs: Record<string, RoomConfig> = {
     name: 'Alpine Retreat',
     description: 'Mountain winds through peaceful peaks',
     ambientSound: 'wind',
-    backgroundImage: cleanAlpineRetreat,
+    backgroundImage: lofiAlpineRetreat,
     quranPosition: { x: 'left-1/2', y: 'top-3/4' },
     interactiveElements: [
       { type: 'particles', className: 'absolute inset-0 bg-gradient-to-b from-white/5 via-transparent to-transparent', animation: 'animate-pulse' }
@@ -200,7 +169,7 @@ const roomConfigs: Record<string, RoomConfig> = {
     name: 'Woodland Haven',
     description: 'Forest sounds and rustling leaves',
     ambientSound: 'forest',
-    backgroundImage: cleanWoodlandHaven,
+    backgroundImage: lofiWoodlandHaven,
     quranPosition: { x: 'right-1/3', y: 'top-1/3' },
     interactiveElements: [
       { type: 'floating', className: 'absolute top-40 left-16 w-6 h-6 text-green-400 text-xl', animation: 'animate-bounce' }
@@ -210,7 +179,7 @@ const roomConfigs: Record<string, RoomConfig> = {
     name: 'Russian Winter',
     description: 'Snow falling gently outside',
     ambientSound: 'snow',
-    backgroundImage: cleanRussianWinter,
+    backgroundImage: lofiRussianWinter,
     quranPosition: { x: 'left-1/2', y: 'top-2/3' },
     interactiveElements: [
       { type: 'particles', className: 'absolute inset-0 bg-gradient-to-b from-white/10 via-transparent to-transparent', animation: 'animate-pulse' }
@@ -220,7 +189,7 @@ const roomConfigs: Record<string, RoomConfig> = {
     name: 'Chechen Tower',
     description: 'Mountain winds around ancient tower',
     ambientSound: 'mountain',
-    backgroundImage: cleanChechenTower,
+    backgroundImage: lofiChechenTower,
     quranPosition: { x: 'right-1/4', y: 'top-1/2' },
     interactiveElements: [
       { type: 'glow', className: 'absolute top-20 right-10 w-16 h-16 bg-stone-400/20 rounded-full blur-xl', animation: 'animate-pulse' }
@@ -230,7 +199,7 @@ const roomConfigs: Record<string, RoomConfig> = {
     name: 'French Elegance',
     description: 'Parisian streets and Eiffel Tower',
     ambientSound: 'city',
-    backgroundImage: cleanFrenchEiffel,
+    backgroundImage: lofiFrenchEiffel,
     quranPosition: { x: 'left-1/3', y: 'top-3/5' },
     interactiveElements: [
       { type: 'glow', className: 'absolute bottom-40 right-20 w-24 h-24 bg-amber-400/15 rounded-full blur-xl', animation: 'animate-pulse' }
@@ -240,7 +209,7 @@ const roomConfigs: Record<string, RoomConfig> = {
     name: 'Norwegian Sky',
     description: 'Open landscape with mountain winds',
     ambientSound: 'wind',
-    backgroundImage: cleanNorwegianLandscape,
+    backgroundImage: lofiNorwegianLandscape,
     quranPosition: { x: 'right-1/2', y: 'top-3/4' },
     interactiveElements: [
       { type: 'particles', className: 'absolute inset-0 bg-gradient-to-t from-green-600/10 via-transparent to-transparent', animation: 'animate-pulse' }
@@ -250,7 +219,7 @@ const roomConfigs: Record<string, RoomConfig> = {
     name: 'Tokyo Nights',
     description: 'Neon-lit cityscape',
     ambientSound: 'traffic',
-    backgroundImage: cleanTokyoNeon,
+    backgroundImage: lofiTokyoNeon,
     quranPosition: { x: 'left-1/4', y: 'top-1/2' },
     interactiveElements: [
       { type: 'glow', className: 'absolute top-32 right-16 w-20 h-20 bg-pink-500/25 rounded-full blur-xl', animation: 'animate-pulse' }
@@ -260,7 +229,7 @@ const roomConfigs: Record<string, RoomConfig> = {
     name: 'Belgian Streets',
     description: 'Grey city atmosphere',
     ambientSound: 'rain',
-    backgroundImage: cleanBelgianGrey,
+    backgroundImage: lofiBelgianGrey,
     quranPosition: { x: 'right-1/3', y: 'top-2/3' },
     interactiveElements: [
       { type: 'particles', className: 'absolute inset-0 bg-gradient-to-b from-gray-500/15 via-transparent to-transparent', animation: 'animate-pulse' }
@@ -270,7 +239,7 @@ const roomConfigs: Record<string, RoomConfig> = {
     name: 'German Village',
     description: 'Traditional brown cityscape',
     ambientSound: 'city',
-    backgroundImage: cleanGermanBrown,
+    backgroundImage: lofiGermanBrown,
     quranPosition: { x: 'left-1/2', y: 'top-1/2' },
     interactiveElements: [
       { type: 'glow', className: 'absolute bottom-32 left-20 w-18 h-18 bg-amber-600/20 rounded-full blur-xl', animation: 'animate-pulse' }
@@ -280,7 +249,7 @@ const roomConfigs: Record<string, RoomConfig> = {
     name: 'Dutch Countryside',
     description: 'Peaceful farmland and nature',
     ambientSound: 'nature',
-    backgroundImage: cleanDutchFarm,
+    backgroundImage: lofiDutchFarm,
     quranPosition: { x: 'right-1/4', y: 'top-3/5' },
     interactiveElements: [
       { type: 'floating', className: 'absolute top-24 left-12 w-5 h-5 text-green-500 text-lg', animation: 'animate-bounce' }
@@ -290,7 +259,7 @@ const roomConfigs: Record<string, RoomConfig> = {
     name: 'Chinese Serenity',
     description: 'Tranquil lake view',
     ambientSound: 'water',
-    backgroundImage: cleanChineseLake,
+    backgroundImage: lofiChineseLake,
     quranPosition: { x: 'left-1/3', y: 'top-2/3' },
     interactiveElements: [
       { type: 'glow', className: 'absolute top-40 right-24 w-20 h-20 bg-blue-400/20 rounded-full blur-xl', animation: 'animate-pulse' }
@@ -300,7 +269,7 @@ const roomConfigs: Record<string, RoomConfig> = {
     name: 'Circus Memories',
     description: 'Inside the big tent',
     ambientSound: 'silence',
-    backgroundImage: cleanCircusTent,
+    backgroundImage: lofiCircusTent,
     quranPosition: { x: 'right-1/2', y: 'top-1/2' },
     interactiveElements: [
       { type: 'glow', className: 'absolute bottom-20 left-1/3 w-24 h-24 bg-red-500/20 rounded-full blur-xl', animation: 'animate-pulse' }
@@ -310,7 +279,7 @@ const roomConfigs: Record<string, RoomConfig> = {
     name: 'Sacred Mosque',
     description: 'Peaceful mosque interior',
     ambientSound: 'silence',
-    backgroundImage: cleanMosqueInterior,
+    backgroundImage: lofiMosqueInterior,
     quranPosition: { x: 'left-1/2', y: 'top-3/4' },
     interactiveElements: [
       { type: 'glow', className: 'absolute top-16 left-1/2 w-24 h-24 bg-gold-400/20 rounded-full blur-2xl', animation: 'animate-pulse' }
@@ -320,7 +289,7 @@ const roomConfigs: Record<string, RoomConfig> = {
     name: 'Quiet Library',
     description: 'Silent library with page sounds',
     ambientSound: 'pages',
-    backgroundImage: cleanLibraryRoom,
+    backgroundImage: lofiLibraryRoom,
     quranPosition: { x: 'right-1/3', y: 'top-2/3' },
     interactiveElements: [
       { type: 'glow', className: 'absolute bottom-24 left-24 w-20 h-20 bg-amber-300/15 rounded-full blur-xl', animation: 'animate-pulse' }
@@ -330,7 +299,7 @@ const roomConfigs: Record<string, RoomConfig> = {
     name: 'Disco',
     description: 'Dark room with customizable lighting effects',
     ambientSound: 'electronic',
-    backgroundImage: cleanRgbRoom,
+    backgroundImage: lofiRgbRoom,
     quranPosition: { x: 'left-1/3', y: 'top-1/2' },
     interactiveElements: [
       { type: 'glow', className: 'absolute top-0 left-0 w-full h-1/2 bg-purple-500/10 blur-3xl', animation: '' },
@@ -343,7 +312,7 @@ const roomConfigs: Record<string, RoomConfig> = {
     name: 'Polish Winter',
     description: 'Cozy Polish room with snowy winter view',
     ambientSound: 'snow',
-    backgroundImage: cleanPolandSnow,
+    backgroundImage: lofiPolandSnow,
     quranPosition: { x: 'left-1/2', y: 'top-2/3' },
     interactiveElements: [
       { type: 'particles', className: 'absolute inset-0 bg-gradient-to-b from-white/10 via-transparent to-transparent', animation: 'animate-pulse' }
@@ -353,7 +322,7 @@ const roomConfigs: Record<string, RoomConfig> = {
     name: 'Antarctic Igloo',
     description: 'Inside an igloo with icy Antarctic view',
     ambientSound: 'wind',
-    backgroundImage: cleanAntarcticIgloo,
+    backgroundImage: lofiAntarcticIgloo,
     quranPosition: { x: 'right-1/3', y: 'top-1/2' },
     interactiveElements: [
       { type: 'glow', className: 'absolute top-20 left-20 w-20 h-20 bg-cyan-300/20 rounded-full blur-xl', animation: 'animate-pulse' }
@@ -363,7 +332,7 @@ const roomConfigs: Record<string, RoomConfig> = {
     name: 'Space Station',
     description: 'Spaceship with Earth view from orbit',
     ambientSound: 'space',
-    backgroundImage: cleanSpaceShip,
+    backgroundImage: lofiSpaceShip,
     quranPosition: { x: 'left-1/4', y: 'top-3/4' },
     interactiveElements: [
       { type: 'floating', className: 'absolute top-1/4 right-1/4 w-4 h-4 text-blue-300 text-lg', animation: 'animate-ping' },
@@ -374,7 +343,7 @@ const roomConfigs: Record<string, RoomConfig> = {
     name: 'Sweet Dreams',
     description: 'Pink room with magical candy field view',
     ambientSound: 'silence',
-    backgroundImage: cleanPinkCandy,
+    backgroundImage: lofiPinkCandy,
     quranPosition: { x: 'right-1/2', y: 'top-1/2' },
     interactiveElements: [
       { type: 'floating', className: 'absolute top-32 left-16 w-6 h-6 text-pink-300 text-xl', animation: 'animate-bounce' },
@@ -385,7 +354,7 @@ const roomConfigs: Record<string, RoomConfig> = {
     name: 'Prison Cell',
     description: 'Institutional cell with courtyard view',
     ambientSound: 'silence',
-    backgroundImage: cleanPrisonCell,
+    backgroundImage: lofiPrisonCell,
     quranPosition: { x: 'left-1/3', y: 'top-2/3' },
     interactiveElements: [
       { type: 'glow', className: 'absolute top-40 right-16 w-16 h-32 bg-gray-400/15 rounded-full blur-xl', animation: 'animate-pulse' }
@@ -395,7 +364,7 @@ const roomConfigs: Record<string, RoomConfig> = {
     name: 'Sky High',
     description: 'High-rise room with panoramic city view',
     ambientSound: 'city',
-    backgroundImage: cleanSkyscraperView,
+    backgroundImage: lofiSkyscraperView,
     quranPosition: { x: 'right-1/4', y: 'top-3/5' },
     interactiveElements: [
       { type: 'glow', className: 'absolute bottom-32 left-24 w-20 h-20 bg-amber-400/20 rounded-full blur-xl', animation: 'animate-pulse' }
@@ -405,7 +374,7 @@ const roomConfigs: Record<string, RoomConfig> = {
     name: 'Deep Sea',
     description: 'Submarine with underwater plant view',
     ambientSound: 'underwater',
-    backgroundImage: cleanSubmarineView,
+    backgroundImage: lofiSubmarineView,
     quranPosition: { x: 'left-1/2', y: 'top-1/3' },
     interactiveElements: [
       { type: 'floating', className: 'absolute top-20 right-12 w-5 h-5 text-cyan-300 text-lg', animation: 'animate-bounce' },
@@ -416,7 +385,7 @@ const roomConfigs: Record<string, RoomConfig> = {
     name: 'Tetris Arcade',
     description: 'Retro gaming room with playable tetris using WASD controls',
     ambientSound: 'electronic',
-    backgroundImage: cleanTetrisRoom,
+    backgroundImage: lofiTetrisRoom,
     quranPosition: { x: 'left-1/4', y: 'top-1/4' },
     interactiveElements: [
       { type: 'glow', className: 'absolute top-16 right-16 w-20 h-20 bg-blue-500/25 rounded-full blur-xl', animation: 'animate-pulse' },
@@ -427,11 +396,135 @@ const roomConfigs: Record<string, RoomConfig> = {
     name: 'Clicker Arcade',
     description: 'Click gift packages to discover ahadith wisdom',
     ambientSound: 'electronic',
-    backgroundImage: cleanClickerArcade,
+    backgroundImage: lofiClickerArcade,
     quranPosition: { x: 'right-1/3', y: 'top-1/2' },
     interactiveElements: [
       { type: 'glow', className: 'absolute top-20 left-20 w-24 h-24 bg-pink-500/25 rounded-full blur-xl', animation: 'animate-pulse' },
       { type: 'glow', className: 'absolute bottom-24 right-24 w-20 h-20 bg-purple-500/20 rounded-full blur-xl', animation: 'animate-pulse' }
+    ]
+  },
+  'spongebob-pineapple': {
+    name: 'Pineapple House',
+    description: 'Cozy underwater pineapple interior',
+    ambientSound: 'underwater',
+    backgroundImage: lofiSpongebobPineapple,
+    quranPosition: { x: 'left-1/2', y: 'top-2/3' },
+    interactiveElements: [
+      { type: 'floating', className: 'absolute top-20 right-20 w-6 h-6 text-yellow-400 text-xl', animation: 'animate-bounce' },
+      { type: 'glow', className: 'absolute bottom-24 left-24 w-20 h-20 bg-orange-400/20 rounded-full blur-xl', animation: 'animate-pulse' }
+    ]
+  },
+  'minecraft-room': {
+    name: 'Blocky World',
+    description: 'Pixelated crafting room interior',
+    ambientSound: 'silence',
+    backgroundImage: lofiMinecraftRoom,
+    quranPosition: { x: 'right-1/3', y: 'top-1/2' },
+    interactiveElements: [
+      { type: 'glow', className: 'absolute top-32 left-32 w-16 h-16 bg-green-500/20 rounded-full blur-xl', animation: 'animate-pulse' }
+    ]
+  },
+  'pirate-deck-view': {
+    name: 'Pirate Quarters',
+    description: 'Captain\'s cabin with ocean view',
+    ambientSound: 'waves',
+    backgroundImage: lofiPirateDeckView,
+    quranPosition: { x: 'left-1/4', y: 'top-3/4' },
+    interactiveElements: [
+      { type: 'floating', className: 'absolute top-24 right-16 w-5 h-5 text-amber-400 text-lg', animation: 'animate-bounce' },
+      { type: 'glow', className: 'absolute bottom-20 left-20 w-24 h-16 bg-amber-600/20 rounded-full blur-xl', animation: 'animate-pulse' }
+    ]
+  },
+  'naruto-room': {
+    name: 'Ninja Hideout',
+    description: 'Traditional Japanese ninja room interior',
+    ambientSound: 'japanese',
+    backgroundImage: lofiNarutoRoom,
+    quranPosition: { x: 'right-1/2', y: 'top-2/3' },
+    interactiveElements: [
+      { type: 'glow', className: 'absolute top-20 left-20 w-20 h-20 bg-orange-500/15 rounded-full blur-xl', animation: 'animate-pulse' }
+    ]
+  },
+  // Sports rooms (keep original images as requested)
+  'football-field': {
+    name: 'Football Field',
+    description: 'Professional football stadium',
+    ambientSound: 'sports',
+    backgroundImage: footballField,
+    quranPosition: { x: 'left-1/2', y: 'top-1/2' },
+    interactiveElements: [
+      { type: 'glow', className: 'absolute bottom-20 left-1/3 w-32 h-16 bg-green-500/20 rounded-full blur-xl', animation: 'animate-pulse' }
+    ]
+  },
+  'tennis-court': {
+    name: 'Tennis Court',
+    description: 'Professional tennis arena',
+    ambientSound: 'sports',
+    backgroundImage: tennisCourt,
+    quranPosition: { x: 'right-1/3', y: 'top-1/3' },
+    interactiveElements: [
+      { type: 'glow', className: 'absolute top-24 left-24 w-20 h-20 bg-blue-400/20 rounded-full blur-xl', animation: 'animate-pulse' }
+    ]
+  },
+  'basketball-court': {
+    name: 'Basketball Court',
+    description: 'Indoor basketball arena',
+    ambientSound: 'sports',
+    backgroundImage: basketballCourt,
+    quranPosition: { x: 'left-1/4', y: 'top-2/3' },
+    interactiveElements: [
+      { type: 'glow', className: 'absolute bottom-32 right-20 w-24 h-24 bg-orange-500/20 rounded-full blur-xl', animation: 'animate-pulse' }
+    ]
+  },
+  'volleyball-court': {
+    name: 'Volleyball Court',
+    description: 'Beach volleyball arena',
+    ambientSound: 'sports',
+    backgroundImage: volleyballCourt,
+    quranPosition: { x: 'right-1/2', y: 'top-1/2' },
+    interactiveElements: [
+      { type: 'glow', className: 'absolute top-20 left-1/4 w-20 h-20 bg-yellow-400/20 rounded-full blur-xl', animation: 'animate-pulse' }
+    ]
+  },
+  'bowling-alley': {
+    name: 'Bowling Alley',
+    description: 'Classic bowling lane',
+    ambientSound: 'sports',
+    backgroundImage: bowlingAlley,
+    quranPosition: { x: 'left-1/3', y: 'top-1/2' },
+    interactiveElements: [
+      { type: 'glow', className: 'absolute bottom-24 right-24 w-20 h-20 bg-purple-500/20 rounded-full blur-xl', animation: 'animate-pulse' }
+    ]
+  },
+  'american-football': {
+    name: 'American Football',
+    description: 'NFL stadium atmosphere',
+    ambientSound: 'sports',
+    backgroundImage: americanFootball,
+    quranPosition: { x: 'right-1/4', y: 'top-3/4' },
+    interactiveElements: [
+      { type: 'glow', className: 'absolute top-32 left-32 w-24 h-16 bg-red-500/20 rounded-full blur-xl', animation: 'animate-pulse' }
+    ]
+  },
+  'hockey-rink': {
+    name: 'Hockey Rink',
+    description: 'Ice hockey arena',
+    ambientSound: 'sports',
+    backgroundImage: hockeyRink,
+    quranPosition: { x: 'left-1/2', y: 'top-1/4' },
+    interactiveElements: [
+      { type: 'glow', className: 'absolute bottom-20 right-20 w-20 h-20 bg-cyan-400/20 rounded-full blur-xl', animation: 'animate-pulse' }
+    ]
+  },
+  'indoor-pool': {
+    name: 'Swimming Pool',
+    description: 'Indoor swimming facility',
+    ambientSound: 'water',
+    backgroundImage: indoorPool,
+    quranPosition: { x: 'right-1/3', y: 'top-2/3' },
+    interactiveElements: [
+      { type: 'floating', className: 'absolute top-20 left-16 w-5 h-5 text-blue-400 text-lg', animation: 'animate-bounce' },
+      { type: 'glow', className: 'absolute bottom-24 left-24 w-24 h-16 bg-blue-400/25 rounded-full blur-xl', animation: 'animate-pulse' }
     ]
   }
 };
@@ -536,7 +629,7 @@ export const Room = ({ roomId, onBack }: RoomProps) => {
   };
 
   // Check if current room has glow effects
-  const hasGlowEffects = roomConfig.interactiveElements.some(element => 
+  const hasGlowEffects = roomConfig?.interactiveElements.some(element => 
     element.type === 'glow' || element.className.includes('bg-') && element.className.includes('/')
   );
 
