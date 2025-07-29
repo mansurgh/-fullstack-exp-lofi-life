@@ -356,17 +356,80 @@ const rooms: Room[] = [
   }
 ];
 
+type FilterCategory = 'all' | 'places' | 'hobbies' | 'fantasy';
+
+const roomCategories: Record<string, FilterCategory> = {
+  // Places
+  'seaside-sanctuary': 'places',
+  'desert-mirage': 'places',
+  'skyscraper-view': 'places',
+  'submarine-view': 'places',
+  'russian-winter': 'places',
+  'chechen-tower': 'places',
+  'french-eiffel': 'places',
+  'norwegian-landscape': 'places',
+  'tokyo-neon': 'places',
+  'belgian-grey': 'places',
+  'german-brown': 'places',
+  'dutch-farm': 'places',
+  'chinese-lake': 'places',
+  'poland-snow': 'places',
+  'antarctic-igloo': 'places',
+  
+  // Hobbies
+  'circus-tent': 'hobbies',
+  'football-field': 'hobbies',
+  'tennis-court': 'hobbies',
+  'basketball-court': 'hobbies',
+  'volleyball-court': 'hobbies',
+  'bowling-alley': 'hobbies',
+  'american-football': 'hobbies',
+  'hockey-rink': 'hobbies',
+  'indoor-pool': 'hobbies',
+  'mosque-interior': 'hobbies',
+  'stellar-meditation': 'hobbies',
+  'library-room': 'hobbies',
+  'prison-cell': 'hobbies',
+  'space-ship': 'hobbies',
+  'rgb-room': 'hobbies',
+  
+  // Fantasy (all others)
+  'rainy-study': 'fantasy',
+  'sunny-garden': 'fantasy',
+  'fireplace-nook': 'fantasy',
+  'moonlit-corner': 'fantasy',
+  'tuscan-vista': 'fantasy',
+  'alpine-retreat': 'fantasy',
+  'woodland-haven': 'fantasy',
+  'spongebob-pineapple': 'fantasy',
+  'minecraft-room': 'fantasy',
+  'pink-candy': 'fantasy',
+  'pirate-deck-view': 'fantasy',
+  'naruto-room': 'fantasy'
+};
+
 export const RoomSelector = ({ onSelectRoom }: RoomSelectorProps) => {
   const { t } = useTranslation();
   const [currentPage, setCurrentPage] = useState(0);
+  const [selectedFilter, setSelectedFilter] = useState<FilterCategory>('all');
   
   const ROOMS_PER_PAGE = 24;
-  const totalPages = Math.ceil(rooms.length / ROOMS_PER_PAGE);
   
-  const currentRooms = rooms.slice(
+  const filteredRooms = selectedFilter === 'all' 
+    ? rooms 
+    : rooms.filter(room => roomCategories[room.id] === selectedFilter);
+  
+  const totalPages = Math.ceil(filteredRooms.length / ROOMS_PER_PAGE);
+  
+  const currentRooms = filteredRooms.slice(
     currentPage * ROOMS_PER_PAGE,
     (currentPage + 1) * ROOMS_PER_PAGE
   );
+  
+  const handleFilterChange = (filter: FilterCategory) => {
+    setSelectedFilter(filter);
+    setCurrentPage(0); // Reset to first page when changing filter
+  };
   
   const goToNextPage = () => {
     setCurrentPage((prev) => (prev + 1) % totalPages);
@@ -389,6 +452,42 @@ export const RoomSelector = ({ onSelectRoom }: RoomSelectorProps) => {
           <p className="text-xs sm:text-sm text-muted-foreground/80 max-w-3xl mx-auto mt-4 sm:mt-6 leading-relaxed px-4">
             {t('main.message')}
           </p>
+        </div>
+        
+        {/* Filter Buttons */}
+        <div className="flex justify-center items-center gap-2 mb-8">
+          <Button
+            onClick={() => handleFilterChange('all')}
+            variant={selectedFilter === 'all' ? 'default' : 'outline'}
+            size="sm"
+            className="px-4 py-2"
+          >
+            All
+          </Button>
+          <Button
+            onClick={() => handleFilterChange('places')}
+            variant={selectedFilter === 'places' ? 'default' : 'outline'}
+            size="sm"
+            className="px-4 py-2"
+          >
+            Places
+          </Button>
+          <Button
+            onClick={() => handleFilterChange('hobbies')}
+            variant={selectedFilter === 'hobbies' ? 'default' : 'outline'}
+            size="sm"
+            className="px-4 py-2"
+          >
+            Hobbies
+          </Button>
+          <Button
+            onClick={() => handleFilterChange('fantasy')}
+            variant={selectedFilter === 'fantasy' ? 'default' : 'outline'}
+            size="sm"
+            className="px-4 py-2"
+          >
+            Fantasy
+          </Button>
         </div>
         
         {/* Page Navigation */}
