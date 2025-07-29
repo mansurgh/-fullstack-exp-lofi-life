@@ -828,8 +828,8 @@ export const Room = ({ roomId, onBack }: RoomProps) => {
         </p>
       </Card>
 
-      {/* Color Controls - Show for rooms with glow effects */}
-      {hasGlowEffects && (
+      {/* Color Controls - Show only for RGB room (disco) */}
+      {roomId === 'rgb-room' && (
         <Card className="absolute top-1/2 right-4 sm:right-6 p-3 bg-card/80 backdrop-blur-sm border-border/50 transform -translate-y-1/2">
           <h4 className="text-sm font-semibold text-card-foreground mb-2">Lighting</h4>
           
