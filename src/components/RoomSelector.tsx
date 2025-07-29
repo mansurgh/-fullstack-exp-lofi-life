@@ -441,8 +441,9 @@ export const RoomSelector = ({ onSelectRoom }: RoomSelectorProps) => {
   const ROOMS_PER_PAGE = 9;
   
   const filteredRooms = selectedFilter === 'all' 
-    ? rooms 
-    : rooms.filter(room => roomCategories[room.id] === selectedFilter);
+    ? rooms.sort((a, b) => a.name.localeCompare(b.name))
+    : rooms.filter(room => roomCategories[room.id] === selectedFilter)
+           .sort((a, b) => a.name.localeCompare(b.name));
   
   const totalPages = Math.ceil(filteredRooms.length / ROOMS_PER_PAGE);
   
