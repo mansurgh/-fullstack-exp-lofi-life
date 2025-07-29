@@ -2,55 +2,17 @@ import React, { useState } from 'react';
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Gift, RotateCcw } from 'lucide-react';
+import { useTranslation } from '@/contexts/TranslationContext';
 
 const ClickerGame = () => {
+  const { t } = useTranslation();
   const [clicks, setClicks] = useState(0);
   const [isOpened, setIsOpened] = useState(false);
-  const [currentHadith, setCurrentHadith] = useState<{text: string, source: string} | null>(null);
+  const [currentHadithIndex, setCurrentHadithIndex] = useState<number | null>(null);
   const [lastHadithIndex, setLastHadithIndex] = useState<number | null>(null);
 
-  const ahadith = [
-    {
-      text: "The believer is not one who eats his fill while his neighbor goes hungry.",
-      source: "Al-Bukhari"
-    },
-    {
-      text: "None of you believes until he loves for his brother what he loves for himself.",
-      source: "Al-Bukhari"
-    },
-    {
-      text: "The best of people are those who benefit others.",
-      source: "Al-Bukhari"
-    },
-    {
-      text: "Whoever believes in Allah and the Last Day should speak good or remain silent.",
-      source: "Al-Bukhari"
-    },
-    {
-      text: "The world is green and beautiful, and Allah has appointed you as His stewards over it.",
-      source: "Muslim"
-    },
-    {
-      text: "A good word is charity.",
-      source: "Al-Bukhari"
-    },
-    {
-      text: "The strong person is not the one who can wrestle someone else down. The strong person is the one who can control himself when he is angry.",
-      source: "Al-Bukhari"
-    },
-    {
-      text: "Whoever does not show mercy to people, Allah will not show mercy to him.",
-      source: "Al-Bukhari"
-    },
-    {
-      text: "The best charity is that given when one has little.",
-      source: "Al-Bukhari"
-    },
-    {
-      text: "Kindness is a mark of faith, and whoever is not kind has no faith.",
-      source: "Muslim"
-    }
-  ];
+  // Total number of ahadith available
+  const totalAhadith = 10;
 
   const handleClick = () => {
     if (isOpened) return;
@@ -63,18 +25,18 @@ const ClickerGame = () => {
       // Ensure we get a different hadith each time
       let randomIndex;
       do {
-        randomIndex = Math.floor(Math.random() * ahadith.length);
-      } while (randomIndex === lastHadithIndex && ahadith.length > 1);
+        randomIndex = Math.floor(Math.random() * totalAhadith) + 1;
+      } while (randomIndex === lastHadithIndex && totalAhadith > 1);
       
       setLastHadithIndex(randomIndex);
-      setCurrentHadith(ahadith[randomIndex]);
+      setCurrentHadithIndex(randomIndex);
     }
   };
 
   const resetGame = () => {
     setClicks(0);
     setIsOpened(false);
-    setCurrentHadith(null);
+    setCurrentHadithIndex(null);
   };
 
   const clicksRemaining = Math.max(0, 100 - clicks);
@@ -130,13 +92,13 @@ const ClickerGame = () => {
                 <h3 className="text-2xl font-bold mb-4 text-primary">Gift Opened!</h3>
               </div>
 
-              {currentHadith && (
+              {currentHadithIndex && (
                 <div className="bg-secondary/50 rounded-lg p-6 mb-6">
                   <blockquote className="text-lg italic mb-3 text-foreground">
-                    "{currentHadith.text}"
+                    "{t(`hadith.${currentHadithIndex}.text`)}"
                   </blockquote>
                   <cite className="text-sm font-semibold text-primary">
-                    - {currentHadith.source}
+                    - {t(`hadith.${currentHadithIndex}.source`)}
                   </cite>
                 </div>
               )}

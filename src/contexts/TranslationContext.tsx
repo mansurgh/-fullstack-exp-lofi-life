@@ -175,6 +175,28 @@ const translations = {
     'help.donation.subtitle': 'Choose an amount to support the development of this project',
     'help.contact.title': 'Contact Me',
     'help.contact.subtitle': 'Share your knowledge, ideas, or feedback',
+    
+    // Ahadith
+    'hadith.1.text': 'The believer is not one who eats his fill while his neighbor goes hungry.',
+    'hadith.1.source': 'Al-Bukhari',
+    'hadith.2.text': 'None of you believes until he loves for his brother what he loves for himself.',
+    'hadith.2.source': 'Al-Bukhari',
+    'hadith.3.text': 'The best of people are those who benefit others.',
+    'hadith.3.source': 'Al-Bukhari',
+    'hadith.4.text': 'Whoever believes in Allah and the Last Day should speak good or remain silent.',
+    'hadith.4.source': 'Al-Bukhari',
+    'hadith.5.text': 'The world is green and beautiful, and Allah has appointed you as His stewards over it.',
+    'hadith.5.source': 'Muslim',
+    'hadith.6.text': 'A good word is charity.',
+    'hadith.6.source': 'Al-Bukhari',
+    'hadith.7.text': 'The strong person is not the one who can wrestle someone else down. The strong person is the one who can control himself when he is angry.',
+    'hadith.7.source': 'Al-Bukhari',
+    'hadith.8.text': 'Whoever does not show mercy to people, Allah will not show mercy to him.',
+    'hadith.8.source': 'Al-Bukhari',
+    'hadith.9.text': 'The best charity is that given when one has little.',
+    'hadith.9.source': 'Al-Bukhari',
+    'hadith.10.text': 'Kindness is a mark of faith, and whoever is not kind has no faith.',
+    'hadith.10.source': 'Muslim',
   },
   ru: {
     // Navigation & General
@@ -276,6 +298,28 @@ const translations = {
     'help.donation.subtitle': 'Выберите сумму для поддержки развития этого проекта',
     'help.contact.title': 'Связаться со Мной',
     'help.contact.subtitle': 'Поделитесь своими знаниями, идеями или отзывами',
+    
+    // Ahadith
+    'hadith.1.text': 'Верующий не тот, кто ест досыта, пока его сосед голодает.',
+    'hadith.1.source': 'Аль-Бухари',
+    'hadith.2.text': 'Никто из вас не уверует, пока не полюбит для своего брата то, что любит для себя.',
+    'hadith.2.source': 'Аль-Бухари',
+    'hadith.3.text': 'Лучшие из людей - те, кто приносит пользу другим.',
+    'hadith.3.source': 'Аль-Бухари',
+    'hadith.4.text': 'Кто верит в Аллаха и Последний день, пусть говорит хорошее или молчит.',
+    'hadith.4.source': 'Аль-Бухари',
+    'hadith.5.text': 'Мир зелен и прекрасен, и Аллах назначил вас Своими попечителями над ним.',
+    'hadith.5.source': 'Муслим',
+    'hadith.6.text': 'Доброе слово - это милостыня.',
+    'hadith.6.source': 'Аль-Бухари',
+    'hadith.7.text': 'Сильный не тот, кто может свалить кого-то. Сильный тот, кто может контролировать себя, когда гневается.',
+    'hadith.7.source': 'Аль-Бухари',
+    'hadith.8.text': 'Кто не проявляет милосердия к людям, тому Аллах не проявит милосердия.',
+    'hadith.8.source': 'Аль-Бухари',
+    'hadith.9.text': 'Лучшая милостыня - та, что дается при малом достатке.',
+    'hadith.9.source': 'Аль-Бухари',
+    'hadith.10.text': 'Доброта - признак веры, и у кого нет доброты, у того нет веры.',
+    'hadith.10.source': 'Муслим',
   },
   nl: {
     // Navigation & General
@@ -373,6 +417,28 @@ const translations = {
     'help.donation.subtitle': 'Kies een bedrag om de ontwikkeling van dit project te steunen',
     'help.contact.title': 'Contact Opnemen',
     'help.contact.subtitle': 'Deel uw kennis, ideeën of feedback',
+    
+    // Ahadith
+    'hadith.1.text': 'De gelovige is niet degene die zich verzadigt terwijl zijn buur hongerig gaat.',
+    'hadith.1.source': 'Al-Bukhari',
+    'hadith.2.text': 'Niemand van jullie gelooft totdat hij voor zijn broeder liefheeft wat hij voor zichzelf liefheeft.',
+    'hadith.2.source': 'Al-Bukhari',
+    'hadith.3.text': 'De beste mensen zijn degenen die anderen ten goede komen.',
+    'hadith.3.source': 'Al-Bukhari',
+    'hadith.4.text': 'Wie gelooft in Allah en de Laatste Dag moet goed spreken of zwijgen.',
+    'hadith.4.source': 'Al-Bukhari',
+    'hadith.5.text': 'De wereld is groen en mooi, en Allah heeft jullie tot Zijn rentmeesters erover aangesteld.',
+    'hadith.5.source': 'Muslim',
+    'hadith.6.text': 'Een goed woord is liefdadigheid.',
+    'hadith.6.source': 'Al-Bukhari',
+    'hadith.7.text': 'De sterke persoon is niet degene die iemand anders kan neerhalen. De sterke persoon is degene die zichzelf kan beheersen wanneer hij boos is.',
+    'hadith.7.source': 'Al-Bukhari',
+    'hadith.8.text': 'Wie geen barmhartigheid toont aan mensen, aan hem zal Allah geen barmhartigheid tonen.',
+    'hadith.8.source': 'Al-Bukhari',
+    'hadith.9.text': 'De beste liefdadigheid is die gegeven wordt wanneer men weinig heeft.',
+    'hadith.9.source': 'Al-Bukhari',
+    'hadith.10.text': 'Vriendelijkheid is een teken van geloof, en wie niet vriendelijk is heeft geen geloof.',
+    'hadith.10.source': 'Muslim',
   },
   fr: {
     // Navigation & General
@@ -434,6 +500,28 @@ const translations = {
     
     'help.title': 'Aidez-Moi',
     'help.subtitle': 'Soutenez ce projet et aidez-moi à l\'améliorer',
+    
+    // Ahadith
+    'hadith.1.text': 'Le croyant n\'est pas celui qui mange à sa faim tandis que son voisin reste affamé.',
+    'hadith.1.source': 'Al-Bukhari',
+    'hadith.2.text': 'Aucun d\'entre vous ne croit vraiment tant qu\'il n\'aime pas pour son frère ce qu\'il aime pour lui-même.',
+    'hadith.2.source': 'Al-Bukhari',
+    'hadith.3.text': 'Les meilleurs des gens sont ceux qui profitent aux autres.',
+    'hadith.3.source': 'Al-Bukhari',
+    'hadith.4.text': 'Celui qui croit en Allah et au Jour dernier doit dire du bien ou se taire.',
+    'hadith.4.source': 'Al-Bukhari',
+    'hadith.5.text': 'Le monde est vert et beau, et Allah vous a nommés ses intendants sur lui.',
+    'hadith.5.source': 'Muslim',
+    'hadith.6.text': 'Une bonne parole est une charité.',
+    'hadith.6.source': 'Al-Bukhari',
+    'hadith.7.text': 'La personne forte n\'est pas celle qui peut terrasser quelqu\'un d\'autre. La personne forte est celle qui peut se contrôler quand elle est en colère.',
+    'hadith.7.source': 'Al-Bukhari',
+    'hadith.8.text': 'Celui qui ne fait pas preuve de miséricorde envers les gens, Allah ne lui fera pas miséricorde.',
+    'hadith.8.source': 'Al-Bukhari',
+    'hadith.9.text': 'La meilleure charité est celle donnée quand on a peu.',
+    'hadith.9.source': 'Al-Bukhari',
+    'hadith.10.text': 'La bonté est une marque de foi, et celui qui n\'est pas bon n\'a pas de foi.',
+    'hadith.10.source': 'Muslim',
   },
   de: {
     // All German translations including theme selector
@@ -453,7 +541,29 @@ const translations = {
     'theme.night': 'Nacht-Zyklus',
     'theme.rainy': 'Regentage',
     
-    'help.title': 'Helfen Sie Mir'
+    'help.title': 'Helfen Sie Mir',
+    
+    // Ahadith
+    'hadith.1.text': 'Der Gläubige ist nicht derjenige, der sich satt isst, während sein Nachbar hungrig bleibt.',
+    'hadith.1.source': 'Al-Bukhari',
+    'hadith.2.text': 'Keiner von euch glaubt wirklich, bis er für seinen Bruder liebt, was er für sich selbst liebt.',
+    'hadith.2.source': 'Al-Bukhari',
+    'hadith.3.text': 'Die besten Menschen sind diejenigen, die anderen nutzen.',
+    'hadith.3.source': 'Al-Bukhari',
+    'hadith.4.text': 'Wer an Allah und den Jüngsten Tag glaubt, soll Gutes sprechen oder schweigen.',
+    'hadith.4.source': 'Al-Bukhari',
+    'hadith.5.text': 'Die Welt ist grün und schön, und Allah hat euch zu seinen Verwaltern über sie ernannt.',
+    'hadith.5.source': 'Muslim',
+    'hadith.6.text': 'Ein gutes Wort ist Wohltätigkeit.',
+    'hadith.6.source': 'Al-Bukhari',
+    'hadith.7.text': 'Die starke Person ist nicht die, die jemand anderen niederzwingen kann. Die starke Person ist die, die sich selbst kontrollieren kann, wenn sie wütend ist.',
+    'hadith.7.source': 'Al-Bukhari',
+    'hadith.8.text': 'Wer den Menschen keine Barmherzigkeit zeigt, dem wird Allah keine Barmherzigkeit zeigen.',
+    'hadith.8.source': 'Al-Bukhari',
+    'hadith.9.text': 'Die beste Wohltätigkeit ist die, die gegeben wird, wenn man wenig hat.',
+    'hadith.9.source': 'Al-Bukhari',
+    'hadith.10.text': 'Freundlichkeit ist ein Zeichen des Glaubens, und wer nicht freundlich ist, hat keinen Glauben.',
+    'hadith.10.source': 'Muslim',
   }
 };
 
