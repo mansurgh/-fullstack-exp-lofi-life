@@ -33,6 +33,25 @@ import hqSeasideSanctuary from "@/assets/hq-seaside-sanctuary.jpg";
 import hqDesertMirage from "@/assets/hq-desert-mirage.jpg";
 import hqTuscanVista from "@/assets/hq-tuscan-vista.jpg";
 import hqStellarMeditation from "@/assets/hq-stellar-meditation.jpg";
+import hqAlpineRetreat from "@/assets/hq-alpine-retreat.jpg";
+import hqWoodlandHaven from "@/assets/hq-woodland-haven.jpg";
+import hqRussianWinter from "@/assets/hq-russian-winter.jpg";
+import hqFrenchEiffel from "@/assets/hq-french-eiffel.jpg";
+import hqNorwegianLandscape from "@/assets/hq-norwegian-landscape.jpg";
+import hqTokyoNeon from "@/assets/hq-tokyo-neon.jpg";
+import hqLibraryRoom from "@/assets/hq-library-room.jpg";
+import hqMosqueInterior from "@/assets/hq-mosque-interior.jpg";
+import hqSpaceShip from "@/assets/hq-space-ship.jpg";
+import hqSkyscraperView from "@/assets/hq-skyscraper-view.jpg";
+import hqSubmarineView from "@/assets/hq-submarine-view.jpg";
+import hqAntarcticIgloo from "@/assets/hq-antarctic-igloo.jpg";
+import hqDutchFarm from "@/assets/hq-dutch-farm.jpg";
+import hqChineseLake from "@/assets/hq-chinese-lake.jpg";
+import hqRgbRoom from "@/assets/hq-rgb-room.jpg";
+import hqPinkCandy from "@/assets/hq-pink-candy.jpg";
+import hqChechenTower from "@/assets/hq-chechen-tower.jpg";
+import hqPrisonCell from "@/assets/hq-prison-cell.jpg";
+import hqCircusTent from "@/assets/hq-circus-tent.jpg";
 import belgianGrey from "@/assets/belgian-grey.jpg";
 import germanBrown from "@/assets/german-brown.jpg";
 import dutchFarm from "@/assets/dutch-farm.jpg";
@@ -166,7 +185,7 @@ const roomConfigs: Record<string, RoomConfig> = {
     name: 'Alpine Retreat',
     description: 'Mountain winds through peaceful peaks',
     ambientSound: 'wind',
-    backgroundImage: alpineRetreat,
+    backgroundImage: hqAlpineRetreat,
     quranPosition: { x: 'left-1/2', y: 'top-3/4' },
     interactiveElements: [
       { type: 'particles', className: 'absolute inset-0 bg-gradient-to-b from-white/5 via-transparent to-transparent', animation: 'animate-pulse' }
@@ -176,7 +195,7 @@ const roomConfigs: Record<string, RoomConfig> = {
     name: 'Woodland Haven',
     description: 'Forest sounds and rustling leaves',
     ambientSound: 'forest',
-    backgroundImage: woodlandHaven,
+    backgroundImage: hqWoodlandHaven,
     quranPosition: { x: 'right-1/3', y: 'top-1/3' },
     interactiveElements: [
       { type: 'floating', className: 'absolute top-40 left-16 w-6 h-6 text-green-400 text-xl', animation: 'animate-bounce' }
@@ -186,7 +205,7 @@ const roomConfigs: Record<string, RoomConfig> = {
     name: 'Russian Winter',
     description: 'Snow falling gently outside',
     ambientSound: 'snow',
-    backgroundImage: russianWinter,
+    backgroundImage: hqRussianWinter,
     quranPosition: { x: 'left-1/2', y: 'top-2/3' },
     interactiveElements: [
       { type: 'particles', className: 'absolute inset-0 bg-gradient-to-b from-white/10 via-transparent to-transparent', animation: 'animate-pulse' }
@@ -196,7 +215,7 @@ const roomConfigs: Record<string, RoomConfig> = {
     name: 'Chechen Tower',
     description: 'Mountain winds around ancient tower',
     ambientSound: 'mountain',
-    backgroundImage: chechenTower,
+    backgroundImage: hqChechenTower,
     quranPosition: { x: 'right-1/4', y: 'top-1/2' },
     interactiveElements: [
       { type: 'glow', className: 'absolute top-20 right-10 w-16 h-16 bg-stone-400/20 rounded-full blur-xl', animation: 'animate-pulse' }
@@ -206,7 +225,7 @@ const roomConfigs: Record<string, RoomConfig> = {
     name: 'French Elegance',
     description: 'Parisian streets and Eiffel Tower',
     ambientSound: 'city',
-    backgroundImage: frenchEiffel,
+    backgroundImage: hqFrenchEiffel,
     quranPosition: { x: 'left-1/3', y: 'top-3/5' },
     interactiveElements: [
       { type: 'glow', className: 'absolute bottom-40 right-20 w-24 h-24 bg-amber-400/15 rounded-full blur-xl', animation: 'animate-pulse' }
@@ -216,7 +235,7 @@ const roomConfigs: Record<string, RoomConfig> = {
     name: 'Norwegian Sky',
     description: 'Open landscape with mountain winds',
     ambientSound: 'wind',
-    backgroundImage: norwegianLandscape,
+    backgroundImage: hqNorwegianLandscape,
     quranPosition: { x: 'right-1/2', y: 'top-3/4' },
     interactiveElements: [
       { type: 'particles', className: 'absolute inset-0 bg-gradient-to-t from-green-600/10 via-transparent to-transparent', animation: 'animate-pulse' }
@@ -226,7 +245,7 @@ const roomConfigs: Record<string, RoomConfig> = {
     name: 'Tokyo Nights',
     description: 'Neon-lit cityscape',
     ambientSound: 'traffic',
-    backgroundImage: tokyoNeon,
+    backgroundImage: hqTokyoNeon,
     quranPosition: { x: 'left-1/4', y: 'top-1/2' },
     interactiveElements: [
       { type: 'glow', className: 'absolute top-32 right-16 w-20 h-20 bg-pink-500/25 rounded-full blur-xl', animation: 'animate-pulse' }
@@ -256,7 +275,7 @@ const roomConfigs: Record<string, RoomConfig> = {
     name: 'Dutch Countryside',
     description: 'Peaceful farmland and nature',
     ambientSound: 'nature',
-    backgroundImage: dutchFarm,
+    backgroundImage: hqDutchFarm,
     quranPosition: { x: 'right-1/4', y: 'top-3/5' },
     interactiveElements: [
       { type: 'floating', className: 'absolute top-24 left-12 w-5 h-5 text-green-500 text-lg', animation: 'animate-bounce' }
@@ -266,7 +285,7 @@ const roomConfigs: Record<string, RoomConfig> = {
     name: 'Chinese Serenity',
     description: 'Tranquil lake view',
     ambientSound: 'water',
-    backgroundImage: chineseLake,
+    backgroundImage: hqChineseLake,
     quranPosition: { x: 'left-1/3', y: 'top-2/3' },
     interactiveElements: [
       { type: 'glow', className: 'absolute top-40 right-24 w-20 h-20 bg-blue-400/20 rounded-full blur-xl', animation: 'animate-pulse' }
@@ -276,7 +295,7 @@ const roomConfigs: Record<string, RoomConfig> = {
     name: 'Circus Memories',
     description: 'Inside the big tent',
     ambientSound: 'silence',
-    backgroundImage: circusTent,
+    backgroundImage: hqCircusTent,
     quranPosition: { x: 'right-1/2', y: 'top-1/2' },
     interactiveElements: [
       { type: 'glow', className: 'absolute bottom-20 left-1/3 w-24 h-24 bg-red-500/20 rounded-full blur-xl', animation: 'animate-pulse' }
@@ -387,7 +406,7 @@ const roomConfigs: Record<string, RoomConfig> = {
     name: 'Sacred Mosque',
     description: 'Peaceful mosque interior',
     ambientSound: 'silence',
-    backgroundImage: mosqueInterior,
+    backgroundImage: hqMosqueInterior,
     quranPosition: { x: 'left-1/2', y: 'top-3/4' },
     interactiveElements: [
       { type: 'glow', className: 'absolute top-16 left-1/2 w-24 h-24 bg-gold-400/20 rounded-full blur-2xl', animation: 'animate-pulse' }
@@ -397,7 +416,7 @@ const roomConfigs: Record<string, RoomConfig> = {
     name: 'Quiet Library',
     description: 'Silent library with page sounds',
     ambientSound: 'pages',
-    backgroundImage: libraryRoom,
+    backgroundImage: hqLibraryRoom,
     quranPosition: { x: 'right-1/3', y: 'top-2/3' },
     interactiveElements: [
       { type: 'glow', className: 'absolute bottom-24 left-24 w-20 h-20 bg-amber-300/15 rounded-full blur-xl', animation: 'animate-pulse' }
@@ -407,7 +426,7 @@ const roomConfigs: Record<string, RoomConfig> = {
     name: 'Disco',
     description: 'Dark room with customizable lighting effects',
     ambientSound: 'electronic',
-    backgroundImage: rgbRoom,
+    backgroundImage: hqRgbRoom,
     quranPosition: { x: 'left-1/3', y: 'top-1/2' },
     interactiveElements: [
       { type: 'glow', className: 'absolute top-0 left-0 w-full h-1/2 bg-purple-500/10 blur-3xl', animation: '' },
@@ -430,7 +449,7 @@ const roomConfigs: Record<string, RoomConfig> = {
     name: 'Antarctic Igloo',
     description: 'Inside an igloo with icy Antarctic view',
     ambientSound: 'wind',
-    backgroundImage: antarcticIgloo,
+    backgroundImage: hqAntarcticIgloo,
     quranPosition: { x: 'right-1/3', y: 'top-1/2' },
     interactiveElements: [
       { type: 'glow', className: 'absolute top-20 left-20 w-20 h-20 bg-cyan-300/20 rounded-full blur-xl', animation: 'animate-pulse' }
@@ -440,7 +459,7 @@ const roomConfigs: Record<string, RoomConfig> = {
     name: 'Space Station',
     description: 'Spaceship with Earth view from orbit',
     ambientSound: 'space',
-    backgroundImage: spaceShip,
+    backgroundImage: hqSpaceShip,
     quranPosition: { x: 'left-1/4', y: 'top-3/4' },
     interactiveElements: [
       { type: 'floating', className: 'absolute top-1/4 right-1/4 w-4 h-4 text-blue-300 text-lg', animation: 'animate-ping' },
@@ -451,7 +470,7 @@ const roomConfigs: Record<string, RoomConfig> = {
     name: 'Sweet Dreams',
     description: 'Pink room with magical candy field view',
     ambientSound: 'silence',
-    backgroundImage: pinkCandy,
+    backgroundImage: hqPinkCandy,
     quranPosition: { x: 'right-1/2', y: 'top-1/2' },
     interactiveElements: [
       { type: 'floating', className: 'absolute top-32 left-16 w-6 h-6 text-pink-300 text-xl', animation: 'animate-bounce' },
@@ -462,7 +481,7 @@ const roomConfigs: Record<string, RoomConfig> = {
     name: 'Prison Cell',
     description: 'Institutional cell with courtyard view',
     ambientSound: 'silence',
-    backgroundImage: prisonCell,
+    backgroundImage: hqPrisonCell,
     quranPosition: { x: 'left-1/3', y: 'top-2/3' },
     interactiveElements: [
       { type: 'glow', className: 'absolute top-40 right-16 w-16 h-32 bg-gray-400/15 rounded-full blur-xl', animation: 'animate-pulse' }
@@ -472,7 +491,7 @@ const roomConfigs: Record<string, RoomConfig> = {
     name: 'Sky High',
     description: 'High-rise room with panoramic city view',
     ambientSound: 'city',
-    backgroundImage: skyscraperView,
+    backgroundImage: hqSkyscraperView,
     quranPosition: { x: 'right-1/4', y: 'top-3/5' },
     interactiveElements: [
       { type: 'glow', className: 'absolute bottom-32 left-24 w-20 h-20 bg-amber-400/20 rounded-full blur-xl', animation: 'animate-pulse' }
@@ -482,7 +501,7 @@ const roomConfigs: Record<string, RoomConfig> = {
     name: 'Deep Sea',
     description: 'Submarine with underwater plant view',
     ambientSound: 'underwater',
-    backgroundImage: submarineView,
+    backgroundImage: hqSubmarineView,
     quranPosition: { x: 'left-1/2', y: 'top-1/3' },
     interactiveElements: [
       { type: 'floating', className: 'absolute top-20 right-12 w-5 h-5 text-cyan-300 text-lg', animation: 'animate-bounce' },
