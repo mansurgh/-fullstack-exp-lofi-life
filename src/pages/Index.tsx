@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useParams, useNavigate } from 'react-router-dom';
 import { RoomSelector } from '@/components/RoomSelector';
 import { Room } from '@/components/Room';
 import { HelpMeOut } from '@/components/HelpMeOut';
@@ -9,25 +9,26 @@ import { useTranslation } from '@/contexts/TranslationContext';
 
 const Index = () => {
   const { t } = useTranslation();
-  const [selectedRoom, setSelectedRoom] = useState<string | null>(null);
+  const { roomId } = useParams();
+  const navigate = useNavigate();
 
   const handleSelectRoom = (roomId: string) => {
     console.log('Selecting room:', roomId);
-    setSelectedRoom(roomId);
+    navigate(`/room/${roomId}`);
   };
 
   const handleBackToRooms = () => {
-    setSelectedRoom(null);
+    navigate('/');
   };
 
-  console.log('Current selectedRoom state:', selectedRoom);
-  console.log('Should show Room component:', !!selectedRoom);
+  console.log('Current roomId from URL:', roomId);
+  console.log('Should show Room component:', !!roomId);
 
-  if (selectedRoom) {
-    console.log('Rendering Room component with ID:', selectedRoom);
+  if (roomId) {
+    console.log('Rendering Room component with ID:', roomId);
     return (
       <>
-        <Room roomId={selectedRoom} onBack={handleBackToRooms} />
+        <Room roomId={roomId} onBack={handleBackToRooms} />
         
         {/* Persistent Recitation Controls */}
         <div className="fixed bottom-4 right-4 z-50">

@@ -1,4 +1,5 @@
 import { useState, useEffect, useRef } from 'react';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { Button } from "@/components/ui/button";
 import { Slider } from "@/components/ui/slider";
 import { Card } from "@/components/ui/card";
@@ -526,6 +527,8 @@ const roomConfigs: Record<string, RoomConfig> = {
 
 export const Room = ({ roomId, onBack }: RoomProps) => {
   const { t } = useTranslation();
+  const navigate = useNavigate();
+  const location = useLocation();
   const [volume, setVolume] = useState([50]);
   const [isMuted, setIsMuted] = useState(false);
   const [isDarkMode, setIsDarkMode] = useState(false);
@@ -535,6 +538,16 @@ export const Room = ({ roomId, onBack }: RoomProps) => {
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 }); // Mouse position for panning
   const [roomOffset, setRoomOffset] = useState({ x: 0, y: 0 }); // Room view offset
   const audioRef = useRef<HTMLAudioElement>(null);
+  
+  const isClickerView = location.pathname.includes('/clicker');
+  
+  const handleClickerBack = () => {
+    navigate(`/room/${roomId}`);
+  };
+  
+  const handleStartClicker = () => {
+    navigate(`/room/${roomId}/clicker`);
+  };
 
   const roomConfig = roomConfigs[roomId];
   
@@ -851,9 +864,9 @@ export const Room = ({ roomId, onBack }: RoomProps) => {
       )}
 
       {/* Clicker Game - Only for clicker arcade */}
-      {roomId === 'clicker-arcade' && (
+      {roomId === 'clicker-arcade' && isClickerView && (
         <div className="fixed inset-0 z-50">
-          <ClickerGame onBack={onBack} />
+          <ClickerGame onBack={handleClickerBack} />
         </div>
       )}
 
@@ -864,7 +877,16 @@ export const Room = ({ roomId, onBack }: RoomProps) => {
         </h3>
         <p className="text-xs text-muted-foreground">
           {roomId === 'tetris-room' ? 'Use WASD keys to play!' : 
-           roomId === 'clicker-arcade' ? 'Click the gift package 1000 times!' : 
+           roomId === 'clicker-arcade' && !isClickerView ? (
+             <Button 
+               onClick={handleStartClicker}
+               variant="outline" 
+               size="sm"
+               className="mt-2 w-full text-xs"
+             >
+               Start Clicker Game
+             </Button>
+           ) : roomId === 'clicker-arcade' ? 'Click the gift package 100 times!' : 
            t('room.quran.click')}
         </p>
       </Card>
