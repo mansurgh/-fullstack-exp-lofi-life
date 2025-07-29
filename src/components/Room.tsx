@@ -52,6 +52,11 @@ import hqPinkCandy from "@/assets/hq-pink-candy.jpg";
 import hqChechenTower from "@/assets/hq-chechen-tower.jpg";
 import hqPrisonCell from "@/assets/hq-prison-cell.jpg";
 import hqCircusTent from "@/assets/hq-circus-tent.jpg";
+
+// Updated specific images
+import hqDutchFarmGrass from "@/assets/hq-dutch-farm-grass.jpg";
+import hqLibraryDoors from "@/assets/hq-library-doors.jpg";
+import hqSeasideClouds from "@/assets/hq-seaside-clouds.jpg";
 import belgianGrey from "@/assets/belgian-grey.jpg";
 import germanBrown from "@/assets/german-brown.jpg";
 import dutchFarm from "@/assets/dutch-farm.jpg";
@@ -144,7 +149,7 @@ const roomConfigs: Record<string, RoomConfig> = {
     name: 'Seaside Room',
     description: 'Peaceful ocean waves',
     ambientSound: 'waves',
-    backgroundImage: hqSeasideSanctuary,
+    backgroundImage: hqSeasideClouds,
     quranPosition: { x: 'left-1/4', y: 'top-1/2' },
     interactiveElements: [
       { type: 'floating', className: 'absolute top-32 right-10 w-6 h-6 text-blue-300 text-xl', animation: 'animate-bounce' }
@@ -275,7 +280,7 @@ const roomConfigs: Record<string, RoomConfig> = {
     name: 'Dutch Countryside',
     description: 'Peaceful farmland and nature',
     ambientSound: 'nature',
-    backgroundImage: hqDutchFarm,
+    backgroundImage: hqDutchFarmGrass,
     quranPosition: { x: 'right-1/4', y: 'top-3/5' },
     interactiveElements: [
       { type: 'floating', className: 'absolute top-24 left-12 w-5 h-5 text-green-500 text-lg', animation: 'animate-bounce' }
@@ -416,7 +421,7 @@ const roomConfigs: Record<string, RoomConfig> = {
     name: 'Quiet Library',
     description: 'Silent library with page sounds',
     ambientSound: 'pages',
-    backgroundImage: hqLibraryRoom,
+    backgroundImage: hqLibraryDoors,
     quranPosition: { x: 'right-1/3', y: 'top-2/3' },
     interactiveElements: [
       { type: 'glow', className: 'absolute bottom-24 left-24 w-20 h-20 bg-amber-300/15 rounded-full blur-xl', animation: 'animate-pulse' }
