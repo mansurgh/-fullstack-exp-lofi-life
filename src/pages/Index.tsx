@@ -1,4 +1,4 @@
-import { useParams, useNavigate } from 'react-router-dom';
+import { useParams, useNavigate, useLocation } from 'react-router-dom';
 import { RoomSelector } from '@/components/RoomSelector';
 import { Room } from '@/components/Room';
 import { HelpMeOut } from '@/components/HelpMeOut';
@@ -11,14 +11,31 @@ const Index = () => {
   const { t } = useTranslation();
   const { roomId } = useParams();
   const navigate = useNavigate();
+  const location = useLocation();
 
   const handleSelectRoom = (roomId: string) => {
     console.log('Selecting room:', roomId);
-    navigate(`/room/${roomId}`);
+    // Preserve current search params when navigating to room
+    const currentSearch = location.search;
+    navigate(`/room/${roomId}${currentSearch}`);
   };
 
   const handleBackToRooms = () => {
-    navigate('/');
+    // Extract search params from current URL to restore them
+    const urlParams = new URLSearchParams(location.search);
+    const page = urlParams.get('page');
+    const filter = urlParams.get('filter');
+    
+    let backUrl = '/';
+    const params = new URLSearchParams();
+    if (page) params.set('page', page);
+    if (filter) params.set('filter', filter);
+    
+    if (params.toString()) {
+      backUrl += `?${params.toString()}`;
+    }
+    
+    navigate(backUrl);
   };
 
   console.log('Current roomId from URL:', roomId);

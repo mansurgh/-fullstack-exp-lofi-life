@@ -1,4 +1,5 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useSearchParams } from "react-router-dom";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { ChevronLeft, ChevronRight } from "lucide-react";
@@ -428,8 +429,14 @@ const roomCategories: Record<string, FilterCategory> = {
 
 export const RoomSelector = ({ onSelectRoom }: RoomSelectorProps) => {
   const { t } = useTranslation();
-  const [currentPage, setCurrentPage] = useState(0);
-  const [selectedFilter, setSelectedFilter] = useState<FilterCategory>('all');
+  const [searchParams, setSearchParams] = useSearchParams();
+  
+  // Get initial page from URL or default to 0
+  const initialPage = parseInt(searchParams.get('page') || '0', 10);
+  const initialFilter = (searchParams.get('filter') as FilterCategory) || 'all';
+  
+  const [currentPage, setCurrentPage] = useState(initialPage);
+  const [selectedFilter, setSelectedFilter] = useState<FilterCategory>(initialFilter);
   
   const ROOMS_PER_PAGE = 24;
   
@@ -443,6 +450,14 @@ export const RoomSelector = ({ onSelectRoom }: RoomSelectorProps) => {
     currentPage * ROOMS_PER_PAGE,
     (currentPage + 1) * ROOMS_PER_PAGE
   );
+  
+  // Update URL when page or filter changes
+  useEffect(() => {
+    const params = new URLSearchParams();
+    if (currentPage > 0) params.set('page', currentPage.toString());
+    if (selectedFilter !== 'all') params.set('filter', selectedFilter);
+    setSearchParams(params, { replace: true });
+  }, [currentPage, selectedFilter, setSearchParams]);
   
   const handleFilterChange = (filter: FilterCategory) => {
     setSelectedFilter(filter);
