@@ -46,6 +46,7 @@ export const TetrisGame = ({ className = '' }: TetrisGameProps) => {
   const [score, setScore] = useState(0);
   const [level, setLevel] = useState(1);
   const [lines, setLines] = useState(0);
+  const [blocksPlaced, setBlocksPlaced] = useState(0);
   const [gameOver, setGameOver] = useState(false);
   const [isPaused, setIsPaused] = useState(false);
   const gameLoopRef = useRef<NodeJS.Timeout | null>(null);
@@ -123,7 +124,6 @@ export const TetrisGame = ({ className = '' }: TetrisGameProps) => {
       const pointsMap = [0, 40, 100, 300, 1200];
       setScore(prev => prev + pointsMap[completedLines.length] * level);
       setLines(prev => prev + completedLines.length);
-      setLevel(prev => Math.floor((lines + completedLines.length) / 10) + 1);
     }
   }, [board, level, lines]);
 
@@ -135,6 +135,16 @@ export const TetrisGame = ({ className = '' }: TetrisGameProps) => {
     } else if (dy > 0) {
       // Piece can't move down, place it
       placePiece(currentPiece);
+      setBlocksPlaced(prev => {
+        const newCount = prev + 1;
+        // Level up every 150 blocks
+        if (newCount % 150 === 0) {
+          setLevel(current => current + 1);
+          setScore(current => current + 1000); // Bonus for level up
+        }
+        return newCount;
+      });
+      
       const newPiece = createTetromino();
       
       if (!isValidMove(newPiece, 0, 0)) {
@@ -253,6 +263,7 @@ export const TetrisGame = ({ className = '' }: TetrisGameProps) => {
     setScore(0);
     setLevel(1);
     setLines(0);
+    setBlocksPlaced(0);
     setGameOver(false);
     setIsPaused(false);
   };
@@ -271,8 +282,8 @@ export const TetrisGame = ({ className = '' }: TetrisGameProps) => {
             <div className="text-xl">{level}</div>
           </div>
           <div>
-            <div className="font-bold text-primary">Lines</div>
-            <div className="text-xl">{lines}</div>
+            <div className="font-bold text-primary">Blocks</div>
+            <div className="text-xl">{blocksPlaced}</div>
           </div>
         </div>
       </div>
@@ -305,6 +316,10 @@ export const TetrisGame = ({ className = '' }: TetrisGameProps) => {
         {isPaused && !gameOver && (
           <div className="text-yellow-500 font-bold">Paused - Press P to continue</div>
         )}
+        
+        <div className="mt-2 text-xs">
+          Place 150 blocks to reach the next level! ({150 - (blocksPlaced % 150)} blocks remaining)
+        </div>
       </div>
     </Card>
   );

@@ -47,7 +47,6 @@ import pirateShip from "@/assets/pirate-ship.jpg";
 import pirateDeckView from "@/assets/pirate-deck-view.jpg";
 import narutoRoom from "@/assets/naruto-room.jpg";
 import tetrisRoom from "@/assets/tetris-room.jpg";
-import racingArcade from "@/assets/racing-arcade.jpg";
 
 interface Room {
   id: string;
@@ -362,13 +361,6 @@ const rooms: Room[] = [
     description: 'Retro gaming room with playable tetris using WASD controls',
     thumbnail: tetrisRoom,
     ambientType: 'electronic'
-  },
-  {
-    id: 'racing-arcade',
-    name: 'Racing Arcade',
-    description: 'Retro racing room with car avoiding obstacles using AD controls',
-    thumbnail: racingArcade,
-    ambientType: 'electronic'
   }
 ];
 
@@ -422,8 +414,7 @@ const roomCategories: Record<string, FilterCategory> = {
   'pink-candy': 'fantasy',
   'pirate-deck-view': 'fantasy',
   'naruto-room': 'fantasy',
-  'tetris-room': 'hobbies',
-  'racing-arcade': 'hobbies'
+  'tetris-room': 'hobbies'
 };
 
 export const RoomSelector = ({ onSelectRoom }: RoomSelectorProps) => {
