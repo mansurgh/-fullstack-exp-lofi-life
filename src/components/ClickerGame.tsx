@@ -1,10 +1,14 @@
 import React, { useState } from 'react';
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { Gift, RotateCcw } from 'lucide-react';
+import { Gift, RotateCcw, ArrowLeft } from 'lucide-react';
 import { useTranslation } from '@/contexts/TranslationContext';
 
-const ClickerGame = () => {
+interface ClickerGameProps {
+  onBack?: () => void;
+}
+
+const ClickerGame = ({ onBack }: ClickerGameProps) => {
   const { t } = useTranslation();
   const [clicks, setClicks] = useState(0);
   const [isOpened, setIsOpened] = useState(false);
@@ -46,6 +50,21 @@ const ClickerGame = () => {
     <div className="min-h-screen bg-gradient-to-br from-purple-900 via-blue-900 to-indigo-900 flex items-center justify-center p-4">
       <Card className="w-full max-w-2xl bg-card/90 backdrop-blur-sm">
         <CardContent className="p-8 text-center">
+          {/* Back Button */}
+          {onBack && (
+            <div className="flex justify-start mb-4">
+              <Button 
+                onClick={onBack} 
+                variant="outline" 
+                size="sm"
+                className="gap-2"
+              >
+                <ArrowLeft className="w-4 h-4" />
+                {t('navigation.back')}
+              </Button>
+            </div>
+          )}
+          
           <h2 className="text-3xl font-bold mb-6 text-primary">{t('clicker.title')}</h2>
           
           {!isOpened ? (

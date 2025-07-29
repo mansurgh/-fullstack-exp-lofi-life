@@ -853,7 +853,7 @@ export const Room = ({ roomId, onBack }: RoomProps) => {
       {/* Clicker Game - Only for clicker arcade */}
       {roomId === 'clicker-arcade' && (
         <div className="fixed inset-0 z-50">
-          <ClickerGame />
+          <ClickerGame onBack={onBack} />
         </div>
       )}
 

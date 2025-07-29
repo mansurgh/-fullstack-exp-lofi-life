@@ -191,6 +191,9 @@ const translations = {
     'recitation.surah.verse': 'Surah {surah}, Verse {verse}',
     'recitation.audio.warning': '⚠️ Audio files not included - add to /public/quran-audio/',
     
+    // Navigation
+    'navigation.back': 'Back',
+    
     // Ahadith
     'hadith.1.text': 'The believer is not one who eats his fill while his neighbor goes hungry.',
     'hadith.1.source': 'Al-Bukhari',
@@ -350,6 +353,9 @@ const translations = {
     'recitation.start.fatihah': 'Начать Аль-Фатиха',
     'recitation.surah.verse': 'Сура {surah}, Аят {verse}',
     'recitation.audio.warning': '⚠️ Аудиофайлы не включены - добавьте в /public/quran-audio/',
+    
+    // Navigation
+    'navigation.back': 'Назад',
   },
   nl: {
     // Navigation & General
@@ -484,6 +490,9 @@ const translations = {
     'recitation.start.fatihah': 'Start Al-Fatihah',
     'recitation.surah.verse': 'Soera {surah}, Vers {verse}',
     'recitation.audio.warning': '⚠️ Audiobestanden niet inbegrepen - voeg toe aan /public/quran-audio/',
+    
+    // Navigation
+    'navigation.back': 'Terug',
   },
   fr: {
     // Navigation & General
@@ -582,6 +591,9 @@ const translations = {
     'recitation.start.fatihah': 'Commencer Al-Fatihah',
     'recitation.surah.verse': 'Sourate {surah}, Verset {verse}',
     'recitation.audio.warning': '⚠️ Fichiers audio non inclus - ajoutez dans /public/quran-audio/',
+    
+    // Navigation
+    'navigation.back': 'Retour',
   },
   de: {
     // All German translations including theme selector
@@ -639,6 +651,9 @@ const translations = {
     'recitation.start.fatihah': 'Al-Fatihah Starten',
     'recitation.surah.verse': 'Sure {surah}, Vers {verse}',
     'recitation.audio.warning': '⚠️ Audiodateien nicht enthalten - hinzufügen zu /public/quran-audio/',
+    
+    // Navigation
+    'navigation.back': 'Zurück',
   }
 };
 
