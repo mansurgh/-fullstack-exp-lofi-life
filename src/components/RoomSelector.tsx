@@ -5,39 +5,43 @@ import { Button } from "@/components/ui/button";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { useTranslation } from '@/contexts/TranslationContext';
 
-// Clean high-quality images (no living beings)
-import cleanRainyStudy from "@/assets/clean-rainy-study.jpg";
-import cleanSunnyGarden from "@/assets/clean-sunny-garden.jpg";
-import cleanFireplaceNook from "@/assets/clean-fireplace-nook.jpg";
-import cleanMoonlitCorner from "@/assets/clean-moonlit-corner.jpg";
-import cleanSeasideSanctuary from "@/assets/clean-seaside-sanctuary.jpg";
-import cleanDesertMirage from "@/assets/clean-desert-mirage.jpg";
-import cleanTuscanVista from "@/assets/clean-tuscan-vista.jpg";
-import cleanStellarMeditation from "@/assets/clean-stellar-meditation.jpg";
-import cleanAlpineRetreat from "@/assets/clean-alpine-retreat.jpg";
-import cleanWoodlandHaven from "@/assets/clean-woodland-haven.jpg";
-import cleanRussianWinter from "@/assets/clean-russian-winter.jpg";
-import cleanChechenTower from "@/assets/clean-chechen-tower.jpg";
-import cleanFrenchEiffel from "@/assets/clean-french-eiffel.jpg";
-import cleanNorwegianLandscape from "@/assets/clean-norwegian-landscape.jpg";
-import cleanTokyoNeon from "@/assets/clean-tokyo-neon.jpg";
-import cleanBelgianGrey from "@/assets/clean-belgian-grey.jpg";
-import cleanGermanBrown from "@/assets/clean-german-brown.jpg";
-import cleanDutchFarm from "@/assets/clean-dutch-farm.jpg";
-import cleanChineseLake from "@/assets/clean-chinese-lake.jpg";
-import cleanCircusTent from "@/assets/clean-circus-tent.jpg";
-import cleanLibraryRoom from "@/assets/clean-library-room.jpg";
-import cleanMosqueInterior from "@/assets/clean-mosque-interior.jpg";
-import cleanRgbRoom from "@/assets/clean-rgb-room.jpg";
-import cleanPolandSnow from "@/assets/clean-poland-snow.jpg";
-import cleanAntarcticIgloo from "@/assets/clean-antarctic-igloo.jpg";
-import cleanSpaceShip from "@/assets/clean-space-ship.jpg";
-import cleanPinkCandy from "@/assets/clean-pink-candy.jpg";
-import cleanPrisonCell from "@/assets/clean-prison-cell.jpg";
-import cleanSkyscraperView from "@/assets/clean-skyscraper-view.jpg";
-import cleanSubmarineView from "@/assets/clean-submarine-view.jpg";
-import cleanTetrisRoom from "@/assets/clean-tetris-room.jpg";
-import cleanClickerArcade from "@/assets/clean-clicker-arcade.jpg";
+// Lofi first-person view images
+import lofiRainyStudy from "@/assets/lofi-rainy-study.jpg";
+import lofiSunnyGarden from "@/assets/lofi-sunny-garden.jpg";
+import lofiFireplaceNook from "@/assets/lofi-fireplace-nook.jpg";
+import lofiMoonlitCorner from "@/assets/lofi-moonlit-corner.jpg";
+import lofiSeasideSanctuary from "@/assets/lofi-seaside-sanctuary.jpg";
+import lofiDesertMirage from "@/assets/lofi-desert-mirage.jpg";
+import lofiTuscanVista from "@/assets/lofi-tuscan-vista.jpg";
+import lofiStellarMeditation from "@/assets/lofi-stellar-meditation.jpg";
+import lofiAlpineRetreat from "@/assets/lofi-alpine-retreat.jpg";
+import lofiWoodlandHaven from "@/assets/lofi-woodland-haven.jpg";
+import lofiRussianWinter from "@/assets/lofi-russian-winter.jpg";
+import lofiChechenTower from "@/assets/lofi-chechen-tower.jpg";
+import lofiFrenchEiffel from "@/assets/lofi-french-eiffel.jpg";
+import lofiNorwegianLandscape from "@/assets/lofi-norwegian-landscape.jpg";
+import lofiTokyoNeon from "@/assets/lofi-tokyo-neon.jpg";
+import lofiBelgianGrey from "@/assets/lofi-belgian-grey.jpg";
+import lofiGermanBrown from "@/assets/lofi-german-brown.jpg";
+import lofiDutchFarm from "@/assets/lofi-dutch-farm.jpg";
+import lofiChineseLake from "@/assets/lofi-chinese-lake.jpg";
+import lofiCircusTent from "@/assets/lofi-circus-tent.jpg";
+import lofiLibraryRoom from "@/assets/lofi-library-room.jpg";
+import lofiMosqueInterior from "@/assets/lofi-mosque-interior.jpg";
+import lofiRgbRoom from "@/assets/lofi-rgb-room.jpg";
+import lofiPolandSnow from "@/assets/lofi-poland-snow.jpg";
+import lofiAntarcticIgloo from "@/assets/lofi-antarctic-igloo.jpg";
+import lofiSpaceShip from "@/assets/lofi-space-ship.jpg";
+import lofiPinkCandy from "@/assets/lofi-pink-candy.jpg";
+import lofiPrisonCell from "@/assets/lofi-prison-cell.jpg";
+import lofiSkyscraperView from "@/assets/lofi-skyscraper-view.jpg";
+import lofiSubmarineView from "@/assets/lofi-submarine-view.jpg";
+import lofiTetrisRoom from "@/assets/lofi-tetris-room.jpg";
+import lofiClickerArcade from "@/assets/lofi-clicker-arcade.jpg";
+import lofiMinecraftRoom from "@/assets/lofi-minecraft-room.jpg";
+import lofiNarutoRoom from "@/assets/lofi-naruto-room.jpg";
+import lofiSpongebobPineapple from "@/assets/lofi-spongebob-pineapple.jpg";
+import lofiPirateDeckView from "@/assets/lofi-pirate-deck-view.jpg";
 
 // Sport rooms (keeping original)
 import footballField from "@/assets/football-field.jpg";
@@ -79,133 +83,133 @@ const rooms: Room[] = [
     id: 'sunny-garden',
     name: 'Garden View',
     description: 'A bright room overlooking a peaceful garden with chirping birds',
-    thumbnail: cleanSunnyGarden,
+    thumbnail: lofiSunnyGarden,
     ambientType: 'birds'
   },
   {
     id: 'fireplace-nook',
     name: 'Fireplace Nook',
     description: 'A warm corner with a crackling fireplace and comfortable seating',
-    thumbnail: cleanFireplaceNook,
+    thumbnail: lofiFireplaceNook,
     ambientType: 'fire'
   },
   {
     id: 'moonlit-corner',
     name: 'Moonlit Corner',
     description: 'A serene nighttime space bathed in gentle moonlight',
-    thumbnail: cleanMoonlitCorner,
+    thumbnail: lofiMoonlitCorner,
     ambientType: 'night'
   },
   {
     id: 'seaside-sanctuary',
     name: 'Seaside Room',
     description: 'Ocean waves and distant seagulls create peaceful coastal ambiance',
-    thumbnail: cleanSeasideSanctuary,
+    thumbnail: lofiSeasideSanctuary,
     ambientType: 'waves'
   },
   {
     id: 'desert-mirage',
     name: 'Desert Mirage',
     description: 'Gentle desert winds with distant sandy whispers and silence',
-    thumbnail: cleanDesertMirage,
+    thumbnail: lofiDesertMirage,
     ambientType: 'desert'
   },
   {
     id: 'tuscan-vista',
     name: 'Tuscan Vista',
     description: 'Soft Italian breeze with distant city murmurs and gentle wind',
-    thumbnail: cleanTuscanVista,
+    thumbnail: lofiTuscanVista,
     ambientType: 'city'
   },
   {
     id: 'stellar-meditation',
     name: 'Stellar Meditation',
     description: 'Cosmic silence with ethereal space ambiance and celestial sounds',
-    thumbnail: cleanStellarMeditation,
+    thumbnail: lofiStellarMeditation,
     ambientType: 'space'
   },
   {
     id: 'alpine-retreat',
     name: 'Alpine Retreat',
     description: 'Mountain winds whistling through peaceful snow-capped peaks',
-    thumbnail: cleanAlpineRetreat,
+    thumbnail: lofiAlpineRetreat,
     ambientType: 'wind'
   },
   {
     id: 'woodland-haven',
     name: 'Woodland Haven',
     description: 'Forest sounds with gentle rustling leaves and nature\'s symphony',
-    thumbnail: cleanWoodlandHaven,
+    thumbnail: lofiWoodlandHaven,
     ambientType: 'forest'
   },
   {
     id: 'russian-winter',
     name: 'Russian Winter',
     description: 'Snow falling gently outside with peaceful winter ambiance',
-    thumbnail: cleanRussianWinter,
+    thumbnail: lofiRussianWinter,
     ambientType: 'snow'
   },
   {
     id: 'chechen-tower',
     name: 'Chechen Tower',
     description: 'Mountain winds around the ancient Vainakh tower',
-    thumbnail: cleanChechenTower,
+    thumbnail: lofiChechenTower,
     ambientType: 'mountain'
   },
   {
     id: 'french-eiffel',
     name: 'French Elegance',
     description: 'Parisian streets with distant Eiffel Tower view',
-    thumbnail: cleanFrenchEiffel,
+    thumbnail: lofiFrenchEiffel,
     ambientType: 'city'
   },
   {
     id: 'norwegian-landscape',
     name: 'Norwegian Sky',
     description: 'Open Norwegian landscape with mountain winds',
-    thumbnail: cleanNorwegianLandscape,
+    thumbnail: lofiNorwegianLandscape,
     ambientType: 'wind'
   },
   {
     id: 'tokyo-neon',
     name: 'Tokyo Nights',
     description: 'Neon-lit cityscape with urban night sounds',
-    thumbnail: cleanTokyoNeon,
+    thumbnail: lofiTokyoNeon,
     ambientType: 'traffic'
   },
   {
     id: 'belgian-grey',
     name: 'Belgian Streets',
     description: 'Grey city atmosphere with gentle rain sounds',
-    thumbnail: cleanBelgianGrey,
+    thumbnail: lofiBelgianGrey,
     ambientType: 'rain'
   },
   {
     id: 'german-brown',
     name: 'German Village',
     description: 'Traditional brown-roofed cityscape with peaceful ambiance',
-    thumbnail: cleanGermanBrown,
+    thumbnail: lofiGermanBrown,
     ambientType: 'city'
   },
   {
     id: 'dutch-farm',
     name: 'Dutch Countryside',
     description: 'Peaceful farmland with nature sounds and gentle breeze',
-    thumbnail: cleanDutchFarm,
+    thumbnail: lofiDutchFarm,
     ambientType: 'nature'
   },
   {
     id: 'chinese-lake',
     name: 'Chinese Serenity',
     description: 'Tranquil lake view with gentle water sounds',
-    thumbnail: cleanChineseLake,
+    thumbnail: lofiChineseLake,
     ambientType: 'water'
   },
   {
     id: 'circus-tent',
     name: 'Circus Memories',
     description: 'Inside the big tent with nostalgic circus atmosphere',
-    thumbnail: cleanCircusTent,
+    thumbnail: lofiCircusTent,
     ambientType: 'silence'
   },
   {
@@ -268,112 +272,112 @@ const rooms: Room[] = [
     id: 'spongebob-pineapple',
     name: 'Underwater Home',
     description: 'Underwater environment with bubble sounds',
-    thumbnail: cleanSpongebobPineapple,
+    thumbnail: lofiSpongebobPineapple,
     ambientType: 'underwater'
   },
   {
     id: 'minecraft-room',
     name: 'Minecraft World',
     description: 'Blocky world with peaceful ambient cube sounds',
-    thumbnail: cleanMinecraftRoom,
+    thumbnail: lofiMinecraftRoom,
     ambientType: 'electronic'
   },
   {
     id: 'mosque-interior',
     name: 'Sacred Mosque',
     description: 'Peaceful mosque interior with spiritual silence',
-    thumbnail: cleanMosqueInterior,
+    thumbnail: lofiMosqueInterior,
     ambientType: 'silence'
   },
   {
     id: 'library-room',
     name: 'Quiet Library',
     description: 'Silent library with gentle page turning sounds',
-    thumbnail: cleanLibraryRoom,
+    thumbnail: lofiLibraryRoom,
     ambientType: 'pages'
   },
   {
     id: 'rgb-room',
     name: 'Disco',
     description: 'Dark room with customizable lighting effects and electronic ambiance',
-    thumbnail: cleanRgbRoom,
+    thumbnail: lofiRgbRoom,
     ambientType: 'electronic'
   },
   {
     id: 'poland-snow',
     name: 'Polish Winter',
     description: 'Cozy Polish room with peaceful snowy winter sounds',
-    thumbnail: cleanPolandSnow,
+    thumbnail: lofiPolandSnow,
     ambientType: 'snow'
   },
   {
     id: 'antarctic-igloo',
     name: 'Antarctic Igloo',
     description: 'Inside an igloo with cold Antarctic wind sounds',
-    thumbnail: cleanAntarcticIgloo,
+    thumbnail: lofiAntarcticIgloo,
     ambientType: 'wind'
   },
   {
     id: 'space-ship',
     name: 'Space Station',
     description: 'Spaceship with cosmic silence and Earth view',
-    thumbnail: cleanSpaceShip,
+    thumbnail: lofiSpaceShip,
     ambientType: 'space'
   },
   {
     id: 'pink-candy',
     name: 'Sweet Dreams',
     description: 'Pink room with magical candy field view and peaceful silence',
-    thumbnail: cleanPinkCandy,
+    thumbnail: lofiPinkCandy,
     ambientType: 'silence'
   },
   {
     id: 'prison-cell',
     name: 'Prison Cell',
     description: 'Institutional cell with echoing silence',
-    thumbnail: cleanPrisonCell,
+    thumbnail: lofiPrisonCell,
     ambientType: 'silence'
   },
   {
     id: 'skyscraper-view',
     name: 'Sky High',
     description: 'High-rise room with city sounds from far below',
-    thumbnail: cleanSkyscraperView,
+    thumbnail: lofiSkyscraperView,
     ambientType: 'city'
   },
   {
     id: 'submarine-view',
     name: 'Deep Sea',
     description: 'Submarine with underwater bubble sounds and sea plant view',
-    thumbnail: cleanSubmarineView,
+    thumbnail: lofiSubmarineView,
     ambientType: 'underwater'
   },
   {
     id: 'pirate-deck-view',
     name: 'Nakama',
     description: 'Standing at the helm with adventure gear around',
-    thumbnail: cleanPirateDeckView,
+    thumbnail: lofiPirateDeckView,
     ambientType: 'waves'
   },
   {
     id: 'naruto-room',
     name: 'Ninja Hideout',
     description: 'Restaurant with peaceful atmosphere',
-    thumbnail: cleanNarutoRoom,
+    thumbnail: lofiNarutoRoom,
     ambientType: 'silence'
   },
   {
     id: 'tetris-room',
     name: 'Tetris Arcade',
     description: 'Retro gaming room with playable tetris using WASD controls',
-    thumbnail: cleanTetrisRoom,
+    thumbnail: lofiTetrisRoom,
     ambientType: 'electronic'
   },
   {
     id: 'clicker-arcade',
     name: 'Clicker Arcade',
     description: 'Click gift packages to discover ahadith wisdom',
-    thumbnail: cleanClickerArcade,
+    thumbnail: lofiClickerArcade,
     ambientType: 'electronic'
   }
 ];
