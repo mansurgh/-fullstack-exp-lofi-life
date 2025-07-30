@@ -19,7 +19,7 @@ export const AudioUpload = ({ onFileSelect }: AudioUploadProps) => {
       setSelectedFile(file);
       onFileSelect?.(file);
     } else {
-      alert('Please select a valid MP3 file');
+      alert('Please select an MP3 file');
     }
   };
 
