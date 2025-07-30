@@ -42,6 +42,11 @@ import lofiMinecraftRoom from "@/assets/lofi-minecraft-room.jpg";
 import lofiNarutoRoom from "@/assets/lofi-naruto-room.jpg";
 import lofiSpongebobPineapple from "@/assets/lofi-spongebob-pineapple.jpg";
 import lofiPirateDeckView from "@/assets/lofi-pirate-deck-view.jpg";
+import lofiGhibliForest from "@/assets/lofi-ghibli-forest.jpg";
+import lofiTitanWall from "@/assets/lofi-titan-wall.jpg";
+import lofiDemonSlayerDojo from "@/assets/lofi-demon-slayer-dojo.jpg";
+import lofiHeroAcademy from "@/assets/lofi-hero-academy.jpg";
+import lofiDragonBallTraining from "@/assets/lofi-dragon-ball-training.jpg";
 
 // Sport rooms (keeping original)
 import footballField from "@/assets/football-field.jpg";
@@ -367,6 +372,41 @@ const rooms: Room[] = [
     ambientType: 'silence'
   },
   {
+    id: 'ghibli-forest',
+    name: 'Ghibli Forest',
+    description: 'Magical forest view with Studio Ghibli atmosphere',
+    thumbnail: lofiGhibliForest,
+    ambientType: 'forest'
+  },
+  {
+    id: 'titan-wall',
+    name: 'Titan Wall',
+    description: 'Watchtower overlooking the titan walls',
+    thumbnail: lofiTitanWall,
+    ambientType: 'wind'
+  },
+  {
+    id: 'demon-slayer-dojo',
+    name: 'Demon Slayer Dojo',
+    description: 'Traditional Japanese training dojo',
+    thumbnail: lofiDemonSlayerDojo,
+    ambientType: 'japanese'
+  },
+  {
+    id: 'hero-academy',
+    name: 'Hero Academy',
+    description: 'UA High School classroom atmosphere',
+    thumbnail: lofiHeroAcademy,
+    ambientType: 'city'
+  },
+  {
+    id: 'dragon-ball-training',
+    name: 'Kame House',
+    description: 'Dragon Ball training ground by the ocean',
+    thumbnail: lofiDragonBallTraining,
+    ambientType: 'waves'
+  },
+  {
     id: 'tetris-room',
     name: 'Tetris Arcade',
     description: 'Retro gaming room with playable tetris using WASD controls',
@@ -432,6 +472,11 @@ const roomCategories: Record<string, FilterCategory> = {
   'pink-candy': 'fantasy',
   'pirate-deck-view': 'fantasy',
   'naruto-room': 'fantasy',
+  'ghibli-forest': 'fantasy',
+  'titan-wall': 'fantasy',
+  'demon-slayer-dojo': 'fantasy',
+  'hero-academy': 'fantasy',
+  'dragon-ball-training': 'fantasy',
   'tetris-room': 'hobbies',
   'clicker-arcade': 'hobbies'
 };

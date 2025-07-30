@@ -46,6 +46,11 @@ import lofiSpongebobPineapple from '@/assets/lofi-spongebob-pineapple.jpg';
 import lofiMinecraftRoom from '@/assets/lofi-minecraft-room.jpg';
 import lofiPirateDeckView from '@/assets/lofi-pirate-deck-view.jpg';
 import lofiNarutoRoom from '@/assets/lofi-naruto-room.jpg';
+import lofiGhibliForest from '@/assets/lofi-ghibli-forest.jpg';
+import lofiTitanWall from '@/assets/lofi-titan-wall.jpg';
+import lofiDemonSlayerDojo from '@/assets/lofi-demon-slayer-dojo.jpg';
+import lofiHeroAcademy from '@/assets/lofi-hero-academy.jpg';
+import lofiDragonBallTraining from '@/assets/lofi-dragon-ball-training.jpg';
 
 // Sports images (keep original as requested)
 import footballField from "@/assets/football-field.jpg";
@@ -443,6 +448,59 @@ const roomConfigs: Record<string, RoomConfig> = {
     quranPosition: { x: 'right-1/2', y: 'top-2/3' },
     interactiveElements: [
       { type: 'glow', className: 'absolute top-20 left-20 w-20 h-20 bg-orange-500/15 rounded-full blur-xl', animation: 'animate-pulse' }
+    ]
+  },
+  'ghibli-forest': {
+    name: 'Ghibli Forest',
+    description: 'Magical forest view with Studio Ghibli atmosphere',
+    ambientSound: 'forest',
+    backgroundImage: lofiGhibliForest,
+    quranPosition: { x: 'left-1/3', y: 'top-2/3' },
+    interactiveElements: [
+      { type: 'floating', className: 'absolute top-24 right-16 w-5 h-5 text-green-300 text-lg', animation: 'animate-bounce' },
+      { type: 'glow', className: 'absolute bottom-20 left-20 w-24 h-16 bg-green-400/20 rounded-full blur-xl', animation: 'animate-pulse' }
+    ]
+  },
+  'titan-wall': {
+    name: 'Titan Wall',
+    description: 'Watchtower overlooking the titan walls',
+    ambientSound: 'wind',
+    backgroundImage: lofiTitanWall,
+    quranPosition: { x: 'right-1/4', y: 'top-1/2' },
+    interactiveElements: [
+      { type: 'glow', className: 'absolute top-32 left-32 w-20 h-20 bg-stone-400/20 rounded-full blur-xl', animation: 'animate-pulse' }
+    ]
+  },
+  'demon-slayer-dojo': {
+    name: 'Demon Slayer Dojo',
+    description: 'Traditional Japanese training dojo',
+    ambientSound: 'japanese',
+    backgroundImage: lofiDemonSlayerDojo,
+    quranPosition: { x: 'left-1/2', y: 'top-3/4' },
+    interactiveElements: [
+      { type: 'floating', className: 'absolute top-20 right-20 w-4 h-4 text-pink-300 text-lg', animation: 'animate-bounce' },
+      { type: 'glow', className: 'absolute bottom-24 left-24 w-20 h-20 bg-red-400/15 rounded-full blur-xl', animation: 'animate-pulse' }
+    ]
+  },
+  'hero-academy': {
+    name: 'Hero Academy',
+    description: 'UA High School classroom atmosphere',
+    ambientSound: 'city',
+    backgroundImage: lofiHeroAcademy,
+    quranPosition: { x: 'right-1/3', y: 'top-1/2' },
+    interactiveElements: [
+      { type: 'glow', className: 'absolute top-20 left-20 w-20 h-20 bg-blue-500/20 rounded-full blur-xl', animation: 'animate-pulse' }
+    ]
+  },
+  'dragon-ball-training': {
+    name: 'Kame House',
+    description: 'Dragon Ball training ground by the ocean',
+    ambientSound: 'waves',
+    backgroundImage: lofiDragonBallTraining,
+    quranPosition: { x: 'left-1/4', y: 'top-1/2' },
+    interactiveElements: [
+      { type: 'floating', className: 'absolute top-32 right-16 w-6 h-6 text-orange-400 text-xl', animation: 'animate-bounce' },
+      { type: 'glow', className: 'absolute bottom-20 left-20 w-24 h-16 bg-orange-500/20 rounded-full blur-xl', animation: 'animate-pulse' }
     ]
   },
   // Sports rooms (keep original images as requested)
