@@ -91,9 +91,19 @@ export const TranscriptionPipeline = () => {
       });
     } catch (error) {
       console.error('Transcription error:', error);
+      
+      let errorMessage = 'An error occurred during transcription.';
+      
+      // Handle specific OpenAI quota error
+      if (error.message && error.message.includes('quota')) {
+        errorMessage = 'OpenAI API quota exceeded. Please check your billing settings and add payment method.';
+      } else if (error.message && error.message.includes('OpenAI API error')) {
+        errorMessage = error.message;
+      }
+      
       toast({
         title: 'Transcription failed',
-        description: error.message || 'An error occurred during transcription.',
+        description: errorMessage,
         variant: 'destructive',
       });
     } finally {
