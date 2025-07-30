@@ -704,34 +704,6 @@ export const RoomSelector = ({ onSelectRoom }: RoomSelectorProps) => {
           </Button>
         </div>
         
-        {/* Page Navigation - hide on mobile if only one page */}
-        {totalPages > 1 && (
-          <div className="flex justify-center items-center gap-2 sm:gap-4 mb-4 sm:mb-8">
-            <Button
-              onClick={goToPrevPage}
-              variant="outline"
-              size="sm"
-              className="flex items-center gap-1 px-2 sm:px-4"
-            >
-              <ChevronLeft className="w-3 h-3 sm:w-4 sm:h-4" />
-              <span className="hidden sm:inline">Previous</span>
-            </Button>
-            
-            <span className="text-xs sm:text-sm text-muted-foreground px-2">
-              {currentPage + 1}/{totalPages}
-            </span>
-            
-            <Button
-              onClick={goToNextPage}
-              variant="outline"
-              size="sm"
-              className="flex items-center gap-1 px-2 sm:px-4"
-            >
-              <span className="hidden sm:inline">Next</span>
-              <ChevronRight className="w-3 h-3 sm:w-4 sm:h-4" />
-            </Button>
-          </div>
-        )}
         
         <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-3 gap-2 sm:gap-6 lg:gap-8">
           {currentRooms.map((room) => (
@@ -782,6 +754,35 @@ export const RoomSelector = ({ onSelectRoom }: RoomSelectorProps) => {
             </Card>
           ))}
         </div>
+        
+        {/* Page Navigation - hide on mobile if only one page */}
+        {totalPages > 1 && (
+          <div className="flex justify-center items-center gap-2 sm:gap-4 mt-4 sm:mt-8">
+            <Button
+              onClick={goToPrevPage}
+              variant="outline"
+              size="sm"
+              className="flex items-center gap-1 px-2 sm:px-4"
+            >
+              <ChevronLeft className="w-3 h-3 sm:w-4 sm:h-4" />
+              <span className="hidden sm:inline">Previous</span>
+            </Button>
+            
+            <span className="text-xs sm:text-sm text-muted-foreground px-2">
+              {currentPage + 1}/{totalPages}
+            </span>
+            
+            <Button
+              onClick={goToNextPage}
+              variant="outline"
+              size="sm"
+              className="flex items-center gap-1 px-2 sm:px-4"
+            >
+              <span className="hidden sm:inline">Next</span>
+              <ChevronRight className="w-3 h-3 sm:w-4 sm:h-4" />
+            </Button>
+          </div>
+        )}
         
         
         <div className="text-center mt-8 sm:mt-12 px-4">
