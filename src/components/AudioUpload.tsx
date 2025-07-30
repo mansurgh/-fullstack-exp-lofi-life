@@ -15,7 +15,7 @@ export const AudioUpload = ({ onFileSelect }: AudioUploadProps) => {
   const [isDragging, setIsDragging] = useState(false);
 
   const handleFileSelect = (file: File) => {
-    if (file && file.type === 'C:\Users\32484\Downloads\fm_002_20150413_0654\010.mp3') {
+    if (file && (file.type === 'audio/mpeg' || file.type === 'audio/mp3' || file.name.toLowerCase().endsWith('.mp3'))) {
       setSelectedFile(file);
       onFileSelect?.(file);
     } else {
