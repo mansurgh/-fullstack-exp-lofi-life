@@ -121,6 +121,44 @@ export type Database = {
         }
         Relationships: []
       }
+      user_surah_audio: {
+        Row: {
+          audio_file_name: string
+          audio_file_path: string
+          created_at: string
+          id: string
+          surah_id: number
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          audio_file_name: string
+          audio_file_path: string
+          created_at?: string
+          id?: string
+          surah_id: number
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          audio_file_name?: string
+          audio_file_path?: string
+          created_at?: string
+          id?: string
+          surah_id?: number
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "user_surah_audio_surah_id_fkey"
+            columns: ["surah_id"]
+            isOneToOne: false
+            referencedRelation: "surahs"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
     }
     Views: {
       [_ in never]: never
