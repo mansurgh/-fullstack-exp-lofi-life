@@ -5,6 +5,7 @@ import { HelpMeOut } from '@/components/HelpMeOut';
 import { ThemeSelector } from '@/components/ThemeSelector';
 import { LanguageSelector } from '@/components/LanguageSelector';
 import { RecitationControls } from '@/components/RecitationControls';
+import { AudioUpload } from '@/components/AudioUpload';
 import { useTranslation } from '@/contexts/TranslationContext';
 
 const Index = () => {
@@ -64,6 +65,9 @@ const Index = () => {
       </div>
       
       <RoomSelector onSelectRoom={handleSelectRoom} />
+      
+      {/* Audio Upload */}
+      <AudioUpload onFileSelect={(file) => console.log('File selected:', file)} />
       
       {/* HelpMeOut - hidden on mobile to reduce clutter */}
       <div className="hidden sm:block">
