@@ -47,6 +47,20 @@ import lofiTitanWall from "@/assets/lofi-titan-wall.jpg";
 import lofiDemonSlayerDojo from "@/assets/lofi-demon-slayer-dojo.jpg";
 import lofiHeroAcademy from "@/assets/lofi-hero-academy.jpg";
 import lofiDragonBallTraining from "@/assets/lofi-dragon-ball-training.jpg";
+import lofiHospitalWaiting from "@/assets/lofi-hospital-waiting.jpg";
+import lofiJailCell from "@/assets/lofi-jail-cell.jpg";
+import lofiTrainStation from "@/assets/lofi-train-station.jpg";
+import lofiBusStop from "@/assets/lofi-bus-stop.jpg";
+import lofiDoctorsOffice from "@/assets/lofi-doctors-office.jpg";
+import lofiGym from "@/assets/lofi-gym.jpg";
+import lofiBirdShop from "@/assets/lofi-bird-shop.jpg";
+import lofiRoomWithCat from "@/assets/lofi-room-with-cat.jpg";
+import lofiCatEating from "@/assets/lofi-cat-eating.jpg";
+import lofiDogEating from "@/assets/lofi-dog-eating.jpg";
+import lofiKitchenCockatiel from "@/assets/lofi-kitchen-cockatiel.jpg";
+import lofiMoonlitRoom from "@/assets/lofi-moonlit-room.jpg";
+import lofiRainHideout from "@/assets/lofi-rain-hideout.jpg";
+import lofiParkTrees from "@/assets/lofi-park-trees.jpg";
 
 // Sport rooms (keeping original)
 import footballField from "@/assets/football-field.jpg";
@@ -419,6 +433,104 @@ const rooms: Room[] = [
     description: 'Click gift packages to discover ahadith wisdom',
     thumbnail: lofiClickerArcade,
     ambientType: 'electronic'
+  },
+  {
+    id: 'hospital-waiting',
+    name: 'Hospital Waiting',
+    description: 'Peaceful hospital waiting room with warm atmosphere',
+    thumbnail: lofiHospitalWaiting,
+    ambientType: 'silence'
+  },
+  {
+    id: 'jail-cell',
+    name: 'Peaceful Cell',
+    description: 'Contemplative space for reflection and reading',
+    thumbnail: lofiJailCell,
+    ambientType: 'silence'
+  },
+  {
+    id: 'train-station',
+    name: 'Train Platform',
+    description: 'Nostalgic train station with gentle station sounds',
+    thumbnail: lofiTrainStation,
+    ambientType: 'city'
+  },
+  {
+    id: 'bus-stop',
+    name: 'Bus Stop Shelter',
+    description: 'Cozy bus stop with evening ambiance',
+    thumbnail: lofiBusStop,
+    ambientType: 'city'
+  },
+  {
+    id: 'doctors-office',
+    name: 'Doctor\'s Office',
+    description: 'Warm medical office with peaceful atmosphere',
+    thumbnail: lofiDoctorsOffice,
+    ambientType: 'silence'
+  },
+  {
+    id: 'gym',
+    name: 'Peaceful Gym',
+    description: 'Cozy gym space with warm lighting',
+    thumbnail: lofiGym,
+    ambientType: 'silence'
+  },
+  {
+    id: 'bird-shop',
+    name: 'Bird Shop',
+    description: 'Charming bird shop with colorful birds',
+    thumbnail: lofiBirdShop,
+    ambientType: 'birds'
+  },
+  {
+    id: 'room-with-cat',
+    name: 'Cat\'s Corner',
+    description: 'Cozy room with a friendly cat companion',
+    thumbnail: lofiRoomWithCat,
+    ambientType: 'silence'
+  },
+  {
+    id: 'cat-eating',
+    name: 'Feeding Time',
+    description: 'Peaceful room watching a cat enjoy its meal',
+    thumbnail: lofiCatEating,
+    ambientType: 'silence'
+  },
+  {
+    id: 'dog-eating',
+    name: 'Happy Pup',
+    description: 'Warm room with a content dog at mealtime',
+    thumbnail: lofiDogEating,
+    ambientType: 'silence'
+  },
+  {
+    id: 'kitchen-cockatiel',
+    name: 'Kitchen Bird',
+    description: 'Cozy kitchen with a colorful cockatiel friend',
+    thumbnail: lofiKitchenCockatiel,
+    ambientType: 'birds'
+  },
+  {
+    id: 'moonlit-room',
+    name: 'Night Moon',
+    description: 'Dark room illuminated by bright moonlight',
+    thumbnail: lofiMoonlitRoom,
+    ambientType: 'night'
+  },
+  {
+    id: 'rain-hideout',
+    name: 'Rain Shelter',
+    description: 'Cozy hideout protecting from the rain outside',
+    thumbnail: lofiRainHideout,
+    ambientType: 'rain'
+  },
+  {
+    id: 'park-trees',
+    name: 'Tree Park',
+    description: 'Peaceful park with lush green trees',
+    thumbnail: lofiParkTrees,
+    ambientType: 'nature'
   }
 ];
 
@@ -441,6 +553,12 @@ const roomCategories: Record<string, FilterCategory> = {
   'chinese-lake': 'places',
   'poland-snow': 'places',
   'antarctic-igloo': 'places',
+  'hospital-waiting': 'places',
+  'jail-cell': 'places',
+  'train-station': 'places',
+  'bus-stop': 'places',
+  'doctors-office': 'places',
+  'park-trees': 'places',
   
   // Hobbies
   'circus-tent': 'hobbies',
@@ -478,7 +596,15 @@ const roomCategories: Record<string, FilterCategory> = {
   'hero-academy': 'fantasy',
   'dragon-ball-training': 'fantasy',
   'tetris-room': 'hobbies',
-  'clicker-arcade': 'hobbies'
+  'clicker-arcade': 'hobbies',
+  'gym': 'hobbies',
+  'bird-shop': 'fantasy',
+  'room-with-cat': 'fantasy',
+  'cat-eating': 'fantasy',
+  'dog-eating': 'fantasy',
+  'kitchen-cockatiel': 'fantasy',
+  'moonlit-room': 'fantasy',
+  'rain-hideout': 'fantasy'
 };
 
 export const RoomSelector = ({ onSelectRoom }: RoomSelectorProps) => {

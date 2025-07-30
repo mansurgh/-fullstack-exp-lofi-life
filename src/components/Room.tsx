@@ -51,6 +51,20 @@ import lofiTitanWall from '@/assets/lofi-titan-wall.jpg';
 import lofiDemonSlayerDojo from '@/assets/lofi-demon-slayer-dojo.jpg';
 import lofiHeroAcademy from '@/assets/lofi-hero-academy.jpg';
 import lofiDragonBallTraining from '@/assets/lofi-dragon-ball-training.jpg';
+import lofiHospitalWaiting from '@/assets/lofi-hospital-waiting.jpg';
+import lofiJailCell from '@/assets/lofi-jail-cell.jpg';
+import lofiTrainStation from '@/assets/lofi-train-station.jpg';
+import lofiBusStop from '@/assets/lofi-bus-stop.jpg';
+import lofiDoctorsOffice from '@/assets/lofi-doctors-office.jpg';
+import lofiGym from '@/assets/lofi-gym.jpg';
+import lofiBirdShop from '@/assets/lofi-bird-shop.jpg';
+import lofiRoomWithCat from '@/assets/lofi-room-with-cat.jpg';
+import lofiCatEating from '@/assets/lofi-cat-eating.jpg';
+import lofiDogEating from '@/assets/lofi-dog-eating.jpg';
+import lofiKitchenCockatiel from '@/assets/lofi-kitchen-cockatiel.jpg';
+import lofiMoonlitRoom from '@/assets/lofi-moonlit-room.jpg';
+import lofiRainHideout from '@/assets/lofi-rain-hideout.jpg';
+import lofiParkTrees from '@/assets/lofi-park-trees.jpg';
 
 // Sports images (keep original as requested)
 import footballField from "@/assets/football-field.jpg";
@@ -501,6 +515,146 @@ const roomConfigs: Record<string, RoomConfig> = {
     interactiveElements: [
       { type: 'floating', className: 'absolute top-32 right-16 w-6 h-6 text-orange-400 text-xl', animation: 'animate-bounce' },
       { type: 'glow', className: 'absolute bottom-20 left-20 w-24 h-16 bg-orange-500/20 rounded-full blur-xl', animation: 'animate-pulse' }
+    ]
+  },
+  'hospital-waiting': {
+    name: 'Hospital Waiting',
+    description: 'Peaceful hospital waiting room with warm atmosphere',
+    ambientSound: 'silence',
+    backgroundImage: lofiHospitalWaiting,
+    quranPosition: { x: 'left-1/3', y: 'top-2/3' },
+    interactiveElements: [
+      { type: 'glow', className: 'absolute top-20 right-20 w-20 h-20 bg-green-400/20 rounded-full blur-xl', animation: 'animate-pulse' }
+    ]
+  },
+  'jail-cell': {
+    name: 'Peaceful Cell',
+    description: 'Contemplative space for reflection and reading',
+    ambientSound: 'silence',
+    backgroundImage: lofiJailCell,
+    quranPosition: { x: 'right-1/3', y: 'top-1/2' },
+    interactiveElements: [
+      { type: 'glow', className: 'absolute bottom-24 left-16 w-16 h-20 bg-amber-300/15 rounded-full blur-xl', animation: 'animate-pulse' }
+    ]
+  },
+  'train-station': {
+    name: 'Train Platform',
+    description: 'Nostalgic train station with gentle station sounds',
+    ambientSound: 'city',
+    backgroundImage: lofiTrainStation,
+    quranPosition: { x: 'left-1/4', y: 'top-3/4' },
+    interactiveElements: [
+      { type: 'glow', className: 'absolute top-32 right-24 w-24 h-16 bg-yellow-400/20 rounded-full blur-xl', animation: 'animate-pulse' }
+    ]
+  },
+  'bus-stop': {
+    name: 'Bus Stop Shelter',
+    description: 'Cozy bus stop with evening ambiance',
+    ambientSound: 'city',
+    backgroundImage: lofiBusStop,
+    quranPosition: { x: 'right-1/2', y: 'top-2/3' },
+    interactiveElements: [
+      { type: 'floating', className: 'absolute top-24 left-12 w-5 h-5 text-amber-400 text-lg', animation: 'animate-bounce' }
+    ]
+  },
+  'doctors-office': {
+    name: 'Doctor\'s Office',
+    description: 'Warm medical office with peaceful atmosphere',
+    ambientSound: 'silence',
+    backgroundImage: lofiDoctorsOffice,
+    quranPosition: { x: 'left-1/2', y: 'top-1/2' },
+    interactiveElements: [
+      { type: 'glow', className: 'absolute bottom-20 right-20 w-20 h-20 bg-blue-400/15 rounded-full blur-xl', animation: 'animate-pulse' }
+    ]
+  },
+  'gym': {
+    name: 'Peaceful Gym',
+    description: 'Cozy gym space with warm lighting',
+    ambientSound: 'silence',
+    backgroundImage: lofiGym,
+    quranPosition: { x: 'right-1/4', y: 'top-3/5' },
+    interactiveElements: [
+      { type: 'glow', className: 'absolute top-20 left-24 w-20 h-20 bg-orange-400/20 rounded-full blur-xl', animation: 'animate-pulse' }
+    ]
+  },
+  'bird-shop': {
+    name: 'Bird Shop',
+    description: 'Charming bird shop with colorful birds',
+    ambientSound: 'birds',
+    backgroundImage: lofiBirdShop,
+    quranPosition: { x: 'left-1/3', y: 'top-2/3' },
+    interactiveElements: [
+      { type: 'floating', className: 'absolute top-20 right-16 w-6 h-6 text-yellow-400 text-xl', animation: 'animate-bounce' }
+    ]
+  },
+  'room-with-cat': {
+    name: 'Cat\'s Corner',
+    description: 'Cozy room with a friendly cat companion',
+    ambientSound: 'silence',
+    backgroundImage: lofiRoomWithCat,
+    quranPosition: { x: 'right-1/3', y: 'top-1/3' },
+    interactiveElements: [
+      { type: 'floating', className: 'absolute top-32 left-20 w-5 h-5 text-orange-400 text-lg', animation: 'animate-bounce' }
+    ]
+  },
+  'cat-eating': {
+    name: 'Feeding Time',
+    description: 'Peaceful room watching a cat enjoy its meal',
+    ambientSound: 'silence',
+    backgroundImage: lofiCatEating,
+    quranPosition: { x: 'left-1/4', y: 'top-2/3' },
+    interactiveElements: [
+      { type: 'glow', className: 'absolute bottom-24 right-24 w-16 h-16 bg-pink-400/20 rounded-full blur-xl', animation: 'animate-pulse' }
+    ]
+  },
+  'dog-eating': {
+    name: 'Happy Pup',
+    description: 'Warm room with a content dog at mealtime',
+    ambientSound: 'silence',
+    backgroundImage: lofiDogEating,
+    quranPosition: { x: 'right-1/2', y: 'top-1/2' },
+    interactiveElements: [
+      { type: 'floating', className: 'absolute top-20 left-16 w-6 h-6 text-brown-400 text-xl', animation: 'animate-bounce' }
+    ]
+  },
+  'kitchen-cockatiel': {
+    name: 'Kitchen Bird',
+    description: 'Cozy kitchen with a colorful cockatiel friend',
+    ambientSound: 'birds',
+    backgroundImage: lofiKitchenCockatiel,
+    quranPosition: { x: 'left-1/3', y: 'top-3/4' },
+    interactiveElements: [
+      { type: 'floating', className: 'absolute top-24 right-20 w-5 h-5 text-yellow-300 text-lg', animation: 'animate-bounce' }
+    ]
+  },
+  'moonlit-room': {
+    name: 'Night Moon',
+    description: 'Dark room illuminated by bright moonlight',
+    ambientSound: 'night',
+    backgroundImage: lofiMoonlitRoom,
+    quranPosition: { x: 'right-1/4', y: 'top-1/2' },
+    interactiveElements: [
+      { type: 'glow', className: 'absolute top-16 left-20 w-24 h-24 bg-blue-300/25 rounded-full blur-2xl', animation: 'animate-pulse' }
+    ]
+  },
+  'rain-hideout': {
+    name: 'Rain Shelter',
+    description: 'Cozy hideout protecting from the rain outside',
+    ambientSound: 'rain',
+    backgroundImage: lofiRainHideout,
+    quranPosition: { x: 'left-1/2', y: 'top-2/3' },
+    interactiveElements: [
+      { type: 'glow', className: 'absolute bottom-20 right-16 w-20 h-16 bg-orange-400/20 rounded-full blur-xl', animation: 'animate-pulse' }
+    ]
+  },
+  'park-trees': {
+    name: 'Tree Park',
+    description: 'Peaceful park with lush green trees',
+    ambientSound: 'nature',
+    backgroundImage: lofiParkTrees,
+    quranPosition: { x: 'right-1/3', y: 'top-3/5' },
+    interactiveElements: [
+      { type: 'floating', className: 'absolute top-20 left-24 w-6 h-6 text-green-400 text-xl', animation: 'animate-bounce' }
     ]
   },
   // Sports rooms (keep original images as requested)
