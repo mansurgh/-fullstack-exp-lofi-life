@@ -321,7 +321,7 @@ export const QuranReader = ({ onClose, isVisible }: QuranReaderProps) => {
     }
   };
 
-  // Handle clicking on a specific word
+  // Handle clicking on a specific word in any text type
   const handleWordClick = (verseIndex: number, wordIndex: number) => {
     if (verseIndex === currentVerse) {
       // Set up word click mode
@@ -336,6 +336,20 @@ export const QuranReader = ({ onClose, isVisible }: QuranReaderProps) => {
       if (audioRef.current) {
         audioRef.current.play();
       }
+    }
+  };
+
+  // Handle clicking on transliteration words
+  const handleTransliterationWordClick = (verseIndex: number, wordIndex: number) => {
+    if (enableTextFollowing && followTransliteration) {
+      handleWordClick(verseIndex, wordIndex);
+    }
+  };
+
+  // Handle clicking on translation words
+  const handleTranslationWordClick = (verseIndex: number, wordIndex: number) => {
+    if (enableTextFollowing && followTranslation) {
+      handleWordClick(verseIndex, wordIndex);
     }
   };
 
@@ -419,18 +433,22 @@ export const QuranReader = ({ onClose, isVisible }: QuranReaderProps) => {
       return (
         <span
           key={wordIndex}
-          className={`inline-block transition-all duration-300 ${
+          onClick={() => handleTransliterationWordClick(verseIndex, wordIndex)}
+          className={`inline-block transition-all duration-300 cursor-pointer hover:scale-105 hover:text-accent ${
             isClickedWord 
-              ? 'bg-accent/60 text-accent-foreground px-1 rounded animate-pulse' 
+              ? 'bg-accent/60 text-accent-foreground px-1 rounded animate-pulse ring-1 ring-accent' 
               : isCurrentWord 
-              ? 'bg-accent/40 text-accent-foreground px-1 rounded' 
+              ? 'bg-accent/40 text-accent-foreground px-1 rounded ring-1 ring-accent/50' 
               : isPastWord 
               ? 'text-accent/60'
-              : ''
+              : isCurrentVerse
+              ? 'hover:bg-accent/20 hover:px-1 hover:rounded'
+              : 'hover:bg-accent/10'
           }`}
           style={{
             marginRight: wordIndex > 0 ? '0.25rem' : '0'
           }}
+          title={`Click to repeat this word ${wordRepeatCount} time(s)`}
         >
           {word}
         </span>
@@ -455,18 +473,22 @@ export const QuranReader = ({ onClose, isVisible }: QuranReaderProps) => {
       return (
         <span
           key={wordIndex}
-          className={`inline-block transition-all duration-300 ${
+          onClick={() => handleTranslationWordClick(verseIndex, wordIndex)}
+          className={`inline-block transition-all duration-300 cursor-pointer hover:scale-105 hover:text-accent ${
             isClickedWord 
-              ? 'bg-accent/40 text-accent-foreground px-1 rounded animate-pulse' 
+              ? 'bg-accent/40 text-accent-foreground px-1 rounded animate-pulse ring-1 ring-accent/60' 
               : isCurrentWord 
-              ? 'bg-accent/30 text-accent-foreground px-1 rounded' 
+              ? 'bg-accent/30 text-accent-foreground px-1 rounded ring-1 ring-accent/40' 
               : isPastWord 
               ? 'text-accent/50'
-              : ''
+              : isCurrentVerse
+              ? 'hover:bg-accent/15 hover:px-1 hover:rounded'
+              : 'hover:bg-accent/10'
           }`}
           style={{
             marginRight: wordIndex > 0 ? '0.25rem' : '0'
           }}
+          title={`Click to repeat this word ${wordRepeatCount} time(s)`}
         >
           {word}
         </span>
