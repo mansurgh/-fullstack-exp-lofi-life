@@ -19,7 +19,7 @@ export const AudioUpload = ({ onFileSelect }: AudioUploadProps) => {
       setSelectedFile(file);
       onFileSelect?.(file);
     } else {
-      alert('"C:\Users\32484\Downloads\treadmill-14438.mp3"');
+      alert('C:\Users\32484\Downloads\treadmill-14438.mp3');
     }
   };
 
