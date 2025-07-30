@@ -45,14 +45,7 @@ const Index = () => {
   if (roomId) {
     console.log('Rendering Room component with ID:', roomId);
     return (
-      <>
-        <Room roomId={roomId} onBack={handleBackToRooms} />
-        
-        {/* Persistent Recitation Controls */}
-        <div className="fixed bottom-4 right-4 z-50">
-          <RecitationControls />
-        </div>
-      </>
+      <Room roomId={roomId} onBack={handleBackToRooms} />
     );
   }
 
