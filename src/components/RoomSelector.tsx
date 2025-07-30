@@ -62,6 +62,52 @@ import lofiMoonlitRoom from "@/assets/lofi-moonlit-room.jpg";
 import lofiRainHideout from "@/assets/lofi-rain-hideout.jpg";
 import lofiParkTrees from "@/assets/lofi-park-trees.jpg";
 
+// Fantasy rooms inspired by cartoons
+import lofiFantasy1 from '@/assets/lofi-fantasy1.jpg';
+import lofiFantasy2 from '@/assets/lofi-fantasy2.jpg';
+import lofiFantasy3 from '@/assets/lofi-fantasy3.jpg';
+import lofiFantasy4 from '@/assets/lofi-fantasy4.jpg';
+import lofiFantasy5 from '@/assets/lofi-fantasy5.jpg';
+import lofiFantasy6 from '@/assets/lofi-fantasy6.jpg';
+import lofiFantasy7 from '@/assets/lofi-fantasy7.jpg';
+import lofiFantasy8 from '@/assets/lofi-fantasy8.jpg';
+import lofiFantasy9 from '@/assets/lofi-fantasy9.jpg';
+import lofiFantasy10 from '@/assets/lofi-fantasy10.jpg';
+import lofiFantasy11 from '@/assets/lofi-fantasy11.jpg';
+import lofiFantasy12 from '@/assets/lofi-fantasy12.jpg';
+import lofiFantasy13 from '@/assets/lofi-fantasy13.jpg';
+import lofiFantasy14 from '@/assets/lofi-fantasy14.jpg';
+import lofiFantasy15 from '@/assets/lofi-fantasy15.jpg';
+import lofiFantasy16 from '@/assets/lofi-fantasy16.jpg';
+import lofiFantasy17 from '@/assets/lofi-fantasy17.jpg';
+import lofiFantasy18 from '@/assets/lofi-fantasy18.jpg';
+import lofiFantasy19 from '@/assets/lofi-fantasy19.jpg';
+import lofiFantasy20 from '@/assets/lofi-fantasy20.jpg';
+import lofiFantasy21 from '@/assets/lofi-fantasy21.jpg';
+import lofiFantasy22 from '@/assets/lofi-fantasy22.jpg';
+import lofiFantasy23 from '@/assets/lofi-fantasy23.jpg';
+import lofiFantasy24 from '@/assets/lofi-fantasy24.jpg';
+import lofiFantasy25 from '@/assets/lofi-fantasy25.jpg';
+import lofiFantasy26 from '@/assets/lofi-fantasy26.jpg';
+import lofiFantasy27 from '@/assets/lofi-fantasy27.jpg';
+import lofiFantasy28 from '@/assets/lofi-fantasy28.jpg';
+import lofiFantasy29 from '@/assets/lofi-fantasy29.jpg';
+import lofiFantasy30 from '@/assets/lofi-fantasy30.jpg';
+import lofiFantasy31 from '@/assets/lofi-fantasy31.jpg';
+import lofiFantasy32 from '@/assets/lofi-fantasy32.jpg';
+import lofiFantasy33 from '@/assets/lofi-fantasy33.jpg';
+import lofiFantasy34 from '@/assets/lofi-fantasy34.jpg';
+import lofiFantasy35 from '@/assets/lofi-fantasy35.jpg';
+import lofiFantasy36 from '@/assets/lofi-fantasy36.jpg';
+import lofiFantasy37 from '@/assets/lofi-fantasy37.jpg';
+import lofiFantasy38 from '@/assets/lofi-fantasy38.jpg';
+import lofiFantasy39 from '@/assets/lofi-fantasy39.jpg';
+import lofiFantasy40 from '@/assets/lofi-fantasy40.jpg';
+import lofiFantasy41 from '@/assets/lofi-fantasy41.jpg';
+import lofiFantasy42 from '@/assets/lofi-fantasy42.jpg';
+import lofiFantasy43 from '@/assets/lofi-fantasy43.jpg';
+import lofiFantasy44 from '@/assets/lofi-fantasy44.jpg';
+
 // Sport rooms (keeping original)
 import footballField from "@/assets/football-field.jpg";
 import tennisCourt from "@/assets/tennis-court.jpg";
@@ -531,7 +577,53 @@ const rooms: Room[] = [
     description: 'Peaceful park with lush green trees',
     thumbnail: lofiParkTrees,
     ambientType: 'nature'
-  }
+  },
+  
+  // Fantasy rooms
+  { id: 'fantasy1', name: 'Fantasy 1', description: 'Gothic mystical study room with green glowing elements', thumbnail: lofiFantasy1, ambientType: 'silence' },
+  { id: 'fantasy2', name: 'Fantasy 2', description: 'Magical colorful bedroom with whimsical decorations', thumbnail: lofiFantasy2, ambientType: 'silence' },
+  { id: 'fantasy3', name: 'Fantasy 3', description: 'Zen meditation room with elemental symbols', thumbnail: lofiFantasy3, ambientType: 'silence' },
+  { id: 'fantasy4', name: 'Fantasy 4', description: 'Underground lair with green neon lighting', thumbnail: lofiFantasy4, ambientType: 'city' },
+  { id: 'fantasy5', name: 'Fantasy 5', description: 'Cozy suburban living room with warm orange tones', thumbnail: lofiFantasy5, ambientType: 'silence' },
+  { id: 'fantasy6', name: 'Fantasy 6', description: 'Modern suburban living room with green accents', thumbnail: lofiFantasy6, ambientType: 'silence' },
+  { id: 'fantasy7', name: 'Fantasy 7', description: 'Mountain town bedroom with winter atmosphere', thumbnail: lofiFantasy7, ambientType: 'snow' },
+  { id: 'fantasy8', name: 'Fantasy 8', description: 'Trainer bedroom with adventure gear', thumbnail: lofiFantasy8, ambientType: 'silence' },
+  { id: 'fantasy9', name: 'Fantasy 9', description: 'Vintage kitchen with classic 1940s decor', thumbnail: lofiFantasy9, ambientType: 'silence' },
+  { id: 'fantasy10', name: 'Fantasy 10', description: 'High-tech teenage bedroom with spy gadgets', thumbnail: lofiFantasy10, ambientType: 'electronic' },
+  { id: 'fantasy11', name: 'Fantasy 11', description: 'Suburban garage workshop with creative inventions', thumbnail: lofiFantasy11, ambientType: 'silence' },
+  { id: 'fantasy12', name: 'Fantasy 12', description: 'Baby nursery with colorful toys and soft pastels', thumbnail: lofiFantasy12, ambientType: 'silence' },
+  { id: 'fantasy13', name: 'Fantasy 13', description: 'Superhero bedroom with pink blue green colors', thumbnail: lofiFantasy13, ambientType: 'city' },
+  { id: 'fantasy14', name: 'Fantasy 14', description: 'Magical fairy bedroom with sparkling decorations', thumbnail: lofiFantasy14, ambientType: 'silence' },
+  { id: 'fantasy15', name: 'Fantasy 15', description: 'Cute kawaii bedroom with pink bows and hearts', thumbnail: lofiFantasy15, ambientType: 'silence' },
+  { id: 'fantasy16', name: 'Fantasy 16', description: 'Stone age cave dwelling with rock furniture', thumbnail: lofiFantasy16, ambientType: 'silence' },
+  { id: 'fantasy17', name: 'Fantasy 17', description: 'Spooky mystery room with detective equipment', thumbnail: lofiFantasy17, ambientType: 'silence' },
+  { id: 'fantasy18', name: 'Fantasy 18', description: 'Quirky British apartment with eccentric decorations', thumbnail: lofiFantasy18, ambientType: 'silence' },
+  { id: 'fantasy19', name: 'Fantasy 19', description: 'Cozy doghouse interior with writer supplies', thumbnail: lofiFantasy19, ambientType: 'silence' },
+  { id: 'fantasy20', name: 'Fantasy 20', description: 'Sailor cabin with nautical decorations', thumbnail: lofiFantasy20, ambientType: 'waves' },
+  { id: 'fantasy21', name: 'Fantasy 21', description: 'Mushroom house interior with forest elements', thumbnail: lofiFantasy21, ambientType: 'forest' },
+  { id: 'fantasy22', name: 'Fantasy 22', description: 'Invention workshop with blueprints and gadgets', thumbnail: lofiFantasy22, ambientType: 'silence' },
+  { id: 'fantasy23', name: 'Fantasy 23', description: 'Rabbit hole home with carrot decorations', thumbnail: lofiFantasy23, ambientType: 'silence' },
+  { id: 'fantasy24', name: 'Fantasy 24', description: 'Pirate ship cabin with candy jars', thumbnail: lofiFantasy24, ambientType: 'waves' },
+  { id: 'fantasy25', name: 'Fantasy 25', description: 'Zen meditation dojo with katana swords', thumbnail: lofiFantasy25, ambientType: 'japanese' },
+  { id: 'fantasy26', name: 'Fantasy 26', description: 'Treehouse bedroom with geometric patterns', thumbnail: lofiFantasy26, ambientType: 'forest' },
+  { id: 'fantasy27', name: 'Fantasy 27', description: 'Spooky bedroom with gothic decorations', thumbnail: lofiFantasy27, ambientType: 'silence' },
+  { id: 'fantasy28', name: 'Fantasy 28', description: 'Classic cartoon studio with animation equipment', thumbnail: lofiFantasy28, ambientType: 'silence' },
+  { id: 'fantasy29', name: 'Fantasy 29', description: 'Honey-themed bedroom with warm golden tones', thumbnail: lofiFantasy29, ambientType: 'silence' },
+  { id: 'fantasy30', name: 'Fantasy 30', description: 'Alien tech bedroom with sci-fi gadgets', thumbnail: lofiFantasy30, ambientType: 'space' },
+  { id: 'fantasy31', name: 'Fantasy 31', description: 'Sophisticated pink-themed detective lounge', thumbnail: lofiFantasy31, ambientType: 'silence' },
+  { id: 'fantasy32', name: 'Fantasy 32', description: 'Mexican-themed bedroom with vibrant colors', thumbnail: lofiFantasy32, ambientType: 'silence' },
+  { id: 'fantasy33', name: 'Fantasy 33', description: 'Cluttered search room with hidden objects', thumbnail: lofiFantasy33, ambientType: 'silence' },
+  { id: 'fantasy34', name: 'Fantasy 34', description: 'Spiritual warrior bedroom with Japanese elements', thumbnail: lofiFantasy34, ambientType: 'japanese' },
+  { id: 'fantasy35', name: 'Fantasy 35', description: 'Pirate ship cabin with treasure maps', thumbnail: lofiFantasy35, ambientType: 'waves' },
+  { id: 'fantasy36', name: 'Fantasy 36', description: 'Superhero apartment with workout equipment', thumbnail: lofiFantasy36, ambientType: 'silence' },
+  { id: 'fantasy37', name: 'Fantasy 37', description: 'NYC apartment with web decorations', thumbnail: lofiFantasy37, ambientType: 'city' },
+  { id: 'fantasy38', name: 'Fantasy 38', description: 'Antihero hideout with weapons and comics', thumbnail: lofiFantasy38, ambientType: 'silence' },
+  { id: 'fantasy39', name: 'Fantasy 39', description: 'Crystal fortress study with heroic memorabilia', thumbnail: lofiFantasy39, ambientType: 'space' },
+  { id: 'fantasy40', name: 'Fantasy 40', description: 'Dark cave hideout with computer screens', thumbnail: lofiFantasy40, ambientType: 'silence' },
+  { id: 'fantasy41', name: 'Fantasy 41', description: 'Yellow laboratory with playful gadgets', thumbnail: lofiFantasy41, ambientType: 'electronic' },
+  { id: 'fantasy42', name: 'Fantasy 42', description: 'Mad scientist laboratory with portal technology', thumbnail: lofiFantasy42, ambientType: 'electronic' },
+  { id: 'fantasy43', name: 'Fantasy 43', description: 'Classic cartoon studio with water tower view', thumbnail: lofiFantasy43, ambientType: 'silence' },
+  { id: 'fantasy44', name: 'Fantasy 44', description: 'Cozy swamp cottage with fairy tale elements', thumbnail: lofiFantasy44, ambientType: 'nature' }
 ];
 
 type FilterCategory = 'all' | 'places' | 'hobbies' | 'fantasy';
@@ -604,7 +696,18 @@ const roomCategories: Record<string, FilterCategory> = {
   'dog-eating': 'fantasy',
   'kitchen-cockatiel': 'fantasy',
   'moonlit-room': 'fantasy',
-  'rain-hideout': 'fantasy'
+  'rain-hideout': 'fantasy',
+  
+  // New fantasy rooms
+  'fantasy1': 'fantasy', 'fantasy2': 'fantasy', 'fantasy3': 'fantasy', 'fantasy4': 'fantasy', 'fantasy5': 'fantasy',
+  'fantasy6': 'fantasy', 'fantasy7': 'fantasy', 'fantasy8': 'fantasy', 'fantasy9': 'fantasy', 'fantasy10': 'fantasy',
+  'fantasy11': 'fantasy', 'fantasy12': 'fantasy', 'fantasy13': 'fantasy', 'fantasy14': 'fantasy', 'fantasy15': 'fantasy',
+  'fantasy16': 'fantasy', 'fantasy17': 'fantasy', 'fantasy18': 'fantasy', 'fantasy19': 'fantasy', 'fantasy20': 'fantasy',
+  'fantasy21': 'fantasy', 'fantasy22': 'fantasy', 'fantasy23': 'fantasy', 'fantasy24': 'fantasy', 'fantasy25': 'fantasy',
+  'fantasy26': 'fantasy', 'fantasy27': 'fantasy', 'fantasy28': 'fantasy', 'fantasy29': 'fantasy', 'fantasy30': 'fantasy',
+  'fantasy31': 'fantasy', 'fantasy32': 'fantasy', 'fantasy33': 'fantasy', 'fantasy34': 'fantasy', 'fantasy35': 'fantasy',
+  'fantasy36': 'fantasy', 'fantasy37': 'fantasy', 'fantasy38': 'fantasy', 'fantasy39': 'fantasy', 'fantasy40': 'fantasy',
+  'fantasy41': 'fantasy', 'fantasy42': 'fantasy', 'fantasy43': 'fantasy', 'fantasy44': 'fantasy'
 };
 
 export const RoomSelector = ({ onSelectRoom }: RoomSelectorProps) => {
