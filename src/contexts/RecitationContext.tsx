@@ -6,7 +6,7 @@ interface RecitationContextType {
   currentSurah: number;
   currentVerse: number;
   isPlaying: boolean;
-  startRecitation: (surah: number, verse?: number) => void;
+  startRecitation: (surah: number, verse?: number, audioPath?: string) => void;
   pauseRecitation: () => void;
   resumeRecitation: () => void;
   stopRecitation: () => void;
@@ -58,7 +58,7 @@ export const RecitationProvider = ({ children }: RecitationProviderProps) => {
     }
   };
 
-  const startRecitation = async (surah: number, verse: number = 1) => {
+  const startRecitation = async (surah: number, verse: number = 1, audioPath?: string) => {
     setCurrentSurah(surah);
     setCurrentVerse(verse);
     setIsReciting(true);
@@ -68,7 +68,17 @@ export const RecitationProvider = ({ children }: RecitationProviderProps) => {
     const verses = await fetchSurahData(surah);
     setMaxVerses(verses);
     
-    const audioUrl = getAudioUrl(surah, verse);
+    let audioUrl;
+    if (audioPath) {
+      // Use direct audio file path from storage
+      const { data } = supabase.storage
+        .from('quran-audio')
+        .getPublicUrl(audioPath);
+      audioUrl = data.publicUrl;
+    } else {
+      // Use default structure
+      audioUrl = getAudioUrl(surah, verse);
+    }
     
     if (audioRef.current) {
       audioRef.current.src = audioUrl;

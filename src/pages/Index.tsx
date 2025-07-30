@@ -6,7 +6,7 @@ import { ThemeSelector } from '@/components/ThemeSelector';
 import { LanguageSelector } from '@/components/LanguageSelector';
 import { RecitationControls } from '@/components/RecitationControls';
 import { SurahSelector } from '@/components/SurahSelector';
-import { PromptBlock } from '@/components/PromptBlock';
+import { AudioFileMatcher } from '@/components/AudioFileMatcher';
 import { useTranslation } from '@/contexts/TranslationContext';
 
 const Index = () => {
@@ -70,9 +70,8 @@ const Index = () => {
       {/* Surah Selector for Quran Recitation */}
       <SurahSelector />
       
-      {/* Audio Prompt Block */}
-      <PromptBlock />
-      
+      {/* Audio File Matcher - Shows actual files in storage */}
+      <AudioFileMatcher />
       {/* HelpMeOut - hidden on mobile to reduce clutter */}
       <div className="hidden sm:block">
         <HelpMeOut />
