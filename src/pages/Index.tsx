@@ -1,4 +1,3 @@
-import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate, useLocation } from 'react-router-dom';
 import { RoomSelector } from '@/components/RoomSelector';
 import { Room } from '@/components/Room';
@@ -6,41 +5,14 @@ import { HelpMeOut } from '@/components/HelpMeOut';
 import { ThemeSelector } from '@/components/ThemeSelector';
 import { LanguageSelector } from '@/components/LanguageSelector';
 import { RecitationControls } from '@/components/RecitationControls';
-import { AudioFileManager } from '@/components/AudioFileManager';
+import { TranscriptionPipeline } from '@/components/TranscriptionPipeline';
 import { useTranslation } from '@/contexts/TranslationContext';
-import { supabase } from '@/integrations/supabase/client';
 
 const Index = () => {
   const { t } = useTranslation();
   const { roomId } = useParams();
   const navigate = useNavigate();
   const location = useLocation();
-  const [surahs, setSurahs] = useState<any[]>([]);
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
-
-  useEffect(() => {
-    checkAuth();
-    loadSurahs();
-  }, []);
-
-  const checkAuth = async () => {
-    const { data: { user } } = await supabase.auth.getUser();
-    setIsAuthenticated(!!user);
-  };
-
-  const loadSurahs = async () => {
-    const { data, error } = await supabase
-      .from('surahs')
-      .select('*')
-      .order('id');
-
-    if (error) {
-      console.error('Error loading surahs:', error);
-      return;
-    }
-
-    setSurahs(data || []);
-  };
 
   const handleSelectRoom = (roomId: string) => {
     console.log('Selecting room:', roomId);
@@ -94,10 +66,8 @@ const Index = () => {
       
       <RoomSelector onSelectRoom={handleSelectRoom} />
       
-      {/* Audio File Manager - only show for authenticated users */}
-      {isAuthenticated && (
-        <AudioFileManager surahs={surahs} />
-      )}
+      {/* Transcription Pipeline */}
+      <TranscriptionPipeline />
       
       {/* HelpMeOut - hidden on mobile to reduce clutter */}
       <div className="hidden sm:block">
