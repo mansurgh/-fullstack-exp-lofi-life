@@ -14,6 +14,47 @@ export type Database = {
   }
   public: {
     Tables: {
+      recitations: {
+        Row: {
+          audio_file_path: string
+          created_at: string | null
+          duration_seconds: number | null
+          id: string
+          reciter_name: string
+          surah_id: number | null
+          updated_at: string | null
+          verse_number: number
+        }
+        Insert: {
+          audio_file_path: string
+          created_at?: string | null
+          duration_seconds?: number | null
+          id?: string
+          reciter_name?: string
+          surah_id?: number | null
+          updated_at?: string | null
+          verse_number: number
+        }
+        Update: {
+          audio_file_path?: string
+          created_at?: string | null
+          duration_seconds?: number | null
+          id?: string
+          reciter_name?: string
+          surah_id?: number | null
+          updated_at?: string | null
+          verse_number?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "recitations_surah_id_fkey"
+            columns: ["surah_id"]
+            isOneToOne: false
+            referencedRelation: "surahs"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       subscribers: {
         Row: {
           created_at: string
@@ -47,6 +88,36 @@ export type Database = {
           subscription_tier?: string | null
           updated_at?: string
           user_id?: string | null
+        }
+        Relationships: []
+      }
+      surahs: {
+        Row: {
+          created_at: string | null
+          id: number
+          name_arabic: string
+          name_english: string
+          revelation_place: string
+          updated_at: string | null
+          verses_count: number
+        }
+        Insert: {
+          created_at?: string | null
+          id: number
+          name_arabic: string
+          name_english: string
+          revelation_place: string
+          updated_at?: string | null
+          verses_count: number
+        }
+        Update: {
+          created_at?: string | null
+          id?: number
+          name_arabic?: string
+          name_english?: string
+          revelation_place?: string
+          updated_at?: string | null
+          verses_count?: number
         }
         Relationships: []
       }

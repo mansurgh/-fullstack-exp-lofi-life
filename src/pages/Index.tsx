@@ -5,6 +5,7 @@ import { HelpMeOut } from '@/components/HelpMeOut';
 import { ThemeSelector } from '@/components/ThemeSelector';
 import { LanguageSelector } from '@/components/LanguageSelector';
 import { RecitationControls } from '@/components/RecitationControls';
+import { SurahSelector } from '@/components/SurahSelector';
 import { PromptBlock } from '@/components/PromptBlock';
 import { useTranslation } from '@/contexts/TranslationContext';
 
@@ -65,6 +66,9 @@ const Index = () => {
       </div>
       
       <RoomSelector onSelectRoom={handleSelectRoom} />
+      
+      {/* Surah Selector for Quran Recitation */}
+      <SurahSelector />
       
       {/* Audio Prompt Block */}
       <PromptBlock />
