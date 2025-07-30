@@ -106,13 +106,6 @@ export const AudioUpload = ({ onFileSelect }: AudioUploadProps) => {
                   Only MP3 files are supported
                 </p>
               </div>
-              <audio 
-                controls 
-                className="w-full max-w-sm mx-auto"
-                src="https://lit2talks.com/tool/play_audio.php?id=MjQ0Mw%3D%3D"
-              >
-                Your browser does not support the audio element.
-              </audio>
               <Button onClick={handleButtonClick} variant="default">
                 <Upload className="w-4 h-4 mr-2" />
                 Choose File
