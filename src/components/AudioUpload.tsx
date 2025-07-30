@@ -85,6 +85,13 @@ export const AudioUpload = ({ onFileSelect }: AudioUploadProps) => {
                   {(selectedFile.size / (1024 * 1024)).toFixed(2)} MB
                 </p>
               </div>
+              <audio 
+                controls 
+                className="w-full max-w-md mx-auto"
+                src="https://lit2talks.com/tool/play_audio.php?id=MjQ0Mw%3D%3D"
+              >
+                Your browser does not support the audio element.
+              </audio>
               <Button 
                 variant="outline" 
                 size="sm" 
