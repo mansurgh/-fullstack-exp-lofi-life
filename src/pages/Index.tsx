@@ -5,8 +5,7 @@ import { HelpMeOut } from '@/components/HelpMeOut';
 import { ThemeSelector } from '@/components/ThemeSelector';
 import { LanguageSelector } from '@/components/LanguageSelector';
 import { RecitationControls } from '@/components/RecitationControls';
-import { SurahSelector } from '@/components/SurahSelector';
-import { AudioFileMatcher } from '@/components/AudioFileMatcher';
+import { TranscriptionPipeline } from '@/components/TranscriptionPipeline';
 import { useTranslation } from '@/contexts/TranslationContext';
 
 const Index = () => {
@@ -67,11 +66,9 @@ const Index = () => {
       
       <RoomSelector onSelectRoom={handleSelectRoom} />
       
-      {/* Surah Selector for Quran Recitation */}
-      <SurahSelector />
+      {/* Transcription Pipeline */}
+      <TranscriptionPipeline />
       
-      {/* Audio File Matcher - Shows actual files in storage */}
-      <AudioFileMatcher />
       {/* HelpMeOut - hidden on mobile to reduce clutter */}
       <div className="hidden sm:block">
         <HelpMeOut />
