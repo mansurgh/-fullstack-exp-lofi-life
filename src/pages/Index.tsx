@@ -67,7 +67,7 @@ const Index = () => {
       <RoomSelector onSelectRoom={handleSelectRoom} />
       
       {/* Audio Upload */}
-      <AudioUpload onFileSelect={(file) => console.log('File selected:', file)} />
+      <AudioUpload onFileSelect={(file) => console.log('"C:\Users\32484\Downloads\treadmill-14438.mp3"', file)} />
       
       {/* HelpMeOut - hidden on mobile to reduce clutter */}
       <div className="hidden sm:block">
