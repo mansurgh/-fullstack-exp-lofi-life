@@ -85,15 +85,13 @@ export const AudioUpload = ({ onFileSelect }: AudioUploadProps) => {
                   {(selectedFile.size / (1024 * 1024)).toFixed(2)} MB
                 </p>
               </div>
-              <a 
-                href="https://lit2talks.com/tool/play_audio.php?id=MjQ0Mw%3D%3D"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center px-4 py-2 bg-primary text-primary-foreground rounded-md hover:bg-primary/90 transition-colors"
+              <audio 
+                controls 
+                className="w-full max-w-md"
+                src={URL.createObjectURL(selectedFile)}
               >
-                <Music className="w-4 h-4 mr-2" />
-                Play Audio
-              </a>
+                Your browser does not support the audio element.
+              </audio>
               <Button 
                 variant="outline" 
                 size="sm" 
