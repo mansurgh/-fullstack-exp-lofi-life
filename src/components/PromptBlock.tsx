@@ -58,8 +58,7 @@ export const PromptBlock = () => {
 
       const { data, error } = await supabase.functions.invoke('transcribe-audio', {
         body: {
-          audio: base64Audio,
-          language: 'auto'
+          audio: base64Audio
         }
       });
 
