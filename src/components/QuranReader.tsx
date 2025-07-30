@@ -277,7 +277,7 @@ export const QuranReader = ({ onClose, isVisible }: QuranReaderProps) => {
               : 'hover:bg-accent/10'
           }`}
           style={{
-            marginLeft: wordIndex > 0 ? '0.5rem' : '0'
+            marginRight: wordIndex > 0 ? '0.5rem' : '0'
           }}
           title={`Click to repeat this word ${wordRepeatCount} time(s)`}
         >
@@ -491,8 +491,8 @@ export const QuranReader = ({ onClose, isVisible }: QuranReaderProps) => {
                       : 'bg-card border-border hover:border-accent/30'
                   }`}
                 >
-                  <div className="text-right mb-3">
-                    <p className="text-xl leading-relaxed text-foreground font-arabic">
+                  <div className="text-right mb-3" dir="rtl">
+                    <p className="text-xl leading-relaxed text-foreground font-arabic" style={{ direction: 'rtl', textAlign: 'right' }}>
                       {renderHighlightedText(verse.arabic, index)}
                     </p>
                   </div>
