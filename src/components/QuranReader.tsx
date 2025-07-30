@@ -138,42 +138,85 @@ const surahs: Surah[] = [
   { number: 114, name: "الناس", englishName: "An-Nas", verses: 6 },
 ];
 
-// Sample verse data for Al-Fatihah - using translation keys
+// Sample verse data for Al-Fatihah with word-by-word alignment
 const getSampleVerses = (t: (key: string) => string) => [
   {
     arabic: "بِسْمِ ٱللَّهِ ٱلرَّحْمَٰنِ ٱلرَّحِيمِ",
     transliteration: t('quran.1.1.transliteration'),
-    translation: t('quran.1.1.translation')
+    translation: t('quran.1.1.translation'),
+    wordAlignments: [
+      { arabic: ["بِسْمِ"], transliteration: ["Bismi"], translation: ["In", "the", "name"] },
+      { arabic: ["ٱللَّهِ"], transliteration: ["Allahi"], translation: ["of", "Allah"] },
+      { arabic: ["ٱلرَّحْمَٰنِ"], transliteration: ["Ar-Rahmani"], translation: ["the", "Most", "Gracious"] },
+      { arabic: ["ٱلرَّحِيمِ"], transliteration: ["Ar-Raheem"], translation: ["the", "Most", "Merciful"] }
+    ]
   },
   {
     arabic: "ٱلْحَمْدُ لِلَّهِ رَبِّ ٱلْعَٰلَمِينَ",
     transliteration: t('quran.1.2.transliteration'),
-    translation: t('quran.1.2.translation')
+    translation: t('quran.1.2.translation'),
+    wordAlignments: [
+      { arabic: ["ٱلْحَمْدُ"], transliteration: ["Al-hamdu"], translation: ["All", "praise"] },
+      { arabic: ["لِلَّهِ"], transliteration: ["lillahi"], translation: ["is", "due", "to", "Allah"] },
+      { arabic: ["رَبِّ"], transliteration: ["Rabbi"], translation: ["Lord", "of"] },
+      { arabic: ["ٱلْعَٰلَمِينَ"], transliteration: ["al-'alameen"], translation: ["the", "worlds"] }
+    ]
   },
   {
     arabic: "ٱلرَّحْمَٰنِ ٱلرَّحِيمِ",
     transliteration: t('quran.1.3.transliteration'),
-    translation: t('quran.1.3.translation')
+    translation: t('quran.1.3.translation'),
+    wordAlignments: [
+      { arabic: ["ٱلرَّحْمَٰنِ"], transliteration: ["Ar-Rahmani"], translation: ["The", "Most", "Gracious"] },
+      { arabic: ["ٱلرَّحِيمِ"], transliteration: ["Ar-Raheem"], translation: ["the", "Most", "Merciful"] }
+    ]
   },
   {
     arabic: "مَٰلِكِ يَوْمِ ٱلدِّينِ",
     transliteration: t('quran.1.4.transliteration'),
-    translation: t('quran.1.4.translation')
+    translation: t('quran.1.4.translation'),
+    wordAlignments: [
+      { arabic: ["مَٰلِكِ"], transliteration: ["Maliki"], translation: ["Sovereign", "of"] },
+      { arabic: ["يَوْمِ"], transliteration: ["yawmi"], translation: ["the", "Day"] },
+      { arabic: ["ٱلدِّينِ"], transliteration: ["ad-deen"], translation: ["of", "Judgment"] }
+    ]
   },
   {
     arabic: "إِيَّاكَ نَعْبُدُ وَإِيَّاكَ نَسْتَعِينُ",
     transliteration: t('quran.1.5.transliteration'),
-    translation: t('quran.1.5.translation')
+    translation: t('quran.1.5.translation'),
+    wordAlignments: [
+      { arabic: ["إِيَّاكَ"], transliteration: ["Iyyaka"], translation: ["You", "alone"] },
+      { arabic: ["نَعْبُدُ"], transliteration: ["na'budu"], translation: ["we", "worship"] },
+      { arabic: ["وَإِيَّاكَ"], transliteration: ["wa", "iyyaka"], translation: ["and", "You", "alone"] },
+      { arabic: ["نَسْتَعِينُ"], transliteration: ["nasta'een"], translation: ["we", "ask", "for", "help"] }
+    ]
   },
   {
     arabic: "ٱهْدِنَا ٱلصِّرَٰطَ ٱلْمُسْتَقِيمَ",
     transliteration: t('quran.1.6.transliteration'),
-    translation: t('quran.1.6.translation')
+    translation: t('quran.1.6.translation'),
+    wordAlignments: [
+      { arabic: ["ٱهْدِنَا"], transliteration: ["Ihdina"], translation: ["Guide", "us"] },
+      { arabic: ["ٱلصِّرَٰطَ"], transliteration: ["as-sirata"], translation: ["to", "the", "path"] },
+      { arabic: ["ٱلْمُسْتَقِيمَ"], transliteration: ["al-mustaqeem"], translation: ["that", "is", "straight"] }
+    ]
   },
   {
     arabic: "صِرَٰطَ ٱلَّذِينَ أَنْعَمْتَ عَلَيْهِمْ غَيْرِ ٱلْمَغْضُوبِ عَلَيْهِمْ وَلَا ٱلضَّآلِّينَ",
     transliteration: t('quran.1.7.transliteration'),
-    translation: t('quran.1.7.translation')
+    translation: t('quran.1.7.translation'),
+    wordAlignments: [
+      { arabic: ["صِرَٰطَ"], transliteration: ["Sirata"], translation: ["The", "path"] },
+      { arabic: ["ٱلَّذِينَ"], transliteration: ["alladhina"], translation: ["of", "those"] },
+      { arabic: ["أَنْعَمْتَ"], transliteration: ["an'amta"], translation: ["You", "have", "blessed"] },
+      { arabic: ["عَلَيْهِمْ"], transliteration: ["'alayhim"], translation: ["upon", "them"] },
+      { arabic: ["غَيْرِ"], transliteration: ["ghayri"], translation: ["not", "of"] },
+      { arabic: ["ٱلْمَغْضُوبِ"], transliteration: ["al-maghdoobi"], translation: ["those", "who", "earned", "anger"] },
+      { arabic: ["عَلَيْهِمْ"], transliteration: ["'alayhim"], translation: ["upon", "them"] },
+      { arabic: ["وَلَا"], transliteration: ["wa", "la"], translation: ["and", "not"] },
+      { arabic: ["ٱلضَّآلِّينَ"], transliteration: ["ad-dalleen"], translation: ["of", "those", "who", "went", "astray"] }
+    ]
   }
 ];
 
@@ -211,8 +254,11 @@ export const QuranReader = ({ onClose, isVisible }: QuranReaderProps) => {
   const simulateReading = () => {
     if (!isAutoReading) return;
     
-    const currentVerseText = verses[currentVerse]?.arabic || "";
-    const words = currentVerseText.split(" ");
+    const currentVerseData = verses[currentVerse];
+    if (!currentVerseData) return;
+    
+    // Use word alignment count instead of Arabic word count for accuracy
+    const totalWordAlignments = currentVerseData.wordAlignments?.length || currentVerseData.arabic.split(" ").length;
     
     // Calculate delay based on speed (100% = 800ms, 50% = 1600ms, 200% = 400ms)
     const baseDelay = 800;
@@ -228,7 +274,7 @@ export const QuranReader = ({ onClose, isVisible }: QuranReaderProps) => {
     }
     
     // Move to next word or handle verse completion
-    if (currentWordIndex < words.length - 1) {
+    if (currentWordIndex < totalWordAlignments - 1) {
       setTimeout(() => {
         setCurrentWordIndex(prev => prev + 1);
         setCurrentWordRepeat(0);
@@ -416,84 +462,116 @@ export const QuranReader = ({ onClose, isVisible }: QuranReaderProps) => {
     });
   };
 
-  // Helper to render highlighted transliteration
+  // Helper to render highlighted transliteration using word alignments
   const renderHighlightedTransliteration = (transliterationText: string, verseIndex: number) => {
     if (!enableTextFollowing || !followTransliteration) {
       return <span>{transliterationText}</span>;
     }
 
-    const words = transliterationText.split(" ");
-    
-    return words.map((word, wordIndex) => {
-      const isCurrentVerse = verseIndex === currentVerse;
-      const isCurrentWord = isCurrentVerse && wordIndex === currentWordIndex && (isAutoReading || isWordClickMode);
-      const isPastWord = isCurrentVerse && wordIndex < currentWordIndex && isAutoReading && !isWordClickMode;
-      const isClickedWord = isCurrentVerse && wordIndex === clickedWordIndex && isWordClickMode;
-      
-      return (
-        <span
-          key={wordIndex}
-          onClick={() => handleTransliterationWordClick(verseIndex, wordIndex)}
-          className={`inline-block transition-all duration-300 cursor-pointer hover:scale-105 hover:text-accent ${
-            isClickedWord 
-              ? 'bg-accent/60 text-accent-foreground px-1 rounded animate-pulse ring-1 ring-accent' 
-              : isCurrentWord 
-              ? 'bg-accent/40 text-accent-foreground px-1 rounded ring-1 ring-accent/50' 
-              : isPastWord 
-              ? 'text-accent/60'
-              : isCurrentVerse
-              ? 'hover:bg-accent/20 hover:px-1 hover:rounded'
-              : 'hover:bg-accent/10'
-          }`}
-          style={{
-            marginRight: wordIndex > 0 ? '0.25rem' : '0'
-          }}
-          title={`Click to repeat this word ${wordRepeatCount} time(s)`}
-        >
+    const verse = verses[verseIndex];
+    if (!verse?.wordAlignments) {
+      // Fallback to simple word splitting if no alignments
+      const words = transliterationText.split(" ");
+      return words.map((word, wordIndex) => (
+        <span key={wordIndex} style={{ marginRight: wordIndex > 0 ? '0.25rem' : '0' }}>
           {word}
         </span>
-      );
+      ));
+    }
+
+    let transliterationResult: JSX.Element[] = [];
+    let transliterationWordIndex = 0;
+
+    verse.wordAlignments.forEach((alignment, alignmentIndex) => {
+      const isCurrentVerse = verseIndex === currentVerse;
+      const isCurrentWord = isCurrentVerse && alignmentIndex === currentWordIndex && (isAutoReading || isWordClickMode);
+      const isPastWord = isCurrentVerse && alignmentIndex < currentWordIndex && isAutoReading && !isWordClickMode;
+      const isClickedWord = isCurrentVerse && alignmentIndex === clickedWordIndex && isWordClickMode;
+
+      alignment.transliteration.forEach((translitWord, translitIndex) => {
+        transliterationResult.push(
+          <span
+            key={`${alignmentIndex}-${translitIndex}`}
+            onClick={() => handleTransliterationWordClick(verseIndex, alignmentIndex)}
+            className={`inline-block transition-all duration-300 cursor-pointer hover:scale-105 hover:text-accent ${
+              isClickedWord 
+                ? 'bg-accent/60 text-accent-foreground px-1 rounded animate-pulse ring-1 ring-accent' 
+                : isCurrentWord 
+                ? 'bg-accent/40 text-accent-foreground px-1 rounded ring-1 ring-accent/50' 
+                : isPastWord 
+                ? 'text-accent/60'
+                : isCurrentVerse
+                ? 'hover:bg-accent/20 hover:px-1 hover:rounded'
+                : 'hover:bg-accent/10'
+            }`}
+            style={{
+              marginRight: '0.25rem'
+            }}
+            title={`Click to repeat this word ${wordRepeatCount} time(s)`}
+          >
+            {translitWord}
+          </span>
+        );
+        transliterationWordIndex++;
+      });
     });
+
+    return transliterationResult;
   };
 
-  // Helper to render highlighted translation
+  // Helper to render highlighted translation using word alignments
   const renderHighlightedTranslation = (translationText: string, verseIndex: number) => {
     if (!enableTextFollowing || !followTranslation) {
       return <span>{translationText}</span>;
     }
 
-    const words = translationText.split(" ");
-    
-    return words.map((word, wordIndex) => {
-      const isCurrentVerse = verseIndex === currentVerse;
-      const isCurrentWord = isCurrentVerse && wordIndex === currentWordIndex && (isAutoReading || isWordClickMode);
-      const isPastWord = isCurrentVerse && wordIndex < currentWordIndex && isAutoReading && !isWordClickMode;
-      const isClickedWord = isCurrentVerse && wordIndex === clickedWordIndex && isWordClickMode;
-      
-      return (
-        <span
-          key={wordIndex}
-          onClick={() => handleTranslationWordClick(verseIndex, wordIndex)}
-          className={`inline-block transition-all duration-300 cursor-pointer hover:scale-105 hover:text-accent ${
-            isClickedWord 
-              ? 'bg-accent/40 text-accent-foreground px-1 rounded animate-pulse ring-1 ring-accent/60' 
-              : isCurrentWord 
-              ? 'bg-accent/30 text-accent-foreground px-1 rounded ring-1 ring-accent/40' 
-              : isPastWord 
-              ? 'text-accent/50'
-              : isCurrentVerse
-              ? 'hover:bg-accent/15 hover:px-1 hover:rounded'
-              : 'hover:bg-accent/10'
-          }`}
-          style={{
-            marginRight: wordIndex > 0 ? '0.25rem' : '0'
-          }}
-          title={`Click to repeat this word ${wordRepeatCount} time(s)`}
-        >
+    const verse = verses[verseIndex];
+    if (!verse?.wordAlignments) {
+      // Fallback to simple word splitting if no alignments
+      const words = translationText.split(" ");
+      return words.map((word, wordIndex) => (
+        <span key={wordIndex} style={{ marginRight: wordIndex > 0 ? '0.25rem' : '0' }}>
           {word}
         </span>
-      );
+      ));
+    }
+
+    let translationResult: JSX.Element[] = [];
+
+    verse.wordAlignments.forEach((alignment, alignmentIndex) => {
+      const isCurrentVerse = verseIndex === currentVerse;
+      const isCurrentWord = isCurrentVerse && alignmentIndex === currentWordIndex && (isAutoReading || isWordClickMode);
+      const isPastWord = isCurrentVerse && alignmentIndex < currentWordIndex && isAutoReading && !isWordClickMode;
+      const isClickedWord = isCurrentVerse && alignmentIndex === clickedWordIndex && isWordClickMode;
+
+      alignment.translation.forEach((translationWord, translationIndex) => {
+        translationResult.push(
+          <span
+            key={`${alignmentIndex}-${translationIndex}`}
+            onClick={() => handleTranslationWordClick(verseIndex, alignmentIndex)}
+            className={`inline-block transition-all duration-300 cursor-pointer hover:scale-105 hover:text-accent ${
+              isClickedWord 
+                ? 'bg-accent/40 text-accent-foreground px-1 rounded animate-pulse ring-1 ring-accent/60' 
+                : isCurrentWord 
+                ? 'bg-accent/30 text-accent-foreground px-1 rounded ring-1 ring-accent/40' 
+                : isPastWord 
+                ? 'text-accent/50'
+                : isCurrentVerse
+                ? 'hover:bg-accent/15 hover:px-1 hover:rounded'
+                : 'hover:bg-accent/10'
+            }`}
+            style={{
+              marginRight: '0.25rem'
+            }}
+            title={`Click to repeat this word ${wordRepeatCount} time(s)`}
+          >
+            {translationWord}
+          </span>
+        );
+      });
     });
+
+    return translationResult;
   };
 
   useEffect(() => {
