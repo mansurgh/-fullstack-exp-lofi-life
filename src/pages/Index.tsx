@@ -5,7 +5,7 @@ import { HelpMeOut } from '@/components/HelpMeOut';
 import { ThemeSelector } from '@/components/ThemeSelector';
 import { LanguageSelector } from '@/components/LanguageSelector';
 import { RecitationControls } from '@/components/RecitationControls';
-import { TranscriptionPipeline } from '@/components/TranscriptionPipeline';
+
 import { useTranslation } from '@/contexts/TranslationContext';
 
 const Index = () => {
@@ -59,9 +59,6 @@ const Index = () => {
   return (
     <div className="min-h-screen p-2 sm:p-4 space-y-4 sm:space-y-6">
       <RoomSelector onSelectRoom={handleSelectRoom} />
-      
-      {/* Transcription Pipeline */}
-      <TranscriptionPipeline />
       
       {/* HelpMeOut - hidden on mobile to reduce clutter */}
       <div className="hidden sm:block">
