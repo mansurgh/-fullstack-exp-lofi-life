@@ -19,7 +19,7 @@ export const AudioUpload = ({ onFileSelect }: AudioUploadProps) => {
       setSelectedFile(file);
       onFileSelect?.(file);
     } else {
-      alert('Please select an MP3 file');
+      alert('"C:\Users\32484\Downloads\treadmill-14438.mp3"');
     }
   };
 
