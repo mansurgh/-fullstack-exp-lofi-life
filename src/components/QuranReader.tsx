@@ -199,6 +199,9 @@ export const QuranReader = ({ onClose, isVisible }: QuranReaderProps) => {
   const [isWordClickMode, setIsWordClickMode] = useState(false);
   const [isMinimized, setIsMinimized] = useState(false);
   const [showAudioPlayer, setShowAudioPlayer] = useState(true);
+  const [enableTextFollowing, setEnableTextFollowing] = useState(true);
+  const [followTransliteration, setFollowTransliteration] = useState(false);
+  const [followTranslation, setFollowTranslation] = useState(false);
   
   const audioRef = useRef<HTMLAudioElement>(null);
 
@@ -361,6 +364,10 @@ export const QuranReader = ({ onClose, isVisible }: QuranReaderProps) => {
 
   // Word highlighting rendering helper with click functionality
   const renderHighlightedText = (arabicText: string, verseIndex: number) => {
+    if (!enableTextFollowing) {
+      return <span>{arabicText}</span>;
+    }
+
     const words = arabicText.split(" ");
     
     return words.map((word, wordIndex) => {
@@ -388,6 +395,78 @@ export const QuranReader = ({ onClose, isVisible }: QuranReaderProps) => {
             marginRight: wordIndex > 0 ? '0.5rem' : '0'
           }}
           title={`Click to repeat this word ${wordRepeatCount} time(s)`}
+        >
+          {word}
+        </span>
+      );
+    });
+  };
+
+  // Helper to render highlighted transliteration
+  const renderHighlightedTransliteration = (transliterationText: string, verseIndex: number) => {
+    if (!enableTextFollowing || !followTransliteration) {
+      return <span>{transliterationText}</span>;
+    }
+
+    const words = transliterationText.split(" ");
+    
+    return words.map((word, wordIndex) => {
+      const isCurrentVerse = verseIndex === currentVerse;
+      const isCurrentWord = isCurrentVerse && wordIndex === currentWordIndex && (isAutoReading || isWordClickMode);
+      const isPastWord = isCurrentVerse && wordIndex < currentWordIndex && isAutoReading && !isWordClickMode;
+      const isClickedWord = isCurrentVerse && wordIndex === clickedWordIndex && isWordClickMode;
+      
+      return (
+        <span
+          key={wordIndex}
+          className={`inline-block transition-all duration-300 ${
+            isClickedWord 
+              ? 'bg-accent/60 text-accent-foreground px-1 rounded animate-pulse' 
+              : isCurrentWord 
+              ? 'bg-accent/40 text-accent-foreground px-1 rounded' 
+              : isPastWord 
+              ? 'text-accent/60'
+              : ''
+          }`}
+          style={{
+            marginRight: wordIndex > 0 ? '0.25rem' : '0'
+          }}
+        >
+          {word}
+        </span>
+      );
+    });
+  };
+
+  // Helper to render highlighted translation
+  const renderHighlightedTranslation = (translationText: string, verseIndex: number) => {
+    if (!enableTextFollowing || !followTranslation) {
+      return <span>{translationText}</span>;
+    }
+
+    const words = translationText.split(" ");
+    
+    return words.map((word, wordIndex) => {
+      const isCurrentVerse = verseIndex === currentVerse;
+      const isCurrentWord = isCurrentVerse && wordIndex === currentWordIndex && (isAutoReading || isWordClickMode);
+      const isPastWord = isCurrentVerse && wordIndex < currentWordIndex && isAutoReading && !isWordClickMode;
+      const isClickedWord = isCurrentVerse && wordIndex === clickedWordIndex && isWordClickMode;
+      
+      return (
+        <span
+          key={wordIndex}
+          className={`inline-block transition-all duration-300 ${
+            isClickedWord 
+              ? 'bg-accent/40 text-accent-foreground px-1 rounded animate-pulse' 
+              : isCurrentWord 
+              ? 'bg-accent/30 text-accent-foreground px-1 rounded' 
+              : isPastWord 
+              ? 'text-accent/50'
+              : ''
+          }`}
+          style={{
+            marginRight: wordIndex > 0 ? '0.25rem' : '0'
+          }}
         >
           {word}
         </span>
@@ -503,6 +582,35 @@ export const QuranReader = ({ onClose, isVisible }: QuranReaderProps) => {
                     onCheckedChange={setShowTranslation}
                   />
                 </div>
+
+                {/* Text Following Options */}
+                <div className="flex items-center justify-between">
+                  <span className="text-xs">Enable text following:</span>
+                  <Switch
+                    checked={enableTextFollowing}
+                    onCheckedChange={setEnableTextFollowing}
+                  />
+                </div>
+
+                {enableTextFollowing && (
+                  <>
+                    <div className="flex items-center justify-between">
+                      <span className="text-xs">Follow transliteration:</span>
+                      <Switch
+                        checked={followTransliteration}
+                        onCheckedChange={setFollowTransliteration}
+                      />
+                    </div>
+
+                    <div className="flex items-center justify-between">
+                      <span className="text-xs">Follow translation:</span>
+                      <Switch
+                        checked={followTranslation}
+                        onCheckedChange={setFollowTranslation}
+                      />
+                    </div>
+                  </>
+                )}
               </div>
             </PopoverContent>
           </Popover>
@@ -608,7 +716,7 @@ export const QuranReader = ({ onClose, isVisible }: QuranReaderProps) => {
                   {showTransliteration && (
                     <div className="mb-2">
                       <p className="text-sm italic text-muted-foreground leading-relaxed">
-                        {verse.transliteration}
+                        {renderHighlightedTransliteration(verse.transliteration, index)}
                       </p>
                     </div>
                   )}
@@ -616,7 +724,7 @@ export const QuranReader = ({ onClose, isVisible }: QuranReaderProps) => {
                   {showTranslation && (
                     <div>
                       <p className="text-sm text-card-foreground leading-relaxed">
-                        {verse.translation}
+                        {renderHighlightedTranslation(verse.translation, index)}
                       </p>
                     </div>
                   )}
