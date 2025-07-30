@@ -4,6 +4,8 @@ import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { useTranslation } from '@/contexts/TranslationContext';
+import { ThemeSelector } from '@/components/ThemeSelector';
+import { LanguageSelector } from '@/components/LanguageSelector';
 
 // Lofi first-person view images
 import lofiRainyStudy from "@/assets/lofi-rainy-study.jpg";
@@ -760,15 +762,25 @@ export const RoomSelector = ({ onSelectRoom }: RoomSelectorProps) => {
     <div className="min-h-screen bg-gradient-cozy p-4 sm:p-6 lg:p-8">
       <div className="max-w-6xl mx-auto">
         <div className="text-center mb-8 sm:mb-12">
-          <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-foreground mb-4">
-            {t('app.title')}
-          </h1>
+          <div className="flex justify-center items-center gap-4 mb-4">
+            <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-foreground">
+              {t('app.title')}
+            </h1>
+            <div className="flex items-center">
+              <LanguageSelector />
+            </div>
+          </div>
           <p className="text-lg sm:text-xl text-muted-foreground max-w-2xl mx-auto px-4">
             {t('main.subtitle')}
           </p>
           <p className="text-xs sm:text-sm text-muted-foreground/80 max-w-3xl mx-auto mt-4 sm:mt-6 leading-relaxed px-4">
             {t('main.message')}
           </p>
+          
+          {/* Theme Settings */}
+          <div className="flex justify-center mt-6">
+            <ThemeSelector />
+          </div>
         </div>
         
         {/* Filter Buttons - more compact on mobile */}

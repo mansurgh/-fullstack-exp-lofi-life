@@ -56,14 +56,8 @@ const Index = () => {
     );
   }
 
-  console.log('Rendering RoomSelector component');
   return (
     <div className="min-h-screen p-2 sm:p-4 space-y-4 sm:space-y-6">
-      {/* Theme selector - hidden on mobile, shown on larger screens */}
-      <div className="hidden sm:flex justify-end items-center mb-4">
-        <ThemeSelector />
-      </div>
-      
       <RoomSelector onSelectRoom={handleSelectRoom} />
       
       {/* Transcription Pipeline */}
