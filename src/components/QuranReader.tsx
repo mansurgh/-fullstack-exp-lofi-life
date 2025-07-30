@@ -370,6 +370,15 @@ export const QuranReader = ({ onClose, isVisible }: QuranReaderProps) => {
   // Handle clicking on a specific word in any text type
   const handleWordClick = (verseIndex: number, wordIndex: number) => {
     if (verseIndex === currentVerse) {
+      // If clicking the same word that's already selected, toggle it off
+      if (clickedWordIndex === wordIndex && isWordClickMode) {
+        setIsWordClickMode(false);
+        setClickedWordIndex(null);
+        setIsAutoReading(false);
+        setIsPlaying(false);
+        return;
+      }
+      
       // Set up word click mode
       setIsWordClickMode(true);
       setClickedWordIndex(wordIndex);
@@ -412,12 +421,11 @@ export const QuranReader = ({ onClose, isVisible }: QuranReaderProps) => {
         setCurrentWordRepeat(prev => prev + 1);
       }, wordDelay);
     } else {
-      // Finished repeating the clicked word
+      // Finished repeating the clicked word - keep it selected but stop playing
       setTimeout(() => {
-        setIsWordClickMode(false);
-        setClickedWordIndex(null);
         setIsAutoReading(false);
         setIsPlaying(false);
+        // Keep isWordClickMode and clickedWordIndex to maintain highlighting
       }, wordDelay);
     }
   };
@@ -589,6 +597,16 @@ export const QuranReader = ({ onClose, isVisible }: QuranReaderProps) => {
       audioRef.current.volume = audioVolume[0] / 100;
     }
   }, [audioVolume]);
+
+  // Clear word selection when component becomes hidden (user leaves room)
+  useEffect(() => {
+    if (!isVisible) {
+      setIsWordClickMode(false);
+      setClickedWordIndex(null);
+      setIsAutoReading(false);
+      setIsPlaying(false);
+    }
+  }, [isVisible]);
 
   if (!isVisible) return null;
 
