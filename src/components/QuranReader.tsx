@@ -222,29 +222,47 @@ const getSampleVerses = (t: (key: string) => string) => [
 
 export const QuranReader = ({ onClose, isVisible }: QuranReaderProps) => {
   const { t } = useTranslation();
+  // Helper functions for localStorage
+  const getStoredSetting = (key: string, defaultValue: any) => {
+    try {
+      const stored = localStorage.getItem(`quran_${key}`);
+      return stored ? JSON.parse(stored) : defaultValue;
+    } catch {
+      return defaultValue;
+    }
+  };
+
+  const storeSetting = (key: string, value: any) => {
+    try {
+      localStorage.setItem(`quran_${key}`, JSON.stringify(value));
+    } catch {
+      // Silent fail if localStorage is not available
+    }
+  };
+
   const [selectedSurah, setSelectedSurah] = useState<string>("1");
   const [currentVerse, setCurrentVerse] = useState(0);
   const [currentWordIndex, setCurrentWordIndex] = useState(0);
   const [isPlaying, setIsPlaying] = useState(false);
-  const [showTransliteration, setShowTransliteration] = useState(true);
-  const [showTranslation, setShowTranslation] = useState(true);
-  const [audioVolume, setAudioVolume] = useState([75]);
+  const [showTransliteration, setShowTransliteration] = useState(() => getStoredSetting('showTransliteration', true));
+  const [showTranslation, setShowTranslation] = useState(() => getStoredSetting('showTranslation', true));
+  const [audioVolume, setAudioVolume] = useState(() => getStoredSetting('audioVolume', [75]));
   const [verses] = useState(() => getSampleVerses(t));
   const [isAutoReading, setIsAutoReading] = useState(false);
-  const [recitationSpeed, setRecitationSpeed] = useState([100]); // 100% = normal speed
-  const [wordRepeatCount, setWordRepeatCount] = useState(1);
-  const [verseRepeatCount, setVerseRepeatCount] = useState(1);
-  const [surahRepeatCount, setSurahRepeatCount] = useState(1);
+  const [recitationSpeed, setRecitationSpeed] = useState(() => getStoredSetting('recitationSpeed', [100])); // 100% = normal speed
+  const [wordRepeatCount, setWordRepeatCount] = useState(() => getStoredSetting('wordRepeatCount', 1));
+  const [verseRepeatCount, setVerseRepeatCount] = useState(() => getStoredSetting('verseRepeatCount', 1));
+  const [surahRepeatCount, setSurahRepeatCount] = useState(() => getStoredSetting('surahRepeatCount', 1));
   const [currentWordRepeat, setCurrentWordRepeat] = useState(0);
   const [currentVerseRepeat, setCurrentVerseRepeat] = useState(0);
   const [currentSurahRepeat, setCurrentSurahRepeat] = useState(0);
   const [clickedWordIndex, setClickedWordIndex] = useState<number | null>(null);
   const [isWordClickMode, setIsWordClickMode] = useState(false);
   const [isMinimized, setIsMinimized] = useState(false);
-  const [showAudioPlayer, setShowAudioPlayer] = useState(true);
-  const [enableTextFollowing, setEnableTextFollowing] = useState(true);
-  const [followTransliteration, setFollowTransliteration] = useState(false);
-  const [followTranslation, setFollowTranslation] = useState(false);
+  const [showAudioPlayer, setShowAudioPlayer] = useState(() => getStoredSetting('showAudioPlayer', true));
+  const [enableTextFollowing, setEnableTextFollowing] = useState(() => getStoredSetting('enableTextFollowing', true));
+  const [followTransliteration, setFollowTransliteration] = useState(() => getStoredSetting('followTransliteration', false));
+  const [followTranslation, setFollowTranslation] = useState(() => getStoredSetting('followTranslation', false));
   
   const audioRef = useRef<HTMLAudioElement>(null);
 
@@ -607,6 +625,51 @@ export const QuranReader = ({ onClose, isVisible }: QuranReaderProps) => {
       setIsPlaying(false);
     }
   }, [isVisible]);
+
+  // Save settings to localStorage whenever they change
+  useEffect(() => {
+    storeSetting('showTransliteration', showTransliteration);
+  }, [showTransliteration]);
+
+  useEffect(() => {
+    storeSetting('showTranslation', showTranslation);
+  }, [showTranslation]);
+
+  useEffect(() => {
+    storeSetting('audioVolume', audioVolume);
+  }, [audioVolume]);
+
+  useEffect(() => {
+    storeSetting('recitationSpeed', recitationSpeed);
+  }, [recitationSpeed]);
+
+  useEffect(() => {
+    storeSetting('wordRepeatCount', wordRepeatCount);
+  }, [wordRepeatCount]);
+
+  useEffect(() => {
+    storeSetting('verseRepeatCount', verseRepeatCount);
+  }, [verseRepeatCount]);
+
+  useEffect(() => {
+    storeSetting('surahRepeatCount', surahRepeatCount);
+  }, [surahRepeatCount]);
+
+  useEffect(() => {
+    storeSetting('showAudioPlayer', showAudioPlayer);
+  }, [showAudioPlayer]);
+
+  useEffect(() => {
+    storeSetting('enableTextFollowing', enableTextFollowing);
+  }, [enableTextFollowing]);
+
+  useEffect(() => {
+    storeSetting('followTransliteration', followTransliteration);
+  }, [followTransliteration]);
+
+  useEffect(() => {
+    storeSetting('followTranslation', followTranslation);
+  }, [followTranslation]);
 
   if (!isVisible) return null;
 
