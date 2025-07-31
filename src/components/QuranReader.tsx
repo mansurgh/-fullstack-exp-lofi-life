@@ -450,7 +450,7 @@ export const QuranReader = ({ onClose, isVisible }: QuranReaderProps) => {
           onClick={() => handleWordClick(verseIndex, wordIndex)}
           className={`inline-block transition-all duration-300 cursor-pointer hover:scale-105 hover:text-accent ${
             isClickedWord 
-              ? 'bg-accent text-accent-foreground px-1 rounded scale-110 shadow-glow animate-pulse ring-2 ring-accent' 
+              ? 'bg-accent text-accent-foreground px-1 rounded scale-110 shadow-glow ring-2 ring-accent' 
               : isCurrentWord 
               ? 'bg-accent/80 text-accent-foreground px-1 rounded scale-105 shadow-glow ring-1 ring-accent' 
               : isPastWord 
@@ -503,7 +503,7 @@ export const QuranReader = ({ onClose, isVisible }: QuranReaderProps) => {
             onClick={() => handleTransliterationWordClick(verseIndex, alignmentIndex)}
             className={`inline-block transition-all duration-300 cursor-pointer hover:scale-105 hover:text-accent ${
               isClickedWord 
-                ? 'bg-accent/60 text-accent-foreground px-1 rounded animate-pulse ring-1 ring-accent' 
+                ? 'bg-accent/60 text-accent-foreground px-1 rounded ring-1 ring-accent' 
                 : isCurrentWord 
                 ? 'bg-accent/40 text-accent-foreground px-1 rounded ring-1 ring-accent/50' 
                 : isPastWord 
@@ -559,7 +559,7 @@ export const QuranReader = ({ onClose, isVisible }: QuranReaderProps) => {
             onClick={() => handleTranslationWordClick(verseIndex, alignmentIndex)}
             className={`inline-block transition-all duration-300 cursor-pointer hover:scale-105 hover:text-accent ${
               isClickedWord 
-                ? 'bg-accent/40 text-accent-foreground px-1 rounded animate-pulse ring-1 ring-accent/60' 
+                ? 'bg-accent/40 text-accent-foreground px-1 rounded ring-1 ring-accent/60' 
                 : isCurrentWord 
                 ? 'bg-accent/30 text-accent-foreground px-1 rounded ring-1 ring-accent/40' 
                 : isPastWord 
