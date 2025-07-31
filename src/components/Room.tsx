@@ -6,6 +6,9 @@ import { Card } from "@/components/ui/card";
 import { QuranReader } from './QuranReader';
 import { TetrisGame } from './TetrisGame';
 import ClickerGame from './ClickerGame';
+import { PrayersList } from './PrayersList';
+import { PrayerTimes } from './PrayerTimes';
+import { IslamicCalendar } from './IslamicCalendar';
 import { Volume2, VolumeX, ArrowLeft, Moon, Sun, RotateCcw } from 'lucide-react';
 import { useTranslation } from '@/contexts/TranslationContext';
 
@@ -75,6 +78,9 @@ import bowlingAlley from "@/assets/bowling-alley.jpg";
 import americanFootball from "@/assets/american-football.jpg";
 import hockeyRink from "@/assets/hockey-rink.jpg";
 import indoorPool from "@/assets/indoor-pool.jpg";
+
+// The Concept room
+import theConcept from "@/assets/the-concept.jpg";
 
 interface RoomProps {
   roomId: string;
@@ -738,6 +744,16 @@ const roomConfigs: Record<string, RoomConfig> = {
       { type: 'floating', className: 'absolute top-20 left-16 w-5 h-5 text-blue-400 text-lg', animation: 'animate-bounce' },
       { type: 'glow', className: 'absolute bottom-24 left-24 w-24 h-16 bg-blue-400/25 rounded-full blur-xl', animation: 'animate-pulse' }
     ]
+  },
+  'the-concept': {
+    name: 'The Concept',
+    description: 'A peaceful bedroom with Islamic elements and prayer tools',
+    ambientSound: 'night',
+    backgroundImage: theConcept,
+    quranPosition: { x: 'right-1/4', y: 'top-2/3' },
+    interactiveElements: [
+      { type: 'glow', className: 'absolute top-16 right-20 w-24 h-24 bg-blue-300/20 rounded-full blur-2xl', animation: 'animate-pulse' }
+    ]
   }
 };
 
@@ -749,6 +765,9 @@ export const Room = ({ roomId, onBack }: RoomProps) => {
   const [isMuted, setIsMuted] = useState(false);
   const [isDarkMode, setIsDarkMode] = useState(false);
   const [isQuranOpen, setIsQuranOpen] = useState(false);
+  const [isPrayersListOpen, setIsPrayersListOpen] = useState(false);
+  const [isPrayerTimesOpen, setIsPrayerTimesOpen] = useState(false);
+  const [isIslamicCalendarOpen, setIsIslamicCalendarOpen] = useState(false);
   const [isLoaded, setIsLoaded] = useState(false);
   const [roomColor, setRoomColor] = useState('default'); // For all room color control
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 }); // Mouse position for panning
@@ -974,6 +993,62 @@ export const Room = ({ roomId, onBack }: RoomProps) => {
         </div>
       </div>
 
+      {/* Special Interactive Elements for "The Concept" Room */}
+      {roomId === 'the-concept' && (
+        <>
+          {/* Prayer Rug - Clickable */}
+          <div 
+            className="absolute left-1/3 top-3/4 cursor-pointer transition-all duration-500 hover:scale-110"
+            style={{
+              transform: `translate(${roomOffset.x * 0.3}px, ${roomOffset.y * 0.3}px) translate(-50%, -50%)`,
+            }}
+            onClick={() => setIsPrayersListOpen(true)}
+            title="Click to view prayer list"
+          >
+            <div className="w-16 h-12 bg-gradient-to-br from-red-600 to-red-800 rounded border-2 border-yellow-600 relative">
+              <div className="absolute inset-1 bg-red-700/50 rounded">
+                <div className="h-full flex items-center justify-center text-xs text-white">
+                  🕌
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* Clock - Clickable */}
+          <div 
+            className="absolute right-1/4 top-1/4 cursor-pointer transition-all duration-500 hover:scale-110"
+            style={{
+              transform: `translate(${roomOffset.x * 0.3}px, ${roomOffset.y * 0.3}px) translate(-50%, -50%)`,
+            }}
+            onClick={() => setIsPrayerTimesOpen(true)}
+            title="Click to view prayer times"
+          >
+            <div className="w-12 h-12 bg-white border-4 border-black rounded-full relative">
+              <div className="absolute inset-1 bg-white rounded-full flex items-center justify-center">
+                <div className="text-lg">🕐</div>
+              </div>
+            </div>
+          </div>
+
+          {/* Calendar - Clickable */}
+          <div 
+            className="absolute right-1/4 top-1/3 cursor-pointer transition-all duration-500 hover:scale-110"
+            style={{
+              transform: `translate(${roomOffset.x * 0.3}px, ${roomOffset.y * 0.3}px) translate(-50%, -50%)`,
+            }}
+            onClick={() => setIsIslamicCalendarOpen(true)}
+            title="Click to view Islamic calendar"
+          >
+            <div className="w-12 h-10 bg-white border-2 border-gray-400 rounded relative">
+              <div className="absolute inset-1 bg-white rounded flex flex-col items-center justify-center text-xs">
+                <div className="text-sm">📅</div>
+                <div className="text-[8px] text-gray-600">Islamic</div>
+              </div>
+            </div>
+          </div>
+        </>
+      )}
+
       {/* Controls */}
       <div className="absolute top-4 sm:top-6 left-4 sm:left-6 right-4 sm:right-6 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
         <Button
@@ -1111,6 +1186,22 @@ export const Room = ({ roomId, onBack }: RoomProps) => {
       <QuranReader 
         isVisible={isQuranOpen} 
         onClose={() => setIsQuranOpen(false)} 
+      />
+
+      {/* Islamic Dialog Components for The Concept Room */}
+      <PrayersList 
+        isOpen={isPrayersListOpen}
+        onClose={() => setIsPrayersListOpen(false)}
+      />
+      
+      <PrayerTimes 
+        isOpen={isPrayerTimesOpen}
+        onClose={() => setIsPrayerTimesOpen(false)}
+      />
+      
+      <IslamicCalendar 
+        isOpen={isIslamicCalendarOpen}
+        onClose={() => setIsIslamicCalendarOpen(false)}
       />
     </div>
   );

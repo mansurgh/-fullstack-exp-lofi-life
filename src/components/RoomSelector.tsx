@@ -73,6 +73,9 @@ import americanFootball from "@/assets/american-football.jpg";
 import hockeyRink from "@/assets/hockey-rink.jpg";
 import indoorPool from "@/assets/indoor-pool.jpg";
 
+// The Concept room
+import theConcept from "@/assets/the-concept.jpg";
+
 // Fictional characters (replaced with clean versions)
 import cleanMinecraftRoom from "@/assets/clean-tetris-room.jpg"; // Using tetris room for minecraft
 import cleanNarutoRoom from "@/assets/clean-library-room.jpg"; // Using library for naruto
@@ -532,6 +535,13 @@ const rooms: Room[] = [
     description: 'Peaceful park with lush green trees',
     thumbnail: lofiParkTrees,
     ambientType: 'nature'
+  },
+  {
+    id: 'the-concept',
+    name: 'The Concept',
+    description: 'A peaceful bedroom with Islamic elements and prayer tools',
+    thumbnail: theConcept,
+    ambientType: 'night'
   }
 ];
 
@@ -602,7 +612,8 @@ const roomCategories: Record<string, FilterCategory> = {
   'dog-eating': 'places',
   'kitchen-cockatiel': 'places',
   'moonlit-room': 'places',
-  'rain-hideout': 'places'
+  'rain-hideout': 'places',
+  'the-concept': 'places'
 };
 
 export const RoomSelector = ({ onSelectRoom }: RoomSelectorProps) => {
