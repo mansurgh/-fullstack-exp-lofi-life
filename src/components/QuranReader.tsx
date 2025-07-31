@@ -414,16 +414,12 @@ export const QuranReader = ({ onClose, isVisible }: QuranReaderProps) => {
 
   // Handle clicking on transliteration words
   const handleTransliterationWordClick = (verseIndex: number, wordIndex: number) => {
-    if (enableTextFollowing && followTransliteration) {
-      handleWordClick(verseIndex, wordIndex);
-    }
+    handleWordClick(verseIndex, wordIndex);
   };
 
   // Handle clicking on translation words
   const handleTranslationWordClick = (verseIndex: number, wordIndex: number) => {
-    if (enableTextFollowing && followTranslation) {
-      handleWordClick(verseIndex, wordIndex);
-    }
+    handleWordClick(verseIndex, wordIndex);
   };
 
   // Enhanced word repetition for clicked words
@@ -450,10 +446,6 @@ export const QuranReader = ({ onClose, isVisible }: QuranReaderProps) => {
 
   // Word highlighting rendering helper with click functionality
   const renderHighlightedText = (arabicText: string, verseIndex: number) => {
-    if (!enableTextFollowing) {
-      return <span>{arabicText}</span>;
-    }
-
     const words = arabicText.split(" ");
     
     return words.map((word, wordIndex) => {
@@ -473,9 +465,7 @@ export const QuranReader = ({ onClose, isVisible }: QuranReaderProps) => {
               ? 'bg-accent/80 text-accent-foreground px-1 rounded scale-105 shadow-glow ring-1 ring-accent' 
               : isPastWord 
               ? 'text-accent/70'
-              : isCurrentVerse
-              ? 'hover:bg-accent/20 hover:px-1 hover:rounded'
-              : 'hover:bg-accent/10'
+              : 'hover:bg-accent/20 hover:px-1 hover:rounded'
           }`}
           style={{
             marginRight: wordIndex > 0 ? '0.5rem' : '0'
@@ -490,16 +480,18 @@ export const QuranReader = ({ onClose, isVisible }: QuranReaderProps) => {
 
   // Helper to render highlighted transliteration using word alignments
   const renderHighlightedTransliteration = (transliterationText: string, verseIndex: number) => {
-    if (!enableTextFollowing || !followTransliteration) {
-      return <span>{transliterationText}</span>;
-    }
-
     const verse = verses[verseIndex];
     if (!verse?.wordAlignments) {
       // Fallback to simple word splitting if no alignments
       const words = transliterationText.split(" ");
       return words.map((word, wordIndex) => (
-        <span key={wordIndex} style={{ marginRight: wordIndex > 0 ? '0.25rem' : '0' }}>
+        <span 
+          key={wordIndex} 
+          onClick={() => handleWordClick(verseIndex, wordIndex)}
+          className="inline-block transition-all duration-300 cursor-pointer hover:scale-105 hover:text-accent hover:bg-accent/20 hover:px-1 hover:rounded"
+          style={{ marginRight: wordIndex > 0 ? '0.25rem' : '0' }}
+          title={`Click to repeat this word ${wordRepeatCount} time(s)`}
+        >
           {word}
         </span>
       ));
@@ -526,9 +518,7 @@ export const QuranReader = ({ onClose, isVisible }: QuranReaderProps) => {
                 ? 'bg-accent/40 text-accent-foreground px-1 rounded ring-1 ring-accent/50' 
                 : isPastWord 
                 ? 'text-accent/60'
-                : isCurrentVerse
-                ? 'hover:bg-accent/20 hover:px-1 hover:rounded'
-                : 'hover:bg-accent/10'
+                : 'hover:bg-accent/20 hover:px-1 hover:rounded'
             }`}
             style={{
               marginRight: '0.25rem'
@@ -547,16 +537,18 @@ export const QuranReader = ({ onClose, isVisible }: QuranReaderProps) => {
 
   // Helper to render highlighted translation using word alignments
   const renderHighlightedTranslation = (translationText: string, verseIndex: number) => {
-    if (!enableTextFollowing || !followTranslation) {
-      return <span>{translationText}</span>;
-    }
-
     const verse = verses[verseIndex];
     if (!verse?.wordAlignments) {
       // Fallback to simple word splitting if no alignments
       const words = translationText.split(" ");
       return words.map((word, wordIndex) => (
-        <span key={wordIndex} style={{ marginRight: wordIndex > 0 ? '0.25rem' : '0' }}>
+        <span 
+          key={wordIndex} 
+          onClick={() => handleWordClick(verseIndex, wordIndex)}
+          className="inline-block transition-all duration-300 cursor-pointer hover:scale-105 hover:text-accent hover:bg-accent/15 hover:px-1 hover:rounded"
+          style={{ marginRight: wordIndex > 0 ? '0.25rem' : '0' }}
+          title={`Click to repeat this word ${wordRepeatCount} time(s)`}
+        >
           {word}
         </span>
       ));
@@ -582,9 +574,7 @@ export const QuranReader = ({ onClose, isVisible }: QuranReaderProps) => {
                 ? 'bg-accent/30 text-accent-foreground px-1 rounded ring-1 ring-accent/40' 
                 : isPastWord 
                 ? 'text-accent/50'
-                : isCurrentVerse
-                ? 'hover:bg-accent/15 hover:px-1 hover:rounded'
-                : 'hover:bg-accent/10'
+                : 'hover:bg-accent/15 hover:px-1 hover:rounded'
             }`}
             style={{
               marginRight: '0.25rem'
