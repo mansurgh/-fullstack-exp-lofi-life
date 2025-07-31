@@ -746,7 +746,7 @@ const roomConfigs: Record<string, RoomConfig> = {
     ]
   },
   'the-concept': {
-    name: 'The Concept',
+    name: 'A concept',
     description: 'A peaceful bedroom with Islamic elements and prayer tools',
     ambientSound: 'night',
     backgroundImage: theConcept,
