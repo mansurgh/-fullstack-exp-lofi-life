@@ -311,7 +311,7 @@ const roomConfigs: Record<string, RoomConfig> = {
     ]
   },
   'library-room': {
-    name: 'Quiet Library',
+    name: 'Library',
     description: 'Silent library with page sounds',
     ambientSound: 'pages',
     backgroundImage: lofiLibraryRoom,
@@ -354,7 +354,7 @@ const roomConfigs: Record<string, RoomConfig> = {
     ]
   },
   'space-ship': {
-    name: 'Space Station',
+    name: 'Space',
     description: 'Spaceship with Earth view from orbit',
     ambientSound: 'space',
     backgroundImage: lofiSpaceShip,
@@ -376,7 +376,7 @@ const roomConfigs: Record<string, RoomConfig> = {
     ]
   },
   'prison-cell': {
-    name: 'Prison Cell',
+    name: 'Prison',
     description: 'Institutional cell with courtyard view',
     ambientSound: 'silence',
     backgroundImage: lofiPrisonCell,
@@ -429,7 +429,7 @@ const roomConfigs: Record<string, RoomConfig> = {
     ]
   },
   'spongebob-pineapple': {
-    name: 'Pineapple House',
+    name: 'Underwater',
     description: 'Cozy underwater pineapple interior',
     ambientSound: 'underwater',
     backgroundImage: lofiSpongebobPineapple,
@@ -524,7 +524,7 @@ const roomConfigs: Record<string, RoomConfig> = {
     ]
   },
   'hospital-waiting': {
-    name: 'Hospital Waiting',
+    name: 'Hospital',
     description: 'Peaceful hospital waiting room with warm atmosphere',
     ambientSound: 'silence',
     backgroundImage: lofiHospitalWaiting,
@@ -534,7 +534,7 @@ const roomConfigs: Record<string, RoomConfig> = {
     ]
   },
   'jail-cell': {
-    name: 'Peaceful Cell',
+    name: 'Peaceful',
     description: 'Contemplative space for reflection and reading',
     ambientSound: 'silence',
     backgroundImage: lofiJailCell,
@@ -544,7 +544,7 @@ const roomConfigs: Record<string, RoomConfig> = {
     ]
   },
   'train-station': {
-    name: 'Train Platform',
+    name: 'Train',
     description: 'Nostalgic train station with gentle station sounds',
     ambientSound: 'city',
     backgroundImage: lofiTrainStation,
@@ -554,7 +554,7 @@ const roomConfigs: Record<string, RoomConfig> = {
     ]
   },
   'bus-stop': {
-    name: 'Bus Stop Shelter',
+    name: 'Bus',
     description: 'Cozy bus stop with evening ambiance',
     ambientSound: 'city',
     backgroundImage: lofiBusStop,
@@ -564,7 +564,7 @@ const roomConfigs: Record<string, RoomConfig> = {
     ]
   },
   'doctors-office': {
-    name: 'Doctor\'s Office',
+    name: 'Doctor',
     description: 'Warm medical office with peaceful atmosphere',
     ambientSound: 'silence',
     backgroundImage: lofiDoctorsOffice,
@@ -574,7 +574,7 @@ const roomConfigs: Record<string, RoomConfig> = {
     ]
   },
   'gym': {
-    name: 'Peaceful Gym',
+    name: 'Gym',
     description: 'Cozy gym space with warm lighting',
     ambientSound: 'silence',
     backgroundImage: lofiGym,
@@ -584,7 +584,7 @@ const roomConfigs: Record<string, RoomConfig> = {
     ]
   },
   'bird-shop': {
-    name: 'Bird Shop',
+    name: 'Bird',
     description: 'Charming bird shop with colorful birds',
     ambientSound: 'birds',
     backgroundImage: lofiBirdShop,

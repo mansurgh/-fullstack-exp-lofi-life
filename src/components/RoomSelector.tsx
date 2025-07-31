@@ -293,7 +293,7 @@ const rooms: Room[] = [
   },
   {
     id: 'spongebob-pineapple',
-    name: 'Underwater Home',
+    name: 'Underwater',
     description: 'Underwater environment with bubble sounds',
     thumbnail: lofiSpongebobPineapple,
     ambientType: 'underwater'
@@ -314,7 +314,7 @@ const rooms: Room[] = [
   },
   {
     id: 'library-room',
-    name: 'Quiet Library',
+    name: 'Library',
     description: 'Silent library with gentle page turning sounds',
     thumbnail: lofiLibraryRoom,
     ambientType: 'pages'
@@ -342,7 +342,7 @@ const rooms: Room[] = [
   },
   {
     id: 'space-ship',
-    name: 'Space Station',
+    name: 'Space',
     description: 'Spaceship with cosmic silence and Earth view',
     thumbnail: lofiSpaceShip,
     ambientType: 'space'
@@ -356,7 +356,7 @@ const rooms: Room[] = [
   },
   {
     id: 'prison-cell',
-    name: 'Prison Cell',
+    name: 'Prison',
     description: 'Institutional cell with echoing silence',
     thumbnail: lofiPrisonCell,
     ambientType: 'silence'
@@ -440,49 +440,49 @@ const rooms: Room[] = [
   },
   {
     id: 'hospital-waiting',
-    name: 'Hospital Waiting',
+    name: 'Hospital',
     description: 'Peaceful hospital waiting room with warm atmosphere',
     thumbnail: lofiHospitalWaiting,
     ambientType: 'silence'
   },
   {
     id: 'jail-cell',
-    name: 'Peaceful Cell',
+    name: 'Peaceful',
     description: 'Contemplative space for reflection and reading',
     thumbnail: lofiJailCell,
     ambientType: 'silence'
   },
   {
     id: 'train-station',
-    name: 'Train Platform',
+    name: 'Train',
     description: 'Nostalgic train station with gentle station sounds',
     thumbnail: lofiTrainStation,
     ambientType: 'city'
   },
   {
     id: 'bus-stop',
-    name: 'Bus Stop Shelter',
+    name: 'Bus',
     description: 'Cozy bus stop with evening ambiance',
     thumbnail: lofiBusStop,
     ambientType: 'city'
   },
   {
     id: 'doctors-office',
-    name: 'Doctor\'s Office',
+    name: 'Doctor',
     description: 'Warm medical office with peaceful atmosphere',
     thumbnail: lofiDoctorsOffice,
     ambientType: 'silence'
   },
   {
     id: 'gym',
-    name: 'Peaceful Gym',
+    name: 'Gym',
     description: 'Cozy gym space with warm lighting',
     thumbnail: lofiGym,
     ambientType: 'silence'
   },
   {
     id: 'bird-shop',
-    name: 'Bird Shop',
+    name: 'Bird',
     description: 'Charming bird shop with colorful birds',
     thumbnail: lofiBirdShop,
     ambientType: 'birds'
