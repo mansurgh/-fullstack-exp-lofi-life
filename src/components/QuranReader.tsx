@@ -598,7 +598,7 @@ export const QuranReader = ({ onClose, isVisible }: QuranReaderProps) => {
         simulateReading();
       }
     }
-  }, [currentWordIndex, currentVerse, isAutoReading, isPlaying, currentWordRepeat, currentVerseRepeat, isWordClickMode]);
+  }, [currentWordIndex, currentVerse, isAutoReading, isPlaying, currentWordRepeat, currentVerseRepeat, isWordClickMode, recitationSpeed, wordRepeatCount, verseRepeatCount, surahRepeatCount]);
 
   useEffect(() => {
     if (audioRef.current) {
