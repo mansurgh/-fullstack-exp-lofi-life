@@ -140,7 +140,7 @@ const roomConfigs: Record<string, RoomConfig> = {
     ]
   },
   'seaside-sanctuary': {
-    name: 'Seaside Room',
+    name: 'Seaside',
     description: 'Peaceful ocean waves',
     ambientSound: 'waves',
     backgroundImage: lofiSeasideSanctuary,
@@ -407,7 +407,7 @@ const roomConfigs: Record<string, RoomConfig> = {
     ]
   },
   'tetris-room': {
-    name: 'Tetris Arcade',
+    name: 'Tetris',
     description: 'Retro gaming room with playable tetris using WASD controls',
     ambientSound: 'electronic',
     backgroundImage: lofiTetrisRoom,
@@ -418,7 +418,7 @@ const roomConfigs: Record<string, RoomConfig> = {
     ]
   },
   'clicker-arcade': {
-    name: 'Clicker Arcade',
+    name: 'Clicker',
     description: 'Click gift packages to discover ahadith wisdom',
     ambientSound: 'electronic',
     backgroundImage: lofiClickerArcade,
@@ -665,7 +665,7 @@ const roomConfigs: Record<string, RoomConfig> = {
   },
   // Sports rooms (keep original images as requested)
   'football-field': {
-    name: 'Football Field',
+    name: 'Football',
     description: 'Professional football stadium',
     ambientSound: 'sports',
     backgroundImage: footballField,
@@ -675,7 +675,7 @@ const roomConfigs: Record<string, RoomConfig> = {
     ]
   },
   'tennis-court': {
-    name: 'Tennis Court',
+    name: 'Tennis',
     description: 'Professional tennis arena',
     ambientSound: 'sports',
     backgroundImage: tennisCourt,
@@ -685,7 +685,7 @@ const roomConfigs: Record<string, RoomConfig> = {
     ]
   },
   'basketball-court': {
-    name: 'Basketball Court',
+    name: 'Basketball',
     description: 'Indoor basketball arena',
     ambientSound: 'sports',
     backgroundImage: basketballCourt,
@@ -695,7 +695,7 @@ const roomConfigs: Record<string, RoomConfig> = {
     ]
   },
   'volleyball-court': {
-    name: 'Volleyball Court',
+    name: 'Volleyball',
     description: 'Beach volleyball arena',
     ambientSound: 'sports',
     backgroundImage: volleyballCourt,
@@ -705,7 +705,7 @@ const roomConfigs: Record<string, RoomConfig> = {
     ]
   },
   'bowling-alley': {
-    name: 'Bowling Alley',
+    name: 'Bowling',
     description: 'Classic bowling lane',
     ambientSound: 'sports',
     backgroundImage: bowlingAlley,
@@ -725,7 +725,7 @@ const roomConfigs: Record<string, RoomConfig> = {
     ]
   },
   'hockey-rink': {
-    name: 'Hockey Rink',
+    name: 'Hockey',
     description: 'Ice hockey arena',
     ambientSound: 'sports',
     backgroundImage: hockeyRink,
@@ -735,7 +735,7 @@ const roomConfigs: Record<string, RoomConfig> = {
     ]
   },
   'indoor-pool': {
-    name: 'Swimming Pool',
+    name: 'Swimming',
     description: 'Indoor swimming facility',
     ambientSound: 'water',
     backgroundImage: indoorPool,

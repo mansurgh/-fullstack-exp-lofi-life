@@ -125,7 +125,7 @@ const rooms: Room[] = [
   },
   {
     id: 'seaside-sanctuary',
-    name: 'Seaside Room',
+    name: 'Seaside',
     description: 'Ocean waves and distant seagulls create peaceful coastal ambiance',
     thumbnail: lofiSeasideSanctuary,
     ambientType: 'waves'
@@ -237,35 +237,35 @@ const rooms: Room[] = [
   },
   {
     id: 'football-field',
-    name: 'Football Field',
+    name: 'Football',
     description: 'On the field with gentle wind and outdoor ambiance',
     thumbnail: footballField,
     ambientType: 'sports'
   },
   {
     id: 'tennis-court',
-    name: 'Tennis Court',
+    name: 'Tennis',
     description: 'Peaceful tennis court with outdoor sports atmosphere',
     thumbnail: tennisCourt,
     ambientType: 'sports'
   },
   {
     id: 'basketball-court',
-    name: 'Basketball Court',
+    name: 'Basketball',
     description: 'Indoor basketball court with gentle echoing sounds',
     thumbnail: basketballCourt,
     ambientType: 'sports'
   },
   {
     id: 'volleyball-court',
-    name: 'Volleyball Court',
+    name: 'Volleyball',
     description: 'Clean volleyball court with peaceful gym ambiance',
     thumbnail: volleyballCourt,
     ambientType: 'sports'
   },
   {
     id: 'bowling-alley',
-    name: 'Bowling Alley',
+    name: 'Bowling',
     description: 'Quiet bowling alley with subtle rolling sounds',
     thumbnail: bowlingAlley,
     ambientType: 'sports'
@@ -279,14 +279,14 @@ const rooms: Room[] = [
   },
   {
     id: 'hockey-rink',
-    name: 'Hockey Rink',
+    name: 'Hockey',
     description: 'Ice rink with peaceful arena ambiance',
     thumbnail: hockeyRink,
     ambientType: 'sports'
   },
   {
     id: 'indoor-pool',
-    name: 'Swimming Pool',
+    name: 'Swimming',
     description: 'Peaceful poolside with gentle water sounds',
     thumbnail: indoorPool,
     ambientType: 'water'
@@ -300,7 +300,7 @@ const rooms: Room[] = [
   },
   {
     id: 'minecraft-room',
-    name: 'Minecraft World',
+    name: 'Blocky World',
     description: 'Blocky world with peaceful ambient cube sounds',
     thumbnail: lofiMinecraftRoom,
     ambientType: 'electronic'
@@ -426,14 +426,14 @@ const rooms: Room[] = [
   },
   {
     id: 'tetris-room',
-    name: 'Tetris Arcade',
+    name: 'Tetris',
     description: 'Retro gaming room with playable tetris using WASD controls',
     thumbnail: lofiTetrisRoom,
     ambientType: 'electronic'
   },
   {
     id: 'clicker-arcade',
-    name: 'Clicker Arcade',
+    name: 'Clicker',
     description: 'Click gift packages to discover ahadith wisdom',
     thumbnail: lofiClickerArcade,
     ambientType: 'electronic'
@@ -538,7 +538,7 @@ const rooms: Room[] = [
   },
   {
     id: 'the-concept',
-    name: 'The Concept',
+    name: 'A concept',
     description: 'A peaceful bedroom with Islamic elements and prayer tools',
     thumbnail: theConcept,
     ambientType: 'night'
