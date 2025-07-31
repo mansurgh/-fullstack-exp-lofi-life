@@ -20,18 +20,43 @@ const islamicEvents = [
   { name: 'Mawlid al-Nabi', date: 'September 15, 2024', type: 'holy-day', icon: '🌟' },
 ];
 
-const currentIslamicDate = {
-  day: 15,
-  month: 'Jumada al-Awwal',
-  year: 1446
+const getCurrentIslamicDate = () => {
+  const now = new Date();
+  // Approximate conversion from Gregorian to Islamic calendar
+  // Islamic calendar started on July 16, 622 CE
+  const islamicEpoch = new Date('622-07-16');
+  const daysDiff = Math.floor((now.getTime() - islamicEpoch.getTime()) / (1000 * 60 * 60 * 24));
+  
+  // Islamic year is approximately 354.37 days
+  const islamicYear = Math.floor(daysDiff / 354.37) + 1;
+  const dayInYear = Math.floor(daysDiff % 354.37);
+  
+  const islamicMonths = [
+    'Muharram', 'Safar', 'Rabi al-Awwal', 'Rabi al-Thani',
+    'Jumada al-Awwal', 'Jumada al-Thani', 'Rajab', 'Sha\'ban',
+    'Ramadan', 'Shawwal', 'Dhu al-Qi\'dah', 'Dhu al-Hijjah'
+  ];
+  
+  // Approximate month and day calculation
+  const monthIndex = Math.floor(dayInYear / 29.5);
+  const dayInMonth = Math.floor(dayInYear % 29.5) + 1;
+  
+  return {
+    day: dayInMonth,
+    month: islamicMonths[monthIndex] || islamicMonths[0],
+    year: islamicYear
+  };
 };
 
 export const IslamicCalendar = ({ isOpen, onClose }: IslamicCalendarProps) => {
   const [timeToRamadan, setTimeToRamadan] = useState('');
+  const [currentIslamicDate, setCurrentIslamicDate] = useState(getCurrentIslamicDate());
 
   useEffect(() => {
-    const calculateTimeToRamadan = () => {
+    const updateTime = () => {
       const now = new Date();
+      setCurrentIslamicDate(getCurrentIslamicDate());
+      
       const nextRamadan = new Date('2025-02-28'); // Next Ramadan (approximate)
       const diff = nextRamadan.getTime() - now.getTime();
       
@@ -46,8 +71,8 @@ export const IslamicCalendar = ({ isOpen, onClose }: IslamicCalendarProps) => {
       }
     };
 
-    calculateTimeToRamadan();
-    const timer = setInterval(calculateTimeToRamadan, 60000); // Update every minute
+    updateTime();
+    const timer = setInterval(updateTime, 60000); // Update every minute
 
     return () => clearInterval(timer);
   }, []);

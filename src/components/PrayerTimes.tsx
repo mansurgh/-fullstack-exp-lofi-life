@@ -14,14 +14,35 @@ export const PrayerTimes = ({ isOpen, onClose }: PrayerTimesProps) => {
   const [location, setLocation] = useState('Getting location...');
   const [currentTime, setCurrentTime] = useState(new Date());
 
-  // Mock prayer times - in a real app you would fetch from an API
-  const prayerTimes = [
-    { name: 'Fajr', time: '05:30', passed: true },
-    { name: 'Dhuhr', time: '12:45', passed: true },
-    { name: 'Asr', time: '15:20', passed: false, current: true },
-    { name: 'Maghrib', time: '18:15', passed: false },
-    { name: 'Isha', time: '19:30', passed: false },
-  ];
+  // Generate prayer times based on current time
+  const getPrayerTimes = () => {
+    const now = currentTime;
+    const currentHour = now.getHours();
+    const currentMinute = now.getMinutes();
+    const currentTimeMinutes = currentHour * 60 + currentMinute;
+    
+    const prayers = [
+      { name: 'Fajr', time: '05:30', timeMinutes: 5 * 60 + 30 },
+      { name: 'Dhuhr', time: '12:45', timeMinutes: 12 * 60 + 45 },
+      { name: 'Asr', time: '15:20', timeMinutes: 15 * 60 + 20 },
+      { name: 'Maghrib', time: '18:15', timeMinutes: 18 * 60 + 15 },
+      { name: 'Isha', time: '19:30', timeMinutes: 19 * 60 + 30 },
+    ];
+    
+    return prayers.map((prayer, index) => {
+      const passed = currentTimeMinutes > prayer.timeMinutes;
+      const nextPrayerIndex = prayers.findIndex(p => p.timeMinutes > currentTimeMinutes);
+      const current = nextPrayerIndex === index || (nextPrayerIndex === -1 && index === 0);
+      
+      return {
+        ...prayer,
+        passed,
+        current: !passed && current
+      };
+    });
+  };
+
+  const prayerTimes = getPrayerTimes();
 
   useEffect(() => {
     const timer = setInterval(() => {
