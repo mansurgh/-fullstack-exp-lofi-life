@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { useTranslation } from '@/contexts/TranslationContext';
@@ -29,21 +29,32 @@ const themes = {
 
 export const ThemeSelector = () => {
   const { t } = useTranslation();
-  const [selectedTheme, setSelectedTheme] = useState<ThemeType>('default');
+  const [selectedTheme, setSelectedTheme] = useState<ThemeType>(() => {
+    const savedTheme = localStorage.getItem('selectedTheme');
+    return (savedTheme as ThemeType) || 'default';
+  });
+
+  // Apply saved theme on component mount
+  useEffect(() => {
+    const applyTheme = (theme: ThemeType) => {
+      // Remove all theme classes
+      document.documentElement.classList.remove(
+        'theme-spring', 'theme-summer', 'theme-autumn', 'theme-winter',
+        'theme-day', 'theme-night', 'theme-rainy'
+      );
+      
+      // Add new theme class
+      if (theme !== 'default') {
+        document.documentElement.classList.add(`theme-${theme}`);
+      }
+    };
+
+    applyTheme(selectedTheme);
+  }, [selectedTheme]);
 
   const handleThemeChange = (theme: ThemeType) => {
     setSelectedTheme(theme);
-    
-    // Remove all theme classes
-    document.documentElement.classList.remove(
-      'theme-spring', 'theme-summer', 'theme-autumn', 'theme-winter',
-      'theme-day', 'theme-night', 'theme-rainy'
-    );
-    
-    // Add new theme class
-    if (theme !== 'default') {
-      document.documentElement.classList.add(`theme-${theme}`);
-    }
+    localStorage.setItem('selectedTheme', theme);
   };
 
   return (
