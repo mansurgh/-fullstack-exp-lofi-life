@@ -10,40 +10,69 @@ interface IslamicCalendarProps {
   onClose: () => void;
 }
 
-const islamicEvents = [
-  { name: 'Ramadan', date: 'March 10, 2024', type: 'holy-month', icon: '🌙' },
-  { name: 'Eid al-Fitr', date: 'April 10, 2024', type: 'celebration', icon: '🎉' },
-  { name: 'Hajj', date: 'June 14-19, 2024', type: 'pilgrimage', icon: '🕋' },
-  { name: 'Eid al-Adha', date: 'June 16, 2024', type: 'celebration', icon: '🐑' },
-  { name: 'Islamic New Year', date: 'July 7, 2024', type: 'new-year', icon: '📅' },
-  { name: 'Day of Ashura', date: 'July 17, 2024', type: 'holy-day', icon: '⭐' },
-  { name: 'Mawlid al-Nabi', date: 'September 15, 2024', type: 'holy-day', icon: '🌟' },
-];
+const getUpcomingIslamicEvents = () => {
+  const now = new Date();
+  const currentYear = now.getFullYear();
+  const nextYear = currentYear + 1;
+  
+  const events = [
+    // 2025 events
+    { name: 'Ramadan', date: 'February 28, 2025', type: 'holy-month', icon: '🌙' },
+    { name: 'Eid al-Fitr', date: 'March 30, 2025', type: 'celebration', icon: '🎉' },
+    { name: 'Hajj', date: 'June 3-8, 2025', type: 'pilgrimage', icon: '🕋' },
+    { name: 'Eid al-Adha', date: 'June 6, 2025', type: 'celebration', icon: '🐑' },
+    { name: 'Islamic New Year', date: 'June 26, 2025', type: 'new-year', icon: '📅' },
+    { name: 'Day of Ashura', date: 'July 5, 2025', type: 'holy-day', icon: '⭐' },
+    { name: 'Mawlid al-Nabi', date: 'September 4, 2025', type: 'holy-day', icon: '🌟' },
+    
+    // 2026 events
+    { name: 'Ramadan', date: 'February 17, 2026', type: 'holy-month', icon: '🌙' },
+    { name: 'Eid al-Fitr', date: 'March 19, 2026', type: 'celebration', icon: '🎉' },
+    { name: 'Hajj', date: 'May 23-28, 2026', type: 'pilgrimage', icon: '🕋' },
+    { name: 'Eid al-Adha', date: 'May 26, 2026', type: 'celebration', icon: '🐑' },
+    { name: 'Islamic New Year', date: 'June 15, 2026', type: 'new-year', icon: '📅' },
+    { name: 'Day of Ashura', date: 'June 24, 2026', type: 'holy-day', icon: '⭐' },
+    { name: 'Mawlid al-Nabi', date: 'August 24, 2026', type: 'holy-day', icon: '🌟' },
+  ];
+  
+  // Filter to show only upcoming events
+  return events.filter(event => {
+    const eventDate = new Date(event.date.split(',')[0] + ', ' + event.date.split(', ')[1]);
+    return eventDate >= now;
+  }).slice(0, 8); // Show next 8 upcoming events
+};
 
 const getCurrentIslamicDate = () => {
   const now = new Date();
-  // Approximate conversion from Gregorian to Islamic calendar
-  // Islamic calendar started on July 16, 622 CE
+  // More accurate Islamic calendar calculation
+  // Islamic calendar epoch: July 16, 622 CE (1 Muharram 1 AH)
   const islamicEpoch = new Date('622-07-16');
   const daysDiff = Math.floor((now.getTime() - islamicEpoch.getTime()) / (1000 * 60 * 60 * 24));
   
-  // Islamic year is approximately 354.37 days
-  const islamicYear = Math.floor(daysDiff / 354.37) + 1;
-  const dayInYear = Math.floor(daysDiff % 354.37);
+  // Islamic year is 354.367 days on average
+  const islamicYear = Math.floor(daysDiff / 354.367) + 1;
+  const dayInYear = Math.floor(daysDiff % 354.367);
   
   const islamicMonths = [
-    'Muharram', 'Safar', 'Rabi al-Awwal', 'Rabi al-Thani',
+    'Muharram', 'Safar', 'Rabi\' al-Awwal', 'Rabi\' al-Thani',
     'Jumada al-Awwal', 'Jumada al-Thani', 'Rajab', 'Sha\'ban',
     'Ramadan', 'Shawwal', 'Dhu al-Qi\'dah', 'Dhu al-Hijjah'
   ];
   
-  // Approximate month and day calculation
-  const monthIndex = Math.floor(dayInYear / 29.5);
-  const dayInMonth = Math.floor(dayInYear % 29.5) + 1;
+  // Each Islamic month alternates between 29 and 30 days
+  const monthLengths = [30, 29, 30, 29, 30, 29, 30, 29, 30, 29, 30, 29];
+  
+  let currentDay = dayInYear;
+  let monthIndex = 0;
+  
+  while (currentDay >= monthLengths[monthIndex] && monthIndex < 11) {
+    currentDay -= monthLengths[monthIndex];
+    monthIndex++;
+  }
   
   return {
-    day: dayInMonth,
-    month: islamicMonths[monthIndex] || islamicMonths[0],
+    day: currentDay + 1,
+    month: islamicMonths[monthIndex],
     year: islamicYear
   };
 };
@@ -51,6 +80,7 @@ const getCurrentIslamicDate = () => {
 export const IslamicCalendar = ({ isOpen, onClose }: IslamicCalendarProps) => {
   const [timeToRamadan, setTimeToRamadan] = useState('');
   const [currentIslamicDate, setCurrentIslamicDate] = useState(getCurrentIslamicDate());
+  const [islamicEvents] = useState(getUpcomingIslamicEvents());
 
   useEffect(() => {
     const updateTime = () => {
