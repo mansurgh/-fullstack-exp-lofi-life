@@ -151,92 +151,131 @@ export const InteractiveComponents = ({ roomId }: InteractiveComponentsProps) =>
     <>
       {/* Clock Component */}
       {clock.visible && (
-        <Card 
-          className="fixed bg-black/70 backdrop-blur-sm border-white/20 text-white p-3 cursor-move z-30 select-none"
+        <div 
+          className="fixed cursor-move z-30 select-none"
           style={{ 
             left: clock.position.x, 
             top: clock.position.y,
             transform: dragState === 'clock' ? 'scale(1.05)' : 'scale(1)'
           }}
           onMouseDown={(e) => handleMouseDown(e, 'clock', clock.position)}
+          onClick={() => setShowPrayerTimes(true)}
         >
-          <div className="flex items-center gap-2">
-            <Clock className="w-4 h-4" />
-            <div className="text-sm">
-              <div className="font-mono">{formatTime(currentTime)}</div>
-              <div className="text-xs opacity-70">{formatDate(currentTime)}</div>
+          <div className="relative w-20 h-20 bg-gradient-to-br from-amber-100 to-amber-200 rounded-full border-4 border-amber-800 shadow-lg">
+            <div className="absolute inset-2 bg-white rounded-full border-2 border-amber-700">
+              <div className="absolute top-1/2 left-1/2 w-1 h-1 bg-amber-800 rounded-full transform -translate-x-1/2 -translate-y-1/2"></div>
+              {/* Hour hand */}
+              <div 
+                className="absolute top-1/2 left-1/2 w-0.5 h-5 bg-amber-900 rounded-full origin-bottom transform -translate-x-1/2 -translate-y-full"
+                style={{ transform: `translate(-50%, -100%) rotate(${(currentTime.getHours() % 12) * 30 + currentTime.getMinutes() * 0.5}deg)` }}
+              ></div>
+              {/* Minute hand */}
+              <div 
+                className="absolute top-1/2 left-1/2 w-0.5 h-6 bg-amber-800 rounded-full origin-bottom transform -translate-x-1/2 -translate-y-full"
+                style={{ transform: `translate(-50%, -100%) rotate(${currentTime.getMinutes() * 6}deg)` }}
+              ></div>
+              {/* Hour markers */}
+              {[...Array(12)].map((_, i) => (
+                <div
+                  key={i}
+                  className="absolute w-0.5 h-2 bg-amber-700"
+                  style={{
+                    top: '2px',
+                    left: '50%',
+                    transformOrigin: '50% 30px',
+                    transform: `translateX(-50%) rotate(${i * 30}deg)`
+                  }}
+                ></div>
+              ))}
             </div>
           </div>
-        </Card>
+        </div>
       )}
 
       {/* Calendar Component */}
       {calendar.visible && (
-        <Card 
-          className="fixed bg-black/70 backdrop-blur-sm border-white/20 text-white p-3 cursor-move z-30 select-none"
+        <div 
+          className="fixed cursor-move z-30 select-none"
           style={{ 
             left: calendar.position.x, 
             top: calendar.position.y,
             transform: dragState === 'calendar' ? 'scale(1.05)' : 'scale(1)'
           }}
           onMouseDown={(e) => handleMouseDown(e, 'calendar', calendar.position)}
+          onClick={() => setShowCalendar(true)}
         >
-          <Button
-            variant="ghost"
-            size="sm"
-            className="flex items-center gap-2 text-white hover:bg-white/20 p-2"
-            onClick={() => setShowCalendar(true)}
-          >
-            <Calendar className="w-4 h-4" />
-            <span className="text-sm">Islamic Calendar</span>
-          </Button>
-        </Card>
+          <div className="w-16 h-20 bg-gradient-to-br from-red-600 to-red-800 rounded-lg shadow-lg border border-red-900">
+            <div className="h-4 bg-red-900 rounded-t-lg flex items-center justify-center">
+              <div className="w-2 h-2 bg-red-300 rounded-full"></div>
+            </div>
+            <div className="p-1 text-white text-center">
+              <div className="text-xs font-bold">{currentTime.toLocaleDateString('en', {month: 'short'}).toUpperCase()}</div>
+              <div className="text-lg font-bold leading-none">{currentTime.getDate()}</div>
+              <div className="text-xs">{currentTime.getFullYear()}</div>
+            </div>
+          </div>
+        </div>
       )}
 
       {/* Prayer Mat Component */}
       {prayerMat.visible && (
-        <Card 
-          className="fixed bg-black/70 backdrop-blur-sm border-white/20 text-white p-3 cursor-move z-30 select-none"
+        <div 
+          className="fixed cursor-move z-30 select-none"
           style={{ 
             left: prayerMat.position.x, 
             top: prayerMat.position.y,
             transform: dragState === 'prayerMat' ? 'scale(1.05)' : 'scale(1)'
           }}
           onMouseDown={(e) => handleMouseDown(e, 'prayerMat', prayerMat.position)}
+          onClick={() => setShowPrayerTimes(true)}
         >
-          <Button
-            variant="ghost"
-            size="sm"
-            className="flex items-center gap-2 text-white hover:bg-white/20 p-2"
-            onClick={() => setShowPrayerTimes(true)}
-          >
-            <MapPin className="w-4 h-4" />
-            <span className="text-sm">Prayer Times</span>
-          </Button>
-        </Card>
+          <div className="w-24 h-16 bg-gradient-to-br from-emerald-700 via-emerald-600 to-emerald-800 rounded-lg shadow-lg border-2 border-emerald-900 relative overflow-hidden">
+            {/* Prayer mat pattern */}
+            <div className="absolute inset-1 border border-emerald-400 rounded">
+              <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
+                <div className="w-8 h-8 border border-emerald-300 rounded-full opacity-60"></div>
+                <div className="absolute top-1/2 left-1/2 w-4 h-4 border border-emerald-200 rounded-full transform -translate-x-1/2 -translate-y-1/2 opacity-80"></div>
+              </div>
+              {/* Decorative corners */}
+              <div className="absolute top-0 left-0 w-2 h-2 border-r border-b border-emerald-300 opacity-60"></div>
+              <div className="absolute top-0 right-0 w-2 h-2 border-l border-b border-emerald-300 opacity-60"></div>
+              <div className="absolute bottom-0 left-0 w-2 h-2 border-r border-t border-emerald-300 opacity-60"></div>
+              <div className="absolute bottom-0 right-0 w-2 h-2 border-l border-t border-emerald-300 opacity-60"></div>
+            </div>
+          </div>
+        </div>
       )}
 
       {/* Quran Component */}
       {quran.visible && (
-        <Card 
-          className="fixed bg-black/70 backdrop-blur-sm border-white/20 text-white p-3 cursor-move z-30 select-none"
+        <div 
+          className="fixed cursor-move z-30 select-none"
           style={{ 
             left: quran.position.x, 
             top: quran.position.y,
             transform: dragState === 'quran' ? 'scale(1.05)' : 'scale(1)'
           }}
           onMouseDown={(e) => handleMouseDown(e, 'quran', quran.position)}
+          onClick={() => setShowQuran(true)}
         >
-          <Button
-            variant="ghost"
-            size="sm"
-            className="flex items-center gap-2 text-white hover:bg-white/20 p-2"
-            onClick={() => setShowQuran(true)}
-          >
-            <BookOpen className="w-4 h-4" />
-            <span className="text-sm">Quran</span>
-          </Button>
-        </Card>
+          <div className="relative">
+            <div className="w-16 h-20 bg-gradient-to-br from-amber-800 via-amber-700 to-amber-900 rounded-lg shadow-lg border border-amber-950 relative overflow-hidden">
+              {/* Book spine effect */}
+              <div className="absolute left-0 top-0 bottom-0 w-1 bg-amber-950"></div>
+              {/* Cover design */}
+              <div className="absolute inset-2 border border-amber-400 rounded opacity-60">
+                <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-amber-200 text-xs font-bold">
+                  القرآن
+                </div>
+              </div>
+              {/* Decorative elements */}
+              <div className="absolute top-2 left-1/2 transform -translate-x-1/2 w-6 h-0.5 bg-amber-300 opacity-80"></div>
+              <div className="absolute bottom-2 left-1/2 transform -translate-x-1/2 w-6 h-0.5 bg-amber-300 opacity-80"></div>
+            </div>
+            {/* Pages effect */}
+            <div className="absolute top-0.5 right-0.5 w-15 h-19 bg-cream-100 rounded-r-lg border-r border-t border-b border-amber-200 opacity-30"></div>
+          </div>
+        </div>
       )}
 
       {/* Modals */}
