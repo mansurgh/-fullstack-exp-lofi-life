@@ -3,7 +3,7 @@ import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Switch } from "@/components/ui/switch";
 import { Separator } from "@/components/ui/separator";
-import { Settings, Clock, Calendar, BookOpen, MapPin } from 'lucide-react';
+import { Settings, Clock, Calendar, BookOpen, MapPin, Book } from 'lucide-react';
 
 interface InteractiveControlsMenuProps {
   roomId: string;
@@ -15,7 +15,9 @@ export const InteractiveControlsMenu = ({ roomId }: InteractiveControlsMenuProps
     clock: true,
     calendar: true,
     prayerMat: true,
-    quran: true
+    quran: true,
+    bukhariBook: true,
+    muslimBook: true
   });
 
   // Load saved settings for this room
@@ -102,6 +104,28 @@ export const InteractiveControlsMenu = ({ roomId }: InteractiveControlsMenuProps
               <Switch
                 checked={controls.quran}
                 onCheckedChange={() => toggleComponent('quran')}
+              />
+            </div>
+
+            <div className="flex items-center justify-between">
+              <div className="flex items-center gap-2">
+                <Book className="w-4 h-4" />
+                <span className="text-sm">Bukhari Hadith</span>
+              </div>
+              <Switch
+                checked={controls.bukhariBook}
+                onCheckedChange={() => toggleComponent('bukhariBook')}
+              />
+            </div>
+
+            <div className="flex items-center justify-between">
+              <div className="flex items-center gap-2">
+                <Book className="w-4 h-4" />
+                <span className="text-sm">Muslim Hadith</span>
+              </div>
+              <Switch
+                checked={controls.muslimBook}
+                onCheckedChange={() => toggleComponent('muslimBook')}
               />
             </div>
           </div>

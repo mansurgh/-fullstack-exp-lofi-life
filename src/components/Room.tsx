@@ -971,29 +971,6 @@ export const Room = ({ roomId, onBack }: RoomProps) => {
         )}
       </div>
 
-      {/* Qur'an Book with Panning */}
-      <div 
-        className={`absolute ${roomConfig.quranPosition.x} ${roomConfig.quranPosition.y} cursor-pointer transition-all duration-500 hover:scale-110 ${
-          isDarkMode ? 'shadow-glow' : 'shadow-soft'
-        }`}
-        style={{
-          transform: `translate(${roomOffset.x * 0.3}px, ${roomOffset.y * 0.3}px) translate(-50%, -50%)`,
-          transition: 'transform 0.1s ease-out'
-        }}
-        onClick={handleQuranClick}
-      >
-        <div className={`w-20 h-28 bg-gradient-to-br from-accent to-primary rounded-md relative ${
-          isDarkMode ? 'ring-2 ring-quran-glow animate-pulse' : ''
-        }`}>
-          <div className="absolute inset-2 bg-card/90 rounded-sm">
-            <div className="h-full flex flex-col items-center justify-center text-xs text-accent-foreground font-semibold">
-              <div className="text-lg mb-1">📖</div>
-              <div>القرآن</div>
-              <div>الكريم</div>
-            </div>
-          </div>
-        </div>
-      </div>
 
       {/* Special Interactive Elements for "The Concept" Room */}
       {roomId === 'the-concept' && (

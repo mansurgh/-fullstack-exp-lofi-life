@@ -5,6 +5,7 @@ import { Clock, Calendar, BookOpen, MapPin } from 'lucide-react';
 import { PrayerTimes } from './PrayerTimes';
 import { IslamicCalendar } from './IslamicCalendar';
 import { QuranReader } from './QuranReader';
+import { HadithReader } from './HadithReader';
 
 interface Position {
   x: number;
@@ -26,6 +27,8 @@ export const InteractiveComponents = ({ roomId }: InteractiveComponentsProps) =>
   const [showPrayerTimes, setShowPrayerTimes] = useState(false);
   const [showCalendar, setShowCalendar] = useState(false);
   const [showQuran, setShowQuran] = useState(false);
+  const [showBukhariHadith, setShowBukhariHadith] = useState(false);
+  const [showMuslimHadith, setShowMuslimHadith] = useState(false);
 
   // Component states with room-specific storage keys
   const [clock, setClock] = useState<ComponentState>(() => {
@@ -46,6 +49,16 @@ export const InteractiveComponents = ({ roomId }: InteractiveComponentsProps) =>
   const [quran, setQuran] = useState<ComponentState>(() => {
     const saved = localStorage.getItem(`quran-${roomId}`);
     return saved ? JSON.parse(saved) : { position: { x: 20, y: 320 }, visible: true };
+  });
+
+  const [bukhariBook, setBukhariBook] = useState<ComponentState>(() => {
+    const saved = localStorage.getItem(`bukhariBook-${roomId}`);
+    return saved ? JSON.parse(saved) : { position: { x: 120, y: 320 }, visible: true };
+  });
+
+  const [muslimBook, setMuslimBook] = useState<ComponentState>(() => {
+    const saved = localStorage.getItem(`muslimBook-${roomId}`);
+    return saved ? JSON.parse(saved) : { position: { x: 220, y: 320 }, visible: true };
   });
 
   const [currentTime, setCurrentTime] = useState(new Date());
@@ -74,6 +87,14 @@ export const InteractiveComponents = ({ roomId }: InteractiveComponentsProps) =>
   useEffect(() => {
     localStorage.setItem(`quran-${roomId}`, JSON.stringify(quran));
   }, [quran, roomId]);
+
+  useEffect(() => {
+    localStorage.setItem(`bukhariBook-${roomId}`, JSON.stringify(bukhariBook));
+  }, [bukhariBook, roomId]);
+
+  useEffect(() => {
+    localStorage.setItem(`muslimBook-${roomId}`, JSON.stringify(muslimBook));
+  }, [muslimBook, roomId]);
 
   const handleMouseDown = (e: React.MouseEvent, componentId: string, currentPosition: Position) => {
     const rect = (e.target as HTMLElement).getBoundingClientRect();
@@ -110,6 +131,12 @@ export const InteractiveComponents = ({ roomId }: InteractiveComponentsProps) =>
         break;
       case 'quran':
         setQuran(prev => ({ ...prev, position: constrainedPosition }));
+        break;
+      case 'bukhariBook':
+        setBukhariBook(prev => ({ ...prev, position: constrainedPosition }));
+        break;
+      case 'muslimBook':
+        setMuslimBook(prev => ({ ...prev, position: constrainedPosition }));
         break;
     }
   };
@@ -278,10 +305,76 @@ export const InteractiveComponents = ({ roomId }: InteractiveComponentsProps) =>
         </div>
       )}
 
+      {/* Bukhari Hadith Book Component */}
+      {bukhariBook.visible && (
+        <div 
+          className="fixed cursor-move z-30 select-none"
+          style={{ 
+            left: bukhariBook.position.x, 
+            top: bukhariBook.position.y,
+            transform: dragState === 'bukhariBook' ? 'scale(1.05)' : 'scale(1)'
+          }}
+          onMouseDown={(e) => handleMouseDown(e, 'bukhariBook', bukhariBook.position)}
+          onClick={() => setShowBukhariHadith(true)}
+        >
+          <div className="relative">
+            <div className="w-16 h-20 bg-gradient-to-br from-green-800 via-green-700 to-green-900 rounded-lg shadow-lg border border-green-950 relative overflow-hidden">
+              {/* Book spine effect */}
+              <div className="absolute left-0 top-0 bottom-0 w-1 bg-green-950"></div>
+              {/* Cover design */}
+              <div className="absolute inset-2 border border-green-400 rounded opacity-60">
+                <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-green-200 text-xs font-bold text-center">
+                  البخاري
+                </div>
+              </div>
+              {/* Decorative elements */}
+              <div className="absolute top-2 left-1/2 transform -translate-x-1/2 w-6 h-0.5 bg-green-300 opacity-80"></div>
+              <div className="absolute bottom-2 left-1/2 transform -translate-x-1/2 w-6 h-0.5 bg-green-300 opacity-80"></div>
+            </div>
+            {/* Pages effect */}
+            <div className="absolute top-0.5 right-0.5 w-15 h-19 bg-cream-100 rounded-r-lg border-r border-t border-b border-green-200 opacity-30"></div>
+          </div>
+        </div>
+      )}
+
+      {/* Muslim Hadith Book Component */}
+      {muslimBook.visible && (
+        <div 
+          className="fixed cursor-move z-30 select-none"
+          style={{ 
+            left: muslimBook.position.x, 
+            top: muslimBook.position.y,
+            transform: dragState === 'muslimBook' ? 'scale(1.05)' : 'scale(1)'
+          }}
+          onMouseDown={(e) => handleMouseDown(e, 'muslimBook', muslimBook.position)}
+          onClick={() => setShowMuslimHadith(true)}
+        >
+          <div className="relative">
+            <div className="w-16 h-20 bg-gradient-to-br from-blue-800 via-blue-700 to-blue-900 rounded-lg shadow-lg border border-blue-950 relative overflow-hidden">
+              {/* Book spine effect */}
+              <div className="absolute left-0 top-0 bottom-0 w-1 bg-blue-950"></div>
+              {/* Cover design */}
+              <div className="absolute inset-2 border border-blue-400 rounded opacity-60">
+                <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-blue-200 text-xs font-bold text-center">
+                  مسلم
+                </div>
+              </div>
+              {/* Decorative elements */}
+              <div className="absolute top-2 left-1/2 transform -translate-x-1/2 w-6 h-0.5 bg-blue-300 opacity-80"></div>
+              <div className="absolute bottom-2 left-1/2 transform -translate-x-1/2 w-6 h-0.5 bg-blue-300 opacity-80"></div>
+            </div>
+            {/* Pages effect */}
+            <div className="absolute top-0.5 right-0.5 w-15 h-19 bg-cream-100 rounded-r-lg border-r border-t border-b border-blue-200 opacity-30"></div>
+          </div>
+        </div>
+      )}
+
       {/* Modals */}
       <PrayerTimes isOpen={showPrayerTimes} onClose={() => setShowPrayerTimes(false)} />
       <IslamicCalendar isOpen={showCalendar} onClose={() => setShowCalendar(false)} />
       <QuranReader isVisible={showQuran} onClose={() => setShowQuran(false)} />
+      <HadithReader isVisible={showBukhariHadith} onClose={() => setShowBukhariHadith(false)} collection="bukhari" />
+      <HadithReader isVisible={showMuslimHadith} onClose={() => setShowMuslimHadith(false)} collection="muslim" />
 
       {/* Global visibility controls - exposed via custom event */}
       <div className="hidden">
@@ -300,6 +393,14 @@ export const InteractiveComponents = ({ roomId }: InteractiveComponentsProps) =>
         <button
           id={`toggle-quran-${roomId}`}
           onClick={() => setQuran(prev => ({ ...prev, visible: !prev.visible }))}
+        />
+        <button
+          id={`toggle-bukhariBook-${roomId}`}
+          onClick={() => setBukhariBook(prev => ({ ...prev, visible: !prev.visible }))}
+        />
+        <button
+          id={`toggle-muslimBook-${roomId}`}
+          onClick={() => setMuslimBook(prev => ({ ...prev, visible: !prev.visible }))}
         />
       </div>
     </>
