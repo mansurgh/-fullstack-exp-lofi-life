@@ -9,6 +9,8 @@ import ClickerGame from './ClickerGame';
 import { PrayersList } from './PrayersList';
 import { PrayerTimes } from './PrayerTimes';
 import { IslamicCalendar } from './IslamicCalendar';
+import { InteractiveComponents } from './InteractiveComponents';
+import { InteractiveControlsMenu } from './InteractiveControlsMenu';
 import { Volume2, VolumeX, ArrowLeft, Moon, Sun, RotateCcw } from 'lucide-react';
 import { useTranslation } from '@/contexts/TranslationContext';
 
@@ -1160,6 +1162,12 @@ export const Room = ({ roomId, onBack }: RoomProps) => {
           <ClickerGame onBack={handleClickerBack} />
         </div>
       )}
+
+      {/* Interactive Components Controls */}
+      <InteractiveControlsMenu roomId={roomId} />
+
+      {/* Interactive Draggable Components */}
+      <InteractiveComponents roomId={roomId} />
 
       {/* Room Info */}
       <Card className="absolute bottom-4 sm:bottom-6 right-4 sm:right-6 p-3 sm:p-4 bg-card/80 backdrop-blur-sm border-border/50 w-[calc(100%-2rem)] sm:w-auto max-w-xs">
