@@ -792,8 +792,16 @@ export const Room = ({ roomId, onBack }: RoomProps) => {
 
   useEffect(() => {
     const timer = setTimeout(() => setIsLoaded(true), 500);
+    
+    // Play room enter audio
+    const audio = new Audio('/audio/room-enter.mp3');
+    audio.volume = 0.3; // Set to 30% volume
+    audio.play().catch(error => {
+      console.log('Could not play room enter audio:', error);
+    });
+    
     return () => clearTimeout(timer);
-  }, []);
+  }, [roomId]);
 
   useEffect(() => {
     if (isDarkMode) {
