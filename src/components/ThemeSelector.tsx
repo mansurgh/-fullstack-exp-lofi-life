@@ -62,13 +62,13 @@ export const ThemeSelector = () => {
       <Card className="w-full">
         <CardContent className="p-6">
           <div className="text-center mb-6">
-            <div className="flex justify-end mb-4">
-              <LanguageSelector />
-            </div>
             <h3 className="text-lg font-semibold mb-2">{t('theme.title')}</h3>
             <p className="text-sm text-muted-foreground">
               {t('theme.subtitle')}
             </p>
+            <div className="flex justify-end mt-4">
+              <LanguageSelector />
+            </div>
           </div>
           
           <div className="grid grid-cols-2 md:grid-cols-4 gap-3 mb-4">

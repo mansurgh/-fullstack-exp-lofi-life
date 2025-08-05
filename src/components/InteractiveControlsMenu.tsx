@@ -3,7 +3,7 @@ import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Switch } from "@/components/ui/switch";
 import { Separator } from "@/components/ui/separator";
-import { Settings, Clock, Calendar, BookOpen, MapPin, Book } from 'lucide-react';
+import { Settings, Clock, Calendar, BookOpen, MapPin, Book, Volume2 } from 'lucide-react';
 
 interface InteractiveControlsMenuProps {
   roomId: string;
@@ -17,14 +17,25 @@ export const InteractiveControlsMenu = ({ roomId }: InteractiveControlsMenuProps
     prayerMat: true,
     quran: true,
     bukhariBook: true,
-    muslimBook: true
+    muslimBook: true,
+    soundControls: true
   });
 
   // Load saved settings for this room
   useEffect(() => {
     const saved = localStorage.getItem(`controls-${roomId}`);
     if (saved) {
-      setControls(JSON.parse(saved));
+      const parsed = JSON.parse(saved);
+      // Ensure backward compatibility by adding new controls
+      setControls({
+        clock: parsed.clock ?? true,
+        calendar: parsed.calendar ?? true,
+        prayerMat: parsed.prayerMat ?? true,
+        quran: parsed.quran ?? true,
+        bukhariBook: parsed.bukhariBook ?? true,
+        muslimBook: parsed.muslimBook ?? true,
+        soundControls: parsed.soundControls ?? true
+      });
     }
   }, [roomId]);
 
@@ -126,6 +137,17 @@ export const InteractiveControlsMenu = ({ roomId }: InteractiveControlsMenuProps
               <Switch
                 checked={controls.muslimBook}
                 onCheckedChange={() => toggleComponent('muslimBook')}
+              />
+            </div>
+
+            <div className="flex items-center justify-between">
+              <div className="flex items-center gap-2">
+                <Volume2 className="w-4 h-4" />
+                <span className="text-sm">Sound Controls</span>
+              </div>
+              <Switch
+                checked={controls.soundControls}
+                onCheckedChange={() => toggleComponent('soundControls')}
               />
             </div>
           </div>

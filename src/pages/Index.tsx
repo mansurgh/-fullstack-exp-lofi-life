@@ -52,12 +52,10 @@ const Index = () => {
   return (
     <div className="min-h-screen p-2 sm:p-4 space-y-4 sm:space-y-6">
       <RoomSelector onSelectRoom={handleSelectRoom} />
-      
       {/* HelpMeOut - hidden on mobile to reduce clutter */}
       <div className="hidden sm:block">
         <HelpMeOut />
       </div>
-      
       {/* Persistent Recitation Controls - mobile friendly */}
       <div className="fixed bottom-2 right-2 sm:bottom-4 sm:right-4 z-50">
         <RecitationControls />

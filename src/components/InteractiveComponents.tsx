@@ -1,11 +1,12 @@
 import { useState, useRef, useEffect } from 'react';
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Clock, Calendar, BookOpen, MapPin } from 'lucide-react';
+import { Clock, Calendar, BookOpen, MapPin, Volume2 } from 'lucide-react';
 import { PrayerTimes } from './PrayerTimes';
 import { IslamicCalendar } from './IslamicCalendar';
 import { QuranReader } from './QuranReader';
 import { HadithReader } from './HadithReader';
+import { SoundControls } from './SoundControls';
 
 interface Position {
   x: number;
@@ -29,6 +30,7 @@ export const InteractiveComponents = ({ roomId }: InteractiveComponentsProps) =>
   const [showQuran, setShowQuran] = useState(false);
   const [showBukhariHadith, setShowBukhariHadith] = useState(false);
   const [showMuslimHadith, setShowMuslimHadith] = useState(false);
+  const [showSoundControls, setShowSoundControls] = useState(false);
 
   // Component states with room-specific storage keys
   const [clock, setClock] = useState<ComponentState>(() => {
@@ -59,6 +61,11 @@ export const InteractiveComponents = ({ roomId }: InteractiveComponentsProps) =>
   const [muslimBook, setMuslimBook] = useState<ComponentState>(() => {
     const saved = localStorage.getItem(`muslimBook-${roomId}`);
     return saved ? JSON.parse(saved) : { position: { x: 220, y: 320 }, visible: true };
+  });
+
+  const [soundControls, setSoundControls] = useState<ComponentState>(() => {
+    const saved = localStorage.getItem(`soundControls-${roomId}`);
+    return saved ? JSON.parse(saved) : { position: { x: 20, y: 420 }, visible: true };
   });
 
   const [currentTime, setCurrentTime] = useState(new Date());
@@ -95,6 +102,10 @@ export const InteractiveComponents = ({ roomId }: InteractiveComponentsProps) =>
   useEffect(() => {
     localStorage.setItem(`muslimBook-${roomId}`, JSON.stringify(muslimBook));
   }, [muslimBook, roomId]);
+
+  useEffect(() => {
+    localStorage.setItem(`soundControls-${roomId}`, JSON.stringify(soundControls));
+  }, [soundControls, roomId]);
 
   const handleMouseDown = (e: React.MouseEvent, componentId: string, currentPosition: Position) => {
     const rect = (e.target as HTMLElement).getBoundingClientRect();
@@ -137,6 +148,9 @@ export const InteractiveComponents = ({ roomId }: InteractiveComponentsProps) =>
         break;
       case 'muslimBook':
         setMuslimBook(prev => ({ ...prev, position: constrainedPosition }));
+        break;
+      case 'soundControls':
+        setSoundControls(prev => ({ ...prev, position: constrainedPosition }));
         break;
     }
   };
@@ -369,12 +383,37 @@ export const InteractiveComponents = ({ roomId }: InteractiveComponentsProps) =>
         </div>
       )}
 
+      {/* Sound Controls Component */}
+      {soundControls.visible && (
+        <div 
+          className="fixed cursor-move z-30 select-none"
+          style={{ 
+            left: soundControls.position.x, 
+            top: soundControls.position.y,
+            transform: dragState === 'soundControls' ? 'scale(1.05)' : 'scale(1)'
+          }}
+          onMouseDown={(e) => handleMouseDown(e, 'soundControls', soundControls.position)}
+          onClick={() => setShowSoundControls(true)}
+        >
+          <div className="w-16 h-20 bg-gradient-to-br from-purple-600 to-purple-800 rounded-lg shadow-lg border border-purple-900">
+            <div className="h-4 bg-purple-900 rounded-t-lg flex items-center justify-center">
+              <Volume2 className="w-4 h-4 text-purple-300" />
+            </div>
+            <div className="p-1 text-white text-center">
+              <div className="text-xs font-bold">Sound</div>
+              <div className="text-lg font-bold leading-none">Controls</div>
+            </div>
+          </div>
+        </div>
+      )}
+
       {/* Modals */}
       <PrayerTimes isOpen={showPrayerTimes} onClose={() => setShowPrayerTimes(false)} />
       <IslamicCalendar isOpen={showCalendar} onClose={() => setShowCalendar(false)} />
       <QuranReader isVisible={showQuran} onClose={() => setShowQuran(false)} />
       <HadithReader isVisible={showBukhariHadith} onClose={() => setShowBukhariHadith(false)} collection="bukhari" />
       <HadithReader isVisible={showMuslimHadith} onClose={() => setShowMuslimHadith(false)} collection="muslim" />
+      <SoundControls roomId={roomId} isVisible={showSoundControls} onClose={() => setShowSoundControls(false)} />
 
       {/* Global visibility controls - exposed via custom event */}
       <div className="hidden">
@@ -401,6 +440,10 @@ export const InteractiveComponents = ({ roomId }: InteractiveComponentsProps) =>
         <button
           id={`toggle-muslimBook-${roomId}`}
           onClick={() => setMuslimBook(prev => ({ ...prev, visible: !prev.visible }))}
+        />
+        <button
+          id={`toggle-soundControls-${roomId}`}
+          onClick={() => setSoundControls(prev => ({ ...prev, visible: !prev.visible }))}
         />
       </div>
     </>

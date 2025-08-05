@@ -763,8 +763,6 @@ export const Room = ({ roomId, onBack }: RoomProps) => {
   const { t } = useTranslation();
   const navigate = useNavigate();
   const location = useLocation();
-  const [volume, setVolume] = useState([50]);
-  const [isMuted, setIsMuted] = useState(false);
   const [isDarkMode, setIsDarkMode] = useState(false);
   const [isQuranOpen, setIsQuranOpen] = useState(false);
   const [isPrayersListOpen, setIsPrayersListOpen] = useState(false);
@@ -774,7 +772,6 @@ export const Room = ({ roomId, onBack }: RoomProps) => {
   const [roomColor, setRoomColor] = useState('default'); // For all room color control
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 }); // Mouse position for panning
   const [roomOffset, setRoomOffset] = useState({ x: 0, y: 0 }); // Room view offset
-  const audioRef = useRef<HTMLAudioElement>(null);
   
   const isClickerView = location.pathname.includes('/clicker');
   
@@ -811,12 +808,6 @@ export const Room = ({ roomId, onBack }: RoomProps) => {
     }
   }, [isDarkMode]);
 
-  useEffect(() => {
-    if (audioRef.current) {
-      audioRef.current.volume = isMuted ? 0 : volume[0] / 100;
-    }
-  }, [volume, isMuted]);
-
   // Mouse movement for room panning
   useEffect(() => {
     const handleMouseMove = (e: MouseEvent) => {
@@ -836,10 +827,6 @@ export const Room = ({ roomId, onBack }: RoomProps) => {
     window.addEventListener('mousemove', handleMouseMove);
     return () => window.removeEventListener('mousemove', handleMouseMove);
   }, []);
-
-  const toggleMute = () => {
-    setIsMuted(!isMuted);
-  };
 
   const handleReload = () => {
     window.location.reload();
@@ -901,24 +888,7 @@ export const Room = ({ roomId, onBack }: RoomProps) => {
             : 'bg-gradient-to-br from-black/20 via-transparent to-black/30'
         }`} />
       </div>
-      {/* Ambient Audio */}
-      <audio
-        ref={audioRef}
-        loop
-        src={`/sounds/${roomConfig.ambientSound}.mp3`}
-        onError={(e) => {
-          console.log('Audio failed to load:', `/sounds/${roomConfig.ambientSound}.mp3`);
-          console.log('Note: Audio files are not included. Add your own ambient sounds to /public/sounds/');
-        }}
-        onLoadedData={() => {
-          console.log('Audio loaded successfully');
-          if (audioRef.current) {
-            audioRef.current.play().catch(e => {
-              console.log('Autoplay blocked, user interaction required');
-            });
-          }
-        }}
-      />
+
 
       {/* Interactive Elements with Panning */}
       <div 
@@ -1070,37 +1040,7 @@ export const Room = ({ roomId, onBack }: RoomProps) => {
         </div>
       </div>
 
-      {/* Volume Control */}
-      <Card className="absolute bottom-4 sm:bottom-6 left-4 sm:left-6 p-3 sm:p-4 bg-card/80 backdrop-blur-sm border-border/50 w-[calc(100%-2rem)] sm:w-auto max-w-xs">
-        <div className="flex items-center gap-2 sm:gap-3">
-          <Button
-            onClick={toggleMute}
-            variant="ghost"
-            size="sm"
-            className="text-card-foreground hover:text-accent flex-shrink-0"
-          >
-            {isMuted ? <VolumeX className="w-4 h-4" /> : <Volume2 className="w-4 h-4" />}
-          </Button>
-          <Slider
-            value={volume}
-            onValueChange={setVolume}
-            max={100}
-            min={0}
-            step={1}
-            className="flex-1"
-            disabled={isMuted}
-          />
-          <span className="text-sm text-muted-foreground min-w-8 text-right">
-            {isMuted ? 0 : volume[0]}%
-          </span>
-        </div>
-        <p className="text-xs text-muted-foreground mt-2 hidden sm:block">
-          {roomConfig.description}
-        </p>
-        <p className="text-xs text-amber-600 mt-1">
-          {t('room.audio.warning')}
-        </p>
-      </Card>
+
 
       {/* Color Controls - Show only for RGB room (disco) */}
       {roomId === 'rgb-room' && (

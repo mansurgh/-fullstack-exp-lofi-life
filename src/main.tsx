@@ -3,11 +3,14 @@ import App from './App.tsx'
 import './index.css'
 import { TranslationProvider } from './contexts/TranslationContext.tsx'
 import { RecitationProvider } from './contexts/RecitationContext.tsx'
+import { SoundProvider } from './contexts/SoundContext.tsx'
 
 createRoot(document.getElementById("root")!).render(
   <TranslationProvider>
     <RecitationProvider>
-      <App />
+      <SoundProvider>
+        <App />
+      </SoundProvider>
     </RecitationProvider>
   </TranslationProvider>
 );
