@@ -1,73 +1,36 @@
-# Welcome to your Lovable project
+# Islamic Lofi Rooms
 
-## Project info
+![Home page](./screenshots/screenshot1.png)
+![Room with widgets](./screenshots/screenshot2.png)
 
-**URL**: https://lovable.dev/projects/3ac29d08-eea7-4310-9a38-e6de6bfcdf1d
+## About the Project
 
-## How can I edit this code?
+**Islamic Lofi Rooms** is a website for atmospheric Qur'an reading. Here you will find:
+- A convenient and beautiful Qur'an reader
+- Background sounds for relaxation and focus
+- Unique rooms with different ambiances and sounds (rain, fire, sea, forest, etc.)
+- Widgets for reading, reminders, calendar, and more
 
-There are several ways of editing your application.
+Each room is a separate world with its own mood, where you can read, listen to, or study the Qur'an in a calm environment.
 
-**Use Lovable**
+## Main Features
+- **Qur'an reading** with a user-friendly interface
+- **Background sounds**: rain, fire, forest, sea, and more
+- **Room selection** with unique ambiances and sounds
+- **Widgets**: calendar, prayer times, hadiths, reminders
+- **Themes** (day, night, seasons)
+- **Multilanguage support**
 
-Simply visit the [Lovable Project](https://lovable.dev/projects/3ac29d08-eea7-4310-9a38-e6de6bfcdf1d) and start prompting.
+## Features implemented in our work
+- **Added background audio playback function** — added the function for background sound playback
+- **Corrected functionality and appearance of room widgets** — fixed the functionality and appearance of room widgets
 
-Changes made via Lovable will be committed automatically to this repo.
+---
 
-**Use your preferred IDE**
+> To run the project:
+> 1. Install dependencies: `npm i`
+> 2. Start locally: `npm run dev`
 
-If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
+---
 
-The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
-
-Follow these steps:
-
-```sh
-# Step 1: Clone the repository using the project's Git URL.
-git clone <YOUR_GIT_URL>
-
-# Step 2: Navigate to the project directory.
-cd <YOUR_PROJECT_NAME>
-
-# Step 3: Install the necessary dependencies.
-npm i
-
-# Step 4: Start the development server with auto-reloading and an instant preview.
-npm run dev
-```
-
-**Edit a file directly in GitHub**
-
-- Navigate to the desired file(s).
-- Click the "Edit" button (pencil icon) at the top right of the file view.
-- Make your changes and commit the changes.
-
-**Use GitHub Codespaces**
-
-- Navigate to the main page of your repository.
-- Click on the "Code" button (green button) near the top right.
-- Select the "Codespaces" tab.
-- Click on "New codespace" to launch a new Codespace environment.
-- Edit files directly within the Codespace and commit and push your changes once you're done.
-
-## What technologies are used for this project?
-
-This project is built with:
-
-- Vite
-- TypeScript
-- React
-- shadcn-ui
-- Tailwind CSS
-
-## How can I deploy this project?
-
-Simply open [Lovable](https://lovable.dev/projects/3ac29d08-eea7-4310-9a38-e6de6bfcdf1d) and click on Share -> Publish.
-
-## Can I connect a custom domain to my Lovable project?
-
-Yes, you can!
-
-To connect a domain, navigate to Project > Settings > Domains and click Connect Domain.
-
-Read more here: [Setting up a custom domain](https://docs.lovable.dev/tips-tricks/custom-domain#step-by-step-guide)
+**This site is created for peaceful and thoughtful Qur'an reading with maximum comfort and atmosphere.**
