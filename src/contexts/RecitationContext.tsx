@@ -32,9 +32,8 @@ export const RecitationProvider = ({ children }: RecitationProviderProps) => {
     setIsReciting(true);
     setIsPlaying(true);
     
-    // Note: Audio files would need to be added to /public/quran-audio/
-    // This is a placeholder for the audio implementation
-    const audioPath = `/quran-audio/mishary/${surah}/${verse}.mp3`;
+    // Using Abdul Basit recitation - verse by verse audio
+    const audioPath = `https://cdn.islamic.network/quran/audio/ayah/ar.abdulbasitmurattal/${surah}:${verse}.mp3`;
     
     if (audioRef.current) {
       audioRef.current.src = audioPath;
