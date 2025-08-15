@@ -223,16 +223,16 @@ const getSampleVerses = (t: (key: string) => string) => [
 export const QuranReader = ({ onClose, isVisible }: QuranReaderProps) => {
   const { t } = useTranslation();
   // Helper functions for localStorage
-  const getStoredSetting = (key: string, defaultValue: any) => {
+  const getStoredSetting = <T,>(key: string, defaultValue: T): T => {
     try {
       const stored = localStorage.getItem(`quran_${key}`);
-      return stored ? JSON.parse(stored) : defaultValue;
+      return stored ? (JSON.parse(stored) as T) : defaultValue;
     } catch {
       return defaultValue;
     }
   };
 
-  const storeSetting = (key: string, value: any) => {
+  const storeSetting = (key: string, value: unknown) => {
     try {
       localStorage.setItem(`quran_${key}`, JSON.stringify(value));
     } catch {
@@ -267,6 +267,17 @@ export const QuranReader = ({ onClose, isVisible }: QuranReaderProps) => {
   const audioRef = useRef<HTMLAudioElement>(null);
 
   const selectedSurahData = surahs.find(s => s.number.toString() === selectedSurah);
+
+  useEffect(() => {
+    if (!isPlaying) return;
+    const audio = audioRef.current;
+    if (!audio) return;
+    const src = `https://cdn.islamic.network/quran/audio/ayah/ar.abdulbasitmurattal/${selectedSurah}:${currentVerse + 1}.mp3`;
+    audio.src = src;
+    audio.play().catch(() => {
+      setIsPlaying(false);
+    });
+  }, [isPlaying, currentVerse, selectedSurah]);
 
   // Simulate word-by-word reading with speed and repetition control
   const simulateReading = () => {
@@ -337,51 +348,41 @@ export const QuranReader = ({ onClose, isVisible }: QuranReaderProps) => {
   };
 
   const handlePlay = () => {
-    if (audioRef.current) {
-      if (isPlaying) {
-        audioRef.current.pause();
-        setIsAutoReading(false);
-        setIsWordClickMode(false);
-        setClickedWordIndex(null);
-      } else {
-        // In a real app, this would load the actual audio file
-        // audioRef.current.src = `/quran-audio/mishary/${selectedSurah}/${currentVerse + 1}.mp3`;
-        audioRef.current.play();
-        setIsAutoReading(true);
-        setIsWordClickMode(false);
-        setCurrentWordIndex(0);
-        setCurrentWordRepeat(0);
-        setCurrentVerseRepeat(0);
-        setCurrentSurahRepeat(0);
-        setClickedWordIndex(null);
-      }
-      setIsPlaying(!isPlaying);
+    if (!audioRef.current) return;
+    if (isPlaying) {
+      audioRef.current.pause();
+      setIsPlaying(false);
+    } else {
+      setClickedWordIndex(null);
+      setIsWordClickMode(false);
+      setIsAutoReading(false);
+      setCurrentWordIndex(0);
+      setCurrentWordRepeat(0);
+      setCurrentVerseRepeat(0);
+      setCurrentSurahRepeat(0);
+      setIsPlaying(true);
     }
   };
 
   const nextVerse = () => {
     if (currentVerse < verses.length - 1) {
       setCurrentVerse(currentVerse + 1);
-      setCurrentWordIndex(0);
-      setCurrentWordRepeat(0);
-      setCurrentVerseRepeat(0);
+    } else {
       setIsPlaying(false);
-      setIsAutoReading(false);
-      setIsWordClickMode(false);
-      setClickedWordIndex(null);
     }
   };
 
   const prevVerse = () => {
     if (currentVerse > 0) {
       setCurrentVerse(currentVerse - 1);
-      setCurrentWordIndex(0);
-      setCurrentWordRepeat(0);
-      setCurrentVerseRepeat(0);
+    }
+  };
+
+  const handleAudioEnded = () => {
+    if (currentVerse < verses.length - 1) {
+      setCurrentVerse(currentVerse + 1);
+    } else {
       setIsPlaying(false);
-      setIsAutoReading(false);
-      setIsWordClickMode(false);
-      setClickedWordIndex(null);
     }
   };
 
@@ -497,7 +498,7 @@ export const QuranReader = ({ onClose, isVisible }: QuranReaderProps) => {
       ));
     }
 
-    let transliterationResult: JSX.Element[] = [];
+    const transliterationResult: JSX.Element[] = [];
     let transliterationWordIndex = 0;
 
     verse.wordAlignments.forEach((alignment, alignmentIndex) => {
@@ -554,7 +555,7 @@ export const QuranReader = ({ onClose, isVisible }: QuranReaderProps) => {
       ));
     }
 
-    let translationResult: JSX.Element[] = [];
+    const translationResult: JSX.Element[] = [];
 
     verse.wordAlignments.forEach((alignment, alignmentIndex) => {
       const isCurrentVerse = verseIndex === currentVerse;
@@ -870,11 +871,11 @@ export const QuranReader = ({ onClose, isVisible }: QuranReaderProps) => {
 
             <div className="space-y-6">
               {verses.map((verse, index) => (
-                <div 
+                <div
                   key={index}
                   className={`p-4 rounded-lg border-2 transition-all duration-500 ${
-                    index === currentVerse 
-                      ? 'bg-accent/10 border-accent shadow-glow ring-2 ring-accent/30 transform scale-[1.02]' 
+                    index === currentVerse && isPlaying
+                      ? 'bg-accent/10 border-accent shadow-glow ring-2 ring-accent/30 transform scale-[1.02]'
                       : 'bg-card border-border hover:border-accent/30'
                   }`}
                 >
@@ -924,12 +925,7 @@ export const QuranReader = ({ onClose, isVisible }: QuranReaderProps) => {
       {/* Hidden audio element - in production, this would have actual audio sources */}
       <audio
         ref={audioRef}
-        onEnded={() => {
-          setIsPlaying(false);
-          if (currentVerse < verses.length - 1) {
-            setCurrentVerse(currentVerse + 1);
-          }
-        }}
+        onEnded={handleAudioEnded}
       />
     </div>
   );
