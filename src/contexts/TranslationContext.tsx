@@ -145,7 +145,7 @@ const translations = {
     'quran.show.translation': 'Show Translation',
     'quran.audio.warning': '⚠️ Audio files not included',
     'quran.word.click': '💡 Click any word to repeat it',
-    'quran.audio.path': 'Add audio files to: /public/quran-audio/mishary/[surah]/[verse].mp3',
+    'quran.audio.path': 'Add audio files to: /public/quran-audio/basit/[surah]/[verse].mp3',
     
     // Quran verses (Al-Fatihah)
     'quran.1.1.transliteration': 'Bismillahi r-rahmani r-raheem',
@@ -286,7 +286,7 @@ const translations = {
     'quran.show.translation': 'Показать Перевод',
     'quran.audio.warning': '⚠️ Аудиофайлы не включены',
     'quran.word.click': '💡 Нажмите на любое слово, чтобы повторить его',
-    'quran.audio.path': 'Добавьте аудиофайлы в: /public/quran-audio/mishary/[surah]/[verse].mp3',
+    'quran.audio.path': 'Добавьте аудиофайлы в: /public/quran-audio/basit/[surah]/[verse].mp3',
     
     // Quran verses (Al-Fatihah) - keeping Arabic transliteration the same but translating the translation
     'quran.1.1.transliteration': 'Bismillahi r-rahmani r-raheem',
@@ -423,7 +423,7 @@ const translations = {
     'quran.show.translation': 'Toon Vertaling',
     'quran.audio.warning': '⚠️ Audiobestanden niet inbegrepen',
     'quran.word.click': '💡 Klik op elk woord om het te herhalen',
-    'quran.audio.path': 'Voeg audiobestanden toe aan: /public/quran-audio/mishary/[surah]/[verse].mp3',
+    'quran.audio.path': 'Voeg audiobestanden toe aan: /public/quran-audio/basit/[surah]/[verse].mp3',
     
     // Quran verses (Al-Fatihah)
     'quran.1.1.transliteration': 'Bismillahi r-rahmani r-raheem',
