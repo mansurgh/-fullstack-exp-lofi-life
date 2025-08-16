@@ -20,6 +20,7 @@ Each room is a separate world with its own mood, where you can read, listen to, 
 - **Widgets**: calendar, prayer times, hadiths, reminders
 - **Themes** (day, night, seasons)
 - **Multilanguage support**
+- **Abdul Basit recitation** with verse-by-verse audio and synced highlighting
 
 ## Features implemented in our work
 - **Added background audio playback function** — added the function for background sound playback
@@ -30,6 +31,9 @@ Each room is a separate world with its own mood, where you can read, listen to, 
 > To run the project:
 > 1. Install dependencies: `npm i`
 > 2. Start locally: `npm run dev`
+> 3. Optional: install `lovable-tagger` for component tagging during development
+
+The PostCSS configuration will use `@tailwindcss/postcss` when available and fall back to `tailwindcss` otherwise, so either plugin works out of the box.
 
 ---
 
