@@ -1,14 +1,14 @@
 import autoprefixer from "autoprefixer";
 
-let tailwindcss;
+let tailwindcss: any;
+
 try {
-  // Tailwind v4 exposes its PostCSS plugin at @tailwindcss/postcss
+  // Tailwind v4: основной плагин теперь в @tailwindcss/postcss
   const plugin = (await import("@tailwindcss/postcss")).default;
-  // Explicitly point the plugin at our TypeScript config so theme tokens
-  // like `border-border` are recognized even when the new plugin is used.
+  // Явно указываем путь до TypeScript-конфига, чтобы распознавались токены темы
   tailwindcss = plugin({ config: "./tailwind.config.ts" });
 } catch {
-  // Fall back to the legacy plugin for Tailwind v3 environments
+  // Fallback для окружений с Tailwind v3
   tailwindcss = (await import("tailwindcss")).default;
 }
 

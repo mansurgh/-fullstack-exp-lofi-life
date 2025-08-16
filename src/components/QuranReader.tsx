@@ -140,28 +140,36 @@ const surahs: Surah[] = [
 ];
 
 export default function QuranReader({ onClose, isVisible }: QuranReaderProps) {
-  const [selectedSurah, setSelectedSurah] = useState('1');
+  const [selectedSurah, setSelectedSurah] = useState<string>('1');
   const [verses, setVerses] = useState<Verse[]>([]);
-  const [currentVerse, setCurrentVerse] = useState(0);
-  const [isPlaying, setIsPlaying] = useState(false);
-  const [showTranslation, setShowTranslation] = useState(true);
+  const [currentVerse, setCurrentVerse] = useState<number>(0);
+  const [isPlaying, setIsPlaying] = useState<boolean>(false);
+  const [showTranslation, setShowTranslation] = useState<boolean>(true);
   const audioRef = useRef<HTMLAudioElement>(null);
 
+  // загрузка аятов (арабский + перевод)
   useEffect(() => {
     fetch(`https://api.alquran.cloud/v1/surah/${selectedSurah}/editions/quran-uthmani,en.sahih`)
       .then(res => res.json())
       .then(data => {
         const arabic = data.data[0].ayahs as { text: string }[];
         const translation = data.data[1].ayahs as { text: string }[];
-        const loaded = arabic.map((a, idx) => ({
+        const loaded: Verse[] = arabic.map((a, idx) => ({
           text: a.text,
           translation: translation[idx]?.text || ''
         }));
         setVerses(loaded);
         setCurrentVerse(0);
+        setIsPlaying(false);
+      })
+      .catch(() => {
+        setVerses([]);
+        setCurrentVerse(0);
+        setIsPlaying(false);
       });
   }, [selectedSurah]);
 
+  // проигрывание текущего аята
   useEffect(() => {
     if (!isPlaying) return;
     const audio = audioRef.current;
@@ -170,17 +178,11 @@ export default function QuranReader({ onClose, isVisible }: QuranReaderProps) {
     audio.play().catch(() => setIsPlaying(false));
   }, [isPlaying, currentVerse, selectedSurah]);
 
-  const handleEnded = () => {
-    if (currentVerse < verses.length - 1) {
-      setCurrentVerse(v => v + 1);
-    } else {
-      setIsPlaying(false);
-    }
-  };
-
   const togglePlay = () => {
+    const audio = audioRef.current;
+    if (!audio) return;
     if (isPlaying) {
-      audioRef.current?.pause();
+      audio.pause();
       setIsPlaying(false);
     } else {
       setIsPlaying(true);
@@ -188,11 +190,23 @@ export default function QuranReader({ onClose, isVisible }: QuranReaderProps) {
   };
 
   const nextVerse = () => {
-    if (currentVerse < verses.length - 1) setCurrentVerse(v => v + 1);
+    if (currentVerse < verses.length - 1) {
+      setCurrentVerse(v => v + 1);
+    }
   };
 
   const prevVerse = () => {
-    if (currentVerse > 0) setCurrentVerse(v => v - 1);
+    if (currentVerse > 0) {
+      setCurrentVerse(v => v - 1);
+    }
+  };
+
+  const handleEnded = () => {
+    if (currentVerse < verses.length - 1) {
+      setCurrentVerse(v => v + 1);
+    } else {
+      setIsPlaying(false);
+    }
   };
 
   if (!isVisible) return null;
@@ -212,18 +226,25 @@ export default function QuranReader({ onClose, isVisible }: QuranReaderProps) {
             ))}
           </SelectContent>
         </Select>
+
         <div className="space-x-2">
           <Button variant="outline" size="icon" onClick={prevVerse} disabled={currentVerse === 0}>
             <SkipBack className="h-4 w-4" />
           </Button>
-          <Button variant="outline" size="icon" onClick={togglePlay}>
+          <Button variant="outline" size="icon" onClick={togglePlay} disabled={verses.length === 0}>
             {isPlaying ? <Pause className="h-4 w-4" /> : <Play className="h-4 w-4" />}
           </Button>
-          <Button variant="outline" size="icon" onClick={nextVerse} disabled={currentVerse === verses.length - 1}>
+          <Button
+            variant="outline"
+            size="icon"
+            onClick={nextVerse}
+            disabled={verses.length === 0 || currentVerse === verses.length - 1}
+          >
             <SkipForward className="h-4 w-4" />
           </Button>
         </div>
       </div>
+
       <div className="max-h-[60vh] overflow-y-auto space-y-3">
         {verses.map((v, idx) => (
           <div key={idx} className={idx === currentVerse ? 'bg-accent/20 p-2 rounded' : 'p-2'}>
@@ -232,10 +253,12 @@ export default function QuranReader({ onClose, isVisible }: QuranReaderProps) {
           </div>
         ))}
       </div>
+
       <div className="flex items-center space-x-2">
         <Switch checked={showTranslation} onCheckedChange={setShowTranslation} />
         <span>Show translation</span>
       </div>
+
       <audio ref={audioRef} onEnded={handleEnded} />
     </Card>
   );
