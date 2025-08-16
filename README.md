@@ -31,6 +31,9 @@ Each room is a separate world with its own mood, where you can read, listen to, 
 > To run the project:
 > 1. Install dependencies: `npm i`
 > 2. Start locally: `npm run dev`
+> 3. Optional: install `lovable-tagger` for component tagging during development
+
+The PostCSS configuration will use `@tailwindcss/postcss` when available and fall back to `tailwindcss` otherwise, so either plugin works out of the box.
 
 ---
 
