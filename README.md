@@ -20,6 +20,7 @@ Each room is a separate world with its own mood, where you can read, listen to, 
 - **Widgets**: calendar, prayer times, hadiths, reminders
 - **Themes** (day, night, seasons)
 - **Multilanguage support**
+- **Abdul Basit recitation** with verse-by-verse audio and synced highlighting
 
 ## Features implemented in our work
 - **Added background audio playback function** — added the function for background sound playback
