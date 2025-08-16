@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Clock, Calendar, BookOpen, MapPin, Volume2 } from 'lucide-react';
 import { PrayerTimes } from './PrayerTimes';
 import { IslamicCalendar } from './IslamicCalendar';
-import { QuranReader } from './QuranReader';
+import QuranReader from './QuranReader';
 import { HadithReader } from './HadithReader';
 import { SoundControls } from './SoundControls';
 

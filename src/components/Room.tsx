@@ -3,7 +3,7 @@ import { useNavigate, useLocation } from 'react-router-dom';
 import { Button } from "@/components/ui/button";
 import { Slider } from "@/components/ui/slider";
 import { Card } from "@/components/ui/card";
-import { QuranReader } from './QuranReader';
+import QuranReader from './QuranReader';
 import { TetrisGame } from './TetrisGame';
 import ClickerGame from './ClickerGame';
 import { PrayersList } from './PrayersList';
