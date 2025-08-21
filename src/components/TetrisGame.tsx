@@ -106,7 +106,7 @@ export const TetrisGame = ({ className = '' }: TetrisGameProps) => {
     setBoard(newBoard);
     
     // Check for completed lines
-    const completedLines = [];
+    const completedLines: number[] = [];
     for (let y = 0; y < BOARD_HEIGHT; y++) {
       if (newBoard[y].every(cell => cell !== '')) {
         completedLines.push(y);

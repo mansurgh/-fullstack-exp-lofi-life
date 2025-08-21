@@ -4,11 +4,11 @@ import { Card } from "@/components/ui/card";
 import { Slider } from "@/components/ui/slider";
 import { Switch } from "@/components/ui/switch";
 import { Separator } from "@/components/ui/separator";
-import { 
-  Volume2, 
-  VolumeX, 
-  Play, 
-  Pause, 
+import {
+  Volume2,
+  VolumeX,
+  Play,
+  Pause,
   Settings,
   Music,
   Waves,
@@ -27,7 +27,7 @@ interface SoundControlsProps {
 export const SoundControls = ({ roomId, isVisible, onClose }: SoundControlsProps) => {
   const [isOpen, setIsOpen] = useState(false);
   const [activeTab, setActiveTab] = useState<'room' | 'ambient' | 'master'>('room');
-  
+
   const {
     roomSounds,
     ambientSounds,
@@ -57,7 +57,7 @@ export const SoundControls = ({ roomId, isVisible, onClose }: SoundControlsProps
     return <Music className="w-4 h-4" />;
   };
 
-  const handleSoundToggle = (soundId: string, isPlaying: boolean, isRoomSound: boolean = true) => {
+  const handleSoundToggle = (soundId: string, isPlaying: boolean, isRoomSound = true) => {
     if (isRoomSound) {
       if (isPlaying) {
         stopRoomSound(roomId, soundId);
@@ -73,7 +73,7 @@ export const SoundControls = ({ roomId, isVisible, onClose }: SoundControlsProps
     }
   };
 
-  // If this is a modal version, show the full interface
+  // ===== Modal variant =====
   if (isVisible) {
     return (
       <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center">
@@ -87,20 +87,18 @@ export const SoundControls = ({ roomId, isVisible, onClose }: SoundControlsProps
             {onClose && (
               <Button
                 variant="ghost"
-                size="sm"
                 onClick={onClose}
-                className="text-white hover:bg-white/20"
+                className="text-white hover:bg-white/20 h-8 w-8 p-0"
               >
                 ×
               </Button>
             )}
           </div>
 
-          {/* Tab Navigation */}
+          {/* Tabs */}
           <div className="flex gap-1 mb-4">
             <Button
               variant={activeTab === 'room' ? 'default' : 'outline'}
-              size="sm"
               onClick={() => setActiveTab('room')}
               className="text-xs flex-1"
             >
@@ -108,7 +106,6 @@ export const SoundControls = ({ roomId, isVisible, onClose }: SoundControlsProps
             </Button>
             <Button
               variant={activeTab === 'ambient' ? 'default' : 'outline'}
-              size="sm"
               onClick={() => setActiveTab('ambient')}
               className="text-xs flex-1"
             >
@@ -116,7 +113,6 @@ export const SoundControls = ({ roomId, isVisible, onClose }: SoundControlsProps
             </Button>
             <Button
               variant={activeTab === 'master' ? 'default' : 'outline'}
-              size="sm"
               onClick={() => setActiveTab('master')}
               className="text-xs flex-1"
             >
@@ -124,7 +120,7 @@ export const SoundControls = ({ roomId, isVisible, onClose }: SoundControlsProps
             </Button>
           </div>
 
-          {/* Room Sounds Tab */}
+          {/* Room Sounds */}
           {activeTab === 'room' && (
             <div className="space-y-3">
               <h4 className="text-sm font-medium">Room Sounds</h4>
@@ -139,9 +135,9 @@ export const SoundControls = ({ roomId, isVisible, onClose }: SoundControlsProps
                       <Switch
                         checked={!sound.isMuted}
                         onCheckedChange={(checked) => muteRoomSound(roomId, sound.id, !checked)}
+                        className="scale-90"
                       />
                       <Button
-                        size="sm"
                         variant="ghost"
                         onClick={() => handleSoundToggle(sound.id, sound.isPlaying, true)}
                         className="w-8 h-8 p-0"
@@ -154,8 +150,10 @@ export const SoundControls = ({ roomId, isVisible, onClose }: SoundControlsProps
                     value={[sound.volume]}
                     onValueChange={([value]) => setRoomSoundVolume(roomId, sound.id, value)}
                     max={100}
+                    min={0}
                     step={1}
                     className="w-full"
+                    disabled={sound.isMuted}
                   />
                   <div className="text-xs text-gray-400 text-right">{sound.volume}%</div>
                 </div>
@@ -163,7 +161,7 @@ export const SoundControls = ({ roomId, isVisible, onClose }: SoundControlsProps
             </div>
           )}
 
-          {/* Ambient Sounds Tab */}
+          {/* Ambient Sounds */}
           {activeTab === 'ambient' && (
             <div className="space-y-3">
               <h4 className="text-sm font-medium">Global Ambient Sounds</h4>
@@ -178,9 +176,9 @@ export const SoundControls = ({ roomId, isVisible, onClose }: SoundControlsProps
                       <Switch
                         checked={!sound.isMuted}
                         onCheckedChange={(checked) => muteAmbientSound(sound.id, !checked)}
+                        className="scale-90"
                       />
                       <Button
-                        size="sm"
                         variant="ghost"
                         onClick={() => handleSoundToggle(sound.id, sound.isPlaying, false)}
                         className="w-8 h-8 p-0"
@@ -193,8 +191,10 @@ export const SoundControls = ({ roomId, isVisible, onClose }: SoundControlsProps
                     value={[sound.volume]}
                     onValueChange={([value]) => setAmbientSoundVolume(sound.id, value)}
                     max={100}
+                    min={0}
                     step={1}
                     className="w-full"
+                    disabled={sound.isMuted}
                   />
                   <div className="text-xs text-gray-400 text-right">{sound.volume}%</div>
                 </div>
@@ -205,11 +205,11 @@ export const SoundControls = ({ roomId, isVisible, onClose }: SoundControlsProps
             </div>
           )}
 
-          {/* Master Controls Tab */}
+          {/* Master */}
           {activeTab === 'master' && (
             <div className="space-y-4">
               <h4 className="text-sm font-medium">Master Controls</h4>
-              
+
               <div className="space-y-2">
                 <div className="flex items-center justify-between">
                   <span className="text-sm">Master Volume</span>
@@ -217,6 +217,7 @@ export const SoundControls = ({ roomId, isVisible, onClose }: SoundControlsProps
                     <Switch
                       checked={!isMasterMuted}
                       onCheckedChange={(checked) => setMasterMuted(!checked)}
+                      className="scale-90"
                     />
                     {isMasterMuted ? <VolumeX className="w-4 h-4" /> : <Volume2 className="w-4 h-4" />}
                   </div>
@@ -225,8 +226,10 @@ export const SoundControls = ({ roomId, isVisible, onClose }: SoundControlsProps
                   value={[masterVolume]}
                   onValueChange={([value]) => setMasterVolume(value)}
                   max={100}
+                  min={0}
                   step={1}
                   className="w-full"
+                  disabled={isMasterMuted}
                 />
                 <div className="text-xs text-gray-400 text-right">{masterVolume}%</div>
               </div>
@@ -234,7 +237,6 @@ export const SoundControls = ({ roomId, isVisible, onClose }: SoundControlsProps
               <Button
                 onClick={stopAllSounds}
                 variant="outline"
-                size="sm"
                 className="w-full"
               >
                 Stop All Sounds
@@ -246,30 +248,28 @@ export const SoundControls = ({ roomId, isVisible, onClose }: SoundControlsProps
     );
   }
 
-  // Original floating button version
+  // ===== Floating panel variant =====
   return (
-    <div className="fixed bottom-4 left-4 z-40">
+    <div className="fixed bottom-16 left-4 z-40">
       <Button
         variant="ghost"
-        size="sm"
         onClick={() => setIsOpen(!isOpen)}
-        className="bg-black/50 backdrop-blur-sm border border-white/20 text-white hover:bg-white/20 p-2"
+        className="bg-black/50 backdrop-blur-sm border border-white/20 text-white hover:bg-white/20 p-2 h-8 w-8"
       >
         <Settings className="w-4 h-4" />
       </Button>
 
       {isOpen && (
-        <Card className="absolute bottom-12 left-0 w-80 bg-black/80 backdrop-blur-sm border-white/20 text-white p-4">
+        <Card className="absolute bottom-20 left-0 w-80 bg-black/80 backdrop-blur-sm border-white/20 text-white p-4">
           <h3 className="text-sm font-semibold mb-3 flex items-center gap-1 whitespace-nowrap truncate max-w-[140px]">
             <Volume2 className="w-4 h-4" />
             Sound <span className="hidden sm:inline">Controls</span>
           </h3>
 
-          {/* Tab Navigation */}
+          {/* Tabs */}
           <div className="flex gap-1 mb-4">
             <Button
               variant={activeTab === 'room' ? 'default' : 'outline'}
-              size="sm"
               onClick={() => setActiveTab('room')}
               className="text-xs flex-1"
             >
@@ -277,7 +277,6 @@ export const SoundControls = ({ roomId, isVisible, onClose }: SoundControlsProps
             </Button>
             <Button
               variant={activeTab === 'ambient' ? 'default' : 'outline'}
-              size="sm"
               onClick={() => setActiveTab('ambient')}
               className="text-xs flex-1"
             >
@@ -285,7 +284,6 @@ export const SoundControls = ({ roomId, isVisible, onClose }: SoundControlsProps
             </Button>
             <Button
               variant={activeTab === 'master' ? 'default' : 'outline'}
-              size="sm"
               onClick={() => setActiveTab('master')}
               className="text-xs flex-1"
             >
@@ -293,7 +291,7 @@ export const SoundControls = ({ roomId, isVisible, onClose }: SoundControlsProps
             </Button>
           </div>
 
-          {/* Room Sounds Tab */}
+          {/* Room Sounds */}
           {activeTab === 'room' && (
             <div className="space-y-3">
               <h4 className="text-xs font-medium text-white/70">Room Sounds</h4>
@@ -308,11 +306,10 @@ export const SoundControls = ({ roomId, isVisible, onClose }: SoundControlsProps
                       <Switch
                         checked={!sound.isMuted}
                         onCheckedChange={(checked) => muteRoomSound(roomId, sound.id, !checked)}
-                        size="sm"
+                        className="scale-90"
                       />
                       <Button
                         variant="ghost"
-                        size="sm"
                         onClick={() => handleSoundToggle(sound.id, sound.isPlaying)}
                         className="p-1 h-6 w-6"
                       >
@@ -339,7 +336,7 @@ export const SoundControls = ({ roomId, isVisible, onClose }: SoundControlsProps
             </div>
           )}
 
-          {/* Ambient Sounds Tab */}
+          {/* Ambient Sounds */}
           {activeTab === 'ambient' && (
             <div className="space-y-3">
               <h4 className="text-xs font-medium text-white/70">Global Ambient Sounds</h4>
@@ -354,11 +351,10 @@ export const SoundControls = ({ roomId, isVisible, onClose }: SoundControlsProps
                       <Switch
                         checked={!sound.isMuted}
                         onCheckedChange={(checked) => muteAmbientSound(sound.id, !checked)}
-                        size="sm"
+                        className="scale-90"
                       />
                       <Button
                         variant="ghost"
-                        size="sm"
                         onClick={() => handleSoundToggle(sound.id, sound.isPlaying, false)}
                         className="p-1 h-6 w-6"
                       >
@@ -385,11 +381,11 @@ export const SoundControls = ({ roomId, isVisible, onClose }: SoundControlsProps
             </div>
           )}
 
-          {/* Master Controls Tab */}
+          {/* Master */}
           {activeTab === 'master' && (
             <div className="space-y-3">
               <h4 className="text-xs font-medium text-white/70">Master Controls</h4>
-              
+
               <div className="space-y-2">
                 <div className="flex items-center justify-between">
                   <div className="flex items-center gap-2">
@@ -399,7 +395,7 @@ export const SoundControls = ({ roomId, isVisible, onClose }: SoundControlsProps
                   <Switch
                     checked={!isMasterMuted}
                     onCheckedChange={(checked) => setMasterMuted(!checked)}
-                    size="sm"
+                    className="scale-90"
                   />
                 </div>
                 <Slider
@@ -422,7 +418,6 @@ export const SoundControls = ({ roomId, isVisible, onClose }: SoundControlsProps
 
               <Button
                 variant="outline"
-                size="sm"
                 onClick={stopAllSounds}
                 className="w-full text-xs"
               >
@@ -432,7 +427,7 @@ export const SoundControls = ({ roomId, isVisible, onClose }: SoundControlsProps
           )}
 
           <Separator className="my-3 bg-white/20" />
-          
+
           <p className="text-xs text-white/70">
             Room sounds are specific to this room. Ambient sounds play globally.
           </p>
@@ -440,4 +435,4 @@ export const SoundControls = ({ roomId, isVisible, onClose }: SoundControlsProps
       )}
     </div>
   );
-}; 
+};

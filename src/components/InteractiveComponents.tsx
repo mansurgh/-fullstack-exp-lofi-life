@@ -202,17 +202,17 @@ export const InteractiveComponents = ({ roomId }: InteractiveComponentsProps) =>
           onMouseDown={(e) => handleMouseDown(e, 'clock', clock.position)}
           onClick={() => setShowPrayerTimes(true)}
         >
-          <div className="relative w-20 h-20 bg-gradient-to-br from-amber-100 to-amber-200 rounded-full border-4 border-amber-800 shadow-lg">
+          <div className="relative w-24 h-24 bg-gradient-to-br from-amber-100 to-amber-200 rounded-full border-4 border-amber-800 shadow-lg hover:shadow-xl transition-shadow">
             <div className="absolute inset-2 bg-white rounded-full border-2 border-amber-700">
               <div className="absolute top-1/2 left-1/2 w-1 h-1 bg-amber-800 rounded-full transform -translate-x-1/2 -translate-y-1/2"></div>
               {/* Hour hand */}
               <div 
-                className="absolute top-1/2 left-1/2 w-0.5 h-5 bg-amber-900 rounded-full origin-bottom transform -translate-x-1/2 -translate-y-full"
+                className="absolute top-1/2 left-1/2 w-0.5 h-6 bg-amber-900 rounded-full origin-bottom transform -translate-x-1/2 -translate-y-full"
                 style={{ transform: `translate(-50%, -100%) rotate(${(currentTime.getHours() % 12) * 30 + currentTime.getMinutes() * 0.5}deg)` }}
               ></div>
               {/* Minute hand */}
               <div 
-                className="absolute top-1/2 left-1/2 w-0.5 h-6 bg-amber-800 rounded-full origin-bottom transform -translate-x-1/2 -translate-y-full"
+                className="absolute top-1/2 left-1/2 w-0.5 h-7 bg-amber-800 rounded-full origin-bottom transform -translate-x-1/2 -translate-y-full"
                 style={{ transform: `translate(-50%, -100%) rotate(${currentTime.getMinutes() * 6}deg)` }}
               ></div>
               {/* Hour markers */}
@@ -223,11 +223,15 @@ export const InteractiveComponents = ({ roomId }: InteractiveComponentsProps) =>
                   style={{
                     top: '2px',
                     left: '50%',
-                    transformOrigin: '50% 30px',
+                    transformOrigin: '50% 36px',
                     transform: `translateX(-50%) rotate(${i * 30}deg)`
                   }}
                 ></div>
               ))}
+            </div>
+            {/* Tooltip */}
+            <div className="absolute -bottom-8 left-1/2 transform -translate-x-1/2 bg-black/80 text-white text-xs px-2 py-1 rounded whitespace-nowrap opacity-0 hover:opacity-100 transition-opacity">
+              Click for Prayer Times
             </div>
           </div>
         </div>
@@ -245,14 +249,18 @@ export const InteractiveComponents = ({ roomId }: InteractiveComponentsProps) =>
           onMouseDown={(e) => handleMouseDown(e, 'calendar', calendar.position)}
           onClick={() => setShowCalendar(true)}
         >
-          <div className="w-16 h-20 bg-gradient-to-br from-red-600 to-red-800 rounded-lg shadow-lg border border-red-900">
-            <div className="h-4 bg-red-900 rounded-t-lg flex items-center justify-center">
+          <div className="w-20 h-24 bg-gradient-to-br from-red-600 to-red-800 rounded-lg shadow-lg border border-red-900 hover:shadow-xl transition-shadow">
+            <div className="h-5 bg-red-900 rounded-t-lg flex items-center justify-center">
               <div className="w-2 h-2 bg-red-300 rounded-full"></div>
             </div>
-            <div className="p-1 text-white text-center">
+            <div className="p-2 text-white text-center">
               <div className="text-xs font-bold">{currentTime.toLocaleDateString('en', {month: 'short'}).toUpperCase()}</div>
-              <div className="text-lg font-bold leading-none">{currentTime.getDate()}</div>
+              <div className="text-xl font-bold leading-none">{currentTime.getDate()}</div>
               <div className="text-xs">{currentTime.getFullYear()}</div>
+            </div>
+            {/* Tooltip */}
+            <div className="absolute -bottom-8 left-1/2 transform -translate-x-1/2 bg-black/80 text-white text-xs px-2 py-1 rounded whitespace-nowrap opacity-0 hover:opacity-100 transition-opacity">
+              Click for Islamic Calendar
             </div>
           </div>
         </div>
@@ -270,18 +278,22 @@ export const InteractiveComponents = ({ roomId }: InteractiveComponentsProps) =>
           onMouseDown={(e) => handleMouseDown(e, 'prayerMat', prayerMat.position)}
           onClick={() => setShowPrayerTimes(true)}
         >
-          <div className="w-24 h-16 bg-gradient-to-br from-emerald-700 via-emerald-600 to-emerald-800 rounded-lg shadow-lg border-2 border-emerald-900 relative overflow-hidden">
+          <div className="w-28 h-20 bg-gradient-to-br from-emerald-700 via-emerald-600 to-emerald-800 rounded-lg shadow-lg border-2 border-emerald-900 relative overflow-hidden hover:shadow-xl transition-shadow">
             {/* Prayer mat pattern */}
             <div className="absolute inset-1 border border-emerald-400 rounded">
               <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
-                <div className="w-8 h-8 border border-emerald-300 rounded-full opacity-60"></div>
-                <div className="absolute top-1/2 left-1/2 w-4 h-4 border border-emerald-200 rounded-full transform -translate-x-1/2 -translate-y-1/2 opacity-80"></div>
+                <div className="w-10 h-10 border border-emerald-300 rounded-full opacity-60"></div>
+                <div className="absolute top-1/2 left-1/2 w-5 h-5 border border-emerald-200 rounded-full transform -translate-x-1/2 -translate-y-1/2 opacity-80"></div>
               </div>
               {/* Decorative corners */}
-              <div className="absolute top-0 left-0 w-2 h-2 border-r border-b border-emerald-300 opacity-60"></div>
-              <div className="absolute top-0 right-0 w-2 h-2 border-l border-b border-emerald-300 opacity-60"></div>
-              <div className="absolute bottom-0 left-0 w-2 h-2 border-r border-t border-emerald-300 opacity-60"></div>
-              <div className="absolute bottom-0 right-0 w-2 h-2 border-l border-t border-emerald-300 opacity-60"></div>
+              <div className="absolute top-0 left-0 w-3 h-3 border-r border-b border-emerald-300 opacity-60"></div>
+              <div className="absolute top-0 right-0 w-3 h-3 border-l border-b border-emerald-300 opacity-60"></div>
+              <div className="absolute bottom-0 left-0 w-3 h-3 border-r border-t border-emerald-300 opacity-60"></div>
+              <div className="absolute bottom-0 right-0 w-3 h-3 border-l border-t border-emerald-300 opacity-60"></div>
+            </div>
+            {/* Tooltip */}
+            <div className="absolute -bottom-8 left-1/2 transform -translate-x-1/2 bg-black/80 text-white text-xs px-2 py-1 rounded whitespace-nowrap opacity-0 hover:opacity-100 transition-opacity">
+              Click for Prayer Times
             </div>
           </div>
         </div>
@@ -300,21 +312,25 @@ export const InteractiveComponents = ({ roomId }: InteractiveComponentsProps) =>
           onClick={() => setShowQuran(true)}
         >
           <div className="relative">
-            <div className="w-16 h-20 bg-gradient-to-br from-amber-800 via-amber-700 to-amber-900 rounded-lg shadow-lg border border-amber-950 relative overflow-hidden">
+            <div className="w-20 h-24 bg-gradient-to-br from-amber-800 via-amber-700 to-amber-900 rounded-lg shadow-lg border border-amber-950 relative overflow-hidden hover:shadow-xl transition-shadow">
               {/* Book spine effect */}
               <div className="absolute left-0 top-0 bottom-0 w-1 bg-amber-950"></div>
               {/* Cover design */}
               <div className="absolute inset-2 border border-amber-400 rounded opacity-60">
-                <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-amber-200 text-xs font-bold">
+                <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-amber-200 text-sm font-bold">
                   القرآن
                 </div>
               </div>
               {/* Decorative elements */}
-              <div className="absolute top-2 left-1/2 transform -translate-x-1/2 w-6 h-0.5 bg-amber-300 opacity-80"></div>
-              <div className="absolute bottom-2 left-1/2 transform -translate-x-1/2 w-6 h-0.5 bg-amber-300 opacity-80"></div>
+              <div className="absolute top-2 left-1/2 transform -translate-x-1/2 w-8 h-0.5 bg-amber-300 opacity-80"></div>
+              <div className="absolute bottom-2 left-1/2 transform -translate-x-1/2 w-8 h-0.5 bg-amber-300 opacity-80"></div>
             </div>
             {/* Pages effect */}
-            <div className="absolute top-0.5 right-0.5 w-15 h-19 bg-cream-100 rounded-r-lg border-r border-t border-b border-amber-200 opacity-30"></div>
+            <div className="absolute top-0.5 right-0.5 w-18 h-22 bg-cream-100 rounded-r-lg border-r border-t border-b border-amber-200 opacity-30"></div>
+            {/* Tooltip */}
+            <div className="absolute -bottom-8 left-1/2 transform -translate-x-1/2 bg-black/80 text-white text-xs px-2 py-1 rounded whitespace-nowrap opacity-0 hover:opacity-100 transition-opacity">
+              Click to Read Quran
+            </div>
           </div>
         </div>
       )}
@@ -332,21 +348,25 @@ export const InteractiveComponents = ({ roomId }: InteractiveComponentsProps) =>
           onClick={() => setShowBukhariHadith(true)}
         >
           <div className="relative">
-            <div className="w-16 h-20 bg-gradient-to-br from-green-800 via-green-700 to-green-900 rounded-lg shadow-lg border border-green-950 relative overflow-hidden">
+            <div className="w-20 h-24 bg-gradient-to-br from-green-800 via-green-700 to-green-900 rounded-lg shadow-lg border border-green-950 relative overflow-hidden hover:shadow-xl transition-shadow">
               {/* Book spine effect */}
               <div className="absolute left-0 top-0 bottom-0 w-1 bg-green-950"></div>
               {/* Cover design */}
               <div className="absolute inset-2 border border-green-400 rounded opacity-60">
-                <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-green-200 text-xs font-bold text-center">
+                <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-green-200 text-sm font-bold text-center">
                   البخاري
                 </div>
               </div>
               {/* Decorative elements */}
-              <div className="absolute top-2 left-1/2 transform -translate-x-1/2 w-6 h-0.5 bg-green-300 opacity-80"></div>
-              <div className="absolute bottom-2 left-1/2 transform -translate-x-1/2 w-6 h-0.5 bg-green-300 opacity-80"></div>
+              <div className="absolute top-2 left-1/2 transform -translate-x-1/2 w-8 h-0.5 bg-green-300 opacity-80"></div>
+              <div className="absolute bottom-2 left-1/2 transform -translate-x-1/2 w-8 h-0.5 bg-green-300 opacity-80"></div>
             </div>
             {/* Pages effect */}
-            <div className="absolute top-0.5 right-0.5 w-15 h-19 bg-cream-100 rounded-r-lg border-r border-t border-b border-green-200 opacity-30"></div>
+            <div className="absolute top-0.5 right-0.5 w-18 h-22 bg-cream-100 rounded-r-lg border-r border-t border-b border-green-200 opacity-30"></div>
+            {/* Tooltip */}
+            <div className="absolute -bottom-8 left-1/2 transform -translate-x-1/2 bg-black/80 text-white text-xs px-2 py-1 rounded whitespace-nowrap opacity-0 hover:opacity-100 transition-opacity">
+              Click to Read Hadith
+            </div>
           </div>
         </div>
       )}
@@ -364,21 +384,25 @@ export const InteractiveComponents = ({ roomId }: InteractiveComponentsProps) =>
           onClick={() => setShowMuslimHadith(true)}
         >
           <div className="relative">
-            <div className="w-16 h-20 bg-gradient-to-br from-blue-800 via-blue-700 to-blue-900 rounded-lg shadow-lg border border-blue-950 relative overflow-hidden">
+            <div className="w-20 h-24 bg-gradient-to-br from-blue-800 via-blue-700 to-blue-900 rounded-lg shadow-lg border border-blue-950 relative overflow-hidden hover:shadow-xl transition-shadow">
               {/* Book spine effect */}
               <div className="absolute left-0 top-0 bottom-0 w-1 bg-blue-950"></div>
               {/* Cover design */}
               <div className="absolute inset-2 border border-blue-400 rounded opacity-60">
-                <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-blue-200 text-xs font-bold text-center">
+                <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-blue-200 text-sm font-bold text-center">
                   مسلم
                 </div>
               </div>
               {/* Decorative elements */}
-              <div className="absolute top-2 left-1/2 transform -translate-x-1/2 w-6 h-0.5 bg-blue-300 opacity-80"></div>
-              <div className="absolute bottom-2 left-1/2 transform -translate-x-1/2 w-6 h-0.5 bg-blue-300 opacity-80"></div>
+              <div className="absolute top-2 left-1/2 transform -translate-x-1/2 w-8 h-0.5 bg-blue-300 opacity-80"></div>
+              <div className="absolute bottom-2 left-1/2 transform -translate-x-1/2 w-8 h-0.5 bg-blue-300 opacity-80"></div>
             </div>
             {/* Pages effect */}
-            <div className="absolute top-0.5 right-0.5 w-15 h-19 bg-cream-100 rounded-r-lg border-r border-t border-b border-blue-200 opacity-30"></div>
+            <div className="absolute top-0.5 right-0.5 w-18 h-22 bg-cream-100 rounded-r-lg border-r border-t border-b border-blue-200 opacity-30"></div>
+            {/* Tooltip */}
+            <div className="absolute -bottom-8 left-1/2 transform -translate-x-1/2 bg-black/80 text-white text-xs px-2 py-1 rounded whitespace-nowrap opacity-0 hover:opacity-100 transition-opacity">
+              Click to Read Hadith
+            </div>
           </div>
         </div>
       )}
@@ -395,13 +419,17 @@ export const InteractiveComponents = ({ roomId }: InteractiveComponentsProps) =>
           onMouseDown={(e) => handleMouseDown(e, 'soundControls', soundControls.position)}
           onClick={() => setShowSoundControls(true)}
         >
-          <div className="w-16 h-20 bg-gradient-to-br from-purple-600 to-purple-800 rounded-lg shadow-lg border border-purple-900">
-            <div className="h-4 bg-purple-900 rounded-t-lg flex items-center justify-center">
+          <div className="w-20 h-24 bg-gradient-to-br from-purple-600 to-purple-800 rounded-lg shadow-lg border border-purple-900 hover:shadow-xl transition-shadow">
+            <div className="h-5 bg-purple-900 rounded-t-lg flex items-center justify-center">
               <Volume2 className="w-4 h-4 text-purple-300" />
             </div>
-            <div className="p-1 text-white text-center">
+            <div className="p-2 text-white text-center">
               <div className="text-xs font-bold">Sound</div>
               <div className="text-lg font-bold leading-none">Controls</div>
+            </div>
+            {/* Tooltip */}
+            <div className="absolute -bottom-8 left-1/2 transform -translate-x-1/2 bg-black/80 text-white text-xs px-2 py-1 rounded whitespace-nowrap opacity-0 hover:opacity-100 transition-opacity">
+              Click for Sound Settings
             </div>
           </div>
         </div>

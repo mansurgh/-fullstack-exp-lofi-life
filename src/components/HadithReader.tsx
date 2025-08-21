@@ -209,7 +209,7 @@ export const HadithReader: React.FC<HadithReaderProps> = ({ isVisible, onClose, 
             onClick={() => handleWordClick(index)}
             className={`cursor-pointer transition-colors duration-200 ${
               selectedWordIndex === index 
-                ? 'bg-primary/20 text-primary font-medium rounded px-1' 
+                ? 'bg-yellow-500/20 text-yellow-300 font-medium rounded px-1' 
                 : 'hover:bg-muted/50 rounded px-1'
             }`}
             style={{
@@ -287,9 +287,9 @@ export const HadithReader: React.FC<HadithReaderProps> = ({ isVisible, onClose, 
           </div>
 
           {/* Attribution */}
-          <div className="text-sm text-muted-foreground bg-muted/50 p-3 rounded-md">
-            <p><strong>{t('hadith.narrator')}:</strong> {currentHadith.narrator}</p>
-            <p><strong>{t('hadith.reference')}:</strong> {currentHadith.reference}</p>
+          <div className="text-sm text-white bg-gray-800/80 p-3 rounded-md border border-gray-600">
+            <p><strong className="text-gray-200">{t('hadith.narrator')}:</strong> <span className="text-white">{currentHadith.narrator}</span></p>
+            <p><strong className="text-gray-200">{t('hadith.reference')}:</strong> <span className="text-white">{currentHadith.reference}</span></p>
           </div>
         </div>
 

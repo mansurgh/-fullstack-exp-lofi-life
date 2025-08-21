@@ -671,7 +671,9 @@ export const TranslationProvider: React.FC<{ children: ReactNode }> = ({ childre
   const [language, setLanguage] = useState<Language>('en');
 
   const t = (key: string): string => {
-    return translations[language][key] || key;
+    const dict = translations as Record<string, Record<string, string>>;
+    return dict[language]?.[key] ?? key;
+
   };
 
   return (
