@@ -56,7 +56,7 @@ export const InteractiveControlsMenu = ({ roomId }: InteractiveControlsMenuProps
   };
 
   return (
-    <div className="fixed top-4 right-16 z-40">
+    <div className="fixed top-20 right-8 z-40">
       <Button
         variant="ghost"
         size="sm"
@@ -67,7 +67,7 @@ export const InteractiveControlsMenu = ({ roomId }: InteractiveControlsMenuProps
       </Button>
 
       {isOpen && (
-        <Card className="absolute top-12 right-0 w-64 bg-black/80 backdrop-blur-sm border-white/20 text-white p-4">
+        <Card className="absolute top-28 right-0 w-64 bg-black/80 backdrop-blur-sm border-white/20 text-white p-4">
           <h3 className="text-sm font-semibold mb-3 flex items-center gap-2">
             <Settings className="w-4 h-4" />
             Interactive Components

@@ -55,6 +55,7 @@ export const RecitationControls = ({ className = '' }: RecitationControlsProps) 
             size="sm"
             variant="outline"
             className="p-1 sm:p-2"
+            disabled={currentVerse <= 1}
           >
             <SkipBack size={12} className="sm:w-3.5 sm:h-3.5" />
           </Button>
@@ -88,6 +89,28 @@ export const RecitationControls = ({ className = '' }: RecitationControlsProps) 
         
         <div className="text-xs text-center text-muted-foreground hidden sm:block">
           {t('recitation.audio.warning')}
+        </div>
+        
+        {/* Debug button for testing audio */}
+        <div className="text-center">
+          <Button
+            onClick={() => {
+              const testAudio = new Audio('data:audio/wav;base64,UklGRnoGAABXQVZFZm10IBAAAAABAAEAQB8AAEAfAAABAAgAZGF0YQoGAACBhYqFbF1fdJivrJBhNjVgodDbq2EcBj+a2/LDciUFLIHO8tiJNwgZaLvt559NEAxQp+PwtmMcBjiR1/LMeSwFJHfH8N2QQAoUXrTp66hVFApGn+DyvmwhBSuBzvLZiTYIG2m98OScTgwOUarm7blmGgU7k9n1unEiBC13yO/eizEIHWq+8+OWT');
+              testAudio.volume = 0.1;
+              testAudio.play().then(() => {
+                console.log('Test audio played successfully');
+                setTimeout(() => testAudio.pause(), 1000);
+              }).catch((error) => {
+                console.error('Test audio failed:', error);
+                alert('Audio test failed: ' + error.message);
+              });
+            }}
+            size="sm"
+            variant="ghost"
+            className="text-xs text-muted-foreground hover:text-foreground"
+          >
+            Test Audio
+          </Button>
         </div>
       </div>
     </Card>
