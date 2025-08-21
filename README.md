@@ -35,6 +35,10 @@ Each room is a separate world with its own mood, where you can read, listen to, 
 
 The PostCSS configuration will use `@tailwindcss/postcss` when available and fall back to `tailwindcss` otherwise, so either plugin works out of the box.
 
+
+It is also necessary to install the folder with audio of all the Ayats from the Quran from the link - https://drive.google.com/file/d/1Hu18XEnVbGfjLoI6yiVXtbs9-onQcnh2/view?usp=sharing
+
+
 ---
 
 **This site is created for peaceful and thoughtful Qur'an reading with maximum comfort and atmosphere.**
