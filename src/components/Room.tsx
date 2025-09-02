@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
-import QuranReader from "./QuranReader";
+
 import { TetrisGame } from "./TetrisGame";
 import ClickerGame from "./ClickerGame";
 import { PrayersList } from "./PrayersList";
@@ -136,7 +136,7 @@ export const Room = ({ roomId, onBack }: RoomProps) => {
   const location = useLocation();
 
   const [isDarkMode, setIsDarkMode] = useState(false);
-  const [isQuranOpen, setIsQuranOpen] = useState(false);
+
   const [isPrayersListOpen, setIsPrayersListOpen] = useState(false);
   const [isPrayerTimesOpen, setIsPrayerTimesOpen] = useState(false);
   const [isIslamicCalendarOpen, setIsIslamicCalendarOpen] = useState(false);
@@ -146,6 +146,23 @@ export const Room = ({ roomId, onBack }: RoomProps) => {
 
   const isClickerView = location.pathname.includes("/clicker");
   const roomConfig = roomConfigs[roomId];
+
+  // Если комната не найдена, показываем ошибку
+  if (!roomConfig) {
+    return (
+      <div className="min-h-screen bg-gradient-cozy flex items-center justify-center p-4">
+        <Card className="max-w-md w-full p-6 text-center">
+          <h2 className="text-2xl font-bold text-foreground mb-4">Room Not Found</h2>
+          <p className="text-muted-foreground mb-6">
+            The room "{roomId}" could not be found. Please check the URL or go back to the room selector.
+          </p>
+          <Button onClick={onBack} className="w-full">
+            Back to Room Selector
+          </Button>
+        </Card>
+      </div>
+    );
+  }
 
   useEffect(() => {
     const timer = setTimeout(() => setIsLoaded(true), 500);
@@ -358,7 +375,6 @@ export const Room = ({ roomId, onBack }: RoomProps) => {
       </Card>
 
       {/* модалки */}
-      <QuranReader isVisible={isQuranOpen} onClose={() => setIsQuranOpen(false)} />
       <PrayersList isOpen={isPrayersListOpen} onClose={() => setIsPrayersListOpen(false)} />
       <PrayerTimes isOpen={isPrayerTimesOpen} onClose={() => setIsPrayerTimesOpen(false)} />
       <IslamicCalendar
