@@ -45,27 +45,27 @@ export const InteractiveComponents = ({ roomId }: InteractiveComponentsProps) =>
 
   const [prayerMat, setPrayerMat] = useState<ComponentState>(() => {
     const saved = localStorage.getItem(`prayerMat-${roomId}`);
-    return saved ? JSON.parse(saved) : { position: { x: 20, y: 220 }, visible: true };
+    return saved ? JSON.parse(saved) : { position: { x: 20, y: 320 }, visible: true };
   });
 
   const [quran, setQuran] = useState<ComponentState>(() => {
     const saved = localStorage.getItem(`quran-${roomId}`);
-    return saved ? JSON.parse(saved) : { position: { x: 20, y: 320 }, visible: true };
+    return saved ? JSON.parse(saved) : { position: { x: 20, y: 420 }, visible: true };
   });
 
   const [bukhariBook, setBukhariBook] = useState<ComponentState>(() => {
     const saved = localStorage.getItem(`bukhariBook-${roomId}`);
-    return saved ? JSON.parse(saved) : { position: { x: 120, y: 320 }, visible: true };
+    return saved ? JSON.parse(saved) : { position: { x: 120, y: 420 }, visible: true };
   });
 
   const [muslimBook, setMuslimBook] = useState<ComponentState>(() => {
     const saved = localStorage.getItem(`muslimBook-${roomId}`);
-    return saved ? JSON.parse(saved) : { position: { x: 220, y: 320 }, visible: true };
+    return saved ? JSON.parse(saved) : { position: { x: 220, y: 420 }, visible: true };
   });
 
   const [soundControls, setSoundControls] = useState<ComponentState>(() => {
     const saved = localStorage.getItem(`soundControls-${roomId}`);
-    return saved ? JSON.parse(saved) : { position: { x: 20, y: 420 }, visible: true };
+    return saved ? JSON.parse(saved) : { position: { x: 20, y: 220 }, visible: true };
   });
 
   const [currentTime, setCurrentTime] = useState(new Date());
@@ -269,13 +269,12 @@ export const InteractiveComponents = ({ roomId }: InteractiveComponentsProps) =>
       {/* Prayer Mat Component */}
       {prayerMat.visible && (
         <div 
-          className="fixed cursor-move z-30 select-none"
+          className="fixed cursor-pointer z-30 select-none"
           style={{ 
             left: prayerMat.position.x, 
             top: prayerMat.position.y,
-            transform: dragState === 'prayerMat' ? 'scale(1.05)' : 'scale(1)'
+            transform: 'scale(1)'
           }}
-          onMouseDown={(e) => handleMouseDown(e, 'prayerMat', prayerMat.position)}
           onClick={() => setShowPrayerTimes(true)}
         >
           <div className="w-28 h-20 bg-gradient-to-br from-emerald-700 via-emerald-600 to-emerald-800 rounded-lg shadow-lg border-2 border-emerald-900 relative overflow-hidden hover:shadow-xl transition-shadow">
@@ -423,7 +422,7 @@ export const InteractiveComponents = ({ roomId }: InteractiveComponentsProps) =>
             <div className="h-5 bg-purple-900 rounded-t-lg flex items-center justify-center">
               <Volume2 className="w-4 h-4 text-purple-300" />
             </div>
-            <div className="p-2 text-white text-center">
+            <div className="p-2 text-white text-center flex flex-col items-center justify-center h-full">
               <div className="text-xs font-bold">Sound</div>
               <div className="text-lg font-bold leading-none">Controls</div>
             </div>

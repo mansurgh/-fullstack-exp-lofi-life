@@ -270,11 +270,7 @@ export default function QuranReader({ onClose, isVisible }: QuranReaderProps) {
       {loading && <div className="text-sm text-muted-foreground">Loading…</div>}
       {error && <div className="text-sm text-red-500">Error: {error}</div>}
       
-      {/* Info about audio sources */}
-      <div className="text-xs text-muted-foreground bg-muted/50 p-2 rounded">
-        <p>🔊 Источник аудио: локальные файлы с фолбеком на CDN</p>
-        <p>📁 Путь: <code>/public/quran-audio/basit/[сура]/[аят].mp3</code></p>
-      </div>
+
 
       <div className="max-h-[65vh] overflow-y-auto space-y-3">
         {verses.map((v, idx) => {

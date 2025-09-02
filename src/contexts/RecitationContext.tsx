@@ -134,11 +134,19 @@ export const RecitationProvider = ({ children }: RecitationProviderProps) => {
 
   const nextVerse = () => {
     console.log('Next verse, current:', currentVerse);
-    const nextVerseNum = currentVerse + 1;
-    setCurrentVerse(nextVerseNum);
-    if (isPlaying) {
-      startRecitation(currentSurah, nextVerseNum);
-    }
+    setCurrentVerse(prevVerse => {
+      const nextVerseNum = prevVerse + 1;
+      if (nextVerseNum <= 7) { // Для суры Аль-Фатиха (7 аятов)
+        if (isPlaying) {
+          startRecitation(currentSurah, nextVerseNum);
+        }
+        return nextVerseNum;
+      } else {
+        setIsPlaying(false);
+        setIsReciting(false);
+        return prevVerse;
+      }
+    });
   };
 
   const previousVerse = () => {
@@ -174,7 +182,21 @@ export const RecitationProvider = ({ children }: RecitationProviderProps) => {
     
     const handleAudioEnd = () => {
       console.log('Audio ended, moving to next verse');
-      nextVerse();
+      // Автоматически переходим к следующему аяту
+      setCurrentVerse(prevVerse => {
+        const nextVerseNum = prevVerse + 1;
+        if (nextVerseNum <= 7) { // Для суры Аль-Фатиха (7 аятов)
+          // Запускаем следующий аят через небольшую задержку
+          setTimeout(() => {
+            startRecitation(currentSurah, nextVerseNum);
+          }, 500);
+          return nextVerseNum;
+        } else {
+          setIsPlaying(false);
+          setIsReciting(false);
+          return prevVerse;
+        }
+      });
     };
 
     const handleAudioError = (error: Event) => {
