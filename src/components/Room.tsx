@@ -301,14 +301,7 @@ export const Room = ({ roomId, onBack }: RoomProps) => {
         </div>
       </div>
 
-      {/* кнопка открытия Корана (видна всегда) */}
-      <Button
-        onClick={() => setIsQuranOpen(true)}
-        variant="outline"
-        className="absolute bottom-4 left-4 bg-background/80 backdrop-blur border-border"
-      >
-        Open Qur’an
-      </Button>
+
 
       {/* Меню цветов — только для rgb-room */}
       {roomId === "rgb-room" && (

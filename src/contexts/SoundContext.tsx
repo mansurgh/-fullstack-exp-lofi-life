@@ -367,11 +367,9 @@ const roomSoundConfigs: Record<string, { name: string; url: string }[]> = {
 
 // Global ambient sounds available in all rooms
 const ambientSoundConfigs = [
-  { name: 'Rain', url: '/sounds/rain.wav' },
-  { name: 'Fire', url: '/sounds/fire.wav' },
-  { name: 'Waves', url: '/sounds/waves.wav' },
-  { name: 'Forest', url: '/sounds/forest.wav' },
-  { name: 'Wind', url: '/sounds/wind.wav' }
+  { name: 'Night Wind', url: '/sounds/wind.wav' },
+  { name: 'Forest Birds', url: '/sounds/birds.wav' },
+  { name: 'Ocean Waves', url: '/sounds/waves.wav' }
 ];
 
 export const SoundProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {

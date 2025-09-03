@@ -1,7 +1,7 @@
 import { useState, useRef, useEffect } from 'react';
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Clock, Calendar, BookOpen, MapPin, Volume2 } from 'lucide-react';
+import { Calendar, BookOpen, MapPin, Volume2 } from 'lucide-react';
 import { PrayerTimes } from './PrayerTimes';
 import { IslamicCalendar } from './IslamicCalendar';
 import QuranReader from './QuranReader';
@@ -33,10 +33,6 @@ export const InteractiveComponents = ({ roomId }: InteractiveComponentsProps) =>
   const [showSoundControls, setShowSoundControls] = useState(false);
 
   // Component states with room-specific storage keys
-  const [clock, setClock] = useState<ComponentState>(() => {
-    const saved = localStorage.getItem(`clock-${roomId}`);
-    return saved ? JSON.parse(saved) : { position: { x: 20, y: 20 }, visible: true };
-  });
 
   const [calendar, setCalendar] = useState<ComponentState>(() => {
     const saved = localStorage.getItem(`calendar-${roomId}`);
@@ -79,9 +75,7 @@ export const InteractiveComponents = ({ roomId }: InteractiveComponentsProps) =>
   }, []);
 
   // Save to localStorage whenever state changes
-  useEffect(() => {
-    localStorage.setItem(`clock-${roomId}`, JSON.stringify(clock));
-  }, [clock, roomId]);
+
 
   useEffect(() => {
     localStorage.setItem(`calendar-${roomId}`, JSON.stringify(calendar));
@@ -131,9 +125,7 @@ export const InteractiveComponents = ({ roomId }: InteractiveComponentsProps) =>
     };
 
     switch (dragState) {
-      case 'clock':
-        setClock(prev => ({ ...prev, position: constrainedPosition }));
-        break;
+
       case 'calendar':
         setCalendar(prev => ({ ...prev, position: constrainedPosition }));
         break;
@@ -190,52 +182,7 @@ export const InteractiveComponents = ({ roomId }: InteractiveComponentsProps) =>
 
   return (
     <>
-      {/* Clock Component */}
-      {clock.visible && (
-        <div 
-          className="fixed cursor-move z-30 select-none"
-          style={{ 
-            left: clock.position.x, 
-            top: clock.position.y,
-            transform: dragState === 'clock' ? 'scale(1.05)' : 'scale(1)'
-          }}
-          onMouseDown={(e) => handleMouseDown(e, 'clock', clock.position)}
-          onClick={() => setShowPrayerTimes(true)}
-        >
-          <div className="relative w-24 h-24 bg-gradient-to-br from-amber-100 to-amber-200 rounded-full border-4 border-amber-800 shadow-lg hover:shadow-xl transition-shadow">
-            <div className="absolute inset-2 bg-white rounded-full border-2 border-amber-700">
-              <div className="absolute top-1/2 left-1/2 w-1 h-1 bg-amber-800 rounded-full transform -translate-x-1/2 -translate-y-1/2"></div>
-              {/* Hour hand */}
-              <div 
-                className="absolute top-1/2 left-1/2 w-0.5 h-6 bg-amber-900 rounded-full origin-bottom transform -translate-x-1/2 -translate-y-full"
-                style={{ transform: `translate(-50%, -100%) rotate(${(currentTime.getHours() % 12) * 30 + currentTime.getMinutes() * 0.5}deg)` }}
-              ></div>
-              {/* Minute hand */}
-              <div 
-                className="absolute top-1/2 left-1/2 w-0.5 h-7 bg-amber-800 rounded-full origin-bottom transform -translate-x-1/2 -translate-y-full"
-                style={{ transform: `translate(-50%, -100%) rotate(${currentTime.getMinutes() * 6}deg)` }}
-              ></div>
-              {/* Hour markers */}
-              {[...Array(12)].map((_, i) => (
-                <div
-                  key={i}
-                  className="absolute w-0.5 h-2 bg-amber-700"
-                  style={{
-                    top: '2px',
-                    left: '50%',
-                    transformOrigin: '50% 36px',
-                    transform: `translateX(-50%) rotate(${i * 30}deg)`
-                  }}
-                ></div>
-              ))}
-            </div>
-            {/* Tooltip */}
-            <div className="absolute -bottom-8 left-1/2 transform -translate-x-1/2 bg-black/80 text-white text-xs px-2 py-1 rounded whitespace-nowrap opacity-0 hover:opacity-100 transition-opacity">
-              Click for Prayer Times
-            </div>
-          </div>
-        </div>
-      )}
+
 
       {/* Calendar Component */}
       {calendar.visible && (
@@ -422,7 +369,7 @@ export const InteractiveComponents = ({ roomId }: InteractiveComponentsProps) =>
             <div className="h-5 bg-purple-900 rounded-t-lg flex items-center justify-center">
               <Volume2 className="w-4 h-4 text-purple-300" />
             </div>
-            <div className="p-2 text-white text-center flex flex-col items-center justify-center h-full">
+            <div className="p-2 text-white text-center flex flex-col items-center justify-center" style={{height: 'calc(100% - 20px)'}}>
               <div className="text-xs font-bold">Sound</div>
               <div className="text-lg font-bold leading-none">Controls</div>
             </div>
@@ -444,10 +391,7 @@ export const InteractiveComponents = ({ roomId }: InteractiveComponentsProps) =>
 
       {/* Global visibility controls - exposed via custom event */}
       <div className="hidden">
-        <button
-          id={`toggle-clock-${roomId}`}
-          onClick={() => setClock(prev => ({ ...prev, visible: !prev.visible }))}
-        />
+
         <button
           id={`toggle-calendar-${roomId}`}
           onClick={() => setCalendar(prev => ({ ...prev, visible: !prev.visible }))}
