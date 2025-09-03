@@ -4,7 +4,7 @@ import { Room } from '@/components/Room';
 import { HelpMeOut } from '@/components/HelpMeOut';
 import { ThemeSelector } from '@/components/ThemeSelector';
 import { LanguageSelector } from '@/components/LanguageSelector';
-import { RecitationControls } from '@/components/RecitationControls';
+
 
 import { useTranslation } from '@/contexts/TranslationContext';
 
@@ -56,10 +56,7 @@ const Index = () => {
       <div className="hidden sm:block">
         <HelpMeOut />
       </div>
-      {/* Persistent Recitation Controls - mobile friendly */}
-      <div className="fixed bottom-2 right-2 sm:bottom-4 sm:right-4 z-50">
-        <RecitationControls />
-      </div>
+
     </div>
   );
 };

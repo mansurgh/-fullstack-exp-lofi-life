@@ -163,22 +163,7 @@ export const RecitationProvider = ({ children }: RecitationProviderProps) => {
   useEffect(() => {
     audioRef.current = new Audio();
     
-    // Test audio capability
-    const testAudio = async () => {
-      try {
-        // Create a simple test audio
-        const testAudioElement = new Audio('data:audio/wav;base64,UklGRnoGAABXQVZFZm10IBAAAAABAAEAQB8AAEAfAAABAAgAZGF0YQoGAACBhYqFbF1fdJivrJBhNjVgodDbq2EcBj+a2/LDciUFLIHO8tiJNwgZaLvt559NEAxQp+PwtmMcBjiR1/LMeSwFJHfH8N2QQAoUXrTp66hVFApGn+DyvmwhBSuBzvLZiTYIG2m98OScTgwOUarm7blmGgU7k9n1unEiBC13yO/eizEIHWq+8+OWT');
-        testAudioElement.volume = 0;
-        await testAudioElement.play();
-        testAudioElement.pause();
-        console.log('Audio playback is supported');
-      } catch (error) {
-        console.warn('Audio playback test failed:', error);
-        console.log('This might be due to browser autoplay policy');
-      }
-    };
-    
-    testAudio();
+
     
     const handleAudioEnd = () => {
       console.log('Audio ended, moving to next verse');
@@ -186,10 +171,6 @@ export const RecitationProvider = ({ children }: RecitationProviderProps) => {
       setCurrentVerse(prevVerse => {
         const nextVerseNum = prevVerse + 1;
         if (nextVerseNum <= 7) { // Для суры Аль-Фатиха (7 аятов)
-          // Запускаем следующий аят через небольшую задержку
-          setTimeout(() => {
-            startRecitation(currentSurah, nextVerseNum);
-          }, 500);
           return nextVerseNum;
         } else {
           setIsPlaying(false);
@@ -216,6 +197,18 @@ export const RecitationProvider = ({ children }: RecitationProviderProps) => {
       }
     };
   }, []);
+
+  // Автоматически запускаем следующий аят при изменении currentVerse
+  useEffect(() => {
+    if (isReciting && isPlaying && currentVerse > 1) {
+      // Небольшая задержка для плавного перехода
+      const timer = setTimeout(() => {
+        startRecitation(currentSurah, currentVerse);
+      }, 500);
+      
+      return () => clearTimeout(timer);
+    }
+  }, [currentVerse, isReciting, isPlaying, currentSurah]);
 
   return (
     <RecitationContext.Provider value={{

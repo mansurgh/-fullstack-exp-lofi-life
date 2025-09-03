@@ -100,21 +100,33 @@ export const SoundControls = ({ roomId, isVisible, onClose }: SoundControlsProps
             <Button
               variant={activeTab === 'room' ? 'default' : 'outline'}
               onClick={() => setActiveTab('room')}
-              className="text-xs flex-1"
+              className={`text-xs flex-1 ${
+                activeTab === 'room' 
+                  ? 'bg-white text-black hover:bg-gray-200' 
+                  : 'bg-transparent text-white border-white/30 hover:bg-white/10'
+              }`}
             >
               Room
             </Button>
             <Button
               variant={activeTab === 'ambient' ? 'default' : 'outline'}
               onClick={() => setActiveTab('ambient')}
-              className="text-xs flex-1"
+              className={`text-xs flex-1 ${
+                activeTab === 'ambient' 
+                  ? 'bg-white text-black hover:bg-gray-200' 
+                  : 'bg-transparent text-white border-white/30 hover:bg-white/10'
+              }`}
             >
               Ambient
             </Button>
             <Button
               variant={activeTab === 'master' ? 'default' : 'outline'}
               onClick={() => setActiveTab('master')}
-              className="text-xs flex-1"
+              className={`text-xs flex-1 ${
+                activeTab === 'master' 
+                  ? 'bg-white text-black hover:bg-gray-200' 
+                  : 'bg-transparent text-white border-white/30 hover:bg-white/10'
+              }`}
             >
               Master
             </Button>
@@ -271,21 +283,33 @@ export const SoundControls = ({ roomId, isVisible, onClose }: SoundControlsProps
             <Button
               variant={activeTab === 'room' ? 'default' : 'outline'}
               onClick={() => setActiveTab('room')}
-              className="text-xs flex-1"
+              className={`text-xs flex-1 ${
+                activeTab === 'room' 
+                  ? 'bg-white text-black hover:bg-gray-200' 
+                  : 'bg-transparent text-white border-white/30 hover:bg-white/10'
+              }`}
             >
               Room
             </Button>
             <Button
               variant={activeTab === 'ambient' ? 'default' : 'outline'}
               onClick={() => setActiveTab('ambient')}
-              className="text-xs flex-1"
+              className={`text-xs flex-1 ${
+                activeTab === 'ambient' 
+                  ? 'bg-white text-black hover:bg-gray-200' 
+                  : 'bg-transparent text-white border-white/30 hover:bg-white/10'
+              }`}
             >
               Ambient
             </Button>
             <Button
               variant={activeTab === 'master' ? 'default' : 'outline'}
               onClick={() => setActiveTab('master')}
-              className="text-xs flex-1"
+              className={`text-xs flex-1 ${
+                activeTab === 'master' 
+                  ? 'bg-white text-black hover:bg-gray-200' 
+                  : 'bg-transparent text-white border-white/30 hover:bg-white/10'
+              }`}
             >
               Master
             </Button>
