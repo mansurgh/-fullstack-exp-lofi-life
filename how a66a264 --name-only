@@ -1,0 +1,20 @@
+[33m66621ae[m[33m ([m[1;36mHEAD -> [m[1;32mrescue-from-lost[m[33m, [m[1;31morigin/rescue-from-lost[m[33m)[m сделал читалку Корана!
+[33me8f27f3[m донатерскую систему сделал, осталось баг в читалке исправить и комнаты все отображать, потом просто информацию актуализировать касательно кошельков итп и ушшел
+[33mee3bbe8[m some fixes
+[33ma66a264[m feat: restore lost code changes (exclude audio)
+[33m95f312f[m[33m ([m[1;32mmain[m[33m)[m chore: ignore large audio assets (keep local only)
+[33mcf042b2[m Merge pull request #5 from mansurgh/codex/update-quran-reader-for-audio-text-sync-7495y7
+[33m7f16c14[m[33m ([m[1;31morigin/codex/update-quran-reader-for-audio-text-sync-7495y7[m[33m)[m Merge branch 'main' into codex/update-quran-reader-for-audio-text-sync-7495y7
+[33m9080b06[m docs: clarify optional dev tools
+[33m65533f2[m docs: document Basit verse sync
+[33mc8dec84[m feat: simplify Quran reader with verse sync
+[33m8828c36[m Merge pull request #4 from mansurgh/codex/update-quran-reader-for-audio-text-sync-h428ni
+[33md37380e[m[33m ([m[1;31morigin/codex/update-quran-reader-for-audio-text-sync-h428ni[m[33m)[m Merge branch 'main' into codex/update-quran-reader-for-audio-text-sync-h428ni
+[33m617f004[m fix: load tailwind config with postcss plugin
+[33mca6b9cf[m Merge pull request #3 from mansurgh/codex/update-quran-reader-for-audio-text-sync-hsh2qp
+[33m6f08ae9[m[33m ([m[1;31morigin/codex/update-quran-reader-for-audio-text-sync-hsh2qp[m[33m)[m fix: auto-detect Tailwind PostCSS plugin
+[33mc40308d[m Merge pull request #2 from mansurgh/codex/update-quran-reader-for-audio-text-sync-wbela6
+[33mc27c5f6[m[33m ([m[1;31morigin/codex/update-quran-reader-for-audio-text-sync-wbela6[m[33m)[m fix: make component tagging optional
+[33me59c742[m Merge pull request #1 from mansurgh/codex/update-quran-reader-for-audio-text-sync
+[33m1addf2d[m[33m ([m[1;31morigin/codex/update-quran-reader-for-audio-text-sync[m[33m)[m feat: sync Quran verses with Abdul Basit audio
+[33m0c48132[m corrected readme

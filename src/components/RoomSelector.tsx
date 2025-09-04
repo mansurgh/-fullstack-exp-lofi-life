@@ -545,7 +545,7 @@ const rooms: Room[] = [
   }
 ];
 
-type FilterCategory = 'all' | 'places' | 'hobbies';
+type FilterCategory = 'all' | 'places' | 'hobbies' | 'sports';
 
 const roomCategories: Record<string, FilterCategory> = {
   // Places
@@ -573,14 +573,6 @@ const roomCategories: Record<string, FilterCategory> = {
   
   // Hobbies
   'circus-tent': 'hobbies',
-  'football-field': 'hobbies',
-  'tennis-court': 'hobbies',
-  'basketball-court': 'hobbies',
-  'volleyball-court': 'hobbies',
-  'bowling-alley': 'hobbies',
-  'american-football': 'hobbies',
-  'hockey-rink': 'hobbies',
-  'indoor-pool': 'hobbies',
   'mosque-interior': 'hobbies',
   'stellar-meditation': 'hobbies',
   'library-room': 'hobbies',
@@ -613,7 +605,17 @@ const roomCategories: Record<string, FilterCategory> = {
   'kitchen-cockatiel': 'places',
   'moonlit-room': 'places',
   'rain-hideout': 'places',
-  'the-concept': 'places'
+  'the-concept': 'places',
+  
+  // Sports rooms
+  'football-field': 'sports',
+  'tennis-court': 'sports',
+  'basketball-court': 'sports',
+  'volleyball-court': 'sports',
+  'bowling-alley': 'sports',
+  'american-football': 'sports',
+  'hockey-rink': 'sports',
+  'indoor-pool': 'sports'
 };
 
 export const RoomSelector = ({ onSelectRoom }: RoomSelectorProps) => {
@@ -707,6 +709,14 @@ export const RoomSelector = ({ onSelectRoom }: RoomSelectorProps) => {
             className="px-2 py-1 text-xs sm:px-4 sm:py-2 sm:text-sm"
           >
             Hobbies
+          </Button>
+          <Button
+            onClick={() => handleFilterChange('sports')}
+            variant={selectedFilter === 'sports' ? 'default' : 'outline'}
+            size="sm"
+            className="px-2 py-1 text-xs sm:px-4 sm:py-2 sm:text-sm"
+          >
+            Sports
           </Button>
         </div>
         

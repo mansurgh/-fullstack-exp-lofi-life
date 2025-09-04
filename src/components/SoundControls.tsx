@@ -25,16 +25,10 @@ interface SoundControlsProps {
 }
 
 export const SoundControls = ({ roomId, isVisible, onClose }: SoundControlsProps) => {
-  const [isOpen, setIsOpen] = useState(false);
-  const [activeTab, setActiveTab] = useState<'room' | 'ambient' | 'master'>('room');
+  const [activeTab, setActiveTab] = useState<'ambient' | 'master'>('ambient');
 
   const {
-    roomSounds,
     ambientSounds,
-    playRoomSound,
-    stopRoomSound,
-    setRoomSoundVolume,
-    muteRoomSound,
     playAmbientSound,
     stopAmbientSound,
     setAmbientSoundVolume,
@@ -46,75 +40,42 @@ export const SoundControls = ({ roomId, isVisible, onClose }: SoundControlsProps
     stopAllSounds
   } = useSound();
 
-  const currentRoomSounds = roomSounds[roomId] || [];
-
   const getSoundIcon = (soundName: string) => {
     const name = soundName.toLowerCase();
     if (name.includes('rain')) return <CloudRain className="w-4 h-4" />;
     if (name.includes('fire')) return <Flame className="w-4 h-4" />;
-    if (name.includes('wave')) return <Waves className="w-4 h-4" />;
     if (name.includes('wind')) return <Wind className="w-4 h-4" />;
+    if (name.includes('bird')) return <Music className="w-4 h-4" />;
+    if (name.includes('wave')) return <Waves className="w-4 h-4" />;
     return <Music className="w-4 h-4" />;
   };
 
-  const handleSoundToggle = (soundId: string, isPlaying: boolean, isRoomSound = true) => {
-    if (isRoomSound) {
-      if (isPlaying) {
-        stopRoomSound(roomId, soundId);
-      } else {
-        playRoomSound(roomId, soundId);
-      }
-    } else {
-      if (isPlaying) {
-        stopAmbientSound(soundId);
-      } else {
-        playAmbientSound(soundId);
-      }
-    }
-  };
+  if (!isVisible) return null;
 
-  // ===== Modal variant =====
-  if (isVisible) {
-    return (
-      <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center">
-        <Card className="w-96 max-h-[80vh] overflow-y-auto bg-black/90 backdrop-blur-sm border-white/20 text-white p-6">
-          <div className="flex justify-between items-center mb-4">
-            <h3 className="text-base font-semibold flex items-center gap-1 whitespace-nowrap truncate max-w-[180px]">
-              <Volume2 className="w-5 h-5" />
-              Sound
-              <span className="hidden sm:inline">Controls</span>
-            </h3>
-            {onClose && (
-              <Button
-                variant="ghost"
-                onClick={onClose}
-                className="text-white hover:bg-white/20 h-8 w-8 p-0"
-              >
-                ×
-              </Button>
-            )}
-          </div>
+  return (
+    <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
+      <Card className="w-80 p-4 bg-white backdrop-blur-sm border border-gray-300 shadow-xl">
+        <div className="flex items-center justify-between mb-4">
+          <h3 className="text-lg font-semibold text-gray-900">Sound Controls</h3>
+          <Button
+            variant="ghost"
+            size="sm"
+            onClick={onClose}
+            className="text-gray-500 hover:text-gray-700"
+          >
+            ×
+          </Button>
+        </div>
 
           {/* Tabs */}
           <div className="flex gap-1 mb-4">
-            <Button
-              variant={activeTab === 'room' ? 'default' : 'outline'}
-              onClick={() => setActiveTab('room')}
-              className={`text-xs flex-1 ${
-                activeTab === 'room' 
-                  ? 'bg-white text-black hover:bg-gray-200' 
-                  : 'bg-transparent text-white border-white/30 hover:bg-white/10'
-              }`}
-            >
-              Room
-            </Button>
             <Button
               variant={activeTab === 'ambient' ? 'default' : 'outline'}
               onClick={() => setActiveTab('ambient')}
               className={`text-xs flex-1 ${
                 activeTab === 'ambient' 
-                  ? 'bg-white text-black hover:bg-gray-200' 
-                  : 'bg-transparent text-white border-white/30 hover:bg-white/10'
+                  ? 'bg-blue-600 text-white hover:bg-blue-700' 
+                  : 'bg-gray-100 text-gray-700 border-gray-300 hover:bg-gray-200'
               }`}
             >
               Ambient
@@ -124,78 +85,43 @@ export const SoundControls = ({ roomId, isVisible, onClose }: SoundControlsProps
               onClick={() => setActiveTab('master')}
               className={`text-xs flex-1 ${
                 activeTab === 'master' 
-                  ? 'bg-white text-black hover:bg-gray-200' 
-                  : 'bg-transparent text-white border-white/30 hover:bg-white/10'
+                  ? 'bg-blue-600 text-white hover:bg-blue-700' 
+                  : 'bg-gray-100 text-gray-700 border-gray-300 hover:bg-gray-200'
               }`}
             >
               Master
             </Button>
           </div>
 
-          {/* Room Sounds */}
-          {activeTab === 'room' && (
-            <div className="space-y-3">
-              <h4 className="text-sm font-medium">Room Sounds</h4>
-              {currentRoomSounds.map((sound) => (
-                <div key={sound.id} className="space-y-2">
-                  <div className="flex items-center justify-between">
-                    <div className="flex items-center gap-2">
-                      {getSoundIcon(sound.name)}
-                      <span className="text-sm">{sound.name}</span>
-                    </div>
-                    <div className="flex items-center gap-2">
-                      <Switch
-                        checked={!sound.isMuted}
-                        onCheckedChange={(checked) => muteRoomSound(roomId, sound.id, !checked)}
-                        className="scale-90"
-                      />
-                      <Button
-                        variant="ghost"
-                        onClick={() => handleSoundToggle(sound.id, sound.isPlaying, true)}
-                        className="w-8 h-8 p-0"
-                      >
-                        {sound.isPlaying ? <Pause className="w-3 h-3" /> : <Play className="w-3 h-3" />}
-                      </Button>
-                    </div>
-                  </div>
-                  <Slider
-                    value={[sound.volume]}
-                    onValueChange={([value]) => setRoomSoundVolume(roomId, sound.id, value)}
-                    max={100}
-                    min={0}
-                    step={1}
-                    className="w-full"
-                    disabled={sound.isMuted}
-                  />
-                  <div className="text-xs text-gray-400 text-right">{sound.volume}%</div>
-                </div>
-              ))}
-            </div>
-          )}
-
           {/* Ambient Sounds */}
           {activeTab === 'ambient' && (
             <div className="space-y-3">
-              <h4 className="text-sm font-medium">Global Ambient Sounds</h4>
+              <h4 className="text-sm font-medium text-gray-900">Ambient Sounds</h4>
               {ambientSounds.map((sound) => (
                 <div key={sound.id} className="space-y-2">
                   <div className="flex items-center justify-between">
                     <div className="flex items-center gap-2">
                       {getSoundIcon(sound.name)}
-                      <span className="text-sm">{sound.name}</span>
+                      <span className="text-sm text-gray-900">{sound.name}</span>
                     </div>
                     <div className="flex items-center gap-2">
                       <Switch
-                        checked={!sound.isMuted}
-                        onCheckedChange={(checked) => muteAmbientSound(sound.id, !checked)}
-                        className="scale-90"
+                        checked={sound.isPlaying}
+                        onCheckedChange={(checked) => {
+                          if (checked) {
+                            playAmbientSound(sound.id);
+                          } else {
+                            stopAmbientSound(sound.id);
+                          }
+                        }}
                       />
                       <Button
                         variant="ghost"
-                        onClick={() => handleSoundToggle(sound.id, sound.isPlaying, false)}
-                        className="w-8 h-8 p-0"
+                        size="sm"
+                        onClick={() => muteAmbientSound(sound.id, !sound.isMuted)}
+                        className="p-1"
                       >
-                        {sound.isPlaying ? <Pause className="w-3 h-3" /> : <Play className="w-3 h-3" />}
+                        {sound.isMuted ? <VolumeX className="w-3 h-3" /> : <Volume2 className="w-3 h-3" />}
                       </Button>
                     </div>
                   </div>
@@ -203,260 +129,57 @@ export const SoundControls = ({ roomId, isVisible, onClose }: SoundControlsProps
                     value={[sound.volume]}
                     onValueChange={([value]) => setAmbientSoundVolume(sound.id, value)}
                     max={100}
-                    min={0}
                     step={1}
                     className="w-full"
                     disabled={sound.isMuted}
                   />
-                  <div className="text-xs text-gray-400 text-right">{sound.volume}%</div>
                 </div>
               ))}
-              <p className="text-xs text-gray-400 mt-2">
-                Room sounds are specific to this room. Ambient sounds play globally.
-              </p>
             </div>
           )}
 
-          {/* Master */}
+          {/* Master Controls */}
           {activeTab === 'master' && (
             <div className="space-y-4">
-              <h4 className="text-sm font-medium">Master Controls</h4>
-
-              <div className="space-y-2">
+              <div className="space-y-3">
                 <div className="flex items-center justify-between">
-                  <span className="text-sm">Master Volume</span>
+                  <h4 className="text-sm font-medium text-gray-900">Master Volume</h4>
                   <div className="flex items-center gap-2">
-                    <Switch
-                      checked={!isMasterMuted}
-                      onCheckedChange={(checked) => setMasterMuted(!checked)}
-                      className="scale-90"
-                    />
-                    {isMasterMuted ? <VolumeX className="w-4 h-4" /> : <Volume2 className="w-4 h-4" />}
+                    <Button
+                      variant="ghost"
+                      size="sm"
+                      onClick={() => setMasterMuted(!isMasterMuted)}
+                      className="p-1 text-gray-700 hover:text-gray-900"
+                    >
+                      {isMasterMuted ? <VolumeX className="w-4 h-4" /> : <Volume2 className="w-4 h-4" />}
+                    </Button>
                   </div>
                 </div>
                 <Slider
                   value={[masterVolume]}
                   onValueChange={([value]) => setMasterVolume(value)}
                   max={100}
-                  min={0}
                   step={1}
                   className="w-full"
                   disabled={isMasterMuted}
                 />
-                <div className="text-xs text-gray-400 text-right">{masterVolume}%</div>
               </div>
 
-              <Button
-                onClick={stopAllSounds}
-                variant="outline"
-                className="w-full"
-              >
-                Stop All Sounds
-              </Button>
-            </div>
-          )}
-        </Card>
-      </div>
-    );
-  }
-
-  // ===== Floating panel variant =====
-  return (
-    <div className="fixed bottom-16 left-4 z-40">
-      <Button
-        variant="ghost"
-        onClick={() => setIsOpen(!isOpen)}
-        className="bg-black/50 backdrop-blur-sm border border-white/20 text-white hover:bg-white/20 p-2 h-8 w-8"
-      >
-        <Settings className="w-4 h-4" />
-      </Button>
-
-      {isOpen && (
-        <Card className="absolute bottom-20 left-0 w-80 bg-black/80 backdrop-blur-sm border-white/20 text-white p-4">
-          <h3 className="text-sm font-semibold mb-3 flex items-center gap-1 whitespace-nowrap truncate max-w-[140px]">
-            <Volume2 className="w-4 h-4" />
-            Sound <span className="hidden sm:inline">Controls</span>
-          </h3>
-
-          {/* Tabs */}
-          <div className="flex gap-1 mb-4">
-            <Button
-              variant={activeTab === 'room' ? 'default' : 'outline'}
-              onClick={() => setActiveTab('room')}
-              className={`text-xs flex-1 ${
-                activeTab === 'room' 
-                  ? 'bg-white text-black hover:bg-gray-200' 
-                  : 'bg-transparent text-white border-white/30 hover:bg-white/10'
-              }`}
-            >
-              Room
-            </Button>
-            <Button
-              variant={activeTab === 'ambient' ? 'default' : 'outline'}
-              onClick={() => setActiveTab('ambient')}
-              className={`text-xs flex-1 ${
-                activeTab === 'ambient' 
-                  ? 'bg-white text-black hover:bg-gray-200' 
-                  : 'bg-transparent text-white border-white/30 hover:bg-white/10'
-              }`}
-            >
-              Ambient
-            </Button>
-            <Button
-              variant={activeTab === 'master' ? 'default' : 'outline'}
-              onClick={() => setActiveTab('master')}
-              className={`text-xs flex-1 ${
-                activeTab === 'master' 
-                  ? 'bg-white text-black hover:bg-gray-200' 
-                  : 'bg-transparent text-white border-white/30 hover:bg-white/10'
-              }`}
-            >
-              Master
-            </Button>
-          </div>
-
-          {/* Room Sounds */}
-          {activeTab === 'room' && (
-            <div className="space-y-3">
-              <h4 className="text-xs font-medium text-white/70">Room Sounds</h4>
-              {currentRoomSounds.map((sound) => (
-                <div key={sound.id} className="space-y-2">
-                  <div className="flex items-center justify-between">
-                    <div className="flex items-center gap-2">
-                      {getSoundIcon(sound.name)}
-                      <span className="text-sm">{sound.name}</span>
-                    </div>
-                    <div className="flex items-center gap-1">
-                      <Switch
-                        checked={!sound.isMuted}
-                        onCheckedChange={(checked) => muteRoomSound(roomId, sound.id, !checked)}
-                        className="scale-90"
-                      />
-                      <Button
-                        variant="ghost"
-                        onClick={() => handleSoundToggle(sound.id, sound.isPlaying)}
-                        className="p-1 h-6 w-6"
-                      >
-                        {sound.isPlaying ? <Pause className="w-3 h-3" /> : <Play className="w-3 h-3" />}
-                      </Button>
-                    </div>
-                  </div>
-                  <Slider
-                    value={[sound.volume]}
-                    onValueChange={([value]) => setRoomSoundVolume(roomId, sound.id, value)}
-                    max={100}
-                    min={0}
-                    step={1}
-                    className="w-full"
-                    disabled={sound.isMuted}
-                  />
-                  <div className="flex justify-between text-xs text-white/50">
-                    <span>0%</span>
-                    <span>{sound.volume}%</span>
-                    <span>100%</span>
-                  </div>
-                </div>
-              ))}
-            </div>
-          )}
-
-          {/* Ambient Sounds */}
-          {activeTab === 'ambient' && (
-            <div className="space-y-3">
-              <h4 className="text-xs font-medium text-white/70">Global Ambient Sounds</h4>
-              {ambientSounds.map((sound) => (
-                <div key={sound.id} className="space-y-2">
-                  <div className="flex items-center justify-between">
-                    <div className="flex items-center gap-2">
-                      {getSoundIcon(sound.name)}
-                      <span className="text-sm">{sound.name}</span>
-                    </div>
-                    <div className="flex items-center gap-1">
-                      <Switch
-                        checked={!sound.isMuted}
-                        onCheckedChange={(checked) => muteAmbientSound(sound.id, !checked)}
-                        className="scale-90"
-                      />
-                      <Button
-                        variant="ghost"
-                        onClick={() => handleSoundToggle(sound.id, sound.isPlaying, false)}
-                        className="p-1 h-6 w-6"
-                      >
-                        {sound.isPlaying ? <Pause className="w-3 h-3" /> : <Play className="w-3 h-3" />}
-                      </Button>
-                    </div>
-                  </div>
-                  <Slider
-                    value={[sound.volume]}
-                    onValueChange={([value]) => setAmbientSoundVolume(sound.id, value)}
-                    max={100}
-                    min={0}
-                    step={1}
-                    className="w-full"
-                    disabled={sound.isMuted}
-                  />
-                  <div className="flex justify-between text-xs text-white/50">
-                    <span>0%</span>
-                    <span>{sound.volume}%</span>
-                    <span>100%</span>
-                  </div>
-                </div>
-              ))}
-            </div>
-          )}
-
-          {/* Master */}
-          {activeTab === 'master' && (
-            <div className="space-y-3">
-              <h4 className="text-xs font-medium text-white/70">Master Controls</h4>
+              <Separator />
 
               <div className="space-y-2">
-                <div className="flex items-center justify-between">
-                  <div className="flex items-center gap-2">
-                    {isMasterMuted ? <VolumeX className="w-4 h-4" /> : <Volume2 className="w-4 h-4" />}
-                    <span className="text-sm">Master Volume</span>
-                  </div>
-                  <Switch
-                    checked={!isMasterMuted}
-                    onCheckedChange={(checked) => setMasterMuted(!checked)}
-                    className="scale-90"
-                  />
-                </div>
-                <Slider
-                  value={[masterVolume]}
-                  onValueChange={([value]) => setMasterVolume(value)}
-                  max={100}
-                  min={0}
-                  step={1}
-                  className="w-full"
-                  disabled={isMasterMuted}
-                />
-                <div className="flex justify-between text-xs text-white/50">
-                  <span>0%</span>
-                  <span>{masterVolume}%</span>
-                  <span>100%</span>
-                </div>
+                <Button
+                  onClick={stopAllSounds}
+                  variant="outline"
+                  size="sm"
+                  className="w-full text-gray-700 border-gray-300 hover:bg-gray-50"
+                >
+                  Stop All Sounds
+                </Button>
               </div>
-
-              <Separator className="bg-white/20" />
-
-              <Button
-                variant="outline"
-                onClick={stopAllSounds}
-                className="w-full text-xs"
-              >
-                Stop All Sounds
-              </Button>
             </div>
           )}
-
-          <Separator className="my-3 bg-white/20" />
-
-          <p className="text-xs text-white/70">
-            Room sounds are specific to this room. Ambient sounds play globally.
-          </p>
         </Card>
-      )}
     </div>
   );
 };

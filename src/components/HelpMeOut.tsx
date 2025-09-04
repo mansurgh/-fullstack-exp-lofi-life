@@ -64,13 +64,13 @@ export const HelpMeOut = () => {
 
   return (
     <div className="w-full max-w-md mx-auto mt-6 sm:mt-8 px-4">
-      <Card className="bg-card/50 backdrop-blur-sm border-border/20">
+      <Card className="bg-white/95 backdrop-blur-sm border-gray-300 shadow-lg">
         <CardHeader className="text-center pb-4 sm:pb-6">
-          <CardTitle className="flex items-center justify-center gap-2 text-foreground text-lg sm:text-xl">
-            <Heart className="h-4 w-4 sm:h-5 sm:w-5 text-primary" />
+          <CardTitle className="flex items-center justify-center gap-2 text-gray-900 text-lg sm:text-xl">
+            <Heart className="h-4 w-4 sm:h-5 sm:w-5 text-red-500" />
             Help Me Out
           </CardTitle>
-          <CardDescription className="text-sm sm:text-base">
+          <CardDescription className="text-sm sm:text-base text-gray-700">
             Support this project and help me improve it
           </CardDescription>
         </CardHeader>
@@ -83,10 +83,10 @@ export const HelpMeOut = () => {
                 With Money
               </Button>
             </DialogTrigger>
-            <DialogContent className="w-[95vw] max-w-lg mx-auto bg-white text-black">
+            <DialogContent className="w-[95vw] max-w-lg mx-auto bg-white text-gray-900">
               <DialogHeader>
-                <DialogTitle className="text-lg sm:text-xl text-black">Support with Donation</DialogTitle>
-                <DialogDescription className="text-sm sm:text-base text-gray-600">
+                <DialogTitle className="text-lg sm:text-xl text-gray-900">Support with Donation</DialogTitle>
+                <DialogDescription className="text-sm sm:text-base text-gray-700">
                   Choose a payment method to support the development of this project
                 </DialogDescription>
               </DialogHeader>
@@ -126,7 +126,7 @@ export const HelpMeOut = () => {
                             <Button
                               size="sm"
                               variant="ghost"
-                              onClick={() => copyToClipboard(paymentMethods[0].details.iban, 'iban')}
+                              onClick={() => copyToClipboard(paymentMethods[0].details.iban || '', 'iban')}
                               className="text-black hover:bg-gray-200"
                             >
                               {copiedField === 'iban' ? <Check className="w-4 h-4" /> : <Copy className="w-4 h-4" />}
@@ -140,7 +140,7 @@ export const HelpMeOut = () => {
                             <Button
                               size="sm"
                               variant="ghost"
-                              onClick={() => copyToClipboard(paymentMethods[0].details.swift, 'swift')}
+                              onClick={() => copyToClipboard(paymentMethods[0].details.swift || '', 'swift')}
                               className="text-black hover:bg-gray-200"
                             >
                               {copiedField === 'swift' ? <Check className="w-4 h-4" /> : <Copy className="w-4 h-4" />}
@@ -161,7 +161,7 @@ export const HelpMeOut = () => {
                           <Button
                             size="sm"
                             variant="ghost"
-                            onClick={() => copyToClipboard(paymentMethods[1].details.email, 'paypal')}
+                                                          onClick={() => copyToClipboard(paymentMethods[1].details.email || '', 'paypal')}
                             className="text-black hover:bg-gray-200"
                           >
                             {copiedField === 'paypal' ? <Check className="w-4 h-4" /> : <Copy className="w-4 h-4" />}
@@ -179,7 +179,7 @@ export const HelpMeOut = () => {
                             <Button
                               size="sm"
                               variant="ghost"
-                              onClick={() => copyToClipboard(paymentMethods[2].details.bitcoin, 'bitcoin')}
+                              onClick={() => copyToClipboard(paymentMethods[2].details.bitcoin || '', 'bitcoin')}
                               className="text-black hover:bg-gray-200"
                             >
                               {copiedField === 'bitcoin' ? <Check className="w-4 h-4" /> : <Copy className="w-4 h-4" />}
@@ -193,7 +193,7 @@ export const HelpMeOut = () => {
                             <Button
                               size="sm"
                               variant="ghost"
-                              onClick={() => copyToClipboard(paymentMethods[2].details.ethereum, 'ethereum')}
+                              onClick={() => copyToClipboard(paymentMethods[2].details.ethereum || '', 'ethereum')}
                               className="text-black hover:bg-gray-200"
                             >
                               {copiedField === 'ethereum' ? <Check className="w-4 h-4" /> : <Copy className="w-4 h-4" />}
@@ -207,7 +207,7 @@ export const HelpMeOut = () => {
                             <Button
                               size="sm"
                               variant="ghost"
-                              onClick={() => copyToClipboard(paymentMethods[2].details.usdt, 'usdt')}
+                              onClick={() => copyToClipboard(paymentMethods[2].details.usdt || '', 'usdt')}
                               className="text-black hover:bg-gray-200"
                             >
                               {copiedField === 'usdt' ? <Check className="w-4 h-4" /> : <Copy className="w-4 h-4" />}
@@ -232,10 +232,10 @@ export const HelpMeOut = () => {
                 With Knowledge
               </Button>
             </DialogTrigger>
-            <DialogContent className="w-[95vw] max-w-md mx-auto">
+            <DialogContent className="w-[95vw] max-w-md mx-auto bg-white text-gray-900">
               <DialogHeader>
-                <DialogTitle className="text-lg sm:text-xl">Contact Me</DialogTitle>
-                <DialogDescription className="text-sm sm:text-base">
+                <DialogTitle className="text-lg sm:text-xl text-gray-900">Contact Me</DialogTitle>
+                <DialogDescription className="text-sm sm:text-base text-gray-700">
                   Share your knowledge, ideas, or feedback
                 </DialogDescription>
               </DialogHeader>

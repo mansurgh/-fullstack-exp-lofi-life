@@ -61,7 +61,7 @@ export const InteractiveComponents = ({ roomId }: InteractiveComponentsProps) =>
 
   const [soundControls, setSoundControls] = useState<ComponentState>(() => {
     const saved = localStorage.getItem(`soundControls-${roomId}`);
-    return saved ? JSON.parse(saved) : { position: { x: 20, y: 220 }, visible: true };
+    return saved ? JSON.parse(saved) : { position: { x: 20, y: 120 }, visible: true };
   });
 
   const [currentTime, setCurrentTime] = useState(new Date());
