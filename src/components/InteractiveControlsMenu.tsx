@@ -58,18 +58,18 @@ export const InteractiveControlsMenu = ({ roomId }: InteractiveControlsMenuProps
   };
 
   return (
-    <div className="fixed top-20 right-8 z-40">
+    <div className="fixed top-4 sm:top-6 right-[180px] sm:right-[190px] z-40">
       <Button
-        variant="ghost"
+        variant="secondary"
         size="sm"
         onClick={() => setIsOpen(!isOpen)}
-        className="bg-black/50 backdrop-blur-sm border border-white/20 text-white hover:bg-white/20 p-2"
+        className="bg-card/80 hover:bg-card text-card-foreground"
       >
         <Settings className="w-4 h-4" />
       </Button>
 
       {isOpen && (
-        <Card className="absolute top-28 right-0 w-64 bg-black/80 backdrop-blur-sm border-white/20 text-white p-4">
+        <Card className="absolute top-12 right-0 w-64 bg-black/80 backdrop-blur-sm border-white/20 text-white p-4">
           <h3 className="text-sm font-semibold mb-3 flex items-center gap-2">
             <Settings className="w-4 h-4" />
             {t('controls.title')}
