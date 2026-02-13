@@ -1,9 +1,7 @@
-import { useParams, useNavigate, useLocation } from 'react-router-dom';
-import { RoomSelector } from '@/components/RoomSelector';
-import { Room } from '@/components/Room';
 import { HelpMeOut } from '@/components/HelpMeOut';
-import { ThemeSelector } from '@/components/ThemeSelector';
-import { LanguageSelector } from '@/components/LanguageSelector';
+import { Room } from '@/components/Room';
+import { RoomSelector } from '@/components/RoomSelector';
+import { useLocation, useNavigate, useParams } from 'react-router-dom';
 
 
 import { useTranslation } from '@/contexts/TranslationContext';
@@ -26,16 +24,16 @@ const Index = () => {
     const urlParams = new URLSearchParams(location.search);
     const page = urlParams.get('page');
     const filter = urlParams.get('filter');
-    
+
     let backUrl = '/';
     const params = new URLSearchParams();
     if (page) params.set('page', page);
     if (filter) params.set('filter', filter);
-    
+
     if (params.toString()) {
       backUrl += `?${params.toString()}`;
     }
-    
+
     navigate(backUrl);
   };
 
@@ -52,11 +50,7 @@ const Index = () => {
   return (
     <div className="min-h-screen p-2 sm:p-4 space-y-4 sm:space-y-6">
       <RoomSelector onSelectRoom={handleSelectRoom} />
-      {/* HelpMeOut - hidden on mobile to reduce clutter */}
-      <div className="hidden sm:block">
-        <HelpMeOut />
-      </div>
-
+      <HelpMeOut />
     </div>
   );
 };
