@@ -161,13 +161,22 @@ export default function QuranReader({ onClose, isVisible }: QuranReaderProps) {
   const activeRef = useRef<HTMLDivElement | null>(null);
   const sourceIndexRef = useRef<number>(0);
 
-  // Формируем список источников для текущего аята: локально → CDN
+  // Вычисляем глобальный номер аята (1-6236) для CDN
+  const getGlobalAyahNumber = (surah: number, ayah: number): number => {
+    let global = 0;
+    for (let i = 0; i < surah - 1; i++) {
+      global += surahs[i].verses;
+    }
+    return global + ayah;
+  };
+
+  // Формируем список CDN-источников для текущего аята
   const getAudioSources = (surah: number, ayah: number): string[] => {
-    const local = `/quran-audio/basit/${surah}/${ayah}.mp3`;
-    const cdn1 = `https://cdn.islamic.network/quran/audio/ayah/ar.abdulbasitmurattal/${surah}:${ayah}.mp3`;
-    const cdn2 = `https://server8.mp3quran.net/abdul_basit_murattal/${surah.toString().padStart(3, '0')}${ayah.toString().padStart(3, '0')}.mp3`;
-    const cdn3 = `https://www.mp3quran.net/abdul_basit_murattal/${surah.toString().padStart(3, '0')}${ayah.toString().padStart(3, '0')}.mp3`;
-    return [local, cdn1, cdn2, cdn3];
+    const globalNum = getGlobalAyahNumber(surah, ayah);
+    const cdn1 = `https://cdn.islamic.network/quran/audio/192/ar.abdulbasitmurattal/${globalNum}.mp3`;
+    const cdn2 = `https://cdn.islamic.network/quran/audio/64/ar.abdulbasitmurattal/${globalNum}.mp3`;
+    const cdn3 = `https://server8.mp3quran.net/abdul_basit_murattal/${surah.toString().padStart(3, '0')}${ayah.toString().padStart(3, '0')}.mp3`;
+    return [cdn1, cdn2, cdn3];
   };
 
   useEffect(() => {
@@ -209,7 +218,6 @@ export default function QuranReader({ onClose, isVisible }: QuranReaderProps) {
   useEffect(() => {
     const audio = audioRef.current;
     if (!audio) return;
-    audio.crossOrigin = "anonymous";
   }, []);
 
   // При старте/смене аята загружаем аудио с фолбеком
@@ -226,21 +234,19 @@ export default function QuranReader({ onClose, isVisible }: QuranReaderProps) {
     sourceIndexRef.current = 0;
     audio.src = sources[0];
 
+    const tryNextSource = () => {
+      sourceIndexRef.current++;
+      if (sourceIndexRef.current < sources.length) {
+        audio.src = sources[sourceIndexRef.current];
+        audio.load();
+      } else {
+        setIsPlaying(false);
+      }
+    };
+
     // Добавляем обработчики событий
     const handleCanPlay = () => {
-      audio.play().then(() => {
-      }).catch((error) => {
-        // Пробуем второй источник
-        if (sources[1]) {
-          sourceIndexRef.current = 1;
-          audio.src = sources[1];
-          audio.play().catch(() => {
-            setIsPlaying(false);
-          });
-        } else {
-          setIsPlaying(false);
-        }
-      });
+      audio.play().catch(() => tryNextSource());
     };
 
     const handleEnded = () => {
@@ -252,16 +258,7 @@ export default function QuranReader({ onClose, isVisible }: QuranReaderProps) {
     };
 
     const handleError = () => {
-      // Пробуем второй источник при ошибке
-      if (sources[1] && sourceIndexRef.current === 0) {
-        sourceIndexRef.current = 1;
-        audio.src = sources[1];
-        audio.play().catch(() => {
-          setIsPlaying(false);
-        });
-      } else {
-        setIsPlaying(false);
-      }
+      tryNextSource();
     };
 
     // Добавляем обработчики
