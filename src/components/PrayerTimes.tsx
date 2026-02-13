@@ -32,6 +32,7 @@ export const PrayerTimes = ({ isOpen, onClose }: PrayerTimesProps) => {
     if (isOpen && !fetchedRef.current && !locationError) {
       setCityName(t('prayers.getting.location'));
       if ('geolocation' in navigator) {
+        // For iOS Safari: request with explicit options
         navigator.geolocation.getCurrentPosition(
           (position) => {
             const lat = position.coords.latitude;
@@ -68,8 +69,18 @@ export const PrayerTimes = ({ isOpen, onClose }: PrayerTimesProps) => {
           },
           (error) => {
             console.error('Geolocation error:', error);
-            setCityName(t('prayers.location.unavailable'));
+            fetchedRef.current = true;
+            if (error.code === error.PERMISSION_DENIED) {
+              setCityName(t('prayers.location.denied'));
+            } else {
+              setCityName(t('prayers.location.unavailable'));
+            }
             setLocationError(true);
+          },
+          {
+            enableHighAccuracy: false,
+            timeout: 10000,
+            maximumAge: 300000 // 5 minutes cache
           }
         );
       } else {
