@@ -311,8 +311,8 @@ export default function QuranReader({ onClose, isVisible }: QuranReaderProps) {
   if (!isVisible) return null;
 
   return (
-    <Card className="fixed inset-4 z-50 p-4 space-y-4 bg-card/95 backdrop-blur border border-border overflow-hidden">
-      <div className="flex items-center justify-between gap-2">
+    <Card className="fixed inset-2 sm:inset-4 z-50 p-3 sm:p-4 space-y-3 sm:space-y-4 bg-card/95 backdrop-blur border border-border overflow-hidden flex flex-col">
+      <div className="flex items-center justify-between gap-2 flex-wrap">
         <Select value={selectedSurah} onValueChange={setSelectedSurah}>
           <SelectTrigger className="w-[240px]">
             <SelectValue placeholder={t('quran.select.surah.placeholder')} />
@@ -326,24 +326,25 @@ export default function QuranReader({ onClose, isVisible }: QuranReaderProps) {
           </SelectContent>
         </Select>
 
-        <div className="flex items-center gap-2">
-          <Button variant="outline" size="icon" onClick={prevVerse} disabled={currentVerse === 0 || !verses.length}>
-            <SkipBack className="h-4 w-4" />
+        <div className="flex items-center gap-2 sm:gap-2 gap-1">
+          <Button variant="outline" size="icon" onClick={prevVerse} disabled={currentVerse === 0 || !verses.length} className="h-10 w-10 sm:h-9 sm:w-9">
+            <SkipBack className="h-5 w-5 sm:h-4 sm:w-4" />
           </Button>
-          <Button variant="default" size="icon" onClick={togglePlay} disabled={!verses.length || loading}>
-            {isPlaying ? <Pause className="h-4 w-4" /> : <Play className="h-4 w-4" />}
+          <Button variant="default" size="icon" onClick={togglePlay} disabled={!verses.length || loading} className="h-12 w-12 sm:h-9 sm:w-9">
+            {isPlaying ? <Pause className="h-6 w-6 sm:h-4 sm:w-4" /> : <Play className="h-6 w-6 sm:h-4 sm:w-4" />}
           </Button>
           <Button
             variant="outline"
             size="icon"
             onClick={nextVerse}
             disabled={!verses.length || currentVerse === verses.length - 1}
+            className="h-10 w-10 sm:h-9 sm:w-9"
           >
-            <SkipForward className="h-4 w-4" />
+            <SkipForward className="h-5 w-5 sm:h-4 sm:w-4" />
           </Button>
 
-          <Button variant="ghost" size="icon" onClick={onClose} title={t('quran.close')}>
-            <X className="h-4 w-4" />
+          <Button variant="ghost" size="icon" onClick={onClose} title={t('quran.close')} className="h-10 w-10 sm:h-9 sm:w-9">
+            <X className="h-5 w-5 sm:h-4 sm:w-4" />
           </Button>
         </div>
       </div>
