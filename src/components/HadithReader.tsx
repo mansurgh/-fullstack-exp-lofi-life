@@ -128,7 +128,7 @@ const hadithCache = new Map<string, Hadith[]>();
 
 // Muslim hadith #1-92 are empty introduction entries, real content starts at #93
 const COLLECTION_OFFSET: Record<string, number> = { bukhari: 0, muslim: 92 };
-const COLLECTION_TOTALS: Record<string, number> = { bukhari: 7563, muslim: 7378 }; // muslim: 7470 - 92 intro
+const COLLECTION_TOTALS: Record<string, number> = { bukhari: 7275, muslim: 7190 };
 
 async function fetchHadithFromAPI(collection: string, page: number, limit: number = 10): Promise<{ hadith: Hadith[], total: number }> {
   const cacheKey = `${collection}_${page}_${limit}`;
@@ -272,7 +272,7 @@ export const HadithReader: React.FC<HadithReaderProps> = ({ isVisible, onClose, 
 
   const handleJumpToHadith = () => {
     const num = parseInt(jumpInput, 10);
-    const max = totalHadith || (collection === 'bukhari' ? 7563 : 7470);
+    const max = totalHadith || (collection === 'bukhari' ? 7275 : 7190);
     if (isNaN(num) || num < 1 || num > max) return;
     const targetPage = Math.ceil(num / PAGE_SIZE);
     const indexInPage = (num - 1) % PAGE_SIZE;
@@ -499,7 +499,7 @@ export const HadithReader: React.FC<HadithReaderProps> = ({ isVisible, onClose, 
                   <input
                     type="number"
                     min={1}
-                    max={totalHadith || 7563}
+                    max={totalHadith || 7275}
                     value={jumpInput}
                     onChange={(e) => setJumpInput(e.target.value)}
                     onKeyDown={(e) => { if (e.key === 'Enter') handleJumpToHadith(); if (e.key === 'Escape') setShowJumpDialog(false); }}
