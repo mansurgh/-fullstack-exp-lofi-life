@@ -25,9 +25,10 @@ export const RecitationProvider = ({ children }: RecitationProviderProps) => {
   const [currentVerse, setCurrentVerse] = useState(1);
   const [isPlaying, setIsPlaying] = useState(false);
   const audioRef = useRef<HTMLAudioElement | null>(null);
+  const canPlayRef = useRef<(() => void) | null>(null);
+  const errorRef = useRef<((e: Event) => void) | null>(null);
 
-  const startRecitation = (surah: number, verse: number = 1) => {
-    console.log('Starting recitation:', surah, verse);
+  const startRecitation = useCallback((surah: number, verse: number = 1) => {
     setCurrentSurah(surah);
     setCurrentVerse(verse);
     setIsReciting(true);
@@ -41,70 +42,49 @@ export const RecitationProvider = ({ children }: RecitationProviderProps) => {
       `https://www.mp3quran.net/abdul_basit_murattal/${surah.toString().padStart(3, '0')}${verse.toString().padStart(3, '0')}.mp3`
     ];
 
-    console.log('Trying audio sources:', audioSources);
-
     if (audioRef.current) {
-      // Try first source
-      audioRef.current.src = audioSources[0];
+      const audio = audioRef.current;
 
-      // Add event listeners for better error handling
+      // Remove previous listeners properly
+      if (canPlayRef.current) audio.removeEventListener('canplay', canPlayRef.current);
+      if (errorRef.current) audio.removeEventListener('error', errorRef.current);
+
+      audio.src = audioSources[0];
+
       const handleCanPlay = () => {
-        console.log('Audio can play, starting...');
-        audioRef.current?.play().then(() => {
-          console.log('Audio started successfully');
-        }).catch((error) => {
-          console.error('Failed to play audio from first source:', error);
-          // Try alternative source
+        audio.play().then(() => {
+        }).catch(() => {
           if (audioSources[1]) {
-            console.log('Trying alternative source:', audioSources[1]);
-            audioRef.current!.src = audioSources[1];
-            audioRef.current!.play().then(() => {
-              console.log('Alternative audio started successfully');
-            }).catch((altError) => {
-              console.error('Failed to play alternative audio:', altError);
+            audio.src = audioSources[1];
+            audio.play().catch(() => {
               setIsPlaying(false);
-              // Show user-friendly error message
-              alert('Unable to play audio. Please check your internet connection or try again later.');
             });
           } else {
             setIsPlaying(false);
-            alert('Unable to play audio. Please check your internet connection or try again later.');
           }
         });
       };
 
-      const handleError = (error: Event) => {
-        console.error('Audio error:', error);
+      const handleError = () => {
         setIsPlaying(false);
-        // Try alternative source on error
         if (audioSources[1] && audioRef.current) {
-          console.log('Trying alternative source on error:', audioSources[1]);
           audioRef.current.src = audioSources[1];
-          audioRef.current.play().catch((altError) => {
-            console.error('Failed to play alternative audio on error:', altError);
-            alert('Unable to play audio. Please check your internet connection or try again later.');
-          });
+          audioRef.current.play().catch(() => { });
         }
       };
 
-      // Remove previous listeners
-      audioRef.current.removeEventListener('canplay', handleCanPlay);
-      audioRef.current.removeEventListener('error', handleError);
+      canPlayRef.current = handleCanPlay;
+      errorRef.current = handleError;
 
-      // Add new listeners
-      audioRef.current.addEventListener('canplay', handleCanPlay);
-      audioRef.current.addEventListener('error', handleError);
-
-      // Load audio
-      audioRef.current.load();
+      audio.addEventListener('canplay', handleCanPlay);
+      audio.addEventListener('error', handleError);
+      audio.load();
     } else {
-      console.error('Audio element not initialized');
       setIsPlaying(false);
     }
-  };
+  }, []);
 
   const pauseRecitation = useCallback(() => {
-    console.log('Pausing recitation');
     setIsPlaying(false);
     if (audioRef.current) {
       audioRef.current.pause();
@@ -112,7 +92,6 @@ export const RecitationProvider = ({ children }: RecitationProviderProps) => {
   }, []);
 
   const resumeRecitation = useCallback(() => {
-    console.log('Resuming recitation');
     setIsPlaying(true);
     if (audioRef.current) {
       audioRef.current.play().catch((error) => {
@@ -123,7 +102,6 @@ export const RecitationProvider = ({ children }: RecitationProviderProps) => {
   }, []);
 
   const stopRecitation = useCallback(() => {
-    console.log('Stopping recitation');
     setIsReciting(false);
     setIsPlaying(false);
     if (audioRef.current) {
@@ -132,14 +110,10 @@ export const RecitationProvider = ({ children }: RecitationProviderProps) => {
     }
   }, []);
 
-  const nextVerse = () => {
-    console.log('Next verse, current:', currentVerse);
+  const nextVerse = useCallback(() => {
     setCurrentVerse(prevVerse => {
       const nextVerseNum = prevVerse + 1;
       if (nextVerseNum <= 7) { // Для суры Аль-Фатиха (7 аятов)
-        if (isPlaying) {
-          startRecitation(currentSurah, nextVerseNum);
-        }
         return nextVerseNum;
       } else {
         setIsPlaying(false);
@@ -147,30 +121,25 @@ export const RecitationProvider = ({ children }: RecitationProviderProps) => {
         return prevVerse;
       }
     });
-  };
+  }, []);
 
-  const previousVerse = () => {
-    if (currentVerse > 1) {
-      const prevVerseNum = currentVerse - 1;
-      console.log('Previous verse, current:', currentVerse, 'going to:', prevVerseNum);
-      setCurrentVerse(prevVerseNum);
-      if (isPlaying) {
-        startRecitation(currentSurah, prevVerseNum);
+  const previousVerse = useCallback(() => {
+    setCurrentVerse(prev => {
+      if (prev > 1) {
+        return prev - 1;
       }
-    }
-  };
+      return prev;
+    });
+  }, []);
 
   useEffect(() => {
     audioRef.current = new Audio();
 
-
-
     const handleAudioEnd = () => {
-      console.log('Audio ended, moving to next verse');
       // Автоматически переходим к следующему аяту
       setCurrentVerse(prevVerse => {
         const nextVerseNum = prevVerse + 1;
-        if (nextVerseNum <= 7) { // Для суры Аль-Фатиха (7 аятов)
+        if (nextVerseNum <= 7) {
           return nextVerseNum;
         } else {
           setIsPlaying(false);
@@ -180,8 +149,7 @@ export const RecitationProvider = ({ children }: RecitationProviderProps) => {
       });
     };
 
-    const handleAudioError = (error: Event) => {
-      console.error('Audio error:', error);
+    const handleAudioError = () => {
       setIsPlaying(false);
     };
 

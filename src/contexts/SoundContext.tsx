@@ -48,6 +48,14 @@ export const SoundProvider: React.FC<{ children: React.ReactNode }> = ({ childre
   const [isMasterMuted, setIsMasterMuted] = useState(false);
 
   const audioElements = useRef<Record<string, HTMLAudioElement>>({});
+  const ambientSoundsRef = useRef<SoundTrack[]>([]);
+  const masterVolumeRef = useRef(masterVolume);
+  const isMasterMutedRef = useRef(isMasterMuted);
+
+  // Keep refs in sync
+  ambientSoundsRef.current = ambientSounds;
+  masterVolumeRef.current = masterVolume;
+  isMasterMutedRef.current = isMasterMuted;
 
   // Initialize sounds
   useEffect(() => {
@@ -75,9 +83,10 @@ export const SoundProvider: React.FC<{ children: React.ReactNode }> = ({ childre
     }
   }, []);
 
-  // Save master volume to localStorage
+  // Save master volume to localStorage (debounced)
   useEffect(() => {
-    localStorage.setItem('masterVolume', masterVolume.toString());
+    const t = setTimeout(() => localStorage.setItem('masterVolume', masterVolume.toString()), 300);
+    return () => clearTimeout(t);
   }, [masterVolume]);
 
   // Save master muted state to localStorage
@@ -87,18 +96,19 @@ export const SoundProvider: React.FC<{ children: React.ReactNode }> = ({ childre
 
   // Update all active sounds when master volume or mute state changes
   useEffect(() => {
-    ambientSounds.forEach(sound => {
+    // Read from ref to avoid depending on ambientSounds state
+    ambientSoundsRef.current.forEach(sound => {
       if (sound.isPlaying) {
-        const audio = getAudioElement(sound.id);
+        const audio = audioElements.current[sound.id];
         if (audio) {
           const finalVolume = sound.isMuted || isMasterMuted ? 0 : (sound.volume / 100) * (masterVolume / 100);
           audio.volume = finalVolume;
         }
       }
     });
-  }, [masterVolume, isMasterMuted, ambientSounds]);
+  }, [masterVolume, isMasterMuted]);
 
-  const createAudioElement = (soundId: string, url: string): HTMLAudioElement => {
+  const createAudioElement = useCallback((soundId: string, url: string): HTMLAudioElement => {
     const audio = new Audio(url);
     audio.loop = true;
     audio.volume = 0;
@@ -106,25 +116,25 @@ export const SoundProvider: React.FC<{ children: React.ReactNode }> = ({ childre
 
     audioElements.current[soundId] = audio;
     return audio;
-  };
+  }, []);
 
-  const getAudioElement = (soundId: string): HTMLAudioElement => {
+  const getAudioElement = useCallback((soundId: string): HTMLAudioElement | undefined => {
     if (!audioElements.current[soundId]) {
-      const sound = ambientSounds.find(s => s.id === soundId);
+      const sound = ambientSoundsRef.current.find(s => s.id === soundId);
       if (sound) {
         return createAudioElement(soundId, sound.url);
       }
     }
     return audioElements.current[soundId];
-  };
+  }, [createAudioElement]);
 
-  const updateAudioVolume = (soundId: string, volume: number, isMuted: boolean) => {
-    const audio = getAudioElement(soundId);
+  const updateAudioVolume = useCallback((soundId: string, volume: number, isMuted: boolean) => {
+    const audio = audioElements.current[soundId];
     if (audio) {
-      const finalVolume = isMuted || isMasterMuted ? 0 : (volume / 100) * (masterVolume / 100);
+      const finalVolume = isMuted || isMasterMutedRef.current ? 0 : (volume / 100) * (masterVolumeRef.current / 100);
       audio.volume = finalVolume;
     }
-  };
+  }, []);
 
   const playAmbientSound = useCallback((soundId: string) => {
     const audio = getAudioElement(soundId);
@@ -137,7 +147,7 @@ export const SoundProvider: React.FC<{ children: React.ReactNode }> = ({ childre
         )
       );
     }
-  }, []);
+  }, [getAudioElement]);
 
   const stopAmbientSound = useCallback((soundId: string) => {
     const audio = getAudioElement(soundId);
@@ -151,7 +161,7 @@ export const SoundProvider: React.FC<{ children: React.ReactNode }> = ({ childre
         sound.id === soundId ? { ...sound, isPlaying: false } : sound
       )
     );
-  }, []);
+  }, [getAudioElement]);
 
   const setAmbientSoundVolume = useCallback((soundId: string, volume: number) => {
     setAmbientSounds(prev =>
@@ -160,11 +170,11 @@ export const SoundProvider: React.FC<{ children: React.ReactNode }> = ({ childre
       )
     );
 
-    const sound = ambientSounds.find(s => s.id === soundId);
+    const sound = ambientSoundsRef.current.find(s => s.id === soundId);
     if (sound) {
       updateAudioVolume(soundId, volume, sound.isMuted);
     }
-  }, [ambientSounds]);
+  }, [updateAudioVolume]);
 
   const muteAmbientSound = useCallback((soundId: string, muted: boolean) => {
     setAmbientSounds(prev =>
@@ -173,11 +183,11 @@ export const SoundProvider: React.FC<{ children: React.ReactNode }> = ({ childre
       )
     );
 
-    const sound = ambientSounds.find(s => s.id === soundId);
+    const sound = ambientSoundsRef.current.find(s => s.id === soundId);
     if (sound) {
       updateAudioVolume(soundId, sound.volume, muted);
     }
-  }, [ambientSounds]);
+  }, [updateAudioVolume]);
 
   const stopAllSounds = useCallback(() => {
     Object.values(audioElements.current).forEach(audio => {

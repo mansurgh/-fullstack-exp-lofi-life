@@ -9,9 +9,6 @@ import { ArrowLeft, Moon, RotateCcw, Sun } from "lucide-react";
 import ClickerGame from "./ClickerGame";
 import { InteractiveComponents } from "./InteractiveComponents";
 import { InteractiveControlsMenu } from "./InteractiveControlsMenu";
-import { IslamicCalendar } from "./IslamicCalendar";
-import { PrayersList } from "./PrayersList";
-import { PrayerTimes } from "./PrayerTimes";
 import { TetrisGame } from "./TetrisGame";
 
 // --- импорт твоих изображений (оставил как у тебя) ---
@@ -634,6 +631,17 @@ const roomConfigs: Record<string, RoomConfig> = {
   },
 };
 
+// Static color options — defined outside component to avoid re-creation
+const COLOR_OPTIONS = [
+  { name: "Red", value: "red", bg: "bg-red-500", glow: "bg-red-500/10" },
+  { name: "Blue", value: "blue", bg: "bg-blue-500", glow: "bg-blue-500/10" },
+  { name: "Pink", value: "pink", bg: "bg-pink-500", glow: "bg-pink-500/10" },
+  { name: "Yellow", value: "yellow", bg: "bg-yellow-500", glow: "bg-yellow-500/10" },
+  { name: "Orange", value: "orange", bg: "bg-orange-500", glow: "bg-orange-500/10" },
+  { name: "Purple", value: "purple", bg: "bg-purple-500", glow: "bg-purple-500/10" },
+  { name: "Green", value: "green", bg: "bg-green-500", glow: "bg-green-500/10" },
+] as const;
+
 export const Room = ({ roomId, onBack }: RoomProps) => {
   const { t } = useTranslation();
   const navigate = useNavigate();
@@ -641,9 +649,6 @@ export const Room = ({ roomId, onBack }: RoomProps) => {
 
   const [isDarkMode, setIsDarkMode] = useState(false);
 
-  const [isPrayersListOpen, setIsPrayersListOpen] = useState(false);
-  const [isPrayerTimesOpen, setIsPrayerTimesOpen] = useState(false);
-  const [isIslamicCalendarOpen, setIsIslamicCalendarOpen] = useState(false);
   const [isLoaded, setIsLoaded] = useState(false);
   const [roomColor, setRoomColor] = useState("default");
   const bgRef = useRef<HTMLDivElement>(null);
@@ -674,7 +679,11 @@ export const Room = ({ roomId, onBack }: RoomProps) => {
     const audio = new Audio("/audio/room-enter.mp3");
     audio.volume = 0.3;
     audio.play().catch(() => { });
-    return () => clearTimeout(timer);
+    return () => {
+      clearTimeout(timer);
+      audio.pause();
+      audio.src = '';
+    };
   }, [roomId]);
 
   useEffect(() => {
@@ -682,40 +691,37 @@ export const Room = ({ roomId, onBack }: RoomProps) => {
     else document.documentElement.classList.remove("dark");
   }, [isDarkMode]);
 
-  // лёгкий параллакс от мыши (direct DOM — без setState/re-render)
+  // лёгкий параллакс от мыши (direct DOM — без setState/re-render, throttled via rAF)
   useEffect(() => {
+    let rafId = 0;
     const handleMouseMove = (e: MouseEvent) => {
-      const x = (e.clientX / window.innerWidth - 0.5) * 2; // -1..1
-      const y = (e.clientY / window.innerHeight - 0.5) * 2;
-      const maxOffset = 15;
-      const ox = x * maxOffset;
-      const oy = y * maxOffset;
-      if (bgRef.current) {
-        bgRef.current.style.transform = `translate(${ox}px, ${oy}px) scale(1.08)`;
-      }
-      if (decorRef.current) {
-        decorRef.current.style.transform = `translate(${ox * 0.5}px, ${oy * 0.5}px)`;
-      }
+      cancelAnimationFrame(rafId);
+      rafId = requestAnimationFrame(() => {
+        const x = (e.clientX / window.innerWidth - 0.5) * 2;
+        const y = (e.clientY / window.innerHeight - 0.5) * 2;
+        const maxOffset = 15;
+        const ox = x * maxOffset;
+        const oy = y * maxOffset;
+        if (bgRef.current) {
+          bgRef.current.style.transform = `translate(${ox}px, ${oy}px) scale(1.08)`;
+        }
+        if (decorRef.current) {
+          decorRef.current.style.transform = `translate(${ox * 0.5}px, ${oy * 0.5}px)`;
+        }
+      });
     };
     window.addEventListener("mousemove", handleMouseMove);
-    return () => window.removeEventListener("mousemove", handleMouseMove);
+    return () => {
+      window.removeEventListener("mousemove", handleMouseMove);
+      cancelAnimationFrame(rafId);
+    };
   }, []);
 
   const handleReload = () => window.location.reload();
 
-  const colorOptions = [
-    { name: "Red", value: "red", bg: "bg-red-500", glow: "bg-red-500/10" },
-    { name: "Blue", value: "blue", bg: "bg-blue-500", glow: "bg-blue-500/10" },
-    { name: "Pink", value: "pink", bg: "bg-pink-500", glow: "bg-pink-500/10" },
-    { name: "Yellow", value: "yellow", bg: "bg-yellow-500", glow: "bg-yellow-500/10" },
-    { name: "Orange", value: "orange", bg: "bg-orange-500", glow: "bg-orange-500/10" },
-    { name: "Purple", value: "purple", bg: "bg-purple-500", glow: "bg-purple-500/10" },
-    { name: "Green", value: "green", bg: "bg-green-500", glow: "bg-green-500/10" },
-  ];
-
   const getRoomGlowClass = (baseClass: string) => {
     if (roomColor === "default") return baseClass;
-    const current = colorOptions.find((c) => c.value === roomColor);
+    const current = COLOR_OPTIONS.find((c) => c.value === roomColor);
     if (!current) return baseClass;
     return baseClass.replace(/bg-\w+-\d+\/[\d.]+/, current.glow);
   };
@@ -829,7 +835,7 @@ export const Room = ({ roomId, onBack }: RoomProps) => {
               <span className="w-3 h-3 rounded-full bg-gray-400 mr-2" />
               Default
             </Button>
-            {colorOptions.map((c) => (
+            {COLOR_OPTIONS.map((c) => (
               <Button
                 key={c.value}
                 onClick={() => setRoomColor(c.value)}
@@ -875,14 +881,6 @@ export const Room = ({ roomId, onBack }: RoomProps) => {
               : t("room.quran.click")}
         </p>
       </Card>
-
-      {/* модалки */}
-      <PrayersList isOpen={isPrayersListOpen} onClose={() => setIsPrayersListOpen(false)} />
-      <PrayerTimes isOpen={isPrayerTimesOpen} onClose={() => setIsPrayerTimesOpen(false)} />
-      <IslamicCalendar
-        isOpen={isIslamicCalendarOpen}
-        onClose={() => setIsIslamicCalendarOpen(false)}
-      />
     </div>
   );
 };

@@ -83,6 +83,7 @@ export const IslamicCalendar = ({ isOpen, onClose }: IslamicCalendarProps) => {
   const [islamicEvents] = useState(getUpcomingIslamicEvents());
 
   useEffect(() => {
+    if (!isOpen) return; // Don't run timer when closed
     const updateTime = () => {
       const now = new Date();
       setCurrentIslamicDate(getCurrentIslamicDate());

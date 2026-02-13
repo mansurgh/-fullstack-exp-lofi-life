@@ -185,18 +185,15 @@ export default function QuranReader({ onClose, isVisible }: QuranReaderProps) {
     }
 
     // Всегда загружаем свежие данные с API
-    console.log(`🔄 Loading surah ${selectedSurah} from API...`);
     fetchSurahVerses(selectedSurah, language)
       .then((v) => {
         if (mounted) {
-          console.log(`✅ Loaded ${v.length} verses for surah ${selectedSurah}`);
           setVerses(v);
           setLoading(false);
         }
       })
       .catch((e) => {
         if (mounted) {
-          console.error(`❌ Failed to load surah ${selectedSurah}:`, e);
           setError(e instanceof Error ? e.message : "Failed to load surah");
           setVerses([]);
           setLoading(false);
@@ -217,91 +214,57 @@ export default function QuranReader({ onClose, isVisible }: QuranReaderProps) {
 
   // При старте/смене аята загружаем аудио с фолбеком
   useEffect(() => {
-    console.log('🎵 MAIN useEffect triggered - isPlaying:', isPlaying, 'currentVerse:', currentVerse, 'verses.length:', verses.length);
     const audio = audioRef.current;
-    if (!audio) {
-      console.log('❌ No audio element found');
-      return;
-    }
-    if (!isPlaying) {
-      console.log('❌ Not playing, skipping audio load');
-      return;
-    }
+    if (!audio) return;
+    if (!isPlaying) return;
     const verse = verses[currentVerse];
-    if (!verse) {
-      console.log('❌ No verse found for index:', currentVerse);
-      return;
-    }
-
-    console.log('✅ Loading audio for verse:', currentVerse + 1, 'surah:', selectedSurah, 'isPlaying:', isPlaying);
+    if (!verse) return;
 
     const surah = Number(selectedSurah);
     const sources = getAudioSources(surah, currentVerse + 1);
-    console.log('Audio sources:', sources);
 
     sourceIndexRef.current = 0;
     audio.src = sources[0];
 
     // Добавляем обработчики событий
     const handleCanPlay = () => {
-      console.log('🎵 Audio can play, starting verse:', currentVerse + 1);
       audio.play().then(() => {
-        console.log('✅ Audio started successfully from source:', sources[0], 'for verse:', currentVerse + 1);
       }).catch((error) => {
-        console.error('❌ Failed to play audio from source 1:', error, 'for verse:', currentVerse + 1);
         // Пробуем второй источник
         if (sources[1]) {
-          console.log('🔄 Trying alternative source:', sources[1]);
           sourceIndexRef.current = 1;
           audio.src = sources[1];
-          audio.play().catch((altError) => {
-            console.error('❌ Failed to play alternative audio:', altError);
+          audio.play().catch(() => {
             setIsPlaying(false);
-            alert('Unable to play audio. Please check your internet connection.');
           });
         } else {
           setIsPlaying(false);
-          alert('Unable to play audio. Please check your internet connection.');
         }
       });
     };
 
     const handleEnded = () => {
-      console.log('🎵 Audio ended for verse:', currentVerse + 1, 'total verses:', verses.length);
       if (currentVerse < verses.length - 1) {
-        // Автоматически переходим к следующему аяту
-        console.log('➡️ Moving to next verse:', currentVerse + 2);
         setCurrentVerse((v) => v + 1);
-        // isPlaying остается true, чтобы следующий аят автоматически запустился
       } else {
-        console.log('🏁 Last verse reached, stopping playback');
         setIsPlaying(false);
       }
     };
 
-    const handleError = (error: Event) => {
-      console.error('Audio error:', error);
+    const handleError = () => {
       // Пробуем второй источник при ошибке
       if (sources[1] && sourceIndexRef.current === 0) {
-        console.log('Trying alternative source on error:', sources[1]);
         sourceIndexRef.current = 1;
         audio.src = sources[1];
-        audio.play().catch((altError) => {
-          console.error('Failed to play alternative audio on error:', altError);
+        audio.play().catch(() => {
           setIsPlaying(false);
-          alert('Unable to play audio. Please check your internet connection.');
         });
       } else {
         setIsPlaying(false);
-        alert('Unable to play audio. Please check your internet connection.');
       }
     };
 
-    // Убираем старые обработчики
-    audio.removeEventListener('canplay', handleCanPlay);
-    audio.removeEventListener('error', handleError);
-
-    // Добавляем новые обработчики
+    // Добавляем обработчики
     audio.addEventListener('canplay', handleCanPlay);
     audio.addEventListener('error', handleError);
     audio.addEventListener('ended', handleEnded);
@@ -317,51 +280,7 @@ export default function QuranReader({ onClose, isVisible }: QuranReaderProps) {
     };
   }, [isPlaying, currentVerse, verses, selectedSurah]);
 
-  // Дополнительный useEffect для принудительного запуска следующего аята
-  useEffect(() => {
-    console.log('🔄 BACKUP useEffect triggered - isPlaying:', isPlaying, 'currentVerse:', currentVerse);
-    if (isPlaying && currentVerse > 0) {
-      console.log('🚀 Current verse changed to:', currentVerse, 'forcing audio load...');
-      const audio = audioRef.current;
-      if (audio) {
-        // Небольшая задержка для обеспечения правильной последовательности
-        setTimeout(() => {
-          console.log('⏰ Timeout executed, loading verse:', currentVerse + 1);
-          const verse = verses[currentVerse];
-          if (verse) {
-            const surah = Number(selectedSurah);
-            const sources = getAudioSources(surah, currentVerse + 1);
-            sourceIndexRef.current = 0;
-            audio.src = sources[0];
-            audio.load();
-            console.log('🎵 Attempting to play verse:', currentVerse + 1);
-            audio.play().then(() => {
-              console.log('✅ Successfully started playing verse:', currentVerse + 1);
-            }).catch((error) => {
-              console.error('❌ Failed to play next verse:', error);
-              if (sources[1]) {
-                sourceIndexRef.current = 1;
-                audio.src = sources[1];
-                audio.play().catch(() => {
-                  console.log('❌ All sources failed, stopping playback');
-                  setIsPlaying(false);
-                });
-              } else {
-                console.log('❌ No backup source, stopping playback');
-                setIsPlaying(false);
-              }
-            });
-          } else {
-            console.log('❌ No verse found in backup useEffect');
-          }
-        }, 100);
-      } else {
-        console.log('❌ No audio element in backup useEffect');
-      }
-    } else {
-      console.log('⏭️ Skipping backup useEffect - isPlaying:', isPlaying, 'currentVerse:', currentVerse);
-    }
-  }, [currentVerse, isPlaying, verses, selectedSurah]);
+  // BACKUP useEffect removed — main useEffect handles all audio loading
 
   useEffect(() => {
     activeRef.current?.scrollIntoView({ behavior: "smooth", block: "center" });
@@ -371,11 +290,9 @@ export default function QuranReader({ onClose, isVisible }: QuranReaderProps) {
     const audio = audioRef.current;
     if (!audio || !verses.length) return;
     if (isPlaying) {
-      console.log('🛑 PAUSING playback');
       audio.pause();
       setIsPlaying(false);
     } else {
-      console.log('▶️ STARTING playback for verse:', currentVerse + 1);
       setIsPlaying(true);
     }
   };

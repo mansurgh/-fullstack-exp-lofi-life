@@ -57,9 +57,9 @@ interface InteractiveComponentsProps {
 export const InteractiveComponents = ({ roomId }: InteractiveComponentsProps) => {
   const { t } = useTranslation();
   const [dragState, setDragState] = useState<string | null>(null);
-  const [dragOffset, setDragOffset] = useState<Position>({ x: 0, y: 0 });
   const [hasDragged, setHasDragged] = useState(false);
   const dragStartPos = useRef<Position>({ x: 0, y: 0 });
+  const dragOffsetRef = useRef<Position>({ x: 0, y: 0 });
   const [showPrayerTimes, setShowPrayerTimes] = useState(false);
   const [showCalendar, setShowCalendar] = useState(false);
   const [showQuran, setShowQuran] = useState(false);
@@ -111,32 +111,35 @@ export const InteractiveComponents = ({ roomId }: InteractiveComponentsProps) =>
 
   const [calendarTime] = useState(new Date()); // static for calendar date display
 
-  // Save to localStorage only on mouseUp (end of drag) — not every pixel
+  // Keep a ref to all positions for stable saveAllPositions
+  const positionsRef = useRef({ clock, calendar, prayerMat, quran, bukhariBook, muslimBook, soundControls });
+  positionsRef.current = { clock, calendar, prayerMat, quran, bukhariBook, muslimBook, soundControls };
+
+  // Save to localStorage only on mouseUp (end of drag) — stable callback
   const saveAllPositions = useCallback(() => {
-    localStorage.setItem(`clock-${roomId}`, JSON.stringify(clock));
-    localStorage.setItem(`calendar-${roomId}`, JSON.stringify(calendar));
-    localStorage.setItem(`prayerMat-${roomId}`, JSON.stringify(prayerMat));
-    localStorage.setItem(`quran-${roomId}`, JSON.stringify(quran));
-    localStorage.setItem(`bukhariBook-${roomId}`, JSON.stringify(bukhariBook));
-    localStorage.setItem(`muslimBook-${roomId}`, JSON.stringify(muslimBook));
-    localStorage.setItem(`soundControls-${roomId}`, JSON.stringify(soundControls));
-  }, [roomId, clock, calendar, prayerMat, quran, bukhariBook, muslimBook, soundControls]);
+    const p = positionsRef.current;
+    localStorage.setItem(`clock-${roomId}`, JSON.stringify(p.clock));
+    localStorage.setItem(`calendar-${roomId}`, JSON.stringify(p.calendar));
+    localStorage.setItem(`prayerMat-${roomId}`, JSON.stringify(p.prayerMat));
+    localStorage.setItem(`quran-${roomId}`, JSON.stringify(p.quran));
+    localStorage.setItem(`bukhariBook-${roomId}`, JSON.stringify(p.bukhariBook));
+    localStorage.setItem(`muslimBook-${roomId}`, JSON.stringify(p.muslimBook));
+    localStorage.setItem(`soundControls-${roomId}`, JSON.stringify(p.soundControls));
+  }, [roomId]);
 
   const handleMouseDown = (e: React.MouseEvent, componentId: string, currentPosition: Position) => {
     const rect = (e.target as HTMLElement).getBoundingClientRect();
-    setDragOffset({
+    dragOffsetRef.current = {
       x: e.clientX - rect.left,
       y: e.clientY - rect.top
-    });
+    };
     setHasDragged(false);
     dragStartPos.current = { x: e.clientX, y: e.clientY };
     setDragState(componentId);
     e.preventDefault();
   };
 
-  const handleMouseMove = (e: MouseEvent) => {
-    if (!dragState) return;
-
+  const handleMouseMove = useCallback((e: MouseEvent) => {
     // If mouse moved more than 5px, consider it a drag (not a click)
     const dx = e.clientX - dragStartPos.current.x;
     const dy = e.clientY - dragStartPos.current.y;
@@ -145,8 +148,8 @@ export const InteractiveComponents = ({ roomId }: InteractiveComponentsProps) =>
     }
 
     const newPosition = {
-      x: e.clientX - dragOffset.x,
-      y: e.clientY - dragOffset.y
+      x: e.clientX - dragOffsetRef.current.x,
+      y: e.clientY - dragOffsetRef.current.y
     };
 
     // Constrain to viewport
@@ -155,40 +158,34 @@ export const InteractiveComponents = ({ roomId }: InteractiveComponentsProps) =>
       y: Math.max(0, Math.min(window.innerHeight - 100, newPosition.y))
     };
 
-    switch (dragState) {
-      case 'clock':
-        setClock(prev => ({ ...prev, position: constrainedPosition }));
-        break;
-      case 'calendar':
-        setCalendar(prev => ({ ...prev, position: constrainedPosition }));
-        break;
-      case 'prayerMat':
-        setPrayerMat(prev => ({ ...prev, position: constrainedPosition }));
-        break;
-      case 'quran':
-        setQuran(prev => ({ ...prev, position: constrainedPosition }));
-        break;
-      case 'bukhariBook':
-        setBukhariBook(prev => ({ ...prev, position: constrainedPosition }));
-        break;
-      case 'muslimBook':
-        setMuslimBook(prev => ({ ...prev, position: constrainedPosition }));
-        break;
-      case 'soundControls':
-        setSoundControls(prev => ({ ...prev, position: constrainedPosition }));
-        break;
+    // We need to read dragState from the closure, but since this is only
+    // attached when dragState is set, we use a ref
+    const setterMap: Record<string, React.Dispatch<React.SetStateAction<ComponentState>>> = {
+      clock: setClock, calendar: setCalendar, prayerMat: setPrayerMat,
+      quran: setQuran, bukhariBook: setBukhariBook, muslimBook: setMuslimBook,
+      soundControls: setSoundControls
+    };
+    // dragState is captured in closure via the useEffect that attaches this
+    // We store it in a ref to keep handleMouseMove stable
+    const setter = setterMap[dragStateRef.current || ''];
+    if (setter) {
+      setter(prev => ({ ...prev, position: constrainedPosition }));
     }
-  };
+  }, []);
 
-  const handleMouseUp = () => {
-    if (dragState) {
-      saveAllPositions(); // save positions only when drag ends
+  const dragStateRef = useRef<string | null>(null);
+
+  const handleMouseUp = useCallback(() => {
+    if (dragStateRef.current) {
+      saveAllPositions();
     }
+    dragStateRef.current = null;
     setDragState(null);
-  };
+  }, [saveAllPositions]);
 
   useEffect(() => {
     if (dragState) {
+      dragStateRef.current = dragState;
       document.addEventListener('mousemove', handleMouseMove);
       document.addEventListener('mouseup', handleMouseUp);
       return () => {
@@ -196,7 +193,15 @@ export const InteractiveComponents = ({ roomId }: InteractiveComponentsProps) =>
         document.removeEventListener('mouseup', handleMouseUp);
       };
     }
-  }, [dragState, dragOffset]);
+  }, [dragState, handleMouseMove, handleMouseUp]);
+
+  // Stable onClose callbacks for memoized children
+  const closeQuran = useCallback(() => setShowQuran(false), []);
+  const closeBukhariHadith = useCallback(() => setShowBukhariHadith(false), []);
+  const closeMuslimHadith = useCallback(() => setShowMuslimHadith(false), []);
+  const closeSoundControls = useCallback(() => setShowSoundControls(false), []);
+  const closePrayerTimes = useCallback(() => setShowPrayerTimes(false), []);
+  const closeCalendar = useCallback(() => setShowCalendar(false), []);
 
   return (
     <>
@@ -410,12 +415,12 @@ export const InteractiveComponents = ({ roomId }: InteractiveComponentsProps) =>
       )}
 
       {/* Modals */}
-      <PrayerTimes isOpen={showPrayerTimes} onClose={() => setShowPrayerTimes(false)} />
-      <IslamicCalendar isOpen={showCalendar} onClose={() => setShowCalendar(false)} />
-      <QuranReader isVisible={showQuran} onClose={() => setShowQuran(false)} />
-      <HadithReader isVisible={showBukhariHadith} onClose={() => setShowBukhariHadith(false)} collection="bukhari" />
-      <HadithReader isVisible={showMuslimHadith} onClose={() => setShowMuslimHadith(false)} collection="muslim" />
-      <SoundControls roomId={roomId} isVisible={showSoundControls} onClose={() => setShowSoundControls(false)} />
+      <PrayerTimes isOpen={showPrayerTimes} onClose={closePrayerTimes} />
+      <IslamicCalendar isOpen={showCalendar} onClose={closeCalendar} />
+      <QuranReader isVisible={showQuran} onClose={closeQuran} />
+      <HadithReader isVisible={showBukhariHadith} onClose={closeBukhariHadith} collection="bukhari" />
+      <HadithReader isVisible={showMuslimHadith} onClose={closeMuslimHadith} collection="muslim" />
+      <SoundControls roomId={roomId} isVisible={showSoundControls} onClose={closeSoundControls} />
 
       {/* Global visibility controls - exposed via custom event */}
       <div className="hidden">
