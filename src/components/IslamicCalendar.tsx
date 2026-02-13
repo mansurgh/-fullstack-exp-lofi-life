@@ -1,9 +1,9 @@
-import { useState, useEffect } from 'react';
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
-import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
+import { Card } from "@/components/ui/card";
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Separator } from "@/components/ui/separator";
-import { Calendar, Star } from 'lucide-react';
+import { Star } from 'lucide-react';
+import { useEffect, useState } from 'react';
 
 interface IslamicCalendarProps {
   isOpen: boolean;
@@ -14,7 +14,7 @@ const getUpcomingIslamicEvents = () => {
   const now = new Date();
   const currentYear = now.getFullYear();
   const nextYear = currentYear + 1;
-  
+
   const events = [
     // 2025 events
     { name: 'Ramadan', date: 'February 28, 2025', type: 'holy-month', icon: '🌙' },
@@ -24,7 +24,7 @@ const getUpcomingIslamicEvents = () => {
     { name: 'Islamic New Year', date: 'June 26, 2025', type: 'new-year', icon: '📅' },
     { name: 'Day of Ashura', date: 'July 5, 2025', type: 'holy-day', icon: '⭐' },
     { name: 'Mawlid al-Nabi', date: 'September 4, 2025', type: 'holy-day', icon: '🌟' },
-    
+
     // 2026 events
     { name: 'Ramadan', date: 'February 17, 2026', type: 'holy-month', icon: '🌙' },
     { name: 'Eid al-Fitr', date: 'March 19, 2026', type: 'celebration', icon: '🎉' },
@@ -34,7 +34,7 @@ const getUpcomingIslamicEvents = () => {
     { name: 'Day of Ashura', date: 'June 24, 2026', type: 'holy-day', icon: '⭐' },
     { name: 'Mawlid al-Nabi', date: 'August 24, 2026', type: 'holy-day', icon: '🌟' },
   ];
-  
+
   // Filter to show only upcoming events
   return events.filter(event => {
     const eventDate = new Date(event.date.split(',')[0] + ', ' + event.date.split(', ')[1]);
@@ -48,28 +48,28 @@ const getCurrentIslamicDate = () => {
   // Islamic calendar epoch: July 16, 622 CE (1 Muharram 1 AH)
   const islamicEpoch = new Date('622-07-16');
   const daysDiff = Math.floor((now.getTime() - islamicEpoch.getTime()) / (1000 * 60 * 60 * 24));
-  
+
   // Islamic year is 354.367 days on average
   const islamicYear = Math.floor(daysDiff / 354.367) + 1;
   const dayInYear = Math.floor(daysDiff % 354.367);
-  
+
   const islamicMonths = [
     'Muharram', 'Safar', 'Rabi\' al-Awwal', 'Rabi\' al-Thani',
     'Jumada al-Awwal', 'Jumada al-Thani', 'Rajab', 'Sha\'ban',
     'Ramadan', 'Shawwal', 'Dhu al-Qi\'dah', 'Dhu al-Hijjah'
   ];
-  
+
   // Each Islamic month alternates between 29 and 30 days
   const monthLengths = [30, 29, 30, 29, 30, 29, 30, 29, 30, 29, 30, 29];
-  
+
   let currentDay = dayInYear;
   let monthIndex = 0;
-  
+
   while (currentDay >= monthLengths[monthIndex] && monthIndex < 11) {
     currentDay -= monthLengths[monthIndex];
     monthIndex++;
   }
-  
+
   return {
     day: currentDay + 1,
     month: islamicMonths[monthIndex],
@@ -86,15 +86,15 @@ export const IslamicCalendar = ({ isOpen, onClose }: IslamicCalendarProps) => {
     const updateTime = () => {
       const now = new Date();
       setCurrentIslamicDate(getCurrentIslamicDate());
-      
+
       const nextRamadan = new Date('2025-02-28'); // Next Ramadan (approximate)
       const diff = nextRamadan.getTime() - now.getTime();
-      
+
       if (diff > 0) {
         const days = Math.floor(diff / (1000 * 60 * 60 * 24));
         const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
         const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
-        
+
         setTimeToRamadan(`${days} days, ${hours} hours, ${minutes} minutes`);
       } else {
         setTimeToRamadan('Ramadan has passed this year');
@@ -105,7 +105,7 @@ export const IslamicCalendar = ({ isOpen, onClose }: IslamicCalendarProps) => {
     const timer = setInterval(updateTime, 60000); // Update every minute
 
     return () => clearInterval(timer);
-  }, []);
+  }, [isOpen]);
 
   const getEventTypeColor = (type: string) => {
     switch (type) {
@@ -126,7 +126,7 @@ export const IslamicCalendar = ({ isOpen, onClose }: IslamicCalendarProps) => {
             📅 Islamic Calendar
           </DialogTitle>
         </DialogHeader>
-        
+
         <div className="space-y-4">
           {/* Current Islamic Date */}
           <Card className="p-4 bg-primary/5 border-primary/20">
@@ -176,8 +176,8 @@ export const IslamicCalendar = ({ isOpen, onClose }: IslamicCalendarProps) => {
                         <p className="text-sm text-muted-foreground">{event.date}</p>
                       </div>
                     </div>
-                    <Badge 
-                      variant="outline" 
+                    <Badge
+                      variant="outline"
                       className={`text-xs ${getEventTypeColor(event.type)}`}
                     >
                       {event.type.replace('-', ' ')}

@@ -1,11 +1,44 @@
 import { useTranslation } from '@/contexts/TranslationContext';
 import { Volume2 } from 'lucide-react';
-import { useEffect, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { HadithReader } from './HadithReader';
 import { IslamicCalendar } from './IslamicCalendar';
 import { PrayerTimes } from './PrayerTimes';
 import QuranReader from './QuranReader';
 import { SoundControls } from './SoundControls';
+
+// Isolated Clock widget — its 1s timer only re-renders this component, not the entire tree
+const ClockWidget = React.memo(({ position, isDragging, onMouseDown }: {
+  position: Position;
+  isDragging: boolean;
+  onMouseDown: (e: React.MouseEvent) => void;
+}) => {
+  const [time, setTime] = useState(new Date());
+  useEffect(() => {
+    const t = setInterval(() => setTime(new Date()), 1000);
+    return () => clearInterval(t);
+  }, []);
+  return (
+    <div
+      className="fixed cursor-move z-30 select-none"
+      style={{ left: position.x, top: position.y, transform: isDragging ? 'scale(1.05)' : 'scale(1)' }}
+      onMouseDown={onMouseDown}
+    >
+      <div className="bg-black/70 backdrop-blur-sm rounded-xl shadow-lg border border-white/20 px-4 py-3 text-white min-w-[140px]">
+        <div className="text-2xl font-mono font-bold text-center leading-none">
+          {time.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', hour12: false })}
+        </div>
+        <div className="text-[10px] text-white/60 text-center mt-1 font-mono">
+          {time.toLocaleTimeString('en-US', { second: '2-digit' }).slice(-2)}s
+        </div>
+        <div className="text-xs text-white/50 text-center mt-1">
+          {time.toLocaleDateString('en-US', { weekday: 'short', day: 'numeric', month: 'short' })}
+        </div>
+      </div>
+    </div>
+  );
+});
+ClockWidget.displayName = 'ClockWidget';
 
 interface Position {
   x: number;
@@ -76,45 +109,18 @@ export const InteractiveComponents = ({ roomId }: InteractiveComponentsProps) =>
     return saved ? JSON.parse(saved) : { position: { x: 20, y: 200 }, visible: true };
   });
 
-  const [currentTime, setCurrentTime] = useState(new Date());
+  const [calendarTime] = useState(new Date()); // static for calendar date display
 
-  // Update time every second
-  useEffect(() => {
-    const timer = setInterval(() => {
-      setCurrentTime(new Date());
-    }, 1000);
-    return () => clearInterval(timer);
-  }, []);
-
-  // Save to localStorage whenever state changes
-
-  useEffect(() => {
+  // Save to localStorage only on mouseUp (end of drag) — not every pixel
+  const saveAllPositions = useCallback(() => {
     localStorage.setItem(`clock-${roomId}`, JSON.stringify(clock));
-  }, [clock, roomId]);
-
-  useEffect(() => {
     localStorage.setItem(`calendar-${roomId}`, JSON.stringify(calendar));
-  }, [calendar, roomId]);
-
-  useEffect(() => {
     localStorage.setItem(`prayerMat-${roomId}`, JSON.stringify(prayerMat));
-  }, [prayerMat, roomId]);
-
-  useEffect(() => {
     localStorage.setItem(`quran-${roomId}`, JSON.stringify(quran));
-  }, [quran, roomId]);
-
-  useEffect(() => {
     localStorage.setItem(`bukhariBook-${roomId}`, JSON.stringify(bukhariBook));
-  }, [bukhariBook, roomId]);
-
-  useEffect(() => {
     localStorage.setItem(`muslimBook-${roomId}`, JSON.stringify(muslimBook));
-  }, [muslimBook, roomId]);
-
-  useEffect(() => {
     localStorage.setItem(`soundControls-${roomId}`, JSON.stringify(soundControls));
-  }, [soundControls, roomId]);
+  }, [roomId, clock, calendar, prayerMat, quran, bukhariBook, muslimBook, soundControls]);
 
   const handleMouseDown = (e: React.MouseEvent, componentId: string, currentPosition: Position) => {
     const rect = (e.target as HTMLElement).getBoundingClientRect();
@@ -175,6 +181,9 @@ export const InteractiveComponents = ({ roomId }: InteractiveComponentsProps) =>
   };
 
   const handleMouseUp = () => {
+    if (dragState) {
+      saveAllPositions(); // save positions only when drag ends
+    }
     setDragState(null);
   };
 
@@ -189,52 +198,18 @@ export const InteractiveComponents = ({ roomId }: InteractiveComponentsProps) =>
     }
   }, [dragState, dragOffset]);
 
-  const formatTime = (date: Date) => {
-    return date.toLocaleTimeString('en-US', {
-      hour: '2-digit',
-      minute: '2-digit',
-      second: '2-digit',
-      hour12: true
-    });
-  };
-
-  const formatDate = (date: Date) => {
-    return date.toLocaleDateString('en-US', {
-      weekday: 'long',
-      year: 'numeric',
-      month: 'long',
-      day: 'numeric'
-    });
-  };
-
   return (
     <>
       {/* Hidden toggle buttons for InteractiveControlsMenu */}
       <button id={`toggle-clock-${roomId}`} className="hidden" onClick={() => setClock(prev => ({ ...prev, visible: !prev.visible }))} />
 
-      {/* Clock Widget */}
+      {/* Clock Widget — isolated component with its own timer */}
       {clock.visible && (
-        <div
-          className="fixed cursor-move z-30 select-none"
-          style={{
-            left: clock.position.x,
-            top: clock.position.y,
-            transform: dragState === 'clock' ? 'scale(1.05)' : 'scale(1)'
-          }}
+        <ClockWidget
+          position={clock.position}
+          isDragging={dragState === 'clock'}
           onMouseDown={(e) => handleMouseDown(e, 'clock', clock.position)}
-        >
-          <div className="bg-black/70 backdrop-blur-sm rounded-xl shadow-lg border border-white/20 px-4 py-3 text-white min-w-[140px]">
-            <div className="text-2xl font-mono font-bold text-center leading-none">
-              {currentTime.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', hour12: false })}
-            </div>
-            <div className="text-[10px] text-white/60 text-center mt-1 font-mono">
-              {currentTime.toLocaleTimeString('en-US', { second: '2-digit' }).slice(-2)}s
-            </div>
-            <div className="text-xs text-white/50 text-center mt-1">
-              {currentTime.toLocaleDateString('en-US', { weekday: 'short', day: 'numeric', month: 'short' })}
-            </div>
-          </div>
-        </div>
+        />
       )}
 
       {/* Calendar Component */}
@@ -254,9 +229,9 @@ export const InteractiveComponents = ({ roomId }: InteractiveComponentsProps) =>
               <div className="w-2 h-2 bg-red-300 rounded-full"></div>
             </div>
             <div className="p-2 text-white text-center">
-              <div className="text-xs font-bold">{currentTime.toLocaleDateString('en', { month: 'short' }).toUpperCase()}</div>
-              <div className="text-xl font-bold leading-none">{currentTime.getDate()}</div>
-              <div className="text-xs">{currentTime.getFullYear()}</div>
+              <div className="text-xs font-bold">{calendarTime.toLocaleDateString('en', { month: 'short' }).toUpperCase()}</div>
+              <div className="text-xl font-bold leading-none">{calendarTime.getDate()}</div>
+              <div className="text-xs">{calendarTime.getFullYear()}</div>
             </div>
             {/* Tooltip */}
             <div className="absolute -bottom-8 left-1/2 transform -translate-x-1/2 bg-black/80 text-white text-xs px-2 py-1 rounded whitespace-nowrap opacity-0 hover:opacity-100 transition-opacity">

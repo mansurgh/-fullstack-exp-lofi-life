@@ -79,11 +79,12 @@ export const PrayerTimes = ({ isOpen, onClose }: PrayerTimesProps) => {
     }
   }, [isOpen, locationError, t]);
 
-  // Update clock every second
+  // Update clock every second — only when dialog is open
   useEffect(() => {
+    if (!isOpen) return;
     const timer = setInterval(() => setCurrentTime(new Date()), 1000);
     return () => clearInterval(timer);
-  }, []);
+  }, [isOpen]);
 
   const parseTime = (timeStr: string): number => {
     const parts = timeStr.split(':');
