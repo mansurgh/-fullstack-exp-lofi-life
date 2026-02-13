@@ -382,7 +382,7 @@ export const HadithReader: React.FC<HadithReaderProps> = ({ isVisible, onClose, 
             {/* Arabic Text */}
             <div
               className="text-right mb-6 leading-relaxed font-arabic break-words whitespace-pre-wrap"
-              style={{ fontSize: `${fontSize + 4}px`, lineHeight: 2.2, overflowWrap: 'anywhere' }}
+              style={{ fontSize: `${fontSize + 4}px`, lineHeight: 2.2, overflowWrap: 'break-word' }}
               dir="rtl"
             >
               {renderTextWithHighlight(currentHadith.arabic, currentHadith.arabicWords, 'arabic')}
@@ -395,7 +395,7 @@ export const HadithReader: React.FC<HadithReaderProps> = ({ isVisible, onClose, 
               <>
                 <div
                   className="mb-4 text-muted-foreground italic leading-relaxed break-words whitespace-pre-wrap"
-                  style={{ fontSize: `${fontSize}px`, overflowWrap: 'anywhere' }}
+                  style={{ fontSize: `${fontSize}px`, overflowWrap: 'break-word' }}
                 >
                   {renderTextWithHighlight(currentHadith.transliteration, currentHadith.transliterationWords, 'transliteration')}
                 </div>
@@ -406,7 +406,7 @@ export const HadithReader: React.FC<HadithReaderProps> = ({ isVisible, onClose, 
             {/* Translation */}
             <div
               className="mb-6 leading-relaxed text-foreground break-words whitespace-pre-wrap"
-              style={{ fontSize: `${fontSize}px`, overflowWrap: 'anywhere' }}
+              style={{ fontSize: `${fontSize}px`, overflowWrap: 'break-word' }}
             >
               {renderTextWithHighlight(currentHadith.translation, currentHadith.translationWords, 'translation')}
             </div>
