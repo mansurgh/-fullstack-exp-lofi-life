@@ -869,7 +869,7 @@ export const Room = ({ roomId, onBack }: RoomProps) => {
       <InteractiveComponents roomId={roomId} />
 
       {/* карточка-инфо */}
-      <Card className="absolute bottom-4 sm:bottom-6 right-4 sm:right-6 p-3 sm:p-4 bg-card/80 backdrop-blur-sm border-border/50 w-[calc(100%-2rem)] sm:w-auto max-w-xs">
+      <Card className="absolute bottom-4 sm:bottom-6 left-1/2 transform -translate-x-1/2 p-3 sm:p-4 bg-card/80 backdrop-blur-sm border-border/50 w-[calc(100%-2rem)] sm:w-auto max-w-xs text-center">
         <h3 className="font-semibold text-card-foreground mb-1 text-sm sm:text-base">
           {t(`room.${roomId}.name`)}
         </h3>

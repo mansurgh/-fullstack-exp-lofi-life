@@ -1,6 +1,6 @@
-import { useTranslation } from '@/contexts/TranslationContext';
 import { useQuranAudio } from '@/contexts/QuranAudioContext';
-import { Volume2, Play } from 'lucide-react';
+import { useTranslation } from '@/contexts/TranslationContext';
+import { Play, Volume2 } from 'lucide-react';
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { HadithReader } from './HadithReader';
 import { IslamicCalendar } from './IslamicCalendar';
@@ -22,7 +22,7 @@ const ClockWidget = React.memo(({ position, isDragging, onMouseDown, onTouchStar
   }, []);
   return (
     <div
-      className="fixed cursor-move z-30 select-none"
+      className="absolute cursor-move z-30 select-none"
       style={{ left: position.x, top: position.y, transform: isDragging ? 'scale(1.05)' : 'scale(1)', touchAction: 'none' }}
       onMouseDown={onMouseDown}
       onTouchStart={onTouchStart}
@@ -82,7 +82,7 @@ export const InteractiveComponents = ({ roomId }: InteractiveComponentsProps) =>
     const saved = localStorage.getItem(`clock-${roomId}`);
     const isMobile = window.innerWidth < 640;
     return saved ? JSON.parse(saved) : {
-      position: isMobile ? { x: 10, y: 80 } : { x: 20, y: 420 },
+      position: isMobile ? { x: 10, y: 80 } : { x: 30, y: 30 },
       visible: true
     };
   });
@@ -91,7 +91,7 @@ export const InteractiveComponents = ({ roomId }: InteractiveComponentsProps) =>
     const saved = localStorage.getItem(`calendar-${roomId}`);
     const isMobile = window.innerWidth < 640;
     return saved ? JSON.parse(saved) : {
-      position: isMobile ? { x: 80, y: 80 } : { x: 120, y: 420 },
+      position: isMobile ? { x: 80, y: 80 } : { x: 170, y: 30 },
       visible: true
     };
   });
@@ -100,7 +100,7 @@ export const InteractiveComponents = ({ roomId }: InteractiveComponentsProps) =>
     const saved = localStorage.getItem(`prayerMat-${roomId}`);
     const isMobile = window.innerWidth < 640;
     return saved ? JSON.parse(saved) : {
-      position: isMobile ? { x: 165, y: 80 } : { x: 120, y: 200 },
+      position: isMobile ? { x: 165, y: 80 } : { x: 300, y: 30 },
       visible: true
     };
   });
@@ -109,7 +109,7 @@ export const InteractiveComponents = ({ roomId }: InteractiveComponentsProps) =>
     const saved = localStorage.getItem(`quran-${roomId}`);
     const isMobile = window.innerWidth < 640;
     return saved ? JSON.parse(saved) : {
-      position: isMobile ? { x: 10, y: 170 } : { x: 20, y: 310 },
+      position: isMobile ? { x: 10, y: 170 } : { x: 30, y: 160 },
       visible: true
     };
   });
@@ -118,7 +118,7 @@ export const InteractiveComponents = ({ roomId }: InteractiveComponentsProps) =>
     const saved = localStorage.getItem(`bukhariBook-${roomId}`);
     const isMobile = window.innerWidth < 640;
     return saved ? JSON.parse(saved) : {
-      position: isMobile ? { x: 80, y: 170 } : { x: 120, y: 310 },
+      position: isMobile ? { x: 80, y: 170 } : { x: 170, y: 160 },
       visible: true
     };
   });
@@ -127,7 +127,7 @@ export const InteractiveComponents = ({ roomId }: InteractiveComponentsProps) =>
     const saved = localStorage.getItem(`muslimBook-${roomId}`);
     const isMobile = window.innerWidth < 640;
     return saved ? JSON.parse(saved) : {
-      position: isMobile ? { x: 150, y: 170 } : { x: 220, y: 310 },
+      position: isMobile ? { x: 150, y: 170 } : { x: 300, y: 160 },
       visible: true
     };
   });
@@ -136,7 +136,7 @@ export const InteractiveComponents = ({ roomId }: InteractiveComponentsProps) =>
     const saved = localStorage.getItem(`soundControls-${roomId}`);
     const isMobile = window.innerWidth < 640;
     return saved ? JSON.parse(saved) : {
-      position: isMobile ? { x: 250, y: 80 } : { x: 20, y: 200 },
+      position: isMobile ? { x: 250, y: 80 } : { x: 430, y: 30 },
       visible: true
     };
   });
@@ -199,8 +199,8 @@ export const InteractiveComponents = ({ roomId }: InteractiveComponentsProps) =>
 
     // Constrain to viewport
     const constrainedPosition = {
-      x: Math.max(0, Math.min(window.innerWidth - 200, newPosition.x)),
-      y: Math.max(0, Math.min(window.innerHeight - 100, newPosition.y))
+      x: Math.max(0, Math.min(window.innerWidth - 50, newPosition.x)),
+      y: Math.max(0, Math.min(window.innerHeight - 50, newPosition.y))
     };
 
     // We need to read dragState from the closure, but since this is only
@@ -233,8 +233,8 @@ export const InteractiveComponents = ({ roomId }: InteractiveComponentsProps) =>
     };
 
     const constrainedPosition = {
-      x: Math.max(0, Math.min(window.innerWidth - 200, newPosition.x)),
-      y: Math.max(0, Math.min(window.innerHeight - 100, newPosition.y))
+      x: Math.max(0, Math.min(window.innerWidth - 50, newPosition.x)),
+      y: Math.max(0, Math.min(window.innerHeight - 50, newPosition.y))
     };
 
     const setterMap: Record<string, React.Dispatch<React.SetStateAction<ComponentState>>> = {
@@ -306,256 +306,256 @@ export const InteractiveComponents = ({ roomId }: InteractiveComponentsProps) =>
       )}
 
       {/* Calendar Component */}
-    {calendar.visible && (
-      <div
-        className="fixed cursor-move z-30 select-none"
-        style={{
-          left: calendar.position.x,
-          top: calendar.position.y,
-          transform: dragState === 'calendar' ? 'scale(1.05)' : 'scale(1)',
-          touchAction: 'none'
-        }}
-        onMouseDown={(e) => handleMouseDown(e, 'calendar', calendar.position)}
-        onTouchStart={(e) => handleTouchStart(e, 'calendar', calendar.position)}
-        onClick={() => { if (!hasDragged) setShowCalendar(true); }}
-      >
-        <div className="w-14 h-16 sm:w-20 sm:h-24 bg-gradient-to-br from-red-600 to-red-800 rounded-lg shadow-lg border border-red-900 hover:shadow-xl transition-shadow">
-          <div className="h-4 sm:h-5 bg-red-900 rounded-t-lg flex items-center justify-center">
-            <div className="w-1.5 h-1.5 sm:w-2 sm:h-2 bg-red-300 rounded-full"></div>
-          </div>
-          <div className="p-1 sm:p-2 text-white text-center">
-            <div className="text-[10px] sm:text-xs font-bold">{calendarTime.toLocaleDateString('en', { month: 'short' }).toUpperCase()}</div>
-            <div className="text-base sm:text-xl font-bold leading-none">{calendarTime.getDate()}</div>
-            <div className="text-[10px] sm:text-xs">{calendarTime.getFullYear()}</div>
-          </div>
-          {/* Tooltip */}
-          <div className="absolute -bottom-8 left-1/2 transform -translate-x-1/2 bg-black/80 text-white text-xs px-2 py-1 rounded whitespace-nowrap opacity-0 hover:opacity-100 transition-opacity">
-            {t('component.calendar.tooltip')}
-          </div>
-        </div>
-      </div>
-    )}
-
-    {/* Prayer Mat Component */}
-    {prayerMat.visible && (
-      <div
-        className="fixed cursor-move z-30 select-none"
-        style={{
-          left: prayerMat.position.x,
-          top: prayerMat.position.y,
-          transform: dragState === 'prayerMat' ? 'scale(1.05)' : 'scale(1)',
-          touchAction: 'none'
-        }}
-        onMouseDown={(e) => handleMouseDown(e, 'prayerMat', prayerMat.position)}
-        onTouchStart={(e) => handleTouchStart(e, 'prayerMat', prayerMat.position)}
-        onClick={() => { if (!hasDragged) setShowPrayerTimes(true); }}
-      >
-        <div className="w-16 h-14 sm:w-28 sm:h-20 bg-gradient-to-br from-emerald-700 via-emerald-600 to-emerald-800 rounded-lg shadow-lg border-2 border-emerald-900 relative overflow-hidden hover:shadow-xl transition-shadow">
-          {/* Prayer mat pattern */}
-          <div className="absolute inset-1 border border-emerald-400 rounded">
-            <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
-              <div className="w-6 h-6 sm:w-10 sm:h-10 border border-emerald-300 rounded-full opacity-60"></div>
-              <div className="absolute top-1/2 left-1/2 w-3 h-3 sm:w-5 sm:h-5 border border-emerald-200 rounded-full transform -translate-x-1/2 -translate-y-1/2 opacity-80"></div>
+      {calendar.visible && (
+        <div
+          className="absolute cursor-move z-30 select-none"
+          style={{
+            left: calendar.position.x,
+            top: calendar.position.y,
+            transform: dragState === 'calendar' ? 'scale(1.05)' : 'scale(1)',
+            touchAction: 'none'
+          }}
+          onMouseDown={(e) => handleMouseDown(e, 'calendar', calendar.position)}
+          onTouchStart={(e) => handleTouchStart(e, 'calendar', calendar.position)}
+          onClick={() => { if (!hasDragged) setShowCalendar(true); }}
+        >
+          <div className="w-14 h-16 sm:w-20 sm:h-24 bg-gradient-to-br from-red-600 to-red-800 rounded-lg shadow-lg border border-red-900 hover:shadow-xl transition-shadow">
+            <div className="h-4 sm:h-5 bg-red-900 rounded-t-lg flex items-center justify-center">
+              <div className="w-1.5 h-1.5 sm:w-2 sm:h-2 bg-red-300 rounded-full"></div>
             </div>
-            {/* Decorative corners */}
-            <div className="absolute top-0 left-0 w-2 h-2 sm:w-3 sm:h-3 border-r border-b border-emerald-300 opacity-60"></div>
-            <div className="absolute top-0 right-0 w-2 h-2 sm:w-3 sm:h-3 border-l border-b border-emerald-300 opacity-60"></div>
-            <div className="absolute bottom-0 left-0 w-2 h-2 sm:w-3 sm:h-3 border-r border-t border-emerald-300 opacity-60"></div>
-            <div className="absolute bottom-0 right-0 w-2 h-2 sm:w-3 sm:h-3 border-l border-t border-emerald-300 opacity-60"></div>
-          </div>
-          {/* Tooltip */}
-          <div className="absolute -bottom-8 left-1/2 transform -translate-x-1/2 bg-black/80 text-white text-xs px-2 py-1 rounded whitespace-nowrap opacity-0 hover:opacity-100 transition-opacity">
-            {t('component.prayers.tooltip')}
-          </div>
-        </div>
-      </div>
-    )}
-
-    {/* Quran Component */}
-    {quran.visible && (
-      <div
-        className="fixed cursor-move z-30 select-none"
-        style={{
-          left: quran.position.x,
-          top: quran.position.y,
-          transform: dragState === 'quran' ? 'scale(1.05)' : 'scale(1)',
-          touchAction: 'none'
-        }}
-        onMouseDown={(e) => handleMouseDown(e, 'quran', quran.position)}
-        onTouchStart={(e) => handleTouchStart(e, 'quran', quran.position)}
-        onClick={() => { if (!hasDragged) setShowQuran(true); }}
-      >
-        <div className="relative">
-          <div className="w-14 h-16 sm:w-20 sm:h-24 bg-gradient-to-br from-amber-800 via-amber-700 to-amber-900 rounded-lg shadow-lg border border-amber-950 relative overflow-hidden hover:shadow-xl transition-shadow">
-            {/* Book spine effect */}
-            <div className="absolute left-0 top-0 bottom-0 w-0.5 sm:w-1 bg-amber-950"></div>
-            {/* Cover design */}
-            <div className="absolute inset-2 border border-amber-400 rounded opacity-60">
-              <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-amber-200 text-[10px] sm:text-sm font-bold">
-                القرآن
-              </div>
+            <div className="p-1 sm:p-2 text-white text-center">
+              <div className="text-[10px] sm:text-xs font-bold">{calendarTime.toLocaleDateString('en', { month: 'short' }).toUpperCase()}</div>
+              <div className="text-base sm:text-xl font-bold leading-none">{calendarTime.getDate()}</div>
+              <div className="text-[10px] sm:text-xs">{calendarTime.getFullYear()}</div>
             </div>
-            {/* Decorative elements */}
-            <div className="absolute top-2 left-1/2 transform -translate-x-1/2 w-8 h-0.5 bg-amber-300 opacity-80"></div>
-            <div className="absolute bottom-2 left-1/2 transform -translate-x-1/2 w-8 h-0.5 bg-amber-300 opacity-80"></div>
-            {/* Playing indicator */}
-            {quranAudio.isPlaying && (
-              <div className="absolute top-1 right-1 bg-green-500 rounded-full p-1 animate-pulse">
-                <Play className="w-2 h-2 sm:w-3 sm:h-3 text-white fill-white" />
-              </div>
-            )}
-          </div>
-          {/* Pages effect */}
-          <div className="absolute top-0.5 right-0.5 w-18 h-22 bg-cream-100 rounded-r-lg border-r border-t border-b border-amber-200 opacity-30"></div>
-          {/* Tooltip */}
-          <div className="absolute -bottom-8 left-1/2 transform -translate-x-1/2 bg-black/80 text-white text-xs px-2 py-1 rounded whitespace-nowrap opacity-0 hover:opacity-100 transition-opacity">
-            {t('component.quran.tooltip')}
-          </div>
-        </div>
-      </div>
-    )}
-
-    {/* Bukhari Hadith Book Component */}
-    {bukhariBook.visible && (
-      <div
-        className="fixed cursor-move z-30 select-none"
-        style={{
-          left: bukhariBook.position.x,
-          top: bukhariBook.position.y,
-          transform: dragState === 'bukhariBook' ? 'scale(1.05)' : 'scale(1)',
-          touchAction: 'none'
-        }}
-        onMouseDown={(e) => handleMouseDown(e, 'bukhariBook', bukhariBook.position)}
-        onTouchStart={(e) => handleTouchStart(e, 'bukhariBook', bukhariBook.position)}
-        onClick={() => { if (!hasDragged) setShowBukhariHadith(true); }}
-      >
-        <div className="relative">
-          <div className="w-14 h-16 sm:w-20 sm:h-24 bg-gradient-to-br from-green-800 via-green-700 to-green-900 rounded-lg shadow-lg border border-green-950 relative overflow-hidden hover:shadow-xl transition-shadow">
-            {/* Book spine effect */}
-            <div className="absolute left-0 top-0 bottom-0 w-0.5 sm:w-1 bg-green-950"></div>
-            {/* Cover design */}
-            <div className="absolute inset-2 border border-green-400 rounded opacity-60">
-              <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-green-200 text-[10px] sm:text-sm font-bold text-center">
-                البخاري
-              </div>
+            {/* Tooltip */}
+            <div className="absolute -bottom-8 left-1/2 transform -translate-x-1/2 bg-black/80 text-white text-xs px-2 py-1 rounded whitespace-nowrap opacity-0 hover:opacity-100 transition-opacity">
+              {t('component.calendar.tooltip')}
             </div>
-            {/* Decorative elements */}
-            <div className="absolute top-2 left-1/2 transform -translate-x-1/2 w-8 h-0.5 bg-green-300 opacity-80"></div>
-            <div className="absolute bottom-2 left-1/2 transform -translate-x-1/2 w-8 h-0.5 bg-green-300 opacity-80"></div>
-          </div>
-          {/* Pages effect */}
-          <div className="absolute top-0.5 right-0.5 w-18 h-22 bg-cream-100 rounded-r-lg border-r border-t border-b border-green-200 opacity-30"></div>
-          {/* Tooltip */}
-          <div className="absolute -bottom-8 left-1/2 transform -translate-x-1/2 bg-black/80 text-white text-xs px-2 py-1 rounded whitespace-nowrap opacity-0 hover:opacity-100 transition-opacity">
-            {t('component.bukhari.tooltip')}
           </div>
         </div>
-      </div>
-    )}
+      )}
 
-    {/* Muslim Hadith Book Component */}
-    {muslimBook.visible && (
-      <div
-        className="fixed cursor-move z-30 select-none"
-        style={{
-          left: muslimBook.position.x,
-          top: muslimBook.position.y,
-          transform: dragState === 'muslimBook' ? 'scale(1.05)' : 'scale(1)',
-          touchAction: 'none'
-        }}
-        onMouseDown={(e) => handleMouseDown(e, 'muslimBook', muslimBook.position)}
-        onTouchStart={(e) => handleTouchStart(e, 'muslimBook', muslimBook.position)}
-        onClick={() => { if (!hasDragged) setShowMuslimHadith(true); }}
-      >
-        <div className="relative">
-          <div className="w-14 h-16 sm:w-20 sm:h-24 bg-gradient-to-br from-blue-800 via-blue-700 to-blue-900 rounded-lg shadow-lg border border-blue-950 relative overflow-hidden hover:shadow-xl transition-shadow">
-            {/* Book spine effect */}
-            <div className="absolute left-0 top-0 bottom-0 w-0.5 sm:w-1 bg-blue-950"></div>
-            {/* Cover design */}
-            <div className="absolute inset-2 border border-blue-400 rounded opacity-60">
-              <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-blue-200 text-[10px] sm:text-sm font-bold text-center">
-                مسلم
+      {/* Prayer Mat Component */}
+      {prayerMat.visible && (
+        <div
+          className="absolute cursor-move z-30 select-none"
+          style={{
+            left: prayerMat.position.x,
+            top: prayerMat.position.y,
+            transform: dragState === 'prayerMat' ? 'scale(1.05)' : 'scale(1)',
+            touchAction: 'none'
+          }}
+          onMouseDown={(e) => handleMouseDown(e, 'prayerMat', prayerMat.position)}
+          onTouchStart={(e) => handleTouchStart(e, 'prayerMat', prayerMat.position)}
+          onClick={() => { if (!hasDragged) setShowPrayerTimes(true); }}
+        >
+          <div className="w-16 h-14 sm:w-28 sm:h-20 bg-gradient-to-br from-emerald-700 via-emerald-600 to-emerald-800 rounded-lg shadow-lg border-2 border-emerald-900 relative overflow-hidden hover:shadow-xl transition-shadow">
+            {/* Prayer mat pattern */}
+            <div className="absolute inset-1 border border-emerald-400 rounded">
+              <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
+                <div className="w-6 h-6 sm:w-10 sm:h-10 border border-emerald-300 rounded-full opacity-60"></div>
+                <div className="absolute top-1/2 left-1/2 w-3 h-3 sm:w-5 sm:h-5 border border-emerald-200 rounded-full transform -translate-x-1/2 -translate-y-1/2 opacity-80"></div>
               </div>
+              {/* Decorative corners */}
+              <div className="absolute top-0 left-0 w-2 h-2 sm:w-3 sm:h-3 border-r border-b border-emerald-300 opacity-60"></div>
+              <div className="absolute top-0 right-0 w-2 h-2 sm:w-3 sm:h-3 border-l border-b border-emerald-300 opacity-60"></div>
+              <div className="absolute bottom-0 left-0 w-2 h-2 sm:w-3 sm:h-3 border-r border-t border-emerald-300 opacity-60"></div>
+              <div className="absolute bottom-0 right-0 w-2 h-2 sm:w-3 sm:h-3 border-l border-t border-emerald-300 opacity-60"></div>
             </div>
-            {/* Decorative elements */}
-            <div className="absolute top-2 left-1/2 transform -translate-x-1/2 w-8 h-0.5 bg-blue-300 opacity-80"></div>
-            <div className="absolute bottom-2 left-1/2 transform -translate-x-1/2 w-8 h-0.5 bg-blue-300 opacity-80"></div>
-          </div>
-          {/* Pages effect */}
-          <div className="absolute top-0.5 right-0.5 w-18 h-22 bg-cream-100 rounded-r-lg border-r border-t border-b border-blue-200 opacity-30"></div>
-          {/* Tooltip */}
-          <div className="absolute -bottom-8 left-1/2 transform -translate-x-1/2 bg-black/80 text-white text-xs px-2 py-1 rounded whitespace-nowrap opacity-0 hover:opacity-100 transition-opacity">
-            {t('component.muslim.tooltip')}
+            {/* Tooltip */}
+            <div className="absolute -bottom-8 left-1/2 transform -translate-x-1/2 bg-black/80 text-white text-xs px-2 py-1 rounded whitespace-nowrap opacity-0 hover:opacity-100 transition-opacity">
+              {t('component.prayers.tooltip')}
+            </div>
           </div>
         </div>
-      </div>
-    )}
+      )}
 
-    {/* Sound Controls Component */}
-    {soundControls.visible && (
-      <div
-        className="fixed cursor-move z-30 select-none"
-        style={{
-          left: soundControls.position.x,
-          top: soundControls.position.y,
-          transform: dragState === 'soundControls' ? 'scale(1.05)' : 'scale(1)',
-          touchAction: 'none'
-        }}
-        onMouseDown={(e) => handleMouseDown(e, 'soundControls', soundControls.position)}
-        onTouchStart={(e) => handleTouchStart(e, 'soundControls', soundControls.position)}
-        onClick={() => { if (!hasDragged) setShowSoundControls(true); }}
-      >
-        <div className="w-14 h-16 sm:w-20 sm:h-24 bg-gradient-to-br from-purple-600 to-purple-800 rounded-lg shadow-lg border border-purple-900 hover:shadow-xl transition-shadow">
-          <div className="h-4 sm:h-5 bg-purple-900 rounded-t-lg flex items-center justify-center">
-            <Volume2 className="w-3 h-3 sm:w-4 sm:h-4 text-purple-300" />
-          </div>
-          <div className="p-1 sm:p-2 text-white text-center flex flex-col items-center justify-center" style={{ height: 'calc(100% - 16px)' }}>
-            <div className="text-[8px] sm:text-[10px] font-bold leading-tight">{t('sound.controls')}</div>
-          </div>
-          {/* Tooltip */}
-          <div className="absolute -bottom-8 left-1/2 transform -translate-x-1/2 bg-black/80 text-white text-xs px-2 py-1 rounded whitespace-nowrap opacity-0 hover:opacity-100 transition-opacity">
-            {t('component.sound.tooltip')}
+      {/* Quran Component */}
+      {quran.visible && (
+        <div
+          className="absolute cursor-move z-30 select-none"
+          style={{
+            left: quran.position.x,
+            top: quran.position.y,
+            transform: dragState === 'quran' ? 'scale(1.05)' : 'scale(1)',
+            touchAction: 'none'
+          }}
+          onMouseDown={(e) => handleMouseDown(e, 'quran', quran.position)}
+          onTouchStart={(e) => handleTouchStart(e, 'quran', quran.position)}
+          onClick={() => { if (!hasDragged) setShowQuran(true); }}
+        >
+          <div className="relative">
+            <div className="w-14 h-16 sm:w-20 sm:h-24 bg-gradient-to-br from-amber-800 via-amber-700 to-amber-900 rounded-lg shadow-lg border border-amber-950 relative overflow-hidden hover:shadow-xl transition-shadow">
+              {/* Book spine effect */}
+              <div className="absolute left-0 top-0 bottom-0 w-0.5 sm:w-1 bg-amber-950"></div>
+              {/* Cover design */}
+              <div className="absolute inset-2 border border-amber-400 rounded opacity-60">
+                <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-amber-200 text-[10px] sm:text-sm font-bold">
+                  القرآن
+                </div>
+              </div>
+              {/* Decorative elements */}
+              <div className="absolute top-2 left-1/2 transform -translate-x-1/2 w-8 h-0.5 bg-amber-300 opacity-80"></div>
+              <div className="absolute bottom-2 left-1/2 transform -translate-x-1/2 w-8 h-0.5 bg-amber-300 opacity-80"></div>
+              {/* Playing indicator */}
+              {quranAudio.isPlaying && (
+                <div className="absolute top-1 right-1 bg-green-500 rounded-full p-1 animate-pulse">
+                  <Play className="w-2 h-2 sm:w-3 sm:h-3 text-white fill-white" />
+                </div>
+              )}
+            </div>
+            {/* Pages effect */}
+            <div className="absolute top-0.5 right-0.5 w-18 h-22 bg-cream-100 rounded-r-lg border-r border-t border-b border-amber-200 opacity-30"></div>
+            {/* Tooltip */}
+            <div className="absolute -bottom-8 left-1/2 transform -translate-x-1/2 bg-black/80 text-white text-xs px-2 py-1 rounded whitespace-nowrap opacity-0 hover:opacity-100 transition-opacity">
+              {t('component.quran.tooltip')}
+            </div>
           </div>
         </div>
+      )}
+
+      {/* Bukhari Hadith Book Component */}
+      {bukhariBook.visible && (
+        <div
+          className="absolute cursor-move z-30 select-none"
+          style={{
+            left: bukhariBook.position.x,
+            top: bukhariBook.position.y,
+            transform: dragState === 'bukhariBook' ? 'scale(1.05)' : 'scale(1)',
+            touchAction: 'none'
+          }}
+          onMouseDown={(e) => handleMouseDown(e, 'bukhariBook', bukhariBook.position)}
+          onTouchStart={(e) => handleTouchStart(e, 'bukhariBook', bukhariBook.position)}
+          onClick={() => { if (!hasDragged) setShowBukhariHadith(true); }}
+        >
+          <div className="relative">
+            <div className="w-14 h-16 sm:w-20 sm:h-24 bg-gradient-to-br from-green-800 via-green-700 to-green-900 rounded-lg shadow-lg border border-green-950 relative overflow-hidden hover:shadow-xl transition-shadow">
+              {/* Book spine effect */}
+              <div className="absolute left-0 top-0 bottom-0 w-0.5 sm:w-1 bg-green-950"></div>
+              {/* Cover design */}
+              <div className="absolute inset-2 border border-green-400 rounded opacity-60">
+                <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-green-200 text-[10px] sm:text-sm font-bold text-center">
+                  البخاري
+                </div>
+              </div>
+              {/* Decorative elements */}
+              <div className="absolute top-2 left-1/2 transform -translate-x-1/2 w-8 h-0.5 bg-green-300 opacity-80"></div>
+              <div className="absolute bottom-2 left-1/2 transform -translate-x-1/2 w-8 h-0.5 bg-green-300 opacity-80"></div>
+            </div>
+            {/* Pages effect */}
+            <div className="absolute top-0.5 right-0.5 w-18 h-22 bg-cream-100 rounded-r-lg border-r border-t border-b border-green-200 opacity-30"></div>
+            {/* Tooltip */}
+            <div className="absolute -bottom-8 left-1/2 transform -translate-x-1/2 bg-black/80 text-white text-xs px-2 py-1 rounded whitespace-nowrap opacity-0 hover:opacity-100 transition-opacity">
+              {t('component.bukhari.tooltip')}
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Muslim Hadith Book Component */}
+      {muslimBook.visible && (
+        <div
+          className="absolute cursor-move z-30 select-none"
+          style={{
+            left: muslimBook.position.x,
+            top: muslimBook.position.y,
+            transform: dragState === 'muslimBook' ? 'scale(1.05)' : 'scale(1)',
+            touchAction: 'none'
+          }}
+          onMouseDown={(e) => handleMouseDown(e, 'muslimBook', muslimBook.position)}
+          onTouchStart={(e) => handleTouchStart(e, 'muslimBook', muslimBook.position)}
+          onClick={() => { if (!hasDragged) setShowMuslimHadith(true); }}
+        >
+          <div className="relative">
+            <div className="w-14 h-16 sm:w-20 sm:h-24 bg-gradient-to-br from-blue-800 via-blue-700 to-blue-900 rounded-lg shadow-lg border border-blue-950 relative overflow-hidden hover:shadow-xl transition-shadow">
+              {/* Book spine effect */}
+              <div className="absolute left-0 top-0 bottom-0 w-0.5 sm:w-1 bg-blue-950"></div>
+              {/* Cover design */}
+              <div className="absolute inset-2 border border-blue-400 rounded opacity-60">
+                <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-blue-200 text-[10px] sm:text-sm font-bold text-center">
+                  مسلم
+                </div>
+              </div>
+              {/* Decorative elements */}
+              <div className="absolute top-2 left-1/2 transform -translate-x-1/2 w-8 h-0.5 bg-blue-300 opacity-80"></div>
+              <div className="absolute bottom-2 left-1/2 transform -translate-x-1/2 w-8 h-0.5 bg-blue-300 opacity-80"></div>
+            </div>
+            {/* Pages effect */}
+            <div className="absolute top-0.5 right-0.5 w-18 h-22 bg-cream-100 rounded-r-lg border-r border-t border-b border-blue-200 opacity-30"></div>
+            {/* Tooltip */}
+            <div className="absolute -bottom-8 left-1/2 transform -translate-x-1/2 bg-black/80 text-white text-xs px-2 py-1 rounded whitespace-nowrap opacity-0 hover:opacity-100 transition-opacity">
+              {t('component.muslim.tooltip')}
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Sound Controls Component */}
+      {soundControls.visible && (
+        <div
+          className="absolute cursor-move z-30 select-none"
+          style={{
+            left: soundControls.position.x,
+            top: soundControls.position.y,
+            transform: dragState === 'soundControls' ? 'scale(1.05)' : 'scale(1)',
+            touchAction: 'none'
+          }}
+          onMouseDown={(e) => handleMouseDown(e, 'soundControls', soundControls.position)}
+          onTouchStart={(e) => handleTouchStart(e, 'soundControls', soundControls.position)}
+          onClick={() => { if (!hasDragged) setShowSoundControls(true); }}
+        >
+          <div className="w-14 h-16 sm:w-20 sm:h-24 bg-gradient-to-br from-purple-600 to-purple-800 rounded-lg shadow-lg border border-purple-900 hover:shadow-xl transition-shadow">
+            <div className="h-4 sm:h-5 bg-purple-900 rounded-t-lg flex items-center justify-center">
+              <Volume2 className="w-3 h-3 sm:w-4 sm:h-4 text-purple-300" />
+            </div>
+            <div className="p-1 sm:p-2 text-white text-center flex flex-col items-center justify-center" style={{ height: 'calc(100% - 16px)' }}>
+              <div className="text-[8px] sm:text-[10px] font-bold leading-tight">{t('sound.controls')}</div>
+            </div>
+            {/* Tooltip */}
+            <div className="absolute -bottom-8 left-1/2 transform -translate-x-1/2 bg-black/80 text-white text-xs px-2 py-1 rounded whitespace-nowrap opacity-0 hover:opacity-100 transition-opacity">
+              {t('component.sound.tooltip')}
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Modals */}
+      <PrayerTimes isOpen={showPrayerTimes} onClose={closePrayerTimes} />
+      <IslamicCalendar isOpen={showCalendar} onClose={closeCalendar} />
+      <QuranReader isVisible={showQuran} onClose={closeQuran} />
+      <HadithReader isVisible={showBukhariHadith} onClose={closeBukhariHadith} collection="bukhari" />
+      <HadithReader isVisible={showMuslimHadith} onClose={closeMuslimHadith} collection="muslim" />
+      <SoundControls roomId={roomId} isVisible={showSoundControls} onClose={closeSoundControls} />
+
+      {/* Global visibility controls - exposed via custom event */}
+      <div className="hidden">
+
+        <button
+          id={`toggle-calendar-${roomId}`}
+          onClick={() => setCalendar(prev => ({ ...prev, visible: !prev.visible }))}
+        />
+        <button
+          id={`toggle-prayerMat-${roomId}`}
+          onClick={() => setPrayerMat(prev => ({ ...prev, visible: !prev.visible }))}
+        />
+        <button
+          id={`toggle-quran-${roomId}`}
+          onClick={() => setQuran(prev => ({ ...prev, visible: !prev.visible }))}
+        />
+        <button
+          id={`toggle-bukhariBook-${roomId}`}
+          onClick={() => setBukhariBook(prev => ({ ...prev, visible: !prev.visible }))}
+        />
+        <button
+          id={`toggle-muslimBook-${roomId}`}
+          onClick={() => setMuslimBook(prev => ({ ...prev, visible: !prev.visible }))}
+        />
+        <button
+          id={`toggle-soundControls-${roomId}`}
+          onClick={() => setSoundControls(prev => ({ ...prev, visible: !prev.visible }))}
+        />
       </div>
-    )}
-
-    {/* Modals */}
-    <PrayerTimes isOpen={showPrayerTimes} onClose={closePrayerTimes} />
-    <IslamicCalendar isOpen={showCalendar} onClose={closeCalendar} />
-    <QuranReader isVisible={showQuran} onClose={closeQuran} />
-    <HadithReader isVisible={showBukhariHadith} onClose={closeBukhariHadith} collection="bukhari" />
-    <HadithReader isVisible={showMuslimHadith} onClose={closeMuslimHadith} collection="muslim" />
-    <SoundControls roomId={roomId} isVisible={showSoundControls} onClose={closeSoundControls} />
-
-    {/* Global visibility controls - exposed via custom event */}
-    <div className="hidden">
-
-      <button
-        id={`toggle-calendar-${roomId}`}
-        onClick={() => setCalendar(prev => ({ ...prev, visible: !prev.visible }))}
-      />
-      <button
-        id={`toggle-prayerMat-${roomId}`}
-        onClick={() => setPrayerMat(prev => ({ ...prev, visible: !prev.visible }))}
-      />
-      <button
-        id={`toggle-quran-${roomId}`}
-        onClick={() => setQuran(prev => ({ ...prev, visible: !prev.visible }))}
-      />
-      <button
-        id={`toggle-bukhariBook-${roomId}`}
-        onClick={() => setBukhariBook(prev => ({ ...prev, visible: !prev.visible }))}
-      />
-      <button
-        id={`toggle-muslimBook-${roomId}`}
-        onClick={() => setMuslimBook(prev => ({ ...prev, visible: !prev.visible }))}
-      />
-      <button
-        id={`toggle-soundControls-${roomId}`}
-        onClick={() => setSoundControls(prev => ({ ...prev, visible: !prev.visible }))}
-      />
-    </div>
     </>
   );
 };
