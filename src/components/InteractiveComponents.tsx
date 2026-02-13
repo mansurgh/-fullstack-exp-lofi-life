@@ -1,5 +1,6 @@
 import { useTranslation } from '@/contexts/TranslationContext';
-import { Volume2 } from 'lucide-react';
+import { useQuranAudio } from '@/contexts/QuranAudioContext';
+import { Volume2, Play } from 'lucide-react';
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { HadithReader } from './HadithReader';
 import { IslamicCalendar } from './IslamicCalendar';
@@ -22,7 +23,7 @@ const ClockWidget = React.memo(({ position, isDragging, onMouseDown, onTouchStar
   return (
     <div
       className="fixed cursor-move z-30 select-none"
-      style={{ left: position.x, top: position.y, transform: isDragging ? 'scale(1.05)' : 'scale(1)' }}
+      style={{ left: position.x, top: position.y, transform: isDragging ? 'scale(1.05)' : 'scale(1)', touchAction: 'none' }}
       onMouseDown={onMouseDown}
       onTouchStart={onTouchStart}
     >
@@ -58,6 +59,7 @@ interface InteractiveComponentsProps {
 
 export const InteractiveComponents = ({ roomId }: InteractiveComponentsProps) => {
   const { t } = useTranslation();
+  const quranAudio = useQuranAudio();
   const [dragState, setDragState] = useState<string | null>(null);
   const [hasDragged, setHasDragged] = useState(false);
   const dragStartPos = useRef<Position>({ x: 0, y: 0 });
@@ -217,6 +219,7 @@ export const InteractiveComponents = ({ roomId }: InteractiveComponentsProps) =>
   }, []);
 
   const handleTouchMove = useCallback((e: TouchEvent) => {
+    e.preventDefault(); // Prevent default scrolling behavior
     const touch = e.touches[0];
     const dx = touch.clientX - dragStartPos.current.x;
     const dy = touch.clientY - dragStartPos.current.y;
@@ -278,40 +281,39 @@ export const InteractiveComponents = ({ roomId }: InteractiveComponentsProps) =>
       };
     }
   }, [dragState, handleMouseMove, handleMouseUp, handleTouchMove, handleTouchEnd]);
-}
-  }, [dragState, handleMouseMove, handleMouseUp]);
 
-// Stable onClose callbacks for memoized children
-const closeQuran = useCallback(() => setShowQuran(false), []);
-const closeBukhariHadith = useCallback(() => setShowBukhariHadith(false), []);
-const closeMuslimHadith = useCallback(() => setShowMuslimHadith(false), []);
-const closeSoundControls = useCallback(() => setShowSoundControls(false), []);
-const closePrayerTimes = useCallback(() => setShowPrayerTimes(false), []);
-const closeCalendar = useCallback(() => setShowCalendar(false), []);
+  // Stable onClose callbacks for memoized children
+  const closeQuran = useCallback(() => setShowQuran(false), []);
+  const closeBukhariHadith = useCallback(() => setShowBukhariHadith(false), []);
+  const closeMuslimHadith = useCallback(() => setShowMuslimHadith(false), []);
+  const closeSoundControls = useCallback(() => setShowSoundControls(false), []);
+  const closePrayerTimes = useCallback(() => setShowPrayerTimes(false), []);
+  const closeCalendar = useCallback(() => setShowCalendar(false), []);
 
-return (
-  <>
-    {/* Hidden toggle buttons for InteractiveControlsMenu */}
-    <button id={`toggle-clock-${roomId}`} className="hidden" onClick={() => setClock(prev => ({ ...prev, visible: !prev.visible }))} />
+  return (
+    <>
+      {/* Hidden toggle buttons for InteractiveControlsMenu */}
+      <button id={`toggle-clock-${roomId}`} className="hidden" onClick={() => setClock(prev => ({ ...prev, visible: !prev.visible }))} />
 
-    {/* Clock Widget — isolated component with its own timer */}
-    {clock.visible && (
-      <ClockWidget
-        position={clock.position}
-        isDragging={dragState === 'clock'}
-        onMouseDown={(e) => handleMouseDown(e, 'clock', clock.position)}
-        onTouchStart={(e) => handleTouchStart(e, 'clock', clock.position)}
-      />
-    )}
+      {/* Clock Widget — isolated component with its own timer */}
+      {clock.visible && (
+        <ClockWidget
+          position={clock.position}
+          isDragging={dragState === 'clock'}
+          onMouseDown={(e) => handleMouseDown(e, 'clock', clock.position)}
+          onTouchStart={(e) => handleTouchStart(e, 'clock', clock.position)}
+        />
+      )}
 
-    {/* Calendar Component */}
+      {/* Calendar Component */}
     {calendar.visible && (
       <div
         className="fixed cursor-move z-30 select-none"
         style={{
           left: calendar.position.x,
           top: calendar.position.y,
-          transform: dragState === 'calendar' ? 'scale(1.05)' : 'scale(1)'
+          transform: dragState === 'calendar' ? 'scale(1.05)' : 'scale(1)',
+          touchAction: 'none'
         }}
         onMouseDown={(e) => handleMouseDown(e, 'calendar', calendar.position)}
         onTouchStart={(e) => handleTouchStart(e, 'calendar', calendar.position)}
@@ -341,7 +343,8 @@ return (
         style={{
           left: prayerMat.position.x,
           top: prayerMat.position.y,
-          transform: dragState === 'prayerMat' ? 'scale(1.05)' : 'scale(1)'
+          transform: dragState === 'prayerMat' ? 'scale(1.05)' : 'scale(1)',
+          touchAction: 'none'
         }}
         onMouseDown={(e) => handleMouseDown(e, 'prayerMat', prayerMat.position)}
         onTouchStart={(e) => handleTouchStart(e, 'prayerMat', prayerMat.position)}
@@ -375,7 +378,8 @@ return (
         style={{
           left: quran.position.x,
           top: quran.position.y,
-          transform: dragState === 'quran' ? 'scale(1.05)' : 'scale(1)'
+          transform: dragState === 'quran' ? 'scale(1.05)' : 'scale(1)',
+          touchAction: 'none'
         }}
         onMouseDown={(e) => handleMouseDown(e, 'quran', quran.position)}
         onTouchStart={(e) => handleTouchStart(e, 'quran', quran.position)}
@@ -394,6 +398,12 @@ return (
             {/* Decorative elements */}
             <div className="absolute top-2 left-1/2 transform -translate-x-1/2 w-8 h-0.5 bg-amber-300 opacity-80"></div>
             <div className="absolute bottom-2 left-1/2 transform -translate-x-1/2 w-8 h-0.5 bg-amber-300 opacity-80"></div>
+            {/* Playing indicator */}
+            {quranAudio.isPlaying && (
+              <div className="absolute top-1 right-1 bg-green-500 rounded-full p-1 animate-pulse">
+                <Play className="w-2 h-2 sm:w-3 sm:h-3 text-white fill-white" />
+              </div>
+            )}
           </div>
           {/* Pages effect */}
           <div className="absolute top-0.5 right-0.5 w-18 h-22 bg-cream-100 rounded-r-lg border-r border-t border-b border-amber-200 opacity-30"></div>
@@ -412,7 +422,8 @@ return (
         style={{
           left: bukhariBook.position.x,
           top: bukhariBook.position.y,
-          transform: dragState === 'bukhariBook' ? 'scale(1.05)' : 'scale(1)'
+          transform: dragState === 'bukhariBook' ? 'scale(1.05)' : 'scale(1)',
+          touchAction: 'none'
         }}
         onMouseDown={(e) => handleMouseDown(e, 'bukhariBook', bukhariBook.position)}
         onTouchStart={(e) => handleTouchStart(e, 'bukhariBook', bukhariBook.position)}
@@ -449,7 +460,8 @@ return (
         style={{
           left: muslimBook.position.x,
           top: muslimBook.position.y,
-          transform: dragState === 'muslimBook' ? 'scale(1.05)' : 'scale(1)'
+          transform: dragState === 'muslimBook' ? 'scale(1.05)' : 'scale(1)',
+          touchAction: 'none'
         }}
         onMouseDown={(e) => handleMouseDown(e, 'muslimBook', muslimBook.position)}
         onTouchStart={(e) => handleTouchStart(e, 'muslimBook', muslimBook.position)}
@@ -486,7 +498,8 @@ return (
         style={{
           left: soundControls.position.x,
           top: soundControls.position.y,
-          transform: dragState === 'soundControls' ? 'scale(1.05)' : 'scale(1)'
+          transform: dragState === 'soundControls' ? 'scale(1.05)' : 'scale(1)',
+          touchAction: 'none'
         }}
         onMouseDown={(e) => handleMouseDown(e, 'soundControls', soundControls.position)}
         onTouchStart={(e) => handleTouchStart(e, 'soundControls', soundControls.position)}
@@ -543,6 +556,6 @@ return (
         onClick={() => setSoundControls(prev => ({ ...prev, visible: !prev.visible }))}
       />
     </div>
-  </>
-);
+    </>
+  );
 };

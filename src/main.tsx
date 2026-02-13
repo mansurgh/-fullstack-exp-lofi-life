@@ -1,9 +1,10 @@
 import React from 'react'
 import ReactDOM from 'react-dom/client'
 import App from './App'
-import { TranslationProvider } from './contexts/TranslationContext'
+import { QuranAudioProvider } from './contexts/QuranAudioContext'
 import { RecitationProvider } from './contexts/RecitationContext'
 import { SoundProvider } from './contexts/SoundContext'
+import { TranslationProvider } from './contexts/TranslationContext'
 import './index.css'
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
@@ -11,7 +12,9 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
     <TranslationProvider>
       <RecitationProvider>
         <SoundProvider>
-          <App />
+          <QuranAudioProvider>
+            <App />
+          </QuranAudioProvider>
         </SoundProvider>
       </RecitationProvider>
     </TranslationProvider>

@@ -9,6 +9,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Switch } from "@/components/ui/switch";
+import { useQuranAudio } from "@/contexts/QuranAudioContext";
 import { useTranslation } from "@/contexts/TranslationContext";
 import { fetchSurahVerses, loadCachedSurah, VerseDTO } from "@/lib/quranApi";
 import { Pause, Play, SkipBack, SkipForward, X } from "lucide-react";
@@ -147,53 +148,39 @@ const surahs: Surah[] = [
 
 export default function QuranReader({ onClose, isVisible }: QuranReaderProps) {
   const { t, language } = useTranslation();
+  const quranAudio = useQuranAudio();
+
+  // Local UI state for surah selection and display
   const [selectedSurah, setSelectedSurah] = useState<string>("1");
   const [verses, setVerses] = useState<VerseDTO[]>([]);
-  const [currentVerse, setCurrentVerse] = useState<number>(0);
-  const [isPlaying, setIsPlaying] = useState<boolean>(false);
   const [showTranslation, setShowTranslation] = useState<boolean>(true);
   const [showTransliteration, setShowTransliteration] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
 
-
-  const audioRef = useRef<HTMLAudioElement>(null);
   const activeRef = useRef<HTMLDivElement | null>(null);
-  const sourceIndexRef = useRef<number>(0);
 
-  // Вычисляем глобальный номер аята (1-6236) для CDN
-  const getGlobalAyahNumber = (surah: number, ayah: number): number => {
-    let global = 0;
-    for (let i = 0; i < surah - 1; i++) {
-      global += surahs[i].verses;
+  // Sync selectedSurah with global audio context when widget opens
+  useEffect(() => {
+    if (isVisible && quranAudio.currentSurah) {
+      setSelectedSurah(String(quranAudio.currentSurah));
     }
-    return global + ayah;
-  };
+  }, [isVisible, quranAudio.currentSurah]);
 
-  // Формируем список CDN-источников для текущего аята
-  const getAudioSources = (surah: number, ayah: number): string[] => {
-    const globalNum = getGlobalAyahNumber(surah, ayah);
-    const cdn1 = `https://cdn.islamic.network/quran/audio/192/ar.abdulbasitmurattal/${globalNum}.mp3`;
-    const cdn2 = `https://cdn.islamic.network/quran/audio/64/ar.abdulbasitmurattal/${globalNum}.mp3`;
-    const cdn3 = `https://server8.mp3quran.net/abdul_basit_murattal/${surah.toString().padStart(3, '0')}${ayah.toString().padStart(3, '0')}.mp3`;
-    return [cdn1, cdn2, cdn3];
-  };
-
+  // Load verses when surah changes
   useEffect(() => {
     let mounted = true;
     setLoading(true);
     setError(null);
-    setIsPlaying(false);
-    setCurrentVerse(0);
 
-    // Проверяем кэш и очищаем если содержит placeholder
+    // Check cache first
     const cached = loadCachedSurah(selectedSurah);
     if (cached && mounted) {
       setVerses(cached);
       setLoading(false);
     }
 
-    // Всегда загружаем свежие данные с API
+    // Always fetch fresh data from API
     fetchSurahVerses(selectedSurah, language)
       .then((v) => {
         if (mounted) {
@@ -214,94 +201,56 @@ export default function QuranReader({ onClose, isVisible }: QuranReaderProps) {
     };
   }, [selectedSurah, language]);
 
-  // Настройка аудио
+  // Sync verses with global context
   useEffect(() => {
-    const audio = audioRef.current;
-    if (!audio) return;
-  }, []);
+    if (verses.length > 0 && quranAudio.currentSurah === Number(selectedSurah)) {
+      // Context already has these verses
+    } else if (verses.length > 0 && quranAudio.currentSurah !== Number(selectedSurah) && quranAudio.isPlaying) {
+      // User changed surah while audio playing - do nothing
+    }
+  }, [verses, selectedSurah, quranAudio]);
 
-  // При старте/смене аята загружаем аудио с фолбеком
-  useEffect(() => {
-    const audio = audioRef.current;
-    if (!audio) return;
-    if (!isPlaying) return;
-    const verse = verses[currentVerse];
-    if (!verse) return;
-
-    const surah = Number(selectedSurah);
-    const sources = getAudioSources(surah, currentVerse + 1);
-
-    sourceIndexRef.current = 0;
-    audio.src = sources[0];
-
-    const tryNextSource = () => {
-      sourceIndexRef.current++;
-      if (sourceIndexRef.current < sources.length) {
-        audio.src = sources[sourceIndexRef.current];
-        audio.load();
-      } else {
-        setIsPlaying(false);
-      }
-    };
-
-    // Добавляем обработчики событий
-    const handleCanPlay = () => {
-      audio.play().catch(() => tryNextSource());
-    };
-
-    const handleEnded = () => {
-      if (currentVerse < verses.length - 1) {
-        setCurrentVerse((v) => v + 1);
-      } else {
-        setIsPlaying(false);
-      }
-    };
-
-    const handleError = () => {
-      tryNextSource();
-    };
-
-    // Добавляем обработчики
-    audio.addEventListener('canplay', handleCanPlay);
-    audio.addEventListener('error', handleError);
-    audio.addEventListener('ended', handleEnded);
-
-    // Загружаем аудио
-    audio.load();
-
-    // Очистка обработчиков
-    return () => {
-      audio.removeEventListener('canplay', handleCanPlay);
-      audio.removeEventListener('error', handleError);
-      audio.removeEventListener('ended', handleEnded);
-    };
-  }, [isPlaying, currentVerse, verses, selectedSurah]);
-
-  // BACKUP useEffect removed — main useEffect handles all audio loading
-
+  // Auto-scroll to current playing verse
   useEffect(() => {
     activeRef.current?.scrollIntoView({ behavior: "smooth", block: "center" });
-  }, [currentVerse]);
+  }, [quranAudio.currentVerse]);
 
+  // Control functions
   const togglePlay = () => {
-    const audio = audioRef.current;
-    if (!audio || !verses.length) return;
-    if (isPlaying) {
-      audio.pause();
-      setIsPlaying(false);
+    if (!verses.length) return;
+
+    if (quranAudio.isPlaying && quranAudio.currentSurah === Number(selectedSurah)) {
+      // Pause current playback
+      quranAudio.pause();
+    } else if (!quranAudio.isPlaying && quranAudio.currentSurah === Number(selectedSurah)) {
+      // Resume current surah
+      quranAudio.resume();
     } else {
-      setIsPlaying(true);
+      // Start new surah playback
+      quranAudio.playSurah(Number(selectedSurah), verses, 0);
     }
   };
 
   const nextVerse = () => {
-    if (currentVerse < verses.length - 1) setCurrentVerse((v) => v + 1);
-    else setIsPlaying(false);
+    quranAudio.nextVerse();
   };
 
   const prevVerse = () => {
-    if (currentVerse > 0) setCurrentVerse((v) => v - 1);
+    quranAudio.previousVerse();
   };
+
+  const handleVerseClick = (index: number) => {
+    if (quranAudio.currentSurah === Number(selectedSurah) && quranAudio.isPlaying) {
+      // Surah is playing, can't change verse by clicking
+      return;
+    }
+    // Not playing or different surah - start from clicked verse
+    quranAudio.playSurah(Number(selectedSurah), verses, index);
+  };
+
+  // Determine current state for UI
+  const isCurrentSurahPlaying = quranAudio.currentSurah === Number(selectedSurah) && quranAudio.isPlaying;
+  const currentDisplayVerse = quranAudio.currentSurah === Number(selectedSurah) ? quranAudio.currentVerse : 0;
 
 
 
@@ -324,17 +273,29 @@ export default function QuranReader({ onClose, isVisible }: QuranReaderProps) {
         </Select>
 
         <div className="flex items-center gap-2 sm:gap-2 gap-1">
-          <Button variant="outline" size="icon" onClick={prevVerse} disabled={currentVerse === 0 || !verses.length} className="h-10 w-10 sm:h-9 sm:w-9">
+          <Button
+            variant="outline"
+            size="icon"
+            onClick={prevVerse}
+            disabled={currentDisplayVerse === 0 || !verses.length || !isCurrentSurahPlaying}
+            className="h-10 w-10 sm:h-9 sm:w-9"
+          >
             <SkipBack className="h-5 w-5 sm:h-4 sm:w-4" />
           </Button>
-          <Button variant="default" size="icon" onClick={togglePlay} disabled={!verses.length || loading} className="h-12 w-12 sm:h-9 sm:w-9">
-            {isPlaying ? <Pause className="h-6 w-6 sm:h-4 sm:w-4" /> : <Play className="h-6 w-6 sm:h-4 sm:w-4" />}
+          <Button
+            variant="default"
+            size="icon"
+            onClick={togglePlay}
+            disabled={!verses.length || loading}
+            className="h-12 w-12 sm:h-9 sm:w-9"
+          >
+            {isCurrentSurahPlaying ? <Pause className="h-6 w-6 sm:h-4 sm:w-4" /> : <Play className="h-6 w-6 sm:h-4 sm:w-4" />}
           </Button>
           <Button
             variant="outline"
             size="icon"
             onClick={nextVerse}
-            disabled={!verses.length || currentVerse === verses.length - 1}
+            disabled={!verses.length || currentDisplayVerse === verses.length - 1 || !isCurrentSurahPlaying}
             className="h-10 w-10 sm:h-9 sm:w-9"
           >
             <SkipForward className="h-5 w-5 sm:h-4 sm:w-4" />
@@ -349,16 +310,14 @@ export default function QuranReader({ onClose, isVisible }: QuranReaderProps) {
       {loading && <div className="text-sm text-muted-foreground">{t('quran.loading')}</div>}
       {error && <div className="text-sm text-red-500">{t('quran.error')}: {error}</div>}
 
-
-
       <div className="max-h-[65vh] overflow-y-auto space-y-3">
         {verses.map((v, idx) => {
-          const active = idx === currentVerse && isPlaying;
+          const active = idx === currentDisplayVerse && isCurrentSurahPlaying;
           return (
             <div
               key={idx}
-              ref={idx === currentVerse ? activeRef : null}
-              onClick={() => setCurrentVerse(idx)}
+              ref={idx === currentDisplayVerse ? activeRef : null}
+              onClick={() => handleVerseClick(idx)}
               className={`p-3 rounded transition cursor-pointer ${active ? "bg-accent/20 ring-1 ring-accent" : "hover:bg-muted/40"
                 }`}
             >
@@ -410,8 +369,6 @@ export default function QuranReader({ onClose, isVisible }: QuranReaderProps) {
           <span className="text-sm">{t('quran.show.translation.label')}</span>
         </div>
       </div>
-
-      <audio ref={audioRef} />
     </Card>
   );
 }
