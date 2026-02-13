@@ -1,86 +1,82 @@
-import { useState, useEffect } from "react";
-import { useSearchParams } from "react-router-dom";
-import { Card } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import { ChevronLeft, ChevronRight } from "lucide-react";
-import { useTranslation } from '@/contexts/TranslationContext';
 import { ThemeSelector } from '@/components/ThemeSelector';
+import { Button } from "@/components/ui/button";
+import { Card } from "@/components/ui/card";
+import { useTranslation } from '@/contexts/TranslationContext';
+import { ChevronLeft, ChevronRight } from "lucide-react";
+import { useEffect, useMemo, useState } from "react";
+import { useSearchParams } from "react-router-dom";
 
 // Lofi first-person view images
-import lofiRainyStudy from "@/assets/lofi-rainy-study.jpg";
-import lofiSunnyGarden from "@/assets/lofi-sunny-garden.jpg";
-import lofiFireplaceNook from "@/assets/lofi-fireplace-nook.jpg";
-import lofiMoonlitCorner from "@/assets/lofi-moonlit-corner.jpg";
-import lofiSeasideSanctuary from "@/assets/lofi-seaside-sanctuary.jpg";
-import lofiDesertMirage from "@/assets/lofi-desert-mirage.jpg";
-import lofiTuscanVista from "@/assets/lofi-tuscan-vista.jpg";
-import lofiStellarMeditation from "@/assets/lofi-stellar-meditation.jpg";
 import lofiAlpineRetreat from "@/assets/lofi-alpine-retreat.jpg";
-import lofiWoodlandHaven from "@/assets/lofi-woodland-haven.jpg";
-import lofiRussianWinter from "@/assets/lofi-russian-winter.jpg";
-import lofiChechenTower from "@/assets/lofi-chechen-tower.jpg";
-import lofiFrenchEiffel from "@/assets/lofi-french-eiffel.jpg";
-import lofiNorwegianLandscape from "@/assets/lofi-norwegian-landscape.jpg";
-import lofiTokyoNeon from "@/assets/lofi-tokyo-neon.jpg";
+import lofiAntarcticIgloo from "@/assets/lofi-antarctic-igloo.jpg";
 import lofiBelgianGrey from "@/assets/lofi-belgian-grey.jpg";
-import lofiGermanBrown from "@/assets/lofi-german-brown.jpg";
-import lofiDutchFarm from "@/assets/lofi-dutch-farm.jpg";
+import lofiBirdShop from "@/assets/lofi-bird-shop.jpg";
+import lofiBusStop from "@/assets/lofi-bus-stop.jpg";
+import lofiCatEating from "@/assets/lofi-cat-eating.jpg";
+import lofiChechenTower from "@/assets/lofi-chechen-tower.jpg";
 import lofiChineseLake from "@/assets/lofi-chinese-lake.jpg";
 import lofiCircusTent from "@/assets/lofi-circus-tent.jpg";
-import lofiLibraryRoom from "@/assets/lofi-library-room.jpg";
-import lofiMosqueInterior from "@/assets/lofi-mosque-interior.jpg";
-import lofiRgbRoom from "@/assets/lofi-rgb-room.jpg";
-import lofiPolandSnow from "@/assets/lofi-poland-snow.jpg";
-import lofiAntarcticIgloo from "@/assets/lofi-antarctic-igloo.jpg";
-import lofiSpaceShip from "@/assets/lofi-space-ship.jpg";
-import lofiPinkCandy from "@/assets/lofi-pink-candy.jpg";
-import lofiPrisonCell from "@/assets/lofi-prison-cell.jpg";
-import lofiSkyscraperView from "@/assets/lofi-skyscraper-view.jpg";
-import lofiSubmarineView from "@/assets/lofi-submarine-view.jpg";
-import lofiTetrisRoom from "@/assets/lofi-tetris-room.jpg";
 import lofiClickerArcade from "@/assets/lofi-clicker-arcade.jpg";
-import lofiMinecraftRoom from "@/assets/lofi-minecraft-room.jpg";
-import lofiNarutoRoom from "@/assets/lofi-naruto-room.jpg";
-import lofiSpongebobPineapple from "@/assets/lofi-spongebob-pineapple.jpg";
-import lofiPirateDeckView from "@/assets/lofi-pirate-deck-view.jpg";
-import lofiGhibliForest from "@/assets/lofi-ghibli-forest.jpg";
-import lofiTitanWall from "@/assets/lofi-titan-wall.jpg";
 import lofiDemonSlayerDojo from "@/assets/lofi-demon-slayer-dojo.jpg";
-import lofiHeroAcademy from "@/assets/lofi-hero-academy.jpg";
+import lofiDesertMirage from "@/assets/lofi-desert-mirage.jpg";
+import lofiDoctorsOffice from "@/assets/lofi-doctors-office.jpg";
+import lofiDogEating from "@/assets/lofi-dog-eating.jpg";
 import lofiDragonBallTraining from "@/assets/lofi-dragon-ball-training.jpg";
+import lofiDutchFarm from "@/assets/lofi-dutch-farm.jpg";
+import lofiFireplaceNook from "@/assets/lofi-fireplace-nook.jpg";
+import lofiFrenchEiffel from "@/assets/lofi-french-eiffel.jpg";
+import lofiGermanBrown from "@/assets/lofi-german-brown.jpg";
+import lofiGhibliForest from "@/assets/lofi-ghibli-forest.jpg";
+import lofiGym from "@/assets/lofi-gym.jpg";
+import lofiHeroAcademy from "@/assets/lofi-hero-academy.jpg";
 import lofiHospitalWaiting from "@/assets/lofi-hospital-waiting.jpg";
 import lofiJailCell from "@/assets/lofi-jail-cell.jpg";
-import lofiTrainStation from "@/assets/lofi-train-station.jpg";
-import lofiBusStop from "@/assets/lofi-bus-stop.jpg";
-import lofiDoctorsOffice from "@/assets/lofi-doctors-office.jpg";
-import lofiGym from "@/assets/lofi-gym.jpg";
-import lofiBirdShop from "@/assets/lofi-bird-shop.jpg";
-import lofiRoomWithCat from "@/assets/lofi-room-with-cat.jpg";
-import lofiCatEating from "@/assets/lofi-cat-eating.jpg";
-import lofiDogEating from "@/assets/lofi-dog-eating.jpg";
 import lofiKitchenCockatiel from "@/assets/lofi-kitchen-cockatiel.jpg";
+import lofiLibraryRoom from "@/assets/lofi-library-room.jpg";
+import lofiMinecraftRoom from "@/assets/lofi-minecraft-room.jpg";
+import lofiMoonlitCorner from "@/assets/lofi-moonlit-corner.jpg";
 import lofiMoonlitRoom from "@/assets/lofi-moonlit-room.jpg";
-import lofiRainHideout from "@/assets/lofi-rain-hideout.jpg";
+import lofiMosqueInterior from "@/assets/lofi-mosque-interior.jpg";
+import lofiNarutoRoom from "@/assets/lofi-naruto-room.jpg";
+import lofiNorwegianLandscape from "@/assets/lofi-norwegian-landscape.jpg";
 import lofiParkTrees from "@/assets/lofi-park-trees.jpg";
+import lofiPinkCandy from "@/assets/lofi-pink-candy.jpg";
+import lofiPirateDeckView from "@/assets/lofi-pirate-deck-view.jpg";
+import lofiPolandSnow from "@/assets/lofi-poland-snow.jpg";
+import lofiPrisonCell from "@/assets/lofi-prison-cell.jpg";
+import lofiRainHideout from "@/assets/lofi-rain-hideout.jpg";
+import lofiRainyStudy from "@/assets/lofi-rainy-study.jpg";
+import lofiRgbRoom from "@/assets/lofi-rgb-room.jpg";
+import lofiRoomWithCat from "@/assets/lofi-room-with-cat.jpg";
+import lofiRussianWinter from "@/assets/lofi-russian-winter.jpg";
+import lofiSeasideSanctuary from "@/assets/lofi-seaside-sanctuary.jpg";
+import lofiSkyscraperView from "@/assets/lofi-skyscraper-view.jpg";
+import lofiSpaceShip from "@/assets/lofi-space-ship.jpg";
+import lofiSpongebobPineapple from "@/assets/lofi-spongebob-pineapple.jpg";
+import lofiStellarMeditation from "@/assets/lofi-stellar-meditation.jpg";
+import lofiSubmarineView from "@/assets/lofi-submarine-view.jpg";
+import lofiSunnyGarden from "@/assets/lofi-sunny-garden.jpg";
+import lofiTetrisRoom from "@/assets/lofi-tetris-room.jpg";
+import lofiTitanWall from "@/assets/lofi-titan-wall.jpg";
+import lofiTokyoNeon from "@/assets/lofi-tokyo-neon.jpg";
+import lofiTrainStation from "@/assets/lofi-train-station.jpg";
+import lofiTuscanVista from "@/assets/lofi-tuscan-vista.jpg";
+import lofiWoodlandHaven from "@/assets/lofi-woodland-haven.jpg";
 
 // Sport rooms (keeping original)
-import footballField from "@/assets/football-field.jpg";
-import tennisCourt from "@/assets/tennis-court.jpg";
-import basketballCourt from "@/assets/basketball-court.jpg";
-import volleyballCourt from "@/assets/volleyball-court.jpg";
-import bowlingAlley from "@/assets/bowling-alley.jpg";
 import americanFootball from "@/assets/american-football.jpg";
+import basketballCourt from "@/assets/basketball-court.jpg";
+import bowlingAlley from "@/assets/bowling-alley.jpg";
+import footballField from "@/assets/football-field.jpg";
 import hockeyRink from "@/assets/hockey-rink.jpg";
 import indoorPool from "@/assets/indoor-pool.jpg";
+import tennisCourt from "@/assets/tennis-court.jpg";
+import volleyballCourt from "@/assets/volleyball-court.jpg";
 
 // The Concept room
 import theConcept from "@/assets/the-concept.jpg";
 
 // Fictional characters (replaced with clean versions)
-import cleanMinecraftRoom from "@/assets/clean-tetris-room.jpg"; // Using tetris room for minecraft
-import cleanNarutoRoom from "@/assets/clean-library-room.jpg"; // Using library for naruto
-import cleanSpongebobPineapple from "@/assets/clean-submarine-view.jpg"; // Using submarine for underwater
-import cleanPirateDeckView from "@/assets/clean-seaside-sanctuary.jpg"; // Using seaside for pirate
 
 interface Room {
   id: string;
@@ -570,7 +566,7 @@ const roomCategories: Record<string, FilterCategory> = {
   'bus-stop': 'places',
   'doctors-office': 'places',
   'park-trees': 'places',
-  
+
   // Hobbies
   'circus-tent': 'hobbies',
   'mosque-interior': 'hobbies',
@@ -579,7 +575,7 @@ const roomCategories: Record<string, FilterCategory> = {
   'prison-cell': 'hobbies',
   'space-ship': 'hobbies',
   'rgb-room': 'hobbies',
-  
+
   // Cozy & Ambiance (all others)
   'rainy-study': 'places',
   'sunny-garden': 'places',
@@ -606,7 +602,7 @@ const roomCategories: Record<string, FilterCategory> = {
   'moonlit-room': 'places',
   'rain-hideout': 'places',
   'the-concept': 'places',
-  
+
   // Sports rooms
   'football-field': 'sports',
   'tennis-court': 'sports',
@@ -621,28 +617,30 @@ const roomCategories: Record<string, FilterCategory> = {
 export const RoomSelector = ({ onSelectRoom }: RoomSelectorProps) => {
   const { t } = useTranslation();
   const [searchParams, setSearchParams] = useSearchParams();
-  
+
   // Get initial page from URL or default to 0
   const initialPage = parseInt(searchParams.get('page') || '0', 10);
   const initialFilter = (searchParams.get('filter') as FilterCategory) || 'all';
-  
+
   const [currentPage, setCurrentPage] = useState(initialPage);
   const [selectedFilter, setSelectedFilter] = useState<FilterCategory>(initialFilter);
-  
+
   const ROOMS_PER_PAGE = 9;
-  
-  const filteredRooms = selectedFilter === 'all' 
-    ? rooms.sort((a, b) => a.name.localeCompare(b.name))
-    : rooms.filter(room => roomCategories[room.id] === selectedFilter)
-           .sort((a, b) => a.name.localeCompare(b.name));
-  
+
+  const filteredRooms = useMemo(() => {
+    const list = selectedFilter === 'all'
+      ? [...rooms]
+      : rooms.filter(room => roomCategories[room.id] === selectedFilter);
+    return list.sort((a, b) => a.name.localeCompare(b.name));
+  }, [rooms, selectedFilter]);
+
   const totalPages = Math.ceil(filteredRooms.length / ROOMS_PER_PAGE);
-  
-  const currentRooms = filteredRooms.slice(
+
+  const currentRooms = useMemo(() => filteredRooms.slice(
     currentPage * ROOMS_PER_PAGE,
     (currentPage + 1) * ROOMS_PER_PAGE
-  );
-  
+  ), [filteredRooms, currentPage]);
+
   // Update URL when page or filter changes
   useEffect(() => {
     const params = new URLSearchParams();
@@ -650,20 +648,20 @@ export const RoomSelector = ({ onSelectRoom }: RoomSelectorProps) => {
     if (selectedFilter !== 'all') params.set('filter', selectedFilter);
     setSearchParams(params, { replace: true });
   }, [currentPage, selectedFilter, setSearchParams]);
-  
+
   const handleFilterChange = (filter: FilterCategory) => {
     setSelectedFilter(filter);
     setCurrentPage(0); // Reset to first page when changing filter
   };
-  
+
   const goToNextPage = () => {
     setCurrentPage((prev) => (prev + 1) % totalPages);
   };
-  
+
   const goToPrevPage = () => {
     setCurrentPage((prev) => (prev - 1 + totalPages) % totalPages);
   };
-  
+
   return (
     <div className="min-h-screen bg-gradient-cozy p-4 sm:p-6 lg:p-8">
       <div className="max-w-6xl mx-auto">
@@ -677,13 +675,13 @@ export const RoomSelector = ({ onSelectRoom }: RoomSelectorProps) => {
           <p className="text-xs sm:text-sm text-muted-foreground/80 max-w-3xl mx-auto mt-4 sm:mt-6 leading-relaxed px-4">
             {t('main.message')}
           </p>
-          
+
           {/* Theme Settings */}
           <div className="flex justify-center mt-6">
             <ThemeSelector />
           </div>
         </div>
-        
+
         {/* Filter Buttons - more compact on mobile */}
         <div className="flex justify-center items-center gap-1 sm:gap-2 mb-4 sm:mb-8">
           <Button
@@ -692,7 +690,7 @@ export const RoomSelector = ({ onSelectRoom }: RoomSelectorProps) => {
             size="sm"
             className="px-2 py-1 text-xs sm:px-4 sm:py-2 sm:text-sm"
           >
-            All
+            {t('filter.all')}
           </Button>
           <Button
             onClick={() => handleFilterChange('places')}
@@ -700,7 +698,7 @@ export const RoomSelector = ({ onSelectRoom }: RoomSelectorProps) => {
             size="sm"
             className="px-2 py-1 text-xs sm:px-4 sm:py-2 sm:text-sm"
           >
-            Places
+            {t('filter.places')}
           </Button>
           <Button
             onClick={() => handleFilterChange('hobbies')}
@@ -708,7 +706,7 @@ export const RoomSelector = ({ onSelectRoom }: RoomSelectorProps) => {
             size="sm"
             className="px-2 py-1 text-xs sm:px-4 sm:py-2 sm:text-sm"
           >
-            Hobbies
+            {t('filter.hobbies')}
           </Button>
           <Button
             onClick={() => handleFilterChange('sports')}
@@ -716,22 +714,23 @@ export const RoomSelector = ({ onSelectRoom }: RoomSelectorProps) => {
             size="sm"
             className="px-2 py-1 text-xs sm:px-4 sm:py-2 sm:text-sm"
           >
-            Sports
+            {t('filter.sports')}
           </Button>
         </div>
-        
-        
+
+
         <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-3 gap-2 sm:gap-6 lg:gap-8">
           {currentRooms.map((room) => (
-            <Card 
+            <Card
               key={room.id}
               className="overflow-hidden shadow-soft hover:shadow-glow transition-all duration-300 hover:scale-[1.02] bg-card border-border cursor-pointer"
               onClick={() => onSelectRoom(room.id)}
             >
               <div className="relative">
-                <img 
-                  src={room.thumbnail} 
+                <img
+                  src={room.thumbnail}
                   alt={room.name}
+                  loading="lazy"
                   className="aspect-video w-full object-cover"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
@@ -770,7 +769,7 @@ export const RoomSelector = ({ onSelectRoom }: RoomSelectorProps) => {
             </Card>
           ))}
         </div>
-        
+
         {/* Page Navigation - hide on mobile if only one page */}
         {totalPages > 1 && (
           <div className="flex justify-center items-center gap-2 sm:gap-4 mt-4 sm:mt-8">
@@ -783,11 +782,11 @@ export const RoomSelector = ({ onSelectRoom }: RoomSelectorProps) => {
               <ChevronLeft className="w-3 h-3 sm:w-4 sm:h-4" />
               <span className="hidden sm:inline">Previous</span>
             </Button>
-            
+
             <span className="text-xs sm:text-sm text-muted-foreground px-2">
               {currentPage + 1}/{totalPages}
             </span>
-            
+
             <Button
               onClick={goToNextPage}
               variant="outline"
@@ -799,8 +798,8 @@ export const RoomSelector = ({ onSelectRoom }: RoomSelectorProps) => {
             </Button>
           </div>
         )}
-        
-        
+
+
         <div className="text-center mt-8 sm:mt-12 px-4">
           <p className="text-xs sm:text-sm text-muted-foreground">
             {t('main.verse')}

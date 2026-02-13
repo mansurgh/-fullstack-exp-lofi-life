@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState, useEffect, useRef } from 'react';
+import React, { createContext, useCallback, useContext, useEffect, useMemo, useRef, useState } from 'react';
 
 interface SoundTrack {
   id: string;
@@ -13,19 +13,19 @@ interface SoundTrack {
 interface SoundContextType {
   // Global ambient sounds (available in all rooms)
   ambientSounds: SoundTrack[];
-  
+
   // Controls for ambient sounds
   playAmbientSound: (soundId: string) => void;
   stopAmbientSound: (soundId: string) => void;
   setAmbientSoundVolume: (soundId: string, volume: number) => void;
   muteAmbientSound: (soundId: string, muted: boolean) => void;
-  
+
   // Master controls
   masterVolume: number;
   setMasterVolume: (volume: number) => void;
   isMasterMuted: boolean;
   setMasterMuted: (muted: boolean) => void;
-  
+
   // Stop all sounds
   stopAllSounds: () => void;
 }
@@ -34,7 +34,8 @@ const SoundContext = createContext<SoundContextType | undefined>(undefined);
 
 // Global ambient sounds available in all rooms
 const ambientSoundConfigs = [
-  { name: 'Night Wind', url: '/sounds/wind.wav' },
+  { name: 'Crickets', url: '/sounds/crickets.wav' },
+  { name: 'Wind', url: '/sounds/wind.wav' },
   { name: 'Forest Birds', url: '/sounds/birds.wav' },
   { name: 'Ocean Waves', url: '/sounds/waves.wav' },
   { name: 'Rain', url: '/sounds/rain.wav' },
@@ -45,7 +46,7 @@ export const SoundProvider: React.FC<{ children: React.ReactNode }> = ({ childre
   const [ambientSounds, setAmbientSounds] = useState<SoundTrack[]>([]);
   const [masterVolume, setMasterVolume] = useState(50);
   const [isMasterMuted, setIsMasterMuted] = useState(false);
-  
+
   const audioElements = useRef<Record<string, HTMLAudioElement>>({});
 
   // Initialize sounds
@@ -102,7 +103,7 @@ export const SoundProvider: React.FC<{ children: React.ReactNode }> = ({ childre
     audio.loop = true;
     audio.volume = 0;
     audio.preload = 'auto';
-    
+
     audioElements.current[soundId] = audio;
     return audio;
   };
@@ -125,71 +126,71 @@ export const SoundProvider: React.FC<{ children: React.ReactNode }> = ({ childre
     }
   };
 
-  const playAmbientSound = (soundId: string) => {
+  const playAmbientSound = useCallback((soundId: string) => {
     const audio = getAudioElement(soundId);
     if (audio) {
       audio.play().catch(console.error);
-      
-      setAmbientSounds(prev => 
-        prev.map(sound => 
+
+      setAmbientSounds(prev =>
+        prev.map(sound =>
           sound.id === soundId ? { ...sound, isPlaying: true } : sound
         )
       );
     }
-  };
+  }, []);
 
-  const stopAmbientSound = (soundId: string) => {
+  const stopAmbientSound = useCallback((soundId: string) => {
     const audio = getAudioElement(soundId);
     if (audio) {
       audio.pause();
       audio.currentTime = 0;
     }
-    
-    setAmbientSounds(prev => 
-      prev.map(sound => 
+
+    setAmbientSounds(prev =>
+      prev.map(sound =>
         sound.id === soundId ? { ...sound, isPlaying: false } : sound
       )
     );
-  };
+  }, []);
 
-  const setAmbientSoundVolume = (soundId: string, volume: number) => {
-    setAmbientSounds(prev => 
-      prev.map(sound => 
+  const setAmbientSoundVolume = useCallback((soundId: string, volume: number) => {
+    setAmbientSounds(prev =>
+      prev.map(sound =>
         sound.id === soundId ? { ...sound, volume } : sound
       )
     );
-    
+
     const sound = ambientSounds.find(s => s.id === soundId);
     if (sound) {
       updateAudioVolume(soundId, volume, sound.isMuted);
     }
-  };
+  }, [ambientSounds]);
 
-  const muteAmbientSound = (soundId: string, muted: boolean) => {
-    setAmbientSounds(prev => 
-      prev.map(sound => 
+  const muteAmbientSound = useCallback((soundId: string, muted: boolean) => {
+    setAmbientSounds(prev =>
+      prev.map(sound =>
         sound.id === soundId ? { ...sound, isMuted: muted } : sound
       )
     );
-    
+
     const sound = ambientSounds.find(s => s.id === soundId);
     if (sound) {
       updateAudioVolume(soundId, sound.volume, muted);
     }
-  };
+  }, [ambientSounds]);
 
-  const stopAllSounds = () => {
+  const stopAllSounds = useCallback(() => {
     Object.values(audioElements.current).forEach(audio => {
       audio.pause();
       audio.currentTime = 0;
     });
-    
-    setAmbientSounds(prev => 
+
+    setAmbientSounds(prev =>
       prev.map(sound => ({ ...sound, isPlaying: false }))
     );
-  };
+  }, []);
 
-  const value: SoundContextType = {
+  const value = useMemo<SoundContextType>(() => ({
     ambientSounds,
     playAmbientSound,
     stopAmbientSound,
@@ -200,7 +201,7 @@ export const SoundProvider: React.FC<{ children: React.ReactNode }> = ({ childre
     isMasterMuted,
     setMasterMuted: setIsMasterMuted,
     stopAllSounds
-  };
+  }), [ambientSounds, playAmbientSound, stopAmbientSound, setAmbientSoundVolume, muteAmbientSound, masterVolume, isMasterMuted, stopAllSounds]);
 
   return (
     <SoundContext.Provider value={value}>

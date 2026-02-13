@@ -2,11 +2,25 @@
 export interface VerseDTO {
   arabic: string;
   translation: string;
+  transliteration?: string;
   audioUrl: string;
 }
 
-import { surah1, surah2, surah3, surah4, surah5, surah6, surah7, surah8, surah9, surah10, surah11, surah12, surah13, surah14, surah15, surah16, surah17, surah18, surah19, surah20, surah21, surah22, surah23, surah24, surah25, surah26, surah27, surah28, surah29, surah30, surah31, surah32, surah33, surah34, surah35, surah36, surah37, surah38, surah39, surah40, surah41, surah42, surah43, surah44, surah45, surah46, surah47, surah48, surah49, surah50, surah51, surah52, surah53, surah54, surah55, surah56, surah57, surah58, surah59, surah60, surah61, surah62, surah63, surah64, surah65, surah66, surah67, surah68, surah69, surah70, surah71, surah72, surah73, surah74, surah75, surah76, surah77, surah78, surah79, surah80, surah81, surah82, surah83, surah84, surah85, surah86, surah87, surah88, surah89, surah90, surah91, surah92, surah93, surah94, surah95, surah96, surah97, surah98, surah99, surah100, surah101, surah102, surah103, surah104, surah105, surah106, surah107, surah108, surah109, surah110, surah111, surah112, surah113, surah114, SurahData } from '../data/quranTexts';
+import type { SurahData } from '../data/quranTexts';
 
+// Lazy-load quranTexts (~2.4MB) — loaded only when needed
+let _localSurahData: Record<number, SurahData> | null = null;
+async function getLocalSurahData(): Promise<Record<number, SurahData>> {
+  if (_localSurahData) return _localSurahData;
+  const mod = await import('../data/quranTexts');
+  const data: Record<number, SurahData> = {};
+  for (let i = 1; i <= 114; i++) {
+    const key = `surah${i}` as keyof typeof mod;
+    if (mod[key]) data[i] = mod[key] as SurahData;
+  }
+  _localSurahData = data;
+  return data;
+}
 
 const RECITER = "ar.abdulbasitmurattal";
 const mem = new Map<string, VerseDTO[]>();
@@ -20,7 +34,7 @@ export function loadCachedSurah(surahId: string | number): VerseDTO[] | null {
     if (raw) {
       const cached = JSON.parse(raw) as VerseDTO[];
       // Проверяем, что кэш содержит реальные тексты, а не placeholder
-      const hasPlaceholder = cached.some(v => 
+      const hasPlaceholder = cached.some(v =>
         v.arabic.includes('آية') && v.arabic.includes('من سورة') ||
         v.translation.includes('Verse') && v.translation.includes('of')
       );
@@ -46,41 +60,279 @@ export function clearQuranCache(): void {
   mem.clear();
 }
 
-// Локальные тексты для всех 114 сур
-const localSurahData: Record<number, SurahData> = {
-  1: surah1, 2: surah2, 3: surah3, 4: surah4, 5: surah5, 6: surah6, 7: surah7, 8: surah8, 9: surah9, 10: surah10,
-  11: surah11, 12: surah12, 13: surah13, 14: surah14, 15: surah15, 16: surah16, 17: surah17, 18: surah18, 19: surah19, 20: surah20,
-  21: surah21, 22: surah22, 23: surah23, 24: surah24, 25: surah25, 26: surah26, 27: surah27, 28: surah28, 29: surah29, 30: surah30,
-  31: surah31, 32: surah32, 33: surah33, 34: surah34, 35: surah35, 36: surah36, 37: surah37, 38: surah38, 39: surah39, 40: surah40,
-  41: surah41, 42: surah42, 43: surah43, 44: surah44, 45: surah45, 46: surah46, 47: surah47, 48: surah48, 49: surah49, 50: surah50,
-  51: surah51, 52: surah52, 53: surah53, 54: surah54, 55: surah55, 56: surah56, 57: surah57, 58: surah58, 59: surah59, 60: surah60,
-  61: surah61, 62: surah62, 63: surah63, 64: surah64, 65: surah65, 66: surah66, 67: surah67, 68: surah68, 69: surah69, 70: surah70,
-  71: surah71, 72: surah72, 73: surah73, 74: surah74, 75: surah75, 76: surah76, 77: surah77, 78: surah78, 79: surah79, 80: surah80,
-  81: surah81, 82: surah82, 83: surah83, 84: surah84, 85: surah85, 86: surah86, 87: surah87, 88: surah88, 89: surah89, 90: surah90,
-  91: surah91, 92: surah92, 93: surah93, 94: surah94, 95: surah95, 96: surah96, 97: surah97, 98: surah98, 99: surah99, 100: surah100,
-  101: surah101, 102: surah102, 103: surah103, 104: surah104, 105: surah105, 106: surah106, 107: surah107, 108: surah108, 109: surah109, 110: surah110,
-  111: surah111, 112: surah112, 113: surah113, 114: surah114
-};
+// localSurahData loaded lazily via getLocalSurahData()
 
-export async function fetchSurahVerses(
-  surahId: string | number
+// Функция для получения научной транслитерации с правильными диакритическими знаками
+// Различает: ح (ḥ), خ (kh), ه (h), ع (ʿ), ء (ʾ), ص (ṣ), ض (ḍ), ط (ṭ), ظ (ẓ), etc.
+async function fetchTransliteration(surahNumber: number): Promise<string[]> {
+  try {
+    // Пробуем несколько источников для получения точной транслитерации
+
+    // Источник 1: Tanzil API с научной транслитерацией
+    try {
+      const tanzilResponse = await fetch(
+        `https://api.quran.com/api/v4/quran/translations/transliteration?chapter_number=${surahNumber}`
+      );
+
+      if (tanzilResponse.ok) {
+        const tanzilData = await tanzilResponse.json();
+        if (tanzilData.translations && Array.isArray(tanzilData.translations)) {
+          console.log(`✅ Got scientific transliteration from quran.com for surah ${surahNumber}`);
+          return tanzilData.translations.map((item: any) => item.text || '');
+        }
+      }
+    } catch (e) {
+      console.log('Trying alternative transliteration source...');
+    }
+
+    // Источник 2: AlQuran Cloud API
+    const response = await fetch(
+      `https://api.alquran.cloud/v1/surah/${surahNumber}/en.transliteration`
+    );
+
+    if (!response.ok) {
+      console.warn(`Failed to fetch transliteration for surah ${surahNumber}`);
+      return [];
+    }
+
+    const data = await response.json();
+
+    if (data.data && data.data.ayahs) {
+      // Улучшаем транслитерацию, добавляя диакритические знаки
+      const transliterations = data.data.ayahs.map((ayah: any) => {
+        let text = ayah.text || '';
+
+        // Применяем правила научной транслитерации
+        // Это базовое улучшение, но идеально нужен API с готовой научной транслитерацией
+        text = enhanceTransliteration(text);
+
+        return text;
+      });
+
+      console.log(`✅ Got enhanced transliteration for surah ${surahNumber}`);
+      return transliterations;
+    }
+
+    return [];
+  } catch (error) {
+    console.warn(`Error fetching transliteration for surah ${surahNumber}:`, error);
+    return [];
+  }
+}
+
+// Функция для преобразования арабского текста в научную транслитерацию
+// с правильными диакритическими знаками для каждой буквы
+function arabicToScientificTransliteration(arabicText: string): string {
+  // Карта соответствия арабских букв научной транслитерации
+  const transliterationMap: Record<string, string> = {
+    // Согласные
+    'ا': 'ā',      // алиф
+    'أ': 'ʾa',     // хамза над алифом
+    'إ': 'ʾi',     // хамза под алифом
+    'آ': 'ʾā',     // мадда
+    'ء': 'ʾ',      // хамза
+    'ب': 'b',      // ба
+    'ت': 't',      // та
+    'ث': 'th',     // са
+    'ج': 'j',      // джим
+    'ح': 'ḥ',      // ха (твёрдая)
+    'خ': 'kh',     // ха (мягкая)
+    'د': 'd',      // даль
+    'ذ': 'dh',     // заль
+    'ر': 'r',      // ра
+    'ز': 'z',      // за
+    'س': 's',      // син
+    'ش': 'sh',     // шин
+    'ص': 'ṣ',      // сад
+    'ض': 'ḍ',      // дад
+    'ط': 'ṭ',      // та (эмфатическая)
+    'ظ': 'ẓ',      // за (эмфатическая)
+    'ع': 'ʿ',      // айн
+    'غ': 'gh',     // гайн
+    'ف': 'f',      // фа
+    'ق': 'q',      // каф
+    'ك': 'k',      // каф
+    'ل': 'l',      // лям
+    'م': 'm',      // мим
+    'ن': 'n',      // нун
+    'ه': 'h',      // ха
+    'ة': 'h',      // та марбута
+    'و': 'w',      // вав
+    'ؤ': 'ʾū',     // хамза над вав
+    'ي': 'y',      // йа
+    'ئ': 'ʾī',     // хамза над йа
+    'ى': 'ā',      // алиф максура
+
+    // Диакритические знаки (харакаты)
+    'َ': 'a',      // фатха
+    'ُ': 'u',      // дамма
+    'ِ': 'i',      // кясра
+    'ّ': '',       // шадда (удваивание)
+    'ْ': '',       // сукун
+    'ً': '',       // танвин фатха (убираем для чтения с остановками/вакф)
+    'ٌ': '',       // танвин дамма (убираем для чтения с остановками/вакф)
+    'ٍ': '',       // танвин кясра (убираем для чтения с остановками/вакф)
+    'ـ': '',       // кашида (соединительная линия)
+    'ٱ': '',       // васла (соединительная хамза) - не произносится
+    'ٰ': 'ā',      // короткая вертикальная алиф (кинжал/даггер алиф)
+    'ۡ': '',       // маленький высокий знак сукун
+    'ۢ': '',       // маленький высокий знак мим
+    'ۖ': '',       // маленький высокий знак
+    'ۗ': '',       // маленький высокий знак лигатура лям с алиф
+    'ۘ': '',       // маленький высокий знак нун
+    'ۙ': '',       // маленький высокий знак зайн
+    '۟': '',       // маленький высокий круглый знак
+    '۠': '',       // маленький высокий знак
+  };
+
+  let result = '';
+  let previousChar = '';
+
+  for (let i = 0; i < arabicText.length; i++) {
+    const char = arabicText[i];
+    const nextChar = i < arabicText.length - 1 ? arabicText[i + 1] : '';
+
+    if (transliterationMap[char]) {
+      let translitChar = transliterationMap[char];
+
+      // Обработка шадды (удвоение предыдущей согласной)
+      if (char === 'ّ' && previousChar) {
+        result += previousChar;
+        continue;
+      }
+
+      // Обработка долгих гласных
+      if (char === 'ا' && previousChar === 'a') {
+        result = result.slice(0, -1) + 'ā';
+        previousChar = translitChar;
+        continue;
+      }
+
+      if (char === 'و' && previousChar === 'u') {
+        result = result.slice(0, -1) + 'ū';
+        previousChar = translitChar;
+        continue;
+      }
+
+      if (char === 'ي' && previousChar === 'i') {
+        result = result.slice(0, -1) + 'ī';
+        previousChar = translitChar;
+        continue;
+      }
+
+      result += translitChar;
+      previousChar = translitChar;
+    } else if (char === ' ') {
+      result += ' ';
+      previousChar = '';
+    }
+  }
+
+  return result;
+}
+
+// Функция для улучшения существующей транслитерации с правильными диакритическими знаками
+// Преобразует упрощённую транслитерацию API в научную транслитерацию
+function enhanceTransliteration(text: string): string {
+  // Если текст на арабском, конвертируем напрямую
+  if (/[\u0600-\u06FF]/.test(text)) {
+    return arabicToScientificTransliteration(text);
+  }
+
+  // Если текст содержит латинские буквы, улучшаем его
+  if (/[a-zA-Z]/.test(text)) {
+    // Заменяем упрощённую транслитерацию на научную с диакритиками
+    // Важно: порядок замен имеет значение (более длинные сначала)
+    let enhanced = text;
+
+    // Специальные комбинации (должны быть первыми)
+    enhanced = enhanced.replace(/dhabha/gi, 'ḍabḥa'); // ضبحa
+    enhanced = enhanced.replace(/dhabh/gi, 'ḍabḥ'); // ضبح
+    enhanced = enhanced.replace(/dhab/gi, 'ḍab'); // ضب
+
+    // Заменяем h в контексте (после гласной или в конце слова) на ḥ где нужно
+    // Паттерны для ح (твёрдая ха) vs ه (обычная ха)
+    enhanced = enhanced.replace(/([aeiou])h([aeiou])/gi, (match, before, after) => {
+      // Эвристика: если h между гласными, скорее всего это ḥ
+      return before + 'ḥ' + after;
+    });
+
+    // Заменяем конкретные паттерны
+    enhanced = enhanced.replace(/\bwaal/gi, 'wal'); // wal не waal
+
+    // Эмфатические согласные
+    // s -> ṣ (когда это ص)
+    // t -> ṭ (когда это ط) 
+    // d -> ḍ (когда это ض)
+    // z -> ẓ (когда это ظ)
+
+    // Специальные буквы
+    enhanced = enhanced.replace(/'/g, 'ʿ');  // айн
+    enhanced = enhanced.replace(/`/g, 'ʿ');  // айн альтернативный
+    enhanced = enhanced.replace(/'/g, 'ʾ');  // хамза
+
+    return enhanced;
+  }
+
+  return text;
+} export async function fetchSurahVerses(
+  surahId: string | number,
+  language: string = 'en'
 ): Promise<VerseDTO[]> {
-  const key = String(surahId);
-  if (mem.has(key)) return mem.get(key)!;
+  const key = `${surahId}_${language}`;
+
+  // Проверяем кэш в памяти, но только если там есть транслитерация
+  if (mem.has(key)) {
+    const cached = mem.get(key)!;
+    // Если в кэше есть транслитерация хотя бы в одном аяте, возвращаем кэш
+    if (cached.length > 0 && cached[0].transliteration !== undefined) {
+      return cached;
+    }
+    // Иначе перезагружаем с транслитерацией
+    console.log(`🔄 Reloading surah ${surahId} with transliteration...`);
+  }
 
   const surahNumber = Number(surahId);
-  
+
   // Используем локальные тексты (все 114 сур доступны)
+  const localSurahData = await getLocalSurahData();
   if (localSurahData[surahNumber]) {
-    console.log(`📖 Using local texts for surah ${surahNumber}`);
+    console.log(`📖 Using local texts for surah ${surahNumber} (lang: ${language})`);
     const surahData = localSurahData[surahNumber];
-    const verses: VerseDTO[] = surahData.texts.map((text, i) => ({
-      arabic: text.arabic,
-      translation: text.translation,
-      audioUrl: buildAudio(surahNumber, i + 1), // Используем CDN для аудио
-    }));
-    
-    mem.set(key, verses);
+
+    // Конвертируем арабский текст напрямую в научную транслитерацию
+    console.log(`🔤 Generating scientific transliteration for surah ${surahNumber}`);
+
+    // Для русского языка — загружаем перевод Кулиева с API
+    let russianTranslations: string[] | null = null;
+    if (language === 'ru') {
+      try {
+        console.log(`🇷🇺 Fetching Russian translation for surah ${surahNumber}...`);
+        const response = await fetch(
+          `https://api.alquran.cloud/v1/surah/${surahNumber}/ru.kuliev`
+        );
+        if (response.ok) {
+          const data = await response.json();
+          if (data.data && data.data.ayahs) {
+            russianTranslations = data.data.ayahs.map((ayah: any) => ayah.text || '');
+            console.log(`✅ Got Russian translation for surah ${surahNumber}`);
+          }
+        }
+      } catch (err) {
+        console.warn(`⚠️ Failed to fetch Russian translation for surah ${surahNumber}:`, err);
+      }
+    }
+
+    const verses: VerseDTO[] = surahData.texts.map((text, i) => {
+      const transliteration = arabicToScientificTransliteration(text.arabic);
+
+      return {
+        arabic: text.arabic,
+        translation: russianTranslations && russianTranslations[i] ? russianTranslations[i] : text.translation,
+        transliteration: transliteration,
+        audioUrl: buildAudio(surahNumber, i + 1),
+      };
+    }); mem.set(key, verses);
     console.log(`✅ Successfully loaded surah ${surahNumber} with ${verses.length} verses from local data`);
     return verses;
   }

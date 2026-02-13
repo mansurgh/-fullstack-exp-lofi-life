@@ -1,9 +1,9 @@
-import React, { useState, useEffect } from 'react';
-import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
+import { Card } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
-import { X, ChevronLeft, ChevronRight, Copy, Share2, Settings } from 'lucide-react';
 import { useTranslation } from '@/contexts/TranslationContext';
+import { ChevronLeft, ChevronRight, Copy, Loader2, Share2, X } from 'lucide-react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { toast } from 'sonner';
 
 interface HadithReaderProps {
@@ -24,128 +24,192 @@ interface Hadith {
   translationWords?: string[];
 }
 
-const hadithCollections = {
-  bukhari: {
-    name: 'Sahih al-Bukhari',
-    hadith: [
-      {
-        id: 1,
-        arabic: 'إِنَّمَا الْأَعْمَالُ بِالنِّيَّاتِ، وَإِنَّمَا لِكُلِّ امْرِئٍ مَا نَوَى',
-        transliteration: 'Innama al-a\'malu bin-niyyat, wa innama li-kulli mri\'in ma nawa',
-        translation: 'Actions are only by intention, and every person will only have what they intended.',
-        narrator: 'Umar ibn al-Khattab',
-        reference: 'Bukhari 1',
-        arabicWords: ['إِنَّمَا', 'الْأَعْمَالُ', 'بِالنِّيَّاتِ،', 'وَإِنَّمَا', 'لِكُلِّ', 'امْرِئٍ', 'مَا', 'نَوَى'],
-        transliterationWords: ['Innama', 'al-a\'malu', 'bin-niyyat,', 'wa', 'innama', 'li-kulli', 'mri\'in', 'ma', 'nawa'],
-        translationWords: ['Actions', 'are', 'only', 'by', 'intention,', 'and', 'every', 'person', 'will', 'only', 'have', 'what', 'they', 'intended.']
-      },
-      {
-        id: 2,
-        arabic: 'مَنْ كَانَ يُؤْمِنُ بِاللَّهِ وَالْيَوْمِ الْآخِرِ فَلْيَقُلْ خَيْرًا أَوْ لِيَصْمُتْ',
-        transliteration: 'Man kana yu\'minu billahi wal-yawm al-akhir falyaqul khayran aw liyasmut',
-        translation: 'Whoever believes in Allah and the Last Day should speak good or remain silent.',
-        narrator: 'Abu Hurairah',
-        reference: 'Bukhari 6018',
-        arabicWords: ['مَنْ', 'كَانَ', 'يُؤْمِنُ', 'بِاللَّهِ', 'وَالْيَوْمِ', 'الْآخِرِ', 'فَلْيَقُلْ', 'خَيْرًا', 'أَوْ', 'لِيَصْمُتْ'],
-        transliterationWords: ['Man', 'kana', 'yu\'minu', 'billahi', 'wal-yawm', 'al-akhir', 'falyaqul', 'khayran', 'aw', 'liyasmut'],
-        translationWords: ['Whoever', 'believes', 'in', 'Allah', 'and', 'the', 'Last', 'Day', 'should', 'speak', 'good', 'or', 'remain', 'silent.']
-      },
-      {
-        id: 3,
-        arabic: 'مَثَلُ الْمُؤْمِنِينَ فِي تَوَادِّهِمْ وَتَرَاحُمِهِمْ وَتَعَاطُفِهِمْ مَثَلُ الْجَسَدِ إِذَا اشْتَكَى مِنْهُ عُضْوٌ تَدَاعَى لَهُ سَائِرُ الْجَسَدِ بِالسَّهَرِ وَالْحُمَّى',
-        transliteration: 'Mathalu al-mu\'minin fi tawaddihim wa tarahhumihim wa ta\'atufihim mathalu al-jasad idha ishtaka minhu \'udwun tada\'a lahu sa\'ir al-jasad bil-sahar wal-humma',
-        translation: 'The example of the believers in their affection, mercy, and compassion for each other is that of a body. When a limb suffers, the whole body responds to it with wakefulness and fever.',
-        narrator: 'An-Nu\'man ibn Bashir',
-        reference: 'Bukhari 6011',
-        arabicWords: ['مَثَلُ', 'الْمُؤْمِنِينَ', 'فِي', 'تَوَادِّهِمْ', 'وَتَرَاحُمِهِمْ', 'وَتَعَاطُفِهِمْ', 'مَثَلُ', 'الْجَسَدِ', 'إِذَا', 'اشْتَكَى', 'مِنْهُ', 'عُضْوٌ', 'تَدَاعَى', 'لَهُ', 'سَائِرُ', 'الْجَسَدِ', 'بِالسَّهَرِ', 'وَالْحُمَّى'],
-        transliterationWords: ['Mathalu', 'al-mu\'minin', 'fi', 'tawaddihim', 'wa', 'tarahhumihim', 'wa', 'ta\'atufihim', 'mathalu', 'al-jasad', 'idha', 'ishtaka', 'minhu', '\'udwun', 'tada\'a', 'lahu', 'sa\'ir', 'al-jasad', 'bil-sahar', 'wal-humma'],
-        translationWords: ['The', 'example', 'of', 'the', 'believers', 'in', 'their', 'affection,', 'mercy,', 'and', 'compassion', 'for', 'each', 'other', 'is', 'that', 'of', 'a', 'body.', 'When', 'a', 'limb', 'suffers,', 'the', 'whole', 'body', 'responds', 'to', 'it', 'with', 'wakefulness', 'and', 'fever.']
-      },
-      {
-        id: 4,
-        arabic: 'الْمُسْلِمُ مَنْ سَلِمَ الْمُسْلِمُونَ مِنْ لِسَانِهِ وَيَدِهِ',
-        transliteration: 'Al-muslim man salima al-muslimun min lisanihi wa yadihi',
-        translation: 'A Muslim is one from whose tongue and hand the Muslims are safe.',
-        narrator: 'Abdullah ibn Amr',
-        reference: 'Bukhari 10',
-        arabicWords: ['الْمُسْلِمُ', 'مَنْ', 'سَلِمَ', 'الْمُسْلِمُونَ', 'مِنْ', 'لِسَانِهِ', 'وَيَدِهِ'],
-        transliterationWords: ['Al-muslim', 'man', 'salima', 'al-muslimun', 'min', 'lisanihi', 'wa', 'yadihi'],
-        translationWords: ['A', 'Muslim', 'is', 'one', 'from', 'whose', 'tongue', 'and', 'hand', 'the', 'Muslims', 'are', 'safe.']
-      },
-      {
-        id: 5,
-        arabic: 'بُنِيَ الْإِسْلَامُ عَلَى خَمْسٍ شَهَادَةِ أَنْ لَا إِلَهَ إِلَّا اللَّهُ وَأَنَّ مُحَمَّدًا رَسُولُ اللَّهِ وَإِقَامِ الصَّلَاةِ وَإِيتَاءِ الزَّكَاةِ وَالْحَجِّ وَصَوْمِ رَمَضَانَ',
-        transliteration: 'Buniya al-islamu \'ala khams: shahadati an la ilaha illa Allah wa anna Muhammadan rasul Allah, wa iqam as-salah, wa ita\' az-zakah, wal-hajj, wa sawm Ramadan',
-        translation: 'Islam is built on five: testifying that there is no god but Allah and that Muhammad is the Messenger of Allah, establishing prayer, giving charity, pilgrimage, and fasting Ramadan.',
-        narrator: 'Abdullah ibn Umar',
-        reference: 'Bukhari 8',
-        arabicWords: ['بُنِيَ', 'الْإِسْلَامُ', 'عَلَى', 'خَمْسٍ', 'شَهَادَةِ', 'أَنْ', 'لَا', 'إِلَهَ', 'إِلَّا', 'اللَّهُ', 'وَأَنَّ', 'مُحَمَّدًا', 'رَسُولُ', 'اللَّهِ', 'وَإِقَامِ', 'الصَّلَاةِ', 'وَإِيتَاءِ', 'الزَّكَاةِ', 'وَالْحَجِّ', 'وَصَوْمِ', 'رَمَضَانَ'],
-        transliterationWords: ['Buniya', 'al-islamu', '\'ala', 'khams:', 'shahadati', 'an', 'la', 'ilaha', 'illa', 'Allah', 'wa', 'anna', 'Muhammadan', 'rasul', 'Allah,', 'wa', 'iqam', 'as-salah,', 'wa', 'ita\'', 'az-zakah,', 'wal-hajj,', 'wa', 'sawm', 'Ramadan'],
-        translationWords: ['Islam', 'is', 'built', 'on', 'five:', 'testifying', 'that', 'there', 'is', 'no', 'god', 'but', 'Allah', 'and', 'that', 'Muhammad', 'is', 'the', 'Messenger', 'of', 'Allah,', 'establishing', 'prayer,', 'giving', 'charity,', 'pilgrimage,', 'and', 'fasting', 'Ramadan.']
-      }
-    ]
-  },
-  muslim: {
-    name: 'Sahih Muslim',
-    hadith: [
-      {
-        id: 1,
-        arabic: 'الدِّينُ النَّصِيحَةُ قُلْنَا لِمَنْ قَالَ لِلَّهِ وَلِكِتَابِهِ وَلِرَسُولِهِ وَلِأَئِمَّةِ الْمُسْلِمِينَ وَعَامَّتِهِمْ',
-        transliteration: 'Ad-dinu an-nasihah, qulna: liman? Qal: lillahi wa li-kitabihi wa li-rasulihi wa li-a\'immati al-muslimina wa \'ammatihim',
-        translation: 'Religion is sincere advice. We asked: To whom? He said: To Allah, His Book, His Messenger, the leaders of the Muslims and their common folk.',
-        narrator: 'Tamim ibn Aws ad-Dari',
-        reference: 'Muslim 55',
-        arabicWords: ['الدِّينُ', 'النَّصِيحَةُ', 'قُلْنَا', 'لِمَنْ', 'قَالَ', 'لِلَّهِ', 'وَلِكِتَابِهِ', 'وَلِرَسُولِهِ', 'وَلِأَئِمَّةِ', 'الْمُسْلِمِينَ', 'وَعَامَّتِهِمْ'],
-        transliterationWords: ['Ad-dinu', 'an-nasihah,', 'qulna:', 'liman?', 'Qal:', 'lillahi', 'wa', 'li-kitabihi', 'wa', 'li-rasulihi', 'wa', 'li-a\'immati', 'al-muslimina', 'wa', '\'ammatihim'],
-        translationWords: ['Religion', 'is', 'sincere', 'advice.', 'We', 'asked:', 'To', 'whom?', 'He', 'said:', 'To', 'Allah,', 'His', 'Book,', 'His', 'Messenger,', 'the', 'leaders', 'of', 'the', 'Muslims', 'and', 'their', 'common', 'folk.']
-      },
-      {
-        id: 2,
-        arabic: 'لَا يُؤْمِنُ أَحَدُكُمْ حَتَّى يُحِبَّ لِأَخِيهِ مَا يُحِبُّ لِنَفْسِهِ',
-        transliteration: 'La yu\'minu ahadukum hatta yuhibba li-akhihi ma yuhibbu li-nafsihi',
-        translation: 'None of you truly believes until he loves for his brother what he loves for himself.',
-        narrator: 'Anas ibn Malik',
-        reference: 'Muslim 45',
-        arabicWords: ['لَا', 'يُؤْمِنُ', 'أَحَدُكُمْ', 'حَتَّى', 'يُحِبَّ', 'لِأَخِيهِ', 'مَا', 'يُحِبُّ', 'لِنَفْسِهِ'],
-        transliterationWords: ['La', 'yu\'minu', 'ahadukum', 'hatta', 'yuhibba', 'li-akhihi', 'ma', 'yuhibbu', 'li-nafsihi'],
-        translationWords: ['None', 'of', 'you', 'truly', 'believes', 'until', 'he', 'loves', 'for', 'his', 'brother', 'what', 'he', 'loves', 'for', 'himself.']
-      },
-      {
-        id: 3,
-        arabic: 'إِنَّ اللَّهَ كَتَبَ الْإِحْسَانَ عَلَى كُلِّ شَيْءٍ فَإِذَا قَتَلْتُمْ فَأَحْسِنُوا الْقِتْلَةَ وَإِذَا ذَبَحْتُمْ فَأَحْسِنُوا الذِّبْحَةَ',
-        transliteration: 'Inna Allah kataba al-ihsan \'ala kulli shay\', fa-idha qataltum fa-ahsinu al-qitlah, wa idha dhabahtum fa-ahsinu adh-dhibhah',
-        translation: 'Indeed, Allah has prescribed excellence in everything. So when you kill, kill with excellence, and when you slaughter, slaughter with excellence.',
-        narrator: 'Shaddad ibn Aws',
-        reference: 'Muslim 1955',
-        arabicWords: ['إِنَّ', 'اللَّهَ', 'كَتَبَ', 'الْإِحْسَانَ', 'عَلَى', 'كُلِّ', 'شَيْءٍ', 'فَإِذَا', 'قَتَلْتُمْ', 'فَأَحْسِنُوا', 'الْقِتْلَةَ', 'وَإِذَا', 'ذَبَحْتُمْ', 'فَأَحْسِنُوا', 'الذِّبْحَةَ'],
-        transliterationWords: ['Inna', 'Allah', 'kataba', 'al-ihsan', '\'ala', 'kulli', 'shay\',', 'fa-idha', 'qataltum', 'fa-ahsinu', 'al-qitlah,', 'wa', 'idha', 'dhabahtum', 'fa-ahsinu', 'adh-dhibhah'],
-        translationWords: ['Indeed,', 'Allah', 'has', 'prescribed', 'excellence', 'in', 'everything.', 'So', 'when', 'you', 'kill,', 'kill', 'with', 'excellence,', 'and', 'when', 'you', 'slaughter,', 'slaughter', 'with', 'excellence.']
-      },
-      {
-        id: 4,
-        arabic: 'مَنْ صَلَّى الْفَجْرَ فَهُوَ فِي ذِمَّةِ اللَّهِ فَلَا يَطْلُبَنَّكُمُ اللَّهُ مِنْ ذِمَّتِهِ بِشَيْءٍ',
-        transliteration: 'Man salla al-fajr fa-huwa fi dhimmat Allah, fa-la yatlubannakum Allah min dhimmatihi bi-shay\'',
-        translation: 'Whoever prays Fajr is under Allah\'s protection, so let not Allah find you lacking in anything due from His protection.',
-        narrator: 'Jundub ibn Abdullah',
-        reference: 'Muslim 657',
-        arabicWords: ['مَنْ', 'صَلَّى', 'الْفَجْرَ', 'فَهُوَ', 'فِي', 'ذِمَّةِ', 'اللَّهِ', 'فَلَا', 'يَطْلُبَنَّكُمُ', 'اللَّهُ', 'مِنْ', 'ذِمَّتِهِ', 'بِشَيْءٍ'],
-        transliterationWords: ['Man', 'salla', 'al-fajr', 'fa-huwa', 'fi', 'dhimmat', 'Allah,', 'fa-la', 'yatlubannakum', 'Allah', 'min', 'dhimmatihi', 'bi-shay\''],
-        translationWords: ['Whoever', 'prays', 'Fajr', 'is', 'under', 'Allah\'s', 'protection,', 'so', 'let', 'not', 'Allah', 'find', 'you', 'lacking', 'in', 'anything', 'due', 'from', 'His', 'protection.']
-      },
-      {
-        id: 5,
-        arabic: 'إِذَا أَحَبَّ اللَّهُ عَبْدًا نَادَى جِبْرِيلَ إِنَّ اللَّهَ يُحِبُّ فُلَانًا فَأَحْبِبْهُ فَيُحِبُّهُ جِبْرِيلُ',
-        transliteration: 'Idha ahabb Allah \'abdan nada Jibril: inna Allah yuhibbu fulanan fa-ahibbah, fa-yuhibbuhu Jibril',
-        translation: 'When Allah loves a servant, He calls to Gabriel: "Indeed, Allah loves so-and-so, so love him," and Gabriel loves him.',
-        narrator: 'Abu Hurairah',
-        reference: 'Muslim 2637',
-        arabicWords: ['إِذَا', 'أَحَبَّ', 'اللَّهُ', 'عَبْدًا', 'نَادَى', 'جِبْرِيلَ', 'إِنَّ', 'اللَّهَ', 'يُحِبُّ', 'فُلَانًا', 'فَأَحْبِبْهُ', 'فَيُحِبُّهُ', 'جِبْرِيلُ'],
-        transliterationWords: ['Idha', 'ahabb', 'Allah', '\'abdan', 'nada', 'Jibril:', 'inna', 'Allah', 'yuhibbu', 'fulanan', 'fa-ahibbah,', 'fa-yuhibbuhu', 'Jibril'],
-        translationWords: ['When', 'Allah', 'loves', 'a', 'servant,', 'He', 'calls', 'to', 'Gabriel:', 'Indeed,', 'Allah', 'loves', 'so-and-so,', 'so', 'love', 'him,', 'and', 'Gabriel', 'loves', 'him.']
-      }
-    ]
-  }
+// Fallback hadith data in case API fails
+const fallbackHadith: Record<string, Hadith[]> = {
+  bukhari: [
+    {
+      id: 1,
+      arabic: 'إِنَّمَا الْأَعْمَالُ بِالنِّيَّاتِ، وَإِنَّمَا لِكُلِّ امْرِئٍ مَا نَوَى',
+      transliteration: 'Innama al-a\'malu bin-niyyat, wa innama li-kulli mri\'in ma nawa',
+      translation: 'Actions are only by intention, and every person will only have what they intended.',
+      narrator: 'Umar ibn al-Khattab',
+      reference: 'Bukhari 1',
+    },
+    {
+      id: 2,
+      arabic: 'مَنْ كَانَ يُؤْمِنُ بِاللَّهِ وَالْيَوْمِ الْآخِرِ فَلْيَقُلْ خَيْرًا أَوْ لِيَصْمُتْ',
+      transliteration: 'Man kana yu\'minu billahi wal-yawm al-akhir falyaqul khayran aw liyasmut',
+      translation: 'Whoever believes in Allah and the Last Day should speak good or remain silent.',
+      narrator: 'Abu Hurairah',
+      reference: 'Bukhari 6018',
+    },
+    {
+      id: 3,
+      arabic: 'الْمُسْلِمُ مَنْ سَلِمَ الْمُسْلِمُونَ مِنْ لِسَانِهِ وَيَدِهِ',
+      transliteration: 'Al-muslim man salima al-muslimun min lisanihi wa yadihi',
+      translation: 'A Muslim is one from whose tongue and hand the Muslims are safe.',
+      narrator: 'Abdullah ibn Amr',
+      reference: 'Bukhari 10',
+    },
+    {
+      id: 4,
+      arabic: 'بُنِيَ الْإِسْلَامُ عَلَى خَمْسٍ شَهَادَةِ أَنْ لَا إِلَهَ إِلَّا اللَّهُ وَأَنَّ مُحَمَّدًا رَسُولُ اللَّهِ وَإِقَامِ الصَّلَاةِ وَإِيتَاءِ الزَّكَاةِ وَالْحَجِّ وَصَوْمِ رَمَضَانَ',
+      transliteration: 'Buniya al-islamu \'ala khams: shahadati an la ilaha illa Allah wa anna Muhammadan rasul Allah, wa iqam as-salah, wa ita\' az-zakah, wal-hajj, wa sawm Ramadan',
+      translation: 'Islam is built on five: testifying that there is no god but Allah and that Muhammad is the Messenger of Allah, establishing prayer, giving charity, pilgrimage, and fasting Ramadan.',
+      narrator: 'Abdullah ibn Umar',
+      reference: 'Bukhari 8',
+    },
+    {
+      id: 5,
+      arabic: 'مَثَلُ الْمُؤْمِنِينَ فِي تَوَادِّهِمْ وَتَرَاحُمِهِمْ وَتَعَاطُفِهِمْ مَثَلُ الْجَسَدِ إِذَا اشْتَكَى مِنْهُ عُضْوٌ تَدَاعَى لَهُ سَائِرُ الْجَسَدِ بِالسَّهَرِ وَالْحُمَّى',
+      transliteration: 'Mathalu al-mu\'minin fi tawaddihim wa tarahhumihim wa ta\'atufihim mathalu al-jasad idha ishtaka minhu \'udwun tada\'a lahu sa\'ir al-jasad bil-sahar wal-humma',
+      translation: 'The example of the believers in their affection, mercy, and compassion for each other is that of a body. When a limb suffers, the whole body responds to it with wakefulness and fever.',
+      narrator: 'An-Nu\'man ibn Bashir',
+      reference: 'Bukhari 6011',
+    },
+  ],
+  muslim: [
+    {
+      id: 1,
+      arabic: 'الدِّينُ النَّصِيحَةُ قُلْنَا لِمَنْ قَالَ لِلَّهِ وَلِكِتَابِهِ وَلِرَسُولِهِ وَلِأَئِمَّةِ الْمُسْلِمِينَ وَعَامَّتِهِمْ',
+      transliteration: 'Ad-dinu an-nasihah, qulna: liman? Qal: lillahi wa li-kitabihi wa li-rasulihi wa li-a\'immati al-muslimina wa \'ammatihim',
+      translation: 'Religion is sincere advice. We asked: To whom? He said: To Allah, His Book, His Messenger, the leaders of the Muslims and their common folk.',
+      narrator: 'Tamim ibn Aws ad-Dari',
+      reference: 'Muslim 55',
+    },
+    {
+      id: 2,
+      arabic: 'لَا يُؤْمِنُ أَحَدُكُمْ حَتَّى يُحِبَّ لِأَخِيهِ مَا يُحِبُّ لِنَفْسِهِ',
+      transliteration: 'La yu\'minu ahadukum hatta yuhibba li-akhihi ma yuhibbu li-nafsihi',
+      translation: 'None of you truly believes until he loves for his brother what he loves for himself.',
+      narrator: 'Anas ibn Malik',
+      reference: 'Muslim 45',
+    },
+    {
+      id: 3,
+      arabic: 'إِنَّ اللَّهَ كَتَبَ الْإِحْسَانَ عَلَى كُلِّ شَيْءٍ',
+      transliteration: 'Inna Allah kataba al-ihsan \'ala kulli shay\'',
+      translation: 'Indeed, Allah has prescribed excellence in everything.',
+      narrator: 'Shaddad ibn Aws',
+      reference: 'Muslim 1955',
+    },
+    {
+      id: 4,
+      arabic: 'مَنْ صَلَّى الْفَجْرَ فَهُوَ فِي ذِمَّةِ اللَّهِ',
+      transliteration: 'Man salla al-fajr fa-huwa fi dhimmat Allah',
+      translation: 'Whoever prays Fajr is under Allah\'s protection.',
+      narrator: 'Jundub ibn Abdullah',
+      reference: 'Muslim 657',
+    },
+    {
+      id: 5,
+      arabic: 'إِذَا أَحَبَّ اللَّهُ عَبْدًا نَادَى جِبْرِيلَ إِنَّ اللَّهَ يُحِبُّ فُلَانًا فَأَحْبِبْهُ فَيُحِبُّهُ جِبْرِيلُ',
+      transliteration: 'Idha ahabb Allah \'abdan nada Jibril: inna Allah yuhibbu fulanan fa-ahibbah, fa-yuhibbuhu Jibril',
+      translation: 'When Allah loves a servant, He calls to Gabriel: "Indeed, Allah loves so-and-so, so love him," and Gabriel loves him.',
+      narrator: 'Abu Hurairah',
+      reference: 'Muslim 2637',
+    },
+  ],
 };
+
+// API slug mapping
+const collectionSlugs: Record<string, string> = {
+  bukhari: 'bukhari',
+  muslim: 'muslim',
+};
+
+const collectionNames: Record<string, string> = {
+  bukhari: 'Sahih al-Bukhari',
+  muslim: 'Sahih Muslim',
+};
+
+// Cache for API hadith
+const hadithCache = new Map<string, Hadith[]>();
+
+// Muslim hadith #1-92 are empty introduction entries, real content starts at #93
+const COLLECTION_OFFSET: Record<string, number> = { bukhari: 0, muslim: 92 };
+const COLLECTION_TOTALS: Record<string, number> = { bukhari: 7563, muslim: 7378 }; // muslim: 7470 - 92 intro
+
+async function fetchHadithFromAPI(collection: string, page: number, limit: number = 10): Promise<{ hadith: Hadith[], total: number }> {
+  const cacheKey = `${collection}_${page}_${limit}`;
+  if (hadithCache.has(cacheKey)) {
+    return { hadith: hadithCache.get(cacheKey)!, total: COLLECTION_TOTALS[collection] || 7000 };
+  }
+
+  try {
+    const slug = collectionSlugs[collection];
+    const offset = COLLECTION_OFFSET[collection] || 0;
+    const start = (page - 1) * limit + 1 + offset; // skip intro entries
+    const hadithList: Hadith[] = [];
+
+    // Fetch in smaller batches of 5 to reduce load
+    const BATCH = 5;
+    for (let b = 0; b < limit; b += BATCH) {
+      const batchSize = Math.min(BATCH, limit - b);
+      const engBatch = [];
+      const arBatch = [];
+      for (let i = 0; i < batchSize; i++) {
+        const num = start + b + i;
+        engBatch.push(
+          fetch(`https://cdn.jsdelivr.net/gh/fawazahmed0/hadith-api@1/editions/eng-${slug}/${num}.json`)
+            .then(r => r.ok ? r.json() : null)
+            .catch(() => null)
+        );
+        arBatch.push(
+          fetch(`https://cdn.jsdelivr.net/gh/fawazahmed0/hadith-api@1/editions/ara-${slug}/${num}.json`)
+            .then(r => r.ok ? r.json() : null)
+            .catch(() => null)
+        );
+      }
+
+      const [engResults, arResults] = await Promise.all([
+        Promise.all(engBatch),
+        Promise.all(arBatch),
+      ]);
+
+      for (let idx = 0; idx < engResults.length; idx++) {
+        const data = engResults[idx];
+        const arabicData = arResults[idx];
+        if (!data) continue;
+
+        // hadiths is an array — take first element
+        const h = Array.isArray(data.hadiths) ? data.hadiths[0] : data.hadiths;
+        const ar = arabicData?.hadiths ? (Array.isArray(arabicData.hadiths) ? arabicData.hadiths[0] : arabicData.hadiths) : null;
+
+        if (!h) continue;
+
+        const arabicText = ar?.text || '';
+        const translationText = h.text || '';
+
+        // Skip empty hadith (e.g. Muslim introduction entries)
+        if (!translationText && !arabicText) continue;
+
+        const hadithNum = start + b + idx;
+        const ref = `${collectionNames[collection]} ${h.hadithnumber || h.reference?.hadith || hadithNum}`;
+
+        hadithList.push({
+          id: hadithNum,
+          arabic: arabicText,
+          transliteration: '',
+          translation: translationText,
+          narrator: '',
+          reference: ref,
+          arabicWords: arabicText ? arabicText.split(/\s+/) : undefined,
+          translationWords: translationText ? translationText.split(/\s+/) : undefined,
+        });
+      }
+    }
+
+    if (hadithList.length > 0) {
+      hadithCache.set(cacheKey, hadithList);
+      return { hadith: hadithList, total: COLLECTION_TOTALS[collection] || 7000 };
+    }
+  } catch (err) {
+    console.warn('Failed to fetch hadith from API:', err);
+  }
+
+  return { hadith: fallbackHadith[collection] || [], total: fallbackHadith[collection]?.length || 5 };
+}
 
 export const HadithReader: React.FC<HadithReaderProps> = ({ isVisible, onClose, collection }) => {
   const { t, language } = useTranslation();
@@ -153,20 +217,75 @@ export const HadithReader: React.FC<HadithReaderProps> = ({ isVisible, onClose, 
   const [showTransliteration, setShowTransliteration] = useState(true);
   const [fontSize, setFontSize] = useState(16);
   const [selectedWordIndex, setSelectedWordIndex] = useState<number | null>(null);
+  const [hadithList, setHadithList] = useState<Hadith[]>(fallbackHadith[collection] || []);
+  const [totalHadith, setTotalHadith] = useState(0);
+  const [loading, setLoading] = useState(false);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [showJumpDialog, setShowJumpDialog] = useState(false);
+  const [jumpInput, setJumpInput] = useState('');
+  const PAGE_SIZE = 10;
 
-  const collectionData = hadithCollections[collection];
-  const currentHadith = collectionData.hadith[currentHadithIndex];
+  const currentHadith = hadithList[currentHadithIndex % hadithList.length];
+
+  // Load initial hadith from API
+  const targetIndexRef = useRef<number | null>(null);
+  const loadHadith = useCallback(async (page: number) => {
+    setLoading(true);
+    try {
+      const result = await fetchHadithFromAPI(collection, page, PAGE_SIZE);
+      setHadithList(result.hadith);
+      setTotalHadith(result.total);
+      if (targetIndexRef.current !== null) {
+        setCurrentHadithIndex(targetIndexRef.current);
+        targetIndexRef.current = null;
+      } else {
+        setCurrentHadithIndex(0);
+      }
+    } catch {
+      // Keep fallback data
+    }
+    setLoading(false);
+  }, [collection]);
+
+  useEffect(() => {
+    if (isVisible) {
+      loadHadith(currentPage);
+    }
+  }, [isVisible, currentPage, loadHadith]);
 
   const handleNext = () => {
-    if (currentHadithIndex < collectionData.hadith.length - 1) {
+    if (currentHadithIndex < hadithList.length - 1) {
       setCurrentHadithIndex(currentHadithIndex + 1);
+    } else {
+      // Load next page
+      setCurrentPage(prev => prev + 1);
     }
   };
 
   const handlePrevious = () => {
     if (currentHadithIndex > 0) {
       setCurrentHadithIndex(currentHadithIndex - 1);
+    } else if (currentPage > 1) {
+      setCurrentPage(prev => prev - 1);
     }
+  };
+
+  const handleJumpToHadith = () => {
+    const num = parseInt(jumpInput, 10);
+    const max = totalHadith || (collection === 'bukhari' ? 7563 : 7470);
+    if (isNaN(num) || num < 1 || num > max) return;
+    const targetPage = Math.ceil(num / PAGE_SIZE);
+    const indexInPage = (num - 1) % PAGE_SIZE;
+    targetIndexRef.current = indexInPage;
+    if (targetPage === currentPage) {
+      // Same page — just update index
+      setCurrentHadithIndex(indexInPage);
+      targetIndexRef.current = null;
+    } else {
+      setCurrentPage(targetPage);
+    }
+    setShowJumpDialog(false);
+    setJumpInput('');
   };
 
   const handleCopy = async () => {
@@ -207,11 +326,10 @@ export const HadithReader: React.FC<HadithReaderProps> = ({ isVisible, onClose, 
           <span
             key={index}
             onClick={() => handleWordClick(index)}
-            className={`cursor-pointer transition-colors duration-200 ${
-              selectedWordIndex === index 
-                ? 'bg-yellow-500/20 text-yellow-300 font-medium rounded px-1' 
-                : 'hover:bg-muted/50 rounded px-1'
-            }`}
+            className={`cursor-pointer transition-colors duration-200 ${selectedWordIndex === index
+              ? 'bg-yellow-500/20 text-yellow-300 font-medium rounded px-1'
+              : 'hover:bg-muted/50 rounded px-1'
+              }`}
             style={{
               marginLeft: type === 'arabic' ? '0.25rem' : '0',
               marginRight: type === 'arabic' ? '0' : '0.25rem'
@@ -231,15 +349,17 @@ export const HadithReader: React.FC<HadithReaderProps> = ({ isVisible, onClose, 
 
   if (!isVisible) return null;
 
+  const globalIndex = (currentPage - 1) * PAGE_SIZE + currentHadithIndex + 1;
+
   return (
     <div className="fixed inset-0 bg-background/80 backdrop-blur-sm z-50 flex items-center justify-center p-4">
       <Card className="w-full max-w-2xl max-h-[90vh] overflow-hidden">
         {/* Header */}
         <div className="flex items-center justify-between p-4 border-b border-border">
           <div>
-            <h2 className="text-xl font-bold text-foreground">{collectionData.name}</h2>
+            <h2 className="text-xl font-bold text-foreground">{collectionNames[collection]}</h2>
             <p className="text-sm text-muted-foreground">
-              {t('hadith.number')} {currentHadithIndex + 1} {t('hadith.of')} {collectionData.hadith.length}
+              {loading ? t('quran.loading') : `${t('hadith.number')} ${globalIndex} ${t('hadith.of')} ${totalHadith || hadithList.length}`}
             </p>
           </div>
           <Button
@@ -253,47 +373,55 @@ export const HadithReader: React.FC<HadithReaderProps> = ({ isVisible, onClose, 
         </div>
 
         {/* Content */}
-        <div className="p-6 overflow-y-auto max-h-[calc(90vh-120px)]">
-          {/* Arabic Text */}
-          <div 
-            className="text-right mb-6 leading-relaxed font-arabic"
-            style={{ fontSize: `${fontSize + 4}px`, lineHeight: 2.2 }}
-            dir="rtl"
-          >
-            {renderTextWithHighlight(currentHadith.arabic, currentHadith.arabicWords, 'arabic')}
+        {loading ? (
+          <div className="flex items-center justify-center p-12">
+            <Loader2 className="w-8 h-8 animate-spin text-muted-foreground" />
           </div>
+        ) : currentHadith ? (
+          <div className="p-6 overflow-y-auto max-h-[calc(90vh-120px)]">
+            {/* Arabic Text */}
+            <div
+              className="text-right mb-6 leading-relaxed font-arabic"
+              style={{ fontSize: `${fontSize + 4}px`, lineHeight: 2.2 }}
+              dir="rtl"
+            >
+              {renderTextWithHighlight(currentHadith.arabic, currentHadith.arabicWords, 'arabic')}
+            </div>
 
-          <Separator className="my-4" />
+            <Separator className="my-4" />
 
-          {/* Transliteration */}
-          {showTransliteration && (
-            <>
-              <div 
-                className="mb-4 text-muted-foreground italic leading-relaxed"
-                style={{ fontSize: `${fontSize}px` }}
-              >
-                {renderTextWithHighlight(currentHadith.transliteration, currentHadith.transliterationWords, 'transliteration')}
-              </div>
-              <Separator className="my-4" />
-            </>
-          )}
+            {/* Transliteration */}
+            {showTransliteration && (
+              <>
+                <div
+                  className="mb-4 text-muted-foreground italic leading-relaxed"
+                  style={{ fontSize: `${fontSize}px` }}
+                >
+                  {renderTextWithHighlight(currentHadith.transliteration, currentHadith.transliterationWords, 'transliteration')}
+                </div>
+                <Separator className="my-4" />
+              </>
+            )}
 
-          {/* Translation */}
-          <div 
-            className="mb-6 leading-relaxed text-foreground"
-            style={{ fontSize: `${fontSize}px` }}
-          >
-            {renderTextWithHighlight(currentHadith.translation, currentHadith.translationWords, 'translation')}
+            {/* Translation */}
+            <div
+              className="mb-6 leading-relaxed text-foreground"
+              style={{ fontSize: `${fontSize}px` }}
+            >
+              {renderTextWithHighlight(currentHadith.translation, currentHadith.translationWords, 'translation')}
+            </div>
+
+            {/* Attribution */}
+            <div className="text-sm text-white bg-gray-800/80 p-3 rounded-md border border-gray-600">
+              {currentHadith.narrator && <p><strong className="text-gray-200">{t('hadith.narrator')}:</strong> <span className="text-white">{currentHadith.narrator}</span></p>}
+              <p><strong className="text-gray-200">{t('hadith.reference')}:</strong> <span className="text-white">{currentHadith.reference}</span></p>
+            </div>
           </div>
-
-          {/* Attribution */}
-          <div className="text-sm text-white bg-gray-800/80 p-3 rounded-md border border-gray-600">
-            <p><strong className="text-gray-200">{t('hadith.narrator')}:</strong> <span className="text-white">{currentHadith.narrator}</span></p>
-            <p><strong className="text-gray-200">{t('hadith.reference')}:</strong> <span className="text-white">{currentHadith.reference}</span></p>
+        ) : (
+          <div className="p-6 text-center text-muted-foreground">
+            No hadith available.
           </div>
-        </div>
-
-        {/* Footer Controls */}
+        )}
         <div className="border-t border-border p-4 space-y-4">
           {/* Settings */}
           <div className="flex items-center justify-between">
@@ -306,7 +434,7 @@ export const HadithReader: React.FC<HadithReaderProps> = ({ isVisible, onClose, 
               >
                 {showTransliteration ? t('hadith.hide.transliteration') : t('hadith.show.transliteration')}
               </Button>
-              
+
               <div className="flex items-center gap-2">
                 <span className="text-xs text-muted-foreground">A</span>
                 <Button
@@ -357,7 +485,7 @@ export const HadithReader: React.FC<HadithReaderProps> = ({ isVisible, onClose, 
           <div className="flex items-center justify-between">
             <Button
               onClick={handlePrevious}
-              disabled={currentHadithIndex === 0}
+              disabled={currentHadithIndex === 0 && currentPage === 1}
               variant="outline"
               size="sm"
             >
@@ -365,13 +493,39 @@ export const HadithReader: React.FC<HadithReaderProps> = ({ isVisible, onClose, 
               {t('hadith.previous')}
             </Button>
 
-            <span className="text-sm text-muted-foreground">
-              {currentHadithIndex + 1} / {collectionData.hadith.length}
-            </span>
+            <div className="flex items-center gap-2">
+              {showJumpDialog ? (
+                <div className="flex items-center gap-1">
+                  <input
+                    type="number"
+                    min={1}
+                    max={totalHadith || 7563}
+                    value={jumpInput}
+                    onChange={(e) => setJumpInput(e.target.value)}
+                    onKeyDown={(e) => { if (e.key === 'Enter') handleJumpToHadith(); if (e.key === 'Escape') setShowJumpDialog(false); }}
+                    placeholder="#"
+                    className="w-20 h-8 text-sm text-center border border-border rounded bg-background px-2"
+                    autoFocus
+                  />
+                  <Button onClick={handleJumpToHadith} variant="outline" size="sm" className="h-8 px-2">
+                    OK
+                  </Button>
+                </div>
+              ) : (
+                <Button
+                  onClick={() => setShowJumpDialog(true)}
+                  variant="ghost"
+                  size="sm"
+                  className="text-sm text-muted-foreground hover:text-foreground"
+                >
+                  {globalIndex} / {totalHadith || hadithList.length}
+                </Button>
+              )}
+            </div>
 
             <Button
               onClick={handleNext}
-              disabled={currentHadithIndex === collectionData.hadith.length - 1}
+              disabled={loading}
               variant="outline"
               size="sm"
             >

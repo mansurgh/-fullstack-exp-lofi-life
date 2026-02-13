@@ -1,5 +1,3 @@
-import React from 'react';
-import { Globe } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import {
   DropdownMenu,
@@ -7,14 +5,13 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
-import { useTranslation, Language } from '@/contexts/TranslationContext';
+import { Language, useTranslation } from '@/contexts/TranslationContext';
+import { Globe } from 'lucide-react';
+import React from 'react';
 
 const languages = [
-  { code: 'en' as Language, name: 'English', flag: '🇺🇸' },
+  { code: 'en' as Language, name: 'English', flag: '🇬🇧' },
   { code: 'ru' as Language, name: 'Русский', flag: '🇷🇺' },
-  { code: 'nl' as Language, name: 'Nederlands', flag: '🇳🇱' },
-  { code: 'fr' as Language, name: 'Français', flag: '🇫🇷' },
-  { code: 'de' as Language, name: 'Deutsch', flag: '🇩🇪' },
 ];
 
 export const LanguageSelector: React.FC = () => {
@@ -24,9 +21,9 @@ export const LanguageSelector: React.FC = () => {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Button variant="ghost" size="sm" className="h-8 w-8 p-0">
-          <Globe className="h-4 w-4" />
-          <span className="sr-only">{t('language.selector')}</span>
+        <Button variant="outline" size="sm" className="h-9 px-3 gap-2">
+          <Globe className="h-5 w-5" />
+          <span className="text-sm font-medium">{currentLanguage?.flag} {currentLanguage?.name}</span>
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end" className="w-48">
@@ -34,9 +31,8 @@ export const LanguageSelector: React.FC = () => {
           <DropdownMenuItem
             key={lang.code}
             onClick={() => setLanguage(lang.code)}
-            className={`flex items-center justify-between ${
-              language === lang.code ? 'bg-accent' : ''
-            }`}
+            className={`flex items-center justify-between ${language === lang.code ? 'bg-accent' : ''
+              }`}
           >
             <span className="flex items-center gap-2">
               <span>{lang.flag}</span>

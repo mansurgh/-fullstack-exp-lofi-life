@@ -1,84 +1,84 @@
 // src/components/Room.tsx
-import { useEffect, useState } from "react";
-import { useNavigate, useLocation } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
+import { useEffect, useRef, useState } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
 
-import { TetrisGame } from "./TetrisGame";
+import { useTranslation } from "@/contexts/TranslationContext";
+import { ArrowLeft, Moon, RotateCcw, Sun } from "lucide-react";
 import ClickerGame from "./ClickerGame";
-import { PrayersList } from "./PrayersList";
-import { PrayerTimes } from "./PrayerTimes";
-import { IslamicCalendar } from "./IslamicCalendar";
 import { InteractiveComponents } from "./InteractiveComponents";
 import { InteractiveControlsMenu } from "./InteractiveControlsMenu";
-import { ArrowLeft, Moon, Sun, RotateCcw } from "lucide-react";
-import { useTranslation } from "@/contexts/TranslationContext";
+import { IslamicCalendar } from "./IslamicCalendar";
+import { PrayersList } from "./PrayersList";
+import { PrayerTimes } from "./PrayerTimes";
+import { TetrisGame } from "./TetrisGame";
 
 // --- импорт твоих изображений (оставил как у тебя) ---
-import lofiRainyStudy from "@/assets/lofi-rainy-study.jpg";
-import lofiSunnyGarden from "@/assets/lofi-sunny-garden.jpg";
-import lofiFireplaceNook from "@/assets/lofi-fireplace-nook.jpg";
-import lofiMoonlitCorner from "@/assets/lofi-moonlit-corner.jpg";
-import lofiSeasideSanctuary from "@/assets/lofi-seaside-sanctuary.jpg";
-import lofiDesertMirage from "@/assets/lofi-desert-mirage.jpg";
-import lofiTuscanVista from "@/assets/lofi-tuscan-vista.jpg";
-import lofiStellarMeditation from "@/assets/lofi-stellar-meditation.jpg";
 import lofiAlpineRetreat from "@/assets/lofi-alpine-retreat.jpg";
-import lofiWoodlandHaven from "@/assets/lofi-woodland-haven.jpg";
-import lofiRussianWinter from "@/assets/lofi-russian-winter.jpg";
-import lofiChechenTower from "@/assets/lofi-chechen-tower.jpg";
-import lofiFrenchEiffel from "@/assets/lofi-french-eiffel.jpg";
-import lofiNorwegianLandscape from "@/assets/lofi-norwegian-landscape.jpg";
-import lofiTokyoNeon from "@/assets/lofi-tokyo-neon.jpg";
+import lofiAntarcticIgloo from "@/assets/lofi-antarctic-igloo.jpg";
 import lofiBelgianGrey from "@/assets/lofi-belgian-grey.jpg";
-import lofiGermanBrown from "@/assets/lofi-german-brown.jpg";
-import lofiDutchFarm from "@/assets/lofi-dutch-farm.jpg";
+import lofiBirdShop from "@/assets/lofi-bird-shop.jpg";
+import lofiBusStop from "@/assets/lofi-bus-stop.jpg";
+import lofiCatEating from "@/assets/lofi-cat-eating.jpg";
+import lofiChechenTower from "@/assets/lofi-chechen-tower.jpg";
 import lofiChineseLake from "@/assets/lofi-chinese-lake.jpg";
 import lofiCircusTent from "@/assets/lofi-circus-tent.jpg";
-import lofiMosqueInterior from "@/assets/lofi-mosque-interior.jpg";
-import lofiLibraryRoom from "@/assets/lofi-library-room.jpg";
-import lofiRgbRoom from "@/assets/lofi-rgb-room.jpg";
-import lofiPolandSnow from "@/assets/lofi-poland-snow.jpg";
-import lofiAntarcticIgloo from "@/assets/lofi-antarctic-igloo.jpg";
-import lofiSpaceShip from "@/assets/lofi-space-ship.jpg";
-import lofiPinkCandy from "@/assets/lofi-pink-candy.jpg";
-import lofiPrisonCell from "@/assets/lofi-prison-cell.jpg";
-import lofiSkyscraperView from "@/assets/lofi-skyscraper-view.jpg";
-import lofiSubmarineView from "@/assets/lofi-submarine-view.jpg";
 import lofiClickerArcade from "@/assets/lofi-clicker-arcade.jpg";
-import lofiTetrisRoom from "@/assets/lofi-tetris-room.jpg";
-import lofiSpongebobPineapple from "@/assets/lofi-spongebob-pineapple.jpg";
-import lofiMinecraftRoom from "@/assets/lofi-minecraft-room.jpg";
-import lofiPirateDeckView from "@/assets/lofi-pirate-deck-view.jpg";
-import lofiNarutoRoom from "@/assets/lofi-naruto-room.jpg";
-import lofiGhibliForest from "@/assets/lofi-ghibli-forest.jpg";
-import lofiTitanWall from "@/assets/lofi-titan-wall.jpg";
 import lofiDemonSlayerDojo from "@/assets/lofi-demon-slayer-dojo.jpg";
-import lofiHeroAcademy from "@/assets/lofi-hero-academy.jpg";
+import lofiDesertMirage from "@/assets/lofi-desert-mirage.jpg";
+import lofiDoctorsOffice from "@/assets/lofi-doctors-office.jpg";
+import lofiDogEating from "@/assets/lofi-dog-eating.jpg";
 import lofiDragonBallTraining from "@/assets/lofi-dragon-ball-training.jpg";
+import lofiDutchFarm from "@/assets/lofi-dutch-farm.jpg";
+import lofiFireplaceNook from "@/assets/lofi-fireplace-nook.jpg";
+import lofiFrenchEiffel from "@/assets/lofi-french-eiffel.jpg";
+import lofiGermanBrown from "@/assets/lofi-german-brown.jpg";
+import lofiGhibliForest from "@/assets/lofi-ghibli-forest.jpg";
+import lofiGym from "@/assets/lofi-gym.jpg";
+import lofiHeroAcademy from "@/assets/lofi-hero-academy.jpg";
 import lofiHospitalWaiting from "@/assets/lofi-hospital-waiting.jpg";
 import lofiJailCell from "@/assets/lofi-jail-cell.jpg";
-import lofiTrainStation from "@/assets/lofi-train-station.jpg";
-import lofiBusStop from "@/assets/lofi-bus-stop.jpg";
-import lofiDoctorsOffice from "@/assets/lofi-doctors-office.jpg";
-import lofiGym from "@/assets/lofi-gym.jpg";
-import lofiBirdShop from "@/assets/lofi-bird-shop.jpg";
-import lofiRoomWithCat from "@/assets/lofi-room-with-cat.jpg";
-import lofiCatEating from "@/assets/lofi-cat-eating.jpg";
-import lofiDogEating from "@/assets/lofi-dog-eating.jpg";
 import lofiKitchenCockatiel from "@/assets/lofi-kitchen-cockatiel.jpg";
+import lofiLibraryRoom from "@/assets/lofi-library-room.jpg";
+import lofiMinecraftRoom from "@/assets/lofi-minecraft-room.jpg";
+import lofiMoonlitCorner from "@/assets/lofi-moonlit-corner.jpg";
 import lofiMoonlitRoom from "@/assets/lofi-moonlit-room.jpg";
-import lofiRainHideout from "@/assets/lofi-rain-hideout.jpg";
+import lofiMosqueInterior from "@/assets/lofi-mosque-interior.jpg";
+import lofiNarutoRoom from "@/assets/lofi-naruto-room.jpg";
+import lofiNorwegianLandscape from "@/assets/lofi-norwegian-landscape.jpg";
 import lofiParkTrees from "@/assets/lofi-park-trees.jpg";
+import lofiPinkCandy from "@/assets/lofi-pink-candy.jpg";
+import lofiPirateDeckView from "@/assets/lofi-pirate-deck-view.jpg";
+import lofiPolandSnow from "@/assets/lofi-poland-snow.jpg";
+import lofiPrisonCell from "@/assets/lofi-prison-cell.jpg";
+import lofiRainHideout from "@/assets/lofi-rain-hideout.jpg";
+import lofiRainyStudy from "@/assets/lofi-rainy-study.jpg";
+import lofiRgbRoom from "@/assets/lofi-rgb-room.jpg";
+import lofiRoomWithCat from "@/assets/lofi-room-with-cat.jpg";
+import lofiRussianWinter from "@/assets/lofi-russian-winter.jpg";
+import lofiSeasideSanctuary from "@/assets/lofi-seaside-sanctuary.jpg";
+import lofiSkyscraperView from "@/assets/lofi-skyscraper-view.jpg";
+import lofiSpaceShip from "@/assets/lofi-space-ship.jpg";
+import lofiSpongebobPineapple from "@/assets/lofi-spongebob-pineapple.jpg";
+import lofiStellarMeditation from "@/assets/lofi-stellar-meditation.jpg";
+import lofiSubmarineView from "@/assets/lofi-submarine-view.jpg";
+import lofiSunnyGarden from "@/assets/lofi-sunny-garden.jpg";
+import lofiTetrisRoom from "@/assets/lofi-tetris-room.jpg";
+import lofiTitanWall from "@/assets/lofi-titan-wall.jpg";
+import lofiTokyoNeon from "@/assets/lofi-tokyo-neon.jpg";
+import lofiTrainStation from "@/assets/lofi-train-station.jpg";
+import lofiTuscanVista from "@/assets/lofi-tuscan-vista.jpg";
+import lofiWoodlandHaven from "@/assets/lofi-woodland-haven.jpg";
 
-import footballField from "@/assets/football-field.jpg";
-import tennisCourt from "@/assets/tennis-court.jpg";
-import basketballCourt from "@/assets/basketball-court.jpg";
-import volleyballCourt from "@/assets/volleyball-court.jpg";
-import bowlingAlley from "@/assets/bowling-alley.jpg";
 import americanFootball from "@/assets/american-football.jpg";
+import basketballCourt from "@/assets/basketball-court.jpg";
+import bowlingAlley from "@/assets/bowling-alley.jpg";
+import footballField from "@/assets/football-field.jpg";
 import hockeyRink from "@/assets/hockey-rink.jpg";
 import indoorPool from "@/assets/indoor-pool.jpg";
+import tennisCourt from "@/assets/tennis-court.jpg";
+import volleyballCourt from "@/assets/volleyball-court.jpg";
 
 import theConcept from "@/assets/the-concept.jpg";
 
@@ -100,6 +100,15 @@ interface RoomConfig {
     animation: string;
   }>;
 }
+
+// Helper functions for room translations
+export const getRoomName = (roomId: string, t: (key: string) => string): string => {
+  return t(`room.${roomId}.name`);
+};
+
+export const getRoomDescription = (roomId: string, t: (key: string) => string): string => {
+  return t(`room.${roomId}.desc`);
+};
 
 // Полная конфигурация всех комнат
 const roomConfigs: Record<string, RoomConfig> = {
@@ -396,7 +405,7 @@ const roomConfigs: Record<string, RoomConfig> = {
     description: "Magical Studio Ghibli forest",
     ambientSound: "birds",
     backgroundImage: lofiGhibliForest,
-    quranPosition: { x: "right-1/4", y: "top-1/2" },
+    quranPosition: { x: "left-1/3", y: "top-1/2" },
     interactiveElements: [],
   },
   "titan-wall": {
@@ -637,7 +646,8 @@ export const Room = ({ roomId, onBack }: RoomProps) => {
   const [isIslamicCalendarOpen, setIsIslamicCalendarOpen] = useState(false);
   const [isLoaded, setIsLoaded] = useState(false);
   const [roomColor, setRoomColor] = useState("default");
-  const [roomOffset, setRoomOffset] = useState({ x: 0, y: 0 });
+  const bgRef = useRef<HTMLDivElement>(null);
+  const decorRef = useRef<HTMLDivElement>(null);
 
   const isClickerView = location.pathname.includes("/clicker");
   const roomConfig = roomConfigs[roomId];
@@ -663,7 +673,7 @@ export const Room = ({ roomId, onBack }: RoomProps) => {
     const timer = setTimeout(() => setIsLoaded(true), 500);
     const audio = new Audio("/audio/room-enter.mp3");
     audio.volume = 0.3;
-    audio.play().catch(() => {});
+    audio.play().catch(() => { });
     return () => clearTimeout(timer);
   }, [roomId]);
 
@@ -672,13 +682,20 @@ export const Room = ({ roomId, onBack }: RoomProps) => {
     else document.documentElement.classList.remove("dark");
   }, [isDarkMode]);
 
-  // лёгкий параллакс от мыши
+  // лёгкий параллакс от мыши (direct DOM — без setState/re-render)
   useEffect(() => {
     const handleMouseMove = (e: MouseEvent) => {
       const x = (e.clientX / window.innerWidth - 0.5) * 2; // -1..1
       const y = (e.clientY / window.innerHeight - 0.5) * 2;
       const maxOffset = 15;
-      setRoomOffset({ x: x * maxOffset, y: y * maxOffset });
+      const ox = x * maxOffset;
+      const oy = y * maxOffset;
+      if (bgRef.current) {
+        bgRef.current.style.transform = `translate(${ox}px, ${oy}px) scale(1.08)`;
+      }
+      if (decorRef.current) {
+        decorRef.current.style.transform = `translate(${ox * 0.5}px, ${oy * 0.5}px)`;
+      }
     };
     window.addEventListener("mousemove", handleMouseMove);
     return () => window.removeEventListener("mousemove", handleMouseMove);
@@ -717,10 +734,11 @@ export const Room = ({ roomId, onBack }: RoomProps) => {
     <div className="min-h-screen relative overflow-hidden">
       {/* фон */}
       <div
+        ref={bgRef}
         className="absolute inset-0 bg-cover bg-center bg-no-repeat transition-all duration-1000"
         style={{
           backgroundImage: `url(${roomConfig.backgroundImage})`,
-          transform: `translate(${roomOffset.x}px, ${roomOffset.y}px) scale(1.08)`,
+          transform: `translate(0px, 0px) scale(1.08)`,
           transition: "transform 0.1s ease-out",
           filter: isDarkMode
             ? "brightness(0.3) contrast(1.2)"
@@ -728,23 +746,20 @@ export const Room = ({ roomId, onBack }: RoomProps) => {
         }}
       >
         <div
-          className={`absolute inset-0 transition-all duration-1000 ${
-            isDarkMode
-              ? "bg-gradient-to-br from-black/60 via-blue-900/40 to-black/70"
-              : "bg-gradient-to-br from-black/20 via-transparent to-black/30"
-          }`}
+          className={`absolute inset-0 transition-all duration-1000 ${isDarkMode
+            ? "bg-gradient-to-br from-black/60 via-blue-900/40 to-black/70"
+            : "bg-gradient-to-br from-black/20 via-transparent to-black/30"
+            }`}
         />
       </div>
 
       {/* декоративные элементы */}
       <div
-        className={`absolute inset-0 transition-opacity duration-1000 ${
-          isLoaded ? "opacity-100" : "opacity-0"
-        }`}
+        ref={decorRef}
+        className={`absolute inset-0 transition-opacity duration-1000 ${isLoaded ? "opacity-100" : "opacity-0"
+          }`}
         style={{
-          transform: `translate(${roomOffset.x * 0.5}px, ${
-            roomOffset.y * 0.5
-          }px)`,
+          transform: `translate(0px, 0px)`,
           transition: "transform 0.1s ease-out",
         }}
       >
@@ -820,9 +835,8 @@ export const Room = ({ roomId, onBack }: RoomProps) => {
                 onClick={() => setRoomColor(c.value)}
                 variant={roomColor === c.value ? "default" : "outline"}
                 size="sm"
-                className={`w-full justify-start text-xs ${
-                  roomColor === c.value ? c.bg + " text-white border-none" : ""
-                }`}
+                className={`w-full justify-start text-xs ${roomColor === c.value ? c.bg + " text-white border-none" : ""
+                  }`}
               >
                 <span className={`w-3 h-3 rounded-full ${c.bg} mr-2`} />
                 {c.name}
@@ -857,8 +871,8 @@ export const Room = ({ roomId, onBack }: RoomProps) => {
           {roomId === "tetris-room"
             ? "Use WASD keys to play!"
             : roomId === "clicker-arcade" && !isClickerView
-            ? "Press the big button to enter clicker mode"
-            : t("room.quran.click")}
+              ? "Press the big button to enter clicker mode"
+              : t("room.quran.click")}
         </p>
       </Card>
 

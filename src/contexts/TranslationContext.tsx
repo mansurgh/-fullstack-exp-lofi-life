@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState, ReactNode } from 'react';
+import React, { createContext, ReactNode, useCallback, useContext, useMemo, useState } from 'react';
 
 export type Language = 'en' | 'ru' | 'nl' | 'fr' | 'de';
 
@@ -18,18 +18,18 @@ const translations = {
     'nav.quran': 'Quran',
     'nav.help': 'Help',
     'language.selector': 'Language',
-    
+
     // Main page content
     'main.subtitle': 'Choose your peaceful room for Qur\'an reading and reflection. Each room offers its own unique ambiance and sounds.',
     'main.message': 'Assalamu Aleykum Waramatullahi Wabarakatuh, dear brothers and sisters, I have not much knowledge on making sites nor do I have the necessary money to invest in my plans. So I would like your help if you like the concept that u see before you. I don\'t know how to make this work, but my intentions are to attract more muslims that can just relax and listen, study or read the Qur\'an in a lofi style for the more calm people. For people that like nature, knowledge and calmness of mind. So please feel free to aid me or use my site to its fullest, May Allah make it easy for all of you and may Allah reward you all nonetheless.',
     'main.verse': '"And it is He who sends down rain from heaven, and We produce thereby the vegetation of every kind."',
     'main.verse.reference': '- Qur\'an 6:99',
     'main.enter.room': 'Enter Room',
-    
+
     // Room names and descriptions
     'room.rainy-study.name': 'Rainy Study',
     'room.rainy-study.description': 'A cozy study room with rain gently falling outside the window',
-    'room.sunny-garden.name': 'Garden View', 
+    'room.sunny-garden.name': 'Garden View',
     'room.sunny-garden.description': 'A bright room overlooking a peaceful garden with chirping birds',
     'room.fireplace-nook.name': 'Fireplace Nook',
     'room.fireplace-nook.description': 'A warm corner with a crackling fireplace and comfortable seating',
@@ -125,12 +125,42 @@ const translations = {
     'room.tetris-room.description': 'Retro gaming room with playable tetris using WASD controls',
     'room.clicker-arcade.name': 'Clicker Arcade',
     'room.clicker-arcade.description': 'Click gift packages to discover ahadith wisdom',
-    
+    'room.hospital-waiting.name': 'Hospital Waiting Room',
+    'room.hospital-waiting.description': 'Quiet hospital waiting area with soft ambient sounds',
+    'room.jail-cell.name': 'Jail Cell',
+    'room.jail-cell.description': 'Institutional cell with distant echoing sounds',
+    'room.train-station.name': 'Train Station',
+    'room.train-station.description': 'Train platform with distant announcements and rail sounds',
+    'room.bus-stop.name': 'Bus Stop',
+    'room.bus-stop.description': 'City bus stop with gentle traffic and urban sounds',
+    'room.doctors-office.name': 'Doctor\'s Office',
+    'room.doctors-office.description': 'Quiet medical office with calm waiting room atmosphere',
+    'room.gym.name': 'Gym',
+    'room.gym.description': 'Indoor gym with distant equipment sounds and ambiance',
+    'room.bird-shop.name': 'Bird Shop',
+    'room.bird-shop.description': 'Pet shop with gentle bird songs and chirping',
+    'room.room-with-cat.name': 'Room with Cat',
+    'room.room-with-cat.description': 'Cozy room with a purring cat companion',
+    'room.cat-eating.name': 'Cat Eating',
+    'room.cat-eating.description': 'Peaceful scene of a cat enjoying its meal',
+    'room.dog-eating.name': 'Dog Eating',
+    'room.dog-eating.description': 'Happy dog eating with gentle ambient sounds',
+    'room.kitchen-cockatiel.name': 'Kitchen Cockatiel',
+    'room.kitchen-cockatiel.description': 'Kitchen scene with a singing cockatiel companion',
+    'room.moonlit-room.name': 'Moonlit Room',
+    'room.moonlit-room.description': 'Dark room illuminated by soft moonlight through the window',
+    'room.rain-hideout.name': 'Rain Hideout',
+    'room.rain-hideout.description': 'Sheltered spot with heavy rain pouring outside',
+    'room.park-trees.name': 'Park with Trees',
+    'room.park-trees.description': 'Peaceful park bench under rustling trees',
+    'room.the-concept.name': 'The Concept',
+    'room.the-concept.description': 'Abstract conceptual room with minimalist ambiance',
+
     // Room interface
     'room.back': 'Back to Rooms',
     'room.quran.click': 'Click the Qur\'an to begin reading',
     'room.audio.warning': '⚠️ Audio files not included - add your own to /public/sounds/',
-    
+
     // Quran Reader
     'quran.title': 'Noble Qur\'an',
     'quran.select.surah': 'Select Surah',
@@ -146,7 +176,7 @@ const translations = {
     'quran.audio.warning': '⚠️ Audio files not included',
     'quran.word.click': '💡 Click any word to repeat it',
     'quran.audio.path': 'Add audio files to: /public/quran-audio/basit/[surah]/[verse].mp3',
-    
+
     // Quran verses (Al-Fatihah)
     'quran.1.1.transliteration': 'Bismillahi r-rahmani r-raheem',
     'quran.1.1.translation': 'In the name of Allah, the Entirely Merciful, the Especially Merciful.',
@@ -162,7 +192,7 @@ const translations = {
     'quran.1.6.translation': 'Guide us to the straight path.',
     'quran.1.7.transliteration': 'Sirata l-ladheena an\'amta \'alayhim ghayri l-maghdoobi \'alayhim wa la d-dalleen',
     'quran.1.7.translation': 'The path of those upon whom You have bestowed favor, not of those who have evoked [Your] anger or of those who are astray.',
-    
+
     // Theme selector
     'theme.title': 'Choose Your Theme',
     'theme.subtitle': 'Select a theme that matches your mood and the atmosphere you desire',
@@ -175,17 +205,20 @@ const translations = {
     'theme.day': 'Day Cycle',
     'theme.night': 'Night Cycle',
     'theme.rainy': 'Rainy Days',
-    
+
     // Help section
     'help.title': 'Help Me Out',
     'help.subtitle': 'Support this project and help me improve it',
-    'help.money': 'With Money',
-    'help.knowledge': 'With Knowledge',
+    'help.with.money': 'With Money',
+    'help.with.knowledge': 'With Knowledge',
     'help.donation.title': 'Support with Donation',
     'help.donation.subtitle': 'Choose an amount to support the development of this project',
     'help.contact.title': 'Contact Me',
     'help.contact.subtitle': 'Share your knowledge, ideas, or feedback',
-    
+    'help.open.paypal': 'Open PayPal',
+    'help.phone': 'Phone',
+    'help.contact.message': 'Feel free to reach out with suggestions, bug reports, or if you\'d like to contribute to the project!',
+
     // Clicker Game
     'clicker.title': 'Clicker Arcade',
     'clicker.instruction': 'Click the gift package to open it!',
@@ -194,16 +227,80 @@ const translations = {
     'clicker.clicked.times': 'You\'ve clicked {count} times!',
     'clicker.gift.opened': 'Gift Opened!',
     'clicker.open.another': 'Open Another Gift',
-    
+
     // Recitation Controls
     'recitation.start': 'Start Qur\'an Recitation',
     'recitation.start.fatihah': 'Start Al-Fatihah',
     'recitation.surah.verse': 'Surah {surah}, Verse {verse}',
     'recitation.audio.warning': '⚠️ Audio files not included - add to /public/quran-audio/',
-    
+
     // Navigation
     'navigation.back': 'Back',
-    
+
+    // QuranReader Interface
+    'quran.select.surah.placeholder': 'Select Surah',
+    'quran.show.transliteration.label': 'Show transliteration',
+    'quran.show.translation.label': 'Show translation',
+    'quran.transliteration.info': 'Scientific transliteration with diacritics: ḥ, ṣ, ḍ, ṭ, ẓ, ʿ (ayn), ʾ (hamza)',
+    'quran.loading': 'Loading…',
+    'quran.error': 'Error',
+    'quran.no.verses': 'No verses loaded.',
+    'quran.close': 'Close',
+    'quran.transliteration.section': 'Transliteration',
+    'quran.translation.section': 'Translation',
+
+    // Interactive Components
+    'component.quran.tooltip': 'Click to Read Quran',
+    'component.calendar.tooltip': 'Islamic Calendar',
+    'component.prayers.tooltip': 'Click for Prayer Times',
+    'component.bukhari.tooltip': 'Sahih Al-Bukhari',
+    'component.muslim.tooltip': 'Sahih Muslim',
+    'component.sound.tooltip': 'Sound Controls',
+
+    // Room filters
+    'filter.all': 'All',
+    'filter.places': 'Places',
+    'filter.hobbies': 'Hobbies',
+    'filter.sports': 'Sports',
+
+    // Navigation
+    'nav.previous': 'Previous',
+    'nav.next': 'Next',
+
+    // Sound Controls
+    'sound.controls': 'Sound Controls',
+    'sound.ambient': 'Ambient',
+    'sound.master': 'Master',
+    'sound.ambient.sounds': 'Ambient Sounds',
+    'sound.master.volume': 'Master Volume',
+    'sound.mute.all': 'Mute All',
+    'sound.stop.all': 'Stop All Sounds',
+
+    // Prayer Times
+    'prayers.getting.location': 'Getting location...',
+    'prayers.location.unavailable': 'Location not available',
+    'prayers.geolocation.unsupported': 'Geolocation not supported',
+    'prayers.title': 'Prayer Times',
+    'prayers.current.time': 'Current Prayer Time',
+    'prayers.next': 'Next',
+    'prayers.at': 'at',
+    'prayers.loading': 'Loading prayer times...',
+    'prayers.today': 'Today\'s Prayer Times',
+    'prayers.current.badge': 'Current',
+    'prayers.completed.badge': 'Completed',
+    'prayers.disclaimer': 'Prayer times are calculated for your current location using the Aladhan API.',
+
+    // Controls Menu
+    'controls.title': 'Interactive Components',
+    'controls.clock': 'Clock',
+    'controls.calendar': 'Islamic Calendar',
+    'controls.prayer.times': 'Prayer Times',
+    'controls.quran': 'Quran Reader',
+    'controls.bukhari': 'Bukhari Hadith',
+    'controls.muslim': 'Muslim Hadith',
+    'controls.sound': 'Sound Controls',
+    'controls.drag.hint': 'Drag components to reposition them. Settings are saved per room.',
+
     // Ahadith
     'hadith.1.text': 'The believer is not one who eats his fill while his neighbor goes hungry.',
     'hadith.1.source': 'Al-Bukhari',
@@ -225,6 +322,20 @@ const translations = {
     'hadith.9.source': 'Al-Bukhari',
     'hadith.10.text': 'Kindness is a mark of faith, and whoever is not kind has no faith.',
     'hadith.10.source': 'Muslim',
+
+    // HadithReader interface
+    'hadith.copied': 'Hadith copied to clipboard',
+    'hadith.copy.error': 'Failed to copy hadith',
+    'hadith.number': 'Hadith',
+    'hadith.of': 'of',
+    'hadith.narrator': 'Narrator',
+    'hadith.reference': 'Reference',
+    'hadith.hide.transliteration': 'Hide Transliteration',
+    'hadith.show.transliteration': 'Show Transliteration',
+    'hadith.copy': 'Copy',
+    'hadith.share': 'Share',
+    'hadith.previous': 'Previous',
+    'hadith.next': 'Next',
   },
   ru: {
     // Navigation & General
@@ -233,14 +344,14 @@ const translations = {
     'nav.quran': 'Коран',
     'nav.help': 'Помощь',
     'language.selector': 'Язык',
-    
+
     // Main page content
     'main.subtitle': 'Выберите ваше мирное убежище для чтения Корана и размышлений. Каждая комната предлагает свою уникальную атмосферу и звуки.',
     'main.message': 'Ассаламу алейкум ва рахматуллахи ва баракатух, дорогие братья и сёстры, у меня не так много знаний в создании сайтов, и у меня нет необходимых денег для инвестирования в мои планы. Поэтому я хотел бы вашей помощи, если вам нравится концепция, которую вы видите перед собой. Я не знаю, как заставить это работать, но мои намерения - привлечь больше мусульман, которые могут просто расслабиться и слушать, изучать или читать Коран в лофи стиле для более спокойных людей. Для людей, которые любят природу, знания и спокойствие ума. Поэтому, пожалуйста, не стесняйтесь помочь мне или использовать мой сайт в полной мере. Пусть Аллах облегчит это для всех вас и пусть Аллах вознаградит всех вас, тем не менее.',
     'main.verse': '"И Он - Тот, Кто ниспосылает дождь с неба, и Мы производим им растительность всякого рода."',
     'main.verse.reference': '- Коран 6:99',
     'main.enter.room': 'Войти в Комнату',
-    
+
     // Room names and descriptions
     'room.rainy-study.name': 'Дождливый Кабинет',
     'room.rainy-study.description': 'Уютная учебная комната с дождем, мягко падающим за окном',
@@ -262,16 +373,120 @@ const translations = {
     'room.alpine-retreat.description': 'Горные ветра, свистящие через мирные заснеженные вершины',
     'room.woodland-haven.name': 'Лесная Гавань',
     'room.woodland-haven.description': 'Лесные звуки с нежным шелестом листьев и симфонией природы',
+    'room.russian-winter.name': 'Русская Зима',
+    'room.russian-winter.description': 'Снег тихо падает за окном с мирной зимней атмосферой',
+    'room.chechen-tower.name': 'Чеченская Башня',
+    'room.chechen-tower.description': 'Горные ветра вокруг древней вайнахской башни',
+    'room.french-eiffel.name': 'Французская Элегантность',
+    'room.french-eiffel.description': 'Парижские улицы с видом на Эйфелеву Башню',
+    'room.norwegian-landscape.name': 'Норвежское Небо',
+    'room.norwegian-landscape.description': 'Открытый норвежский пейзаж с горными ветрами',
+    'room.tokyo-neon.name': 'Токийские Ночи',
+    'room.tokyo-neon.description': 'Неоновый городской пейзаж с ночными городскими звуками',
+    'room.belgian-grey.name': 'Бельгийские Улицы',
+    'room.belgian-grey.description': 'Серая городская атмосфера с нежными звуками дождя',
+    'room.german-brown.name': 'Немецкая Деревня',
+    'room.german-brown.description': 'Традиционный городской пейзаж с мирной атмосферой',
+    'room.dutch-farm.name': 'Голландская Ферма',
+    'room.dutch-farm.description': 'Мирные сельскохозяйственные угодья со звуками природы и нежным бризом',
+    'room.chinese-lake.name': 'Китайское Спокойствие',
+    'room.chinese-lake.description': 'Тихое озеро с нежными звуками воды',
+    'room.circus-tent.name': 'Цирковые Воспоминания',
+    'room.circus-tent.description': 'Внутри большого шатра с ностальгической цирковой атмосферой',
+    'room.football-field.name': 'Футбольное Поле',
+    'room.football-field.description': 'На поле с нежным ветром и атмосферой на свежем воздухе',
+    'room.tennis-court.name': 'Теннисный Корт',
+    'room.tennis-court.description': 'Мирный теннисный корт с атмосферой занятий спортом',
+    'room.basketball-court.name': 'Баскетбольная Площадка',
+    'room.basketball-court.description': 'Крытая баскетбольная площадка с нежным эхом звуков',
+    'room.volleyball-court.name': 'Волейбольная Площадка',
+    'room.volleyball-court.description': 'Чистая волейбольная площадка с мирной атмосферой зала',
+    'room.bowling-alley.name': 'Боулинг',
+    'room.bowling-alley.description': 'Тихий боулинг с тонкими звуками катящихся шаров',
+    'room.american-football.name': 'Американский Футбол',
+    'room.american-football.description': 'Стадионное поле с нежным ветром и звуками на свежем воздухе',
+    'room.hockey-rink.name': 'Хоккейный Каток',
+    'room.hockey-rink.description': 'Ледовый каток с мирной атмосферой арены',
+    'room.indoor-pool.name': 'Бассейн',
+    'room.indoor-pool.description': 'Мирный бассейн с нежными звуками воды',
+    'room.spongebob-pineapple.name': 'Подводный Дом',
+    'room.spongebob-pineapple.description': 'Ананас Спанч Боба со звуками подводных пузырьков',
+    'room.minecraft-room.name': 'Мир Майнкрафта',
+    'room.minecraft-room.description': 'Блочный мир с мирными звуками кубов',
+    'room.mosque-interior.name': 'Священная Мечеть',
+    'room.mosque-interior.description': 'Мирный интерьер мечети с духовной тишиной',
+    'room.library-room.name': 'Тихая Библиотека',
+    'room.library-room.description': 'Тихая библиотека с нежными звуками перелистывания страниц',
+    'room.rgb-room.name': 'Дискотека',
+    'room.rgb-room.description': 'Тёмная комната с настраиваемыми световыми эффектами и электронной атмосферой',
+    'room.poland-snow.name': 'Польская Зима',
+    'room.poland-snow.description': 'Уютная польская комната с мирными звуками снежной зимы',
+    'room.antarctic-igloo.name': 'Антарктическое Иглу',
+    'room.antarctic-igloo.description': 'Внутри иглу с холодными антарктическими звуками ветра',
+    'room.space-ship.name': 'Космическая Станция',
+    'room.space-ship.description': 'Космический корабль с космической тишиной и видом на Землю',
+    'room.pink-candy.name': 'Сладкие Сны',
+    'room.pink-candy.description': 'Розовая комната с волшебным конфетным полем и мирной тишиной',
+    'room.prison-cell.name': 'Тюремная Камера',
+    'room.prison-cell.description': 'Камера с эхом тишины',
+    'room.skyscraper-view.name': 'Высотный Вид',
+    'room.skyscraper-view.description': 'Комната на высоте с городскими звуками снизу',
+    'room.submarine-view.name': 'Глубокое Море',
+    'room.submarine-view.description': 'Подводная лодка с пузырьковыми звуками и видом на морские растения',
+    'room.pirate-deck-view.name': 'Накама',
+    'room.pirate-deck-view.description': 'Стоя у штурвала с приключенческим снаряжением вокруг',
+    'room.naruto-room.name': 'Убежище Ниндзя',
+    'room.naruto-room.description': 'Ресторан рамена с оружием ниндзя и мирной атмосферой',
+    'room.ghibli-forest.name': 'Лес Гибли',
+    'room.ghibli-forest.description': 'Волшебный лесной вид с атмосферой Студии Гибли и парящими духами',
+    'room.titan-wall.name': 'Стена Титанов',
+    'room.titan-wall.description': 'Сторожевая башня с видом на массивные стены титанов с далёкими ветрами',
+    'room.demon-slayer-dojo.name': 'Додзё Истребителя Демонов',
+    'room.demon-slayer-dojo.description': 'Традиционное японское додзё с вишнёвым цветом и благовониями',
+    'room.hero-academy.name': 'Академия Героев',
+    'room.hero-academy.description': 'Класс школы UA с героическим снаряжением и академической атмосферой',
+    'room.dragon-ball-training.name': 'Дом Каме',
+    'room.dragon-ball-training.description': 'Тренировочная площадка Dragon Ball у океана со снаряжением для боевых искусств',
     'room.tetris-room.name': 'Тетрис Аркада',
     'room.tetris-room.description': 'Ретро игровая комната с играбельным тетрисом с управлением WASD',
     'room.clicker-arcade.name': 'Кликер Аркада',
     'room.clicker-arcade.description': 'Кликайте по подарочным коробкам, чтобы открыть мудрость хадисов',
-    
+    'room.hospital-waiting.name': 'Зал Ожидания Больницы',
+    'room.hospital-waiting.description': 'Тихий больничный зал ожидания с мягкими фоновыми звуками',
+    'room.jail-cell.name': 'Тюремная Камера',
+    'room.jail-cell.description': 'Камера с далёкими эхом звуками',
+    'room.train-station.name': 'Вокзал',
+    'room.train-station.description': 'Железнодорожная платформа с далёкими объявлениями и звуками рельсов',
+    'room.bus-stop.name': 'Автобусная Остановка',
+    'room.bus-stop.description': 'Городская автобусная остановка с нежным трафиком и городскими звуками',
+    'room.doctors-office.name': 'Кабинет Врача',
+    'room.doctors-office.description': 'Тихий медицинский кабинет со спокойной атмосферой приёмной',
+    'room.gym.name': 'Спортзал',
+    'room.gym.description': 'Крытый спортзал с далёкими звуками оборудования и атмосферой',
+    'room.bird-shop.name': 'Птичий Магазин',
+    'room.bird-shop.description': 'Зоомагазин с нежным пением и щебетанием птиц',
+    'room.room-with-cat.name': 'Комната с Котом',
+    'room.room-with-cat.description': 'Уютная комната с мурлыкающим котом',
+    'room.cat-eating.name': 'Кот Ест',
+    'room.cat-eating.description': 'Мирная сцена кота, наслаждающегося едой',
+    'room.dog-eating.name': 'Собака Ест',
+    'room.dog-eating.description': 'Счастливая собака ест с нежными фоновыми звуками',
+    'room.kitchen-cockatiel.name': 'Кухонный Попугай',
+    'room.kitchen-cockatiel.description': 'Кухонная сцена с поющим попугаем-корелла',
+    'room.moonlit-room.name': 'Лунная Комната',
+    'room.moonlit-room.description': 'Тёмная комната, освещённая мягким лунным светом через окно',
+    'room.rain-hideout.name': 'Укрытие от Дождя',
+    'room.rain-hideout.description': 'Укрытое место с сильным дождём снаружи',
+    'room.park-trees.name': 'Парк с Деревьями',
+    'room.park-trees.description': 'Мирная скамейка в парке под шелестящими деревьями',
+    'room.the-concept.name': 'Концепт',
+    'room.the-concept.description': 'Абстрактная концептуальная комната с минималистичной атмосферой',
+
     // Room interface
     'room.back': 'Вернуться к Комнатам',
     'room.quran.click': 'Нажмите на Коран, чтобы начать чтение',
     'room.audio.warning': '⚠️ Аудиофайлы не включены - добавьте свои в /public/sounds/',
-    
+
     // Quran Reader
     'quran.title': 'Благородный Коран',
     'quran.select.surah': 'Выберите Суру',
@@ -287,7 +502,7 @@ const translations = {
     'quran.audio.warning': '⚠️ Аудиофайлы не включены',
     'quran.word.click': '💡 Нажмите на любое слово, чтобы повторить его',
     'quran.audio.path': 'Добавьте аудиофайлы в: /public/quran-audio/basit/[surah]/[verse].mp3',
-    
+
     // Quran verses (Al-Fatihah) - keeping Arabic transliteration the same but translating the translation
     'quran.1.1.transliteration': 'Bismillahi r-rahmani r-raheem',
     'quran.1.1.translation': 'Во имя Аллаха, Милостивого, Милосердного.',
@@ -303,7 +518,7 @@ const translations = {
     'quran.1.6.translation': 'Веди нас прямым путем.',
     'quran.1.7.transliteration': 'Sirata l-ladheena an\'amta \'alayhim ghayri l-maghdoobi \'alayhim wa la d-dalleen',
     'quran.1.7.translation': 'Путем тех, кого Ты одарил благодатью, не тех, которые находятся под гневом, и не заблудших.',
-    
+
     // Theme selector
     'theme.title': 'Выберите Вашу Тему',
     'theme.subtitle': 'Выберите тему, которая соответствует вашему настроению и желаемой атмосфере',
@@ -316,17 +531,20 @@ const translations = {
     'theme.day': 'Дневной цикл',
     'theme.night': 'Ночной цикл',
     'theme.rainy': 'Дождливые дни',
-    
+
     // Help section
     'help.title': 'Помогите Мне',
     'help.subtitle': 'Поддержите этот проект и помогите мне улучшить его',
-    'help.money': 'Деньгами',
-    'help.knowledge': 'Знаниями',
+    'help.with.money': 'Деньгами',
+    'help.with.knowledge': 'Знаниями',
     'help.donation.title': 'Поддержка Пожертвованием',
     'help.donation.subtitle': 'Выберите сумму для поддержки развития этого проекта',
     'help.contact.title': 'Связаться со Мной',
     'help.contact.subtitle': 'Поделитесь своими знаниями, идеями или отзывами',
-    
+    'help.open.paypal': 'Открыть PayPal',
+    'help.phone': 'Телефон',
+    'help.contact.message': 'Не стесняйтесь обращаться с предложениями, отчётами об ошибках или если вы хотите внести свой вклад в проект!',
+
     // Ahadith
     'hadith.1.text': 'Верующий не тот, кто ест досыта, пока его сосед голодает.',
     'hadith.1.source': 'Аль-Бухари',
@@ -348,7 +566,21 @@ const translations = {
     'hadith.9.source': 'Аль-Бухари',
     'hadith.10.text': 'Доброта - признак веры, и у кого нет доброты, у того нет веры.',
     'hadith.10.source': 'Муслим',
-    
+
+    // HadithReader interface
+    'hadith.copied': 'Хадис скопирован в буфер обмена',
+    'hadith.copy.error': 'Не удалось скопировать хадис',
+    'hadith.number': 'Хадис',
+    'hadith.of': 'из',
+    'hadith.narrator': 'Рассказчик',
+    'hadith.reference': 'Ссылка',
+    'hadith.hide.transliteration': 'Скрыть транслитерацию',
+    'hadith.show.transliteration': 'Показать транслитерацию',
+    'hadith.copy': 'Копировать',
+    'hadith.share': 'Поделиться',
+    'hadith.previous': 'Предыдущий',
+    'hadith.next': 'Следующий',
+
     // Clicker Game
     'clicker.title': 'Кликер Аркада',
     'clicker.instruction': 'Нажмите на подарочную упаковку, чтобы открыть её!',
@@ -357,15 +589,79 @@ const translations = {
     'clicker.clicked.times': 'Вы кликнули {count} раз!',
     'clicker.gift.opened': 'Подарок Открыт!',
     'clicker.open.another': 'Открыть Ещё Подарок',
-    
+
     // Recitation Controls
     'recitation.start': 'Начать Чтение Корана',
     'recitation.start.fatihah': 'Начать Аль-Фатиха',
     'recitation.surah.verse': 'Сура {surah}, Аят {verse}',
     'recitation.audio.warning': '⚠️ Аудиофайлы не включены - добавьте в /public/quran-audio/',
-    
+
     // Navigation
     'navigation.back': 'Назад',
+
+    // QuranReader Interface
+    'quran.select.surah.placeholder': 'Выберите Суру',
+    'quran.show.transliteration.label': 'Показать транслитерацию',
+    'quran.show.translation.label': 'Показать перевод',
+    'quran.transliteration.info': 'Научная транслитерация с диакритиками: ḥ, ṣ, ḍ, ṭ, ẓ, ʿ (айн), ʾ (хамза)',
+    'quran.loading': 'Загрузка…',
+    'quran.error': 'Ошибка',
+    'quran.no.verses': 'Аяты не загружены.',
+    'quran.close': 'Закрыть',
+    'quran.transliteration.section': 'Транслитерация',
+    'quran.translation.section': 'Перевод',
+
+    // Interactive Components
+    'component.quran.tooltip': 'Нажмите для чтения Корана',
+    'component.calendar.tooltip': 'Исламский календарь',
+    'component.prayers.tooltip': 'Нажмите для времени намазов',
+    'component.bukhari.tooltip': 'Сахих аль-Бухари',
+    'component.muslim.tooltip': 'Сахих Муслим',
+    'component.sound.tooltip': 'Настройки звука',
+
+    // Room filters
+    'filter.all': 'Все',
+    'filter.places': 'Места',
+    'filter.hobbies': 'Хобби',
+    'filter.sports': 'Спорт',
+
+    // Navigation
+    'nav.previous': 'Предыдущая',
+    'nav.next': 'Следующая',
+
+    // Sound Controls
+    'sound.controls': 'Управление звуком',
+    'sound.ambient': 'Эмбиент',
+    'sound.master': 'Общий',
+    'sound.ambient.sounds': 'Фоновые звуки',
+    'sound.master.volume': 'Общая громкость',
+    'sound.mute.all': 'Отключить все',
+    'sound.stop.all': 'Остановить все звуки',
+
+    // Prayer Times
+    'prayers.getting.location': 'Получение местоположения...',
+    'prayers.location.unavailable': 'Местоположение недоступно',
+    'prayers.geolocation.unsupported': 'Геолокация не поддерживается',
+    'prayers.title': 'Время Намазов',
+    'prayers.current.time': 'Текущий Намаз',
+    'prayers.next': 'Следующий',
+    'prayers.at': 'в',
+    'prayers.loading': 'Загрузка времени намазов...',
+    'prayers.today': 'Сегодняшние Намазы',
+    'prayers.current.badge': 'Текущий',
+    'prayers.completed.badge': 'Завершён',
+    'prayers.disclaimer': 'Время намазов рассчитано для вашего текущего местоположения с помощью API Aladhan.',
+
+    // Controls Menu
+    'controls.title': 'Интерактивные Компоненты',
+    'controls.clock': 'Часы',
+    'controls.calendar': 'Исламский Календарь',
+    'controls.prayer.times': 'Время Намазов',
+    'controls.quran': 'Чтение Корана',
+    'controls.bukhari': 'Хадисы Бухари',
+    'controls.muslim': 'Хадисы Муслим',
+    'controls.sound': 'Управление Звуком',
+    'controls.drag.hint': 'Перетаскивайте компоненты для изменения их положения. Настройки сохраняются для каждой комнаты.',
   },
   nl: {
     // Navigation & General
@@ -374,14 +670,14 @@ const translations = {
     'nav.quran': 'Koran',
     'nav.help': 'Help',
     'language.selector': 'Taal',
-    
+
     // Main page content
     'main.subtitle': 'Kies uw vredige toevluchtsoord voor Koran lezen en reflectie. Elke kamer biedt zijn eigen unieke sfeer en geluiden.',
     'main.message': 'Assalamu Aleykum Waramatullahi Wabarakatuh, lieve broeders en zusters, ik heb niet veel kennis van het maken van websites en ik heb ook niet het nodige geld om in mijn plannen te investeren. Dus ik zou graag jullie hulp willen als jullie het concept bevalt dat jullie voor jullie zien. Ik weet niet hoe dit moet werken, maar mijn intenties zijn om meer moslims aan te trekken die gewoon kunnen ontspannen en luisteren, studeren of de Koran lezen in een lofi stijl voor de meer kalme mensen. Voor mensen die van natuur, kennis en gemoedrust houden. Dus voel je vrij om mij te helpen of mijn site ten volle te gebruiken, moge Allah het gemakkelijk maken voor jullie allemaal en moge Allah jullie allemaal belonen desondanks.',
     'main.verse': '"En Hij is degene die regen van de hemel doet neerdalen, en Wij brengen daardoor alle soorten vegetatie voort."',
     'main.verse.reference': '- Koran 6:99',
     'main.enter.room': 'Kamer Betreden',
-    
+
     // Room names and descriptions
     'room.rainy-study.name': 'Regenachtige Studeerkamer',
     'room.rainy-study.description': 'Een gezellige studeerkamer met regen die zacht buiten het raam valt',
@@ -403,12 +699,12 @@ const translations = {
     'room.alpine-retreat.description': 'Bergwinden fluitend door vredige besneeuwde pieken',
     'room.woodland-haven.name': 'Bos Haven',
     'room.woodland-haven.description': 'Bosgeluiden met zacht ritselende bladeren en de symfonie van de natuur',
-    
+
     // Room interface
     'room.back': 'Terug naar Kamers',
     'room.quran.click': 'Klik op de Koran om te beginnen met lezen',
     'room.audio.warning': '⚠️ Audiobestanden niet inbegrepen - voeg uw eigen toe aan /public/sounds/',
-    
+
     // Quran Reader
     'quran.title': 'Edele Koran',
     'quran.select.surah': 'Selecteer Soera',
@@ -424,7 +720,7 @@ const translations = {
     'quran.audio.warning': '⚠️ Audiobestanden niet inbegrepen',
     'quran.word.click': '💡 Klik op elk woord om het te herhalen',
     'quran.audio.path': 'Voeg audiobestanden toe aan: /public/quran-audio/basit/[surah]/[verse].mp3',
-    
+
     // Quran verses (Al-Fatihah)
     'quran.1.1.transliteration': 'Bismillahi r-rahmani r-raheem',
     'quran.1.1.translation': 'In de naam van Allah, de Barmhartige, de Genadevolle.',
@@ -440,7 +736,7 @@ const translations = {
     'quran.1.6.translation': 'Leid ons op het rechte pad.',
     'quran.1.7.transliteration': 'Sirata l-ladheena an\'amta \'alayhim ghayri l-maghdoobi \'alayhim wa la d-dalleen',
     'quran.1.7.translation': 'Het pad van degenen die U genade hebt geschonken, niet van degenen die Uw toorn hebben opgewekt, noch van de dwalenden.',
-    
+
     // Theme selector
     'theme.title': 'Kies Uw Thema',
     'theme.subtitle': 'Selecteer een thema dat past bij uw stemming en de gewenste sfeer',
@@ -453,7 +749,7 @@ const translations = {
     'theme.day': 'Dag cyclus',
     'theme.night': 'Nacht cyclus',
     'theme.rainy': 'Regenachtige dagen',
-    
+
     // Help section
     'help.title': 'Help Mij',
     'help.subtitle': 'Steun dit project en help mij het te verbeteren',
@@ -463,7 +759,7 @@ const translations = {
     'help.donation.subtitle': 'Kies een bedrag om de ontwikkeling van dit project te steunen',
     'help.contact.title': 'Contact Opnemen',
     'help.contact.subtitle': 'Deel uw kennis, ideeën of feedback',
-    
+
     // Ahadith
     'hadith.1.text': 'De gelovige is niet degene die zich verzadigt terwijl zijn buur hongerig gaat.',
     'hadith.1.source': 'Al-Bukhari',
@@ -485,7 +781,7 @@ const translations = {
     'hadith.9.source': 'Al-Bukhari',
     'hadith.10.text': 'Vriendelijkheid is een teken van geloof, en wie niet vriendelijk is heeft geen geloof.',
     'hadith.10.source': 'Muslim',
-    
+
     // Clicker Game
     'clicker.title': 'Clicker Arcade',
     'clicker.instruction': 'Klik op het cadeaupakket om het te openen!',
@@ -494,13 +790,13 @@ const translations = {
     'clicker.clicked.times': 'Je hebt {count} keer geklikt!',
     'clicker.gift.opened': 'Cadeau Geopend!',
     'clicker.open.another': 'Open Een Ander Cadeau',
-    
+
     // Recitation Controls
     'recitation.start': 'Start Koran Recitatie',
     'recitation.start.fatihah': 'Start Al-Fatihah',
     'recitation.surah.verse': 'Soera {surah}, Vers {verse}',
     'recitation.audio.warning': '⚠️ Audiobestanden niet inbegrepen - voeg toe aan /public/quran-audio/',
-    
+
     // Navigation
     'navigation.back': 'Terug',
   },
@@ -511,14 +807,14 @@ const translations = {
     'nav.quran': 'Coran',
     'nav.help': 'Aide',
     'language.selector': 'Langue',
-    
+
     // Main page content
     'main.subtitle': 'Choisissez votre sanctuaire paisible pour la lecture du Coran et la réflexion. Chaque salle offre sa propre ambiance et ses sons uniques.',
     'main.message': 'Assalamu Aleykum Waramatullahi Wabarakatuh, chers frères et sœurs, je n\'ai pas beaucoup de connaissances pour créer des sites et je n\'ai pas l\'argent nécessaire pour investir dans mes projets. Donc j\'aimerais votre aide si vous aimez le concept que vous voyez devant vous. Je ne sais pas comment faire fonctionner cela, mais mes intentions sont d\'attirer plus de musulmans qui peuvent simplement se détendre et écouter, étudier ou lire le Coran dans un style lofi pour les personnes plus calmes. Pour les gens qui aiment la nature, la connaissance et la tranquillité d\'esprit. Alors n\'hésitez pas à m\'aider ou à utiliser mon site au maximum, qu\'Allah vous facilite les choses à tous et qu\'Allah vous récompense tous néanmoins.',
     'main.verse': '"Et c\'est Lui qui fait descendre la pluie du ciel, et Nous produisons par elle la végétation de toute sorte."',
     'main.verse.reference': '- Coran 6:99',
     'main.enter.room': 'Entrer dans la Salle',
-    
+
     // Complete French room translations and remaining content
     'room.rainy-study.name': 'Bureau Pluvieux',
     'room.rainy-study.description': 'Un bureau d\'étude confortable avec la pluie tombant doucement à l\'extérieur de la fenêtre',
@@ -540,16 +836,16 @@ const translations = {
     'room.alpine-retreat.description': 'Vents de montagne sifflant à travers des pics enneigés paisibles',
     'room.woodland-haven.name': 'Havre Forestier',
     'room.woodland-haven.description': 'Sons de forêt avec de doux bruissements de feuilles et la symphonie de la nature',
-    
+
     'room.back': 'Retour aux Salles',
     'room.quran.click': 'Cliquez sur le Coran pour commencer à lire',
     'room.audio.warning': '⚠️ Fichiers audio non inclus - ajoutez les vôtres dans /public/sounds/',
-    
+
     'quran.title': 'Noble Coran',
     'quran.select.surah': 'Sélectionner la Sourate',
     'quran.1.1.transliteration': 'Bismillahi r-rahmani r-raheem',
     'quran.1.1.translation': 'Au nom d\'Allah, le Tout Miséricordieux, le Très Miséricordieux.',
-    
+
     'theme.title': 'Choisissez Votre Thème',
     'theme.subtitle': 'Sélectionnez un thème qui correspond à votre humeur et à l\'atmosphère désirée',
     'theme.current': 'Thème actuel',
@@ -561,10 +857,10 @@ const translations = {
     'theme.day': 'Cycle diurne',
     'theme.night': 'Cycle nocturne',
     'theme.rainy': 'Jours pluvieux',
-    
+
     'help.title': 'Aidez-Moi',
     'help.subtitle': 'Soutenez ce projet et aidez-moi à l\'améliorer',
-    
+
     // Ahadith
     'hadith.1.text': 'Le croyant n\'est pas celui qui mange à sa faim tandis que son voisin reste affamé.',
     'hadith.1.source': 'Al-Bukhari',
@@ -586,7 +882,7 @@ const translations = {
     'hadith.9.source': 'Al-Bukhari',
     'hadith.10.text': 'La bonté est une marque de foi, et celui qui n\'est pas bon n\'a pas de foi.',
     'hadith.10.source': 'Muslim',
-    
+
     // Clicker Game
     'clicker.title': 'Clicker Arcade',
     'clicker.instruction': 'Cliquez sur le paquet cadeau pour l\'ouvrir !',
@@ -595,22 +891,22 @@ const translations = {
     'clicker.clicked.times': 'Vous avez cliqué {count} fois !',
     'clicker.gift.opened': 'Cadeau Ouvert !',
     'clicker.open.another': 'Ouvrir Un Autre Cadeau',
-    
+
     // Recitation Controls
     'recitation.start': 'Commencer la Récitation du Coran',
     'recitation.start.fatihah': 'Commencer Al-Fatihah',
     'recitation.surah.verse': 'Sourate {surah}, Verset {verse}',
     'recitation.audio.warning': '⚠️ Fichiers audio non inclus - ajoutez dans /public/quran-audio/',
-    
+
     // Navigation
     'navigation.back': 'Retour',
   },
   de: {
     // All German translations including theme selector
     'app.title': 'Islamische Lofi Räume',
-    
+
     'room.woodland-haven.description': 'Waldklänge mit sanftem Blätterrauschen und der Symphonie der Natur',
-    
+
     'theme.title': 'Wählen Sie Ihr Thema',
     'theme.subtitle': 'Wählen Sie ein Thema, das zu Ihrer Stimmung und der gewünschten Atmosphäre passt',
     'theme.current': 'Aktuelles Thema',
@@ -622,9 +918,9 @@ const translations = {
     'theme.day': 'Tag-Zyklus',
     'theme.night': 'Nacht-Zyklus',
     'theme.rainy': 'Regentage',
-    
+
     'help.title': 'Helfen Sie Mir',
-    
+
     // Ahadith
     'hadith.1.text': 'Der Gläubige ist nicht derjenige, der sich satt isst, während sein Nachbar hungrig bleibt.',
     'hadith.1.source': 'Al-Bukhari',
@@ -646,7 +942,7 @@ const translations = {
     'hadith.9.source': 'Al-Bukhari',
     'hadith.10.text': 'Freundlichkeit ist ein Zeichen des Glaubens, und wer nicht freundlich ist, hat keinen Glauben.',
     'hadith.10.source': 'Muslim',
-    
+
     // Clicker Game
     'clicker.title': 'Klicker Spielhalle',
     'clicker.instruction': 'Klicken Sie auf das Geschenkpaket, um es zu öffnen!',
@@ -655,29 +951,42 @@ const translations = {
     'clicker.clicked.times': 'Sie haben {count} Mal geklickt!',
     'clicker.gift.opened': 'Geschenk Geöffnet!',
     'clicker.open.another': 'Ein Anderes Geschenk Öffnen',
-    
+
     // Recitation Controls
     'recitation.start': 'Koran-Rezitation Starten',
     'recitation.start.fatihah': 'Al-Fatihah Starten',
     'recitation.surah.verse': 'Sure {surah}, Vers {verse}',
     'recitation.audio.warning': '⚠️ Audiodateien nicht enthalten - hinzufügen zu /public/quran-audio/',
-    
+
     // Navigation
     'navigation.back': 'Zurück',
   }
 };
 
 export const TranslationProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
-  const [language, setLanguage] = useState<Language>('en');
+  const [language, setLanguage] = useState<Language>(() => {
+    const saved = localStorage.getItem('app-language');
+    return (saved as Language) || 'en';
+  });
 
-  const t = (key: string): string => {
+  const handleSetLanguage = useCallback((lang: Language) => {
+    setLanguage(lang);
+    localStorage.setItem('app-language', lang);
+  }, []);
+
+  const t = useCallback((key: string): string => {
     const dict = translations as Record<string, Record<string, string>>;
     return dict[language]?.[key] ?? key;
+  }, [language]);
 
-  };
+  const value = useMemo(() => ({
+    language,
+    setLanguage: handleSetLanguage,
+    t,
+  }), [language, handleSetLanguage, t]);
 
   return (
-    <TranslationContext.Provider value={{ language, setLanguage, t }}>
+    <TranslationContext.Provider value={value}>
       {children}
     </TranslationContext.Provider>
   );

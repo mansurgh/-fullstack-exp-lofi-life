@@ -1,11 +1,10 @@
-import { useState, useRef, useEffect } from 'react';
-import { Card } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import { Calendar, BookOpen, MapPin, Volume2 } from 'lucide-react';
-import { PrayerTimes } from './PrayerTimes';
-import { IslamicCalendar } from './IslamicCalendar';
-import QuranReader from './QuranReader';
+import { useTranslation } from '@/contexts/TranslationContext';
+import { Volume2 } from 'lucide-react';
+import { useEffect, useRef, useState } from 'react';
 import { HadithReader } from './HadithReader';
+import { IslamicCalendar } from './IslamicCalendar';
+import { PrayerTimes } from './PrayerTimes';
+import QuranReader from './QuranReader';
 import { SoundControls } from './SoundControls';
 
 interface Position {
@@ -23,8 +22,11 @@ interface InteractiveComponentsProps {
 }
 
 export const InteractiveComponents = ({ roomId }: InteractiveComponentsProps) => {
+  const { t } = useTranslation();
   const [dragState, setDragState] = useState<string | null>(null);
   const [dragOffset, setDragOffset] = useState<Position>({ x: 0, y: 0 });
+  const [hasDragged, setHasDragged] = useState(false);
+  const dragStartPos = useRef<Position>({ x: 0, y: 0 });
   const [showPrayerTimes, setShowPrayerTimes] = useState(false);
   const [showCalendar, setShowCalendar] = useState(false);
   const [showQuran, setShowQuran] = useState(false);
@@ -34,34 +36,44 @@ export const InteractiveComponents = ({ roomId }: InteractiveComponentsProps) =>
 
   // Component states with room-specific storage keys
 
+  // Grid layout: each widget ~90px wide, ~100px tall, 10px gap
+  // Row 1 (y=200): Sound Controls, Prayer Mat
+  // Row 2 (y=310): Quran, Bukhari, Muslim
+  // Row 3 (y=420): Clock, Calendar
+
+  const [clock, setClock] = useState<ComponentState>(() => {
+    const saved = localStorage.getItem(`clock-${roomId}`);
+    return saved ? JSON.parse(saved) : { position: { x: 20, y: 420 }, visible: true };
+  });
+
   const [calendar, setCalendar] = useState<ComponentState>(() => {
     const saved = localStorage.getItem(`calendar-${roomId}`);
-    return saved ? JSON.parse(saved) : { position: { x: 20, y: 120 }, visible: true };
+    return saved ? JSON.parse(saved) : { position: { x: 120, y: 420 }, visible: true };
   });
 
   const [prayerMat, setPrayerMat] = useState<ComponentState>(() => {
     const saved = localStorage.getItem(`prayerMat-${roomId}`);
-    return saved ? JSON.parse(saved) : { position: { x: 20, y: 320 }, visible: true };
+    return saved ? JSON.parse(saved) : { position: { x: 120, y: 200 }, visible: true };
   });
 
   const [quran, setQuran] = useState<ComponentState>(() => {
     const saved = localStorage.getItem(`quran-${roomId}`);
-    return saved ? JSON.parse(saved) : { position: { x: 20, y: 420 }, visible: true };
+    return saved ? JSON.parse(saved) : { position: { x: 20, y: 310 }, visible: true };
   });
 
   const [bukhariBook, setBukhariBook] = useState<ComponentState>(() => {
     const saved = localStorage.getItem(`bukhariBook-${roomId}`);
-    return saved ? JSON.parse(saved) : { position: { x: 120, y: 420 }, visible: true };
+    return saved ? JSON.parse(saved) : { position: { x: 120, y: 310 }, visible: true };
   });
 
   const [muslimBook, setMuslimBook] = useState<ComponentState>(() => {
     const saved = localStorage.getItem(`muslimBook-${roomId}`);
-    return saved ? JSON.parse(saved) : { position: { x: 220, y: 420 }, visible: true };
+    return saved ? JSON.parse(saved) : { position: { x: 220, y: 310 }, visible: true };
   });
 
   const [soundControls, setSoundControls] = useState<ComponentState>(() => {
     const saved = localStorage.getItem(`soundControls-${roomId}`);
-    return saved ? JSON.parse(saved) : { position: { x: 20, y: 120 }, visible: true };
+    return saved ? JSON.parse(saved) : { position: { x: 20, y: 200 }, visible: true };
   });
 
   const [currentTime, setCurrentTime] = useState(new Date());
@@ -76,6 +88,9 @@ export const InteractiveComponents = ({ roomId }: InteractiveComponentsProps) =>
 
   // Save to localStorage whenever state changes
 
+  useEffect(() => {
+    localStorage.setItem(`clock-${roomId}`, JSON.stringify(clock));
+  }, [clock, roomId]);
 
   useEffect(() => {
     localStorage.setItem(`calendar-${roomId}`, JSON.stringify(calendar));
@@ -107,11 +122,21 @@ export const InteractiveComponents = ({ roomId }: InteractiveComponentsProps) =>
       x: e.clientX - rect.left,
       y: e.clientY - rect.top
     });
+    setHasDragged(false);
+    dragStartPos.current = { x: e.clientX, y: e.clientY };
     setDragState(componentId);
+    e.preventDefault();
   };
 
   const handleMouseMove = (e: MouseEvent) => {
     if (!dragState) return;
+
+    // If mouse moved more than 5px, consider it a drag (not a click)
+    const dx = e.clientX - dragStartPos.current.x;
+    const dy = e.clientY - dragStartPos.current.y;
+    if (Math.abs(dx) > 5 || Math.abs(dy) > 5) {
+      setHasDragged(true);
+    }
 
     const newPosition = {
       x: e.clientX - dragOffset.x,
@@ -125,7 +150,9 @@ export const InteractiveComponents = ({ roomId }: InteractiveComponentsProps) =>
     };
 
     switch (dragState) {
-
+      case 'clock':
+        setClock(prev => ({ ...prev, position: constrainedPosition }));
+        break;
       case 'calendar':
         setCalendar(prev => ({ ...prev, position: constrainedPosition }));
         break;
@@ -182,32 +209,58 @@ export const InteractiveComponents = ({ roomId }: InteractiveComponentsProps) =>
 
   return (
     <>
+      {/* Hidden toggle buttons for InteractiveControlsMenu */}
+      <button id={`toggle-clock-${roomId}`} className="hidden" onClick={() => setClock(prev => ({ ...prev, visible: !prev.visible }))} />
 
+      {/* Clock Widget */}
+      {clock.visible && (
+        <div
+          className="fixed cursor-move z-30 select-none"
+          style={{
+            left: clock.position.x,
+            top: clock.position.y,
+            transform: dragState === 'clock' ? 'scale(1.05)' : 'scale(1)'
+          }}
+          onMouseDown={(e) => handleMouseDown(e, 'clock', clock.position)}
+        >
+          <div className="bg-black/70 backdrop-blur-sm rounded-xl shadow-lg border border-white/20 px-4 py-3 text-white min-w-[140px]">
+            <div className="text-2xl font-mono font-bold text-center leading-none">
+              {currentTime.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', hour12: false })}
+            </div>
+            <div className="text-[10px] text-white/60 text-center mt-1 font-mono">
+              {currentTime.toLocaleTimeString('en-US', { second: '2-digit' }).slice(-2)}s
+            </div>
+            <div className="text-xs text-white/50 text-center mt-1">
+              {currentTime.toLocaleDateString('en-US', { weekday: 'short', day: 'numeric', month: 'short' })}
+            </div>
+          </div>
+        </div>
+      )}
 
       {/* Calendar Component */}
       {calendar.visible && (
-        <div 
+        <div
           className="fixed cursor-move z-30 select-none"
-          style={{ 
-            left: calendar.position.x, 
+          style={{
+            left: calendar.position.x,
             top: calendar.position.y,
             transform: dragState === 'calendar' ? 'scale(1.05)' : 'scale(1)'
           }}
           onMouseDown={(e) => handleMouseDown(e, 'calendar', calendar.position)}
-          onClick={() => setShowCalendar(true)}
+          onClick={() => { if (!hasDragged) setShowCalendar(true); }}
         >
           <div className="w-20 h-24 bg-gradient-to-br from-red-600 to-red-800 rounded-lg shadow-lg border border-red-900 hover:shadow-xl transition-shadow">
             <div className="h-5 bg-red-900 rounded-t-lg flex items-center justify-center">
               <div className="w-2 h-2 bg-red-300 rounded-full"></div>
             </div>
             <div className="p-2 text-white text-center">
-              <div className="text-xs font-bold">{currentTime.toLocaleDateString('en', {month: 'short'}).toUpperCase()}</div>
+              <div className="text-xs font-bold">{currentTime.toLocaleDateString('en', { month: 'short' }).toUpperCase()}</div>
               <div className="text-xl font-bold leading-none">{currentTime.getDate()}</div>
               <div className="text-xs">{currentTime.getFullYear()}</div>
             </div>
             {/* Tooltip */}
             <div className="absolute -bottom-8 left-1/2 transform -translate-x-1/2 bg-black/80 text-white text-xs px-2 py-1 rounded whitespace-nowrap opacity-0 hover:opacity-100 transition-opacity">
-              Click for Islamic Calendar
+              {t('component.calendar.tooltip')}
             </div>
           </div>
         </div>
@@ -215,14 +268,15 @@ export const InteractiveComponents = ({ roomId }: InteractiveComponentsProps) =>
 
       {/* Prayer Mat Component */}
       {prayerMat.visible && (
-        <div 
-          className="fixed cursor-pointer z-30 select-none"
-          style={{ 
-            left: prayerMat.position.x, 
+        <div
+          className="fixed cursor-move z-30 select-none"
+          style={{
+            left: prayerMat.position.x,
             top: prayerMat.position.y,
-            transform: 'scale(1)'
+            transform: dragState === 'prayerMat' ? 'scale(1.05)' : 'scale(1)'
           }}
-          onClick={() => setShowPrayerTimes(true)}
+          onMouseDown={(e) => handleMouseDown(e, 'prayerMat', prayerMat.position)}
+          onClick={() => { if (!hasDragged) setShowPrayerTimes(true); }}
         >
           <div className="w-28 h-20 bg-gradient-to-br from-emerald-700 via-emerald-600 to-emerald-800 rounded-lg shadow-lg border-2 border-emerald-900 relative overflow-hidden hover:shadow-xl transition-shadow">
             {/* Prayer mat pattern */}
@@ -239,7 +293,7 @@ export const InteractiveComponents = ({ roomId }: InteractiveComponentsProps) =>
             </div>
             {/* Tooltip */}
             <div className="absolute -bottom-8 left-1/2 transform -translate-x-1/2 bg-black/80 text-white text-xs px-2 py-1 rounded whitespace-nowrap opacity-0 hover:opacity-100 transition-opacity">
-              Click for Prayer Times
+              {t('component.prayers.tooltip')}
             </div>
           </div>
         </div>
@@ -247,15 +301,15 @@ export const InteractiveComponents = ({ roomId }: InteractiveComponentsProps) =>
 
       {/* Quran Component */}
       {quran.visible && (
-        <div 
+        <div
           className="fixed cursor-move z-30 select-none"
-          style={{ 
-            left: quran.position.x, 
+          style={{
+            left: quran.position.x,
             top: quran.position.y,
             transform: dragState === 'quran' ? 'scale(1.05)' : 'scale(1)'
           }}
           onMouseDown={(e) => handleMouseDown(e, 'quran', quran.position)}
-          onClick={() => setShowQuran(true)}
+          onClick={() => { if (!hasDragged) setShowQuran(true); }}
         >
           <div className="relative">
             <div className="w-20 h-24 bg-gradient-to-br from-amber-800 via-amber-700 to-amber-900 rounded-lg shadow-lg border border-amber-950 relative overflow-hidden hover:shadow-xl transition-shadow">
@@ -275,7 +329,7 @@ export const InteractiveComponents = ({ roomId }: InteractiveComponentsProps) =>
             <div className="absolute top-0.5 right-0.5 w-18 h-22 bg-cream-100 rounded-r-lg border-r border-t border-b border-amber-200 opacity-30"></div>
             {/* Tooltip */}
             <div className="absolute -bottom-8 left-1/2 transform -translate-x-1/2 bg-black/80 text-white text-xs px-2 py-1 rounded whitespace-nowrap opacity-0 hover:opacity-100 transition-opacity">
-              Click to Read Quran
+              {t('component.quran.tooltip')}
             </div>
           </div>
         </div>
@@ -283,15 +337,15 @@ export const InteractiveComponents = ({ roomId }: InteractiveComponentsProps) =>
 
       {/* Bukhari Hadith Book Component */}
       {bukhariBook.visible && (
-        <div 
+        <div
           className="fixed cursor-move z-30 select-none"
-          style={{ 
-            left: bukhariBook.position.x, 
+          style={{
+            left: bukhariBook.position.x,
             top: bukhariBook.position.y,
             transform: dragState === 'bukhariBook' ? 'scale(1.05)' : 'scale(1)'
           }}
           onMouseDown={(e) => handleMouseDown(e, 'bukhariBook', bukhariBook.position)}
-          onClick={() => setShowBukhariHadith(true)}
+          onClick={() => { if (!hasDragged) setShowBukhariHadith(true); }}
         >
           <div className="relative">
             <div className="w-20 h-24 bg-gradient-to-br from-green-800 via-green-700 to-green-900 rounded-lg shadow-lg border border-green-950 relative overflow-hidden hover:shadow-xl transition-shadow">
@@ -311,7 +365,7 @@ export const InteractiveComponents = ({ roomId }: InteractiveComponentsProps) =>
             <div className="absolute top-0.5 right-0.5 w-18 h-22 bg-cream-100 rounded-r-lg border-r border-t border-b border-green-200 opacity-30"></div>
             {/* Tooltip */}
             <div className="absolute -bottom-8 left-1/2 transform -translate-x-1/2 bg-black/80 text-white text-xs px-2 py-1 rounded whitespace-nowrap opacity-0 hover:opacity-100 transition-opacity">
-              Click to Read Hadith
+              {t('component.bukhari.tooltip')}
             </div>
           </div>
         </div>
@@ -319,15 +373,15 @@ export const InteractiveComponents = ({ roomId }: InteractiveComponentsProps) =>
 
       {/* Muslim Hadith Book Component */}
       {muslimBook.visible && (
-        <div 
+        <div
           className="fixed cursor-move z-30 select-none"
-          style={{ 
-            left: muslimBook.position.x, 
+          style={{
+            left: muslimBook.position.x,
             top: muslimBook.position.y,
             transform: dragState === 'muslimBook' ? 'scale(1.05)' : 'scale(1)'
           }}
           onMouseDown={(e) => handleMouseDown(e, 'muslimBook', muslimBook.position)}
-          onClick={() => setShowMuslimHadith(true)}
+          onClick={() => { if (!hasDragged) setShowMuslimHadith(true); }}
         >
           <div className="relative">
             <div className="w-20 h-24 bg-gradient-to-br from-blue-800 via-blue-700 to-blue-900 rounded-lg shadow-lg border border-blue-950 relative overflow-hidden hover:shadow-xl transition-shadow">
@@ -347,7 +401,7 @@ export const InteractiveComponents = ({ roomId }: InteractiveComponentsProps) =>
             <div className="absolute top-0.5 right-0.5 w-18 h-22 bg-cream-100 rounded-r-lg border-r border-t border-b border-blue-200 opacity-30"></div>
             {/* Tooltip */}
             <div className="absolute -bottom-8 left-1/2 transform -translate-x-1/2 bg-black/80 text-white text-xs px-2 py-1 rounded whitespace-nowrap opacity-0 hover:opacity-100 transition-opacity">
-              Click to Read Hadith
+              {t('component.muslim.tooltip')}
             </div>
           </div>
         </div>
@@ -355,27 +409,26 @@ export const InteractiveComponents = ({ roomId }: InteractiveComponentsProps) =>
 
       {/* Sound Controls Component */}
       {soundControls.visible && (
-        <div 
+        <div
           className="fixed cursor-move z-30 select-none"
-          style={{ 
-            left: soundControls.position.x, 
+          style={{
+            left: soundControls.position.x,
             top: soundControls.position.y,
             transform: dragState === 'soundControls' ? 'scale(1.05)' : 'scale(1)'
           }}
           onMouseDown={(e) => handleMouseDown(e, 'soundControls', soundControls.position)}
-          onClick={() => setShowSoundControls(true)}
+          onClick={() => { if (!hasDragged) setShowSoundControls(true); }}
         >
           <div className="w-20 h-24 bg-gradient-to-br from-purple-600 to-purple-800 rounded-lg shadow-lg border border-purple-900 hover:shadow-xl transition-shadow">
             <div className="h-5 bg-purple-900 rounded-t-lg flex items-center justify-center">
               <Volume2 className="w-4 h-4 text-purple-300" />
             </div>
-            <div className="p-2 text-white text-center flex flex-col items-center justify-center" style={{height: 'calc(100% - 20px)'}}>
-              <div className="text-xs font-bold">Sound</div>
-              <div className="text-lg font-bold leading-none">Controls</div>
+            <div className="p-2 text-white text-center flex flex-col items-center justify-center" style={{ height: 'calc(100% - 20px)' }}>
+              <div className="text-[10px] font-bold leading-tight">{t('sound.controls')}</div>
             </div>
             {/* Tooltip */}
             <div className="absolute -bottom-8 left-1/2 transform -translate-x-1/2 bg-black/80 text-white text-xs px-2 py-1 rounded whitespace-nowrap opacity-0 hover:opacity-100 transition-opacity">
-              Click for Sound Settings
+              {t('component.sound.tooltip')}
             </div>
           </div>
         </div>

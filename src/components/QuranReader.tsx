@@ -1,5 +1,4 @@
 // src/components/QuranReader.tsx
-import { useEffect, useRef, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import {
@@ -10,8 +9,10 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Switch } from "@/components/ui/switch";
-import { Play, Pause, SkipBack, SkipForward, X } from "lucide-react";
+import { useTranslation } from "@/contexts/TranslationContext";
 import { fetchSurahVerses, loadCachedSurah, VerseDTO } from "@/lib/quranApi";
+import { Pause, Play, SkipBack, SkipForward, X } from "lucide-react";
+import { useEffect, useRef, useState } from "react";
 
 
 interface QuranReaderProps {
@@ -145,11 +146,13 @@ const surahs: Surah[] = [
 ];
 
 export default function QuranReader({ onClose, isVisible }: QuranReaderProps) {
+  const { t, language } = useTranslation();
   const [selectedSurah, setSelectedSurah] = useState<string>("1");
   const [verses, setVerses] = useState<VerseDTO[]>([]);
   const [currentVerse, setCurrentVerse] = useState<number>(0);
   const [isPlaying, setIsPlaying] = useState<boolean>(false);
   const [showTranslation, setShowTranslation] = useState<boolean>(true);
+  const [showTransliteration, setShowTransliteration] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
 
@@ -183,7 +186,7 @@ export default function QuranReader({ onClose, isVisible }: QuranReaderProps) {
 
     // Всегда загружаем свежие данные с API
     console.log(`🔄 Loading surah ${selectedSurah} from API...`);
-    fetchSurahVerses(selectedSurah)
+    fetchSurahVerses(selectedSurah, language)
       .then((v) => {
         if (mounted) {
           console.log(`✅ Loaded ${v.length} verses for surah ${selectedSurah}`);
@@ -203,7 +206,7 @@ export default function QuranReader({ onClose, isVisible }: QuranReaderProps) {
     return () => {
       mounted = false;
     };
-  }, [selectedSurah]);
+  }, [selectedSurah, language]);
 
   // Настройка аудио
   useEffect(() => {
@@ -231,14 +234,14 @@ export default function QuranReader({ onClose, isVisible }: QuranReaderProps) {
     }
 
     console.log('✅ Loading audio for verse:', currentVerse + 1, 'surah:', selectedSurah, 'isPlaying:', isPlaying);
-    
+
     const surah = Number(selectedSurah);
     const sources = getAudioSources(surah, currentVerse + 1);
     console.log('Audio sources:', sources);
-    
+
     sourceIndexRef.current = 0;
     audio.src = sources[0];
-    
+
     // Добавляем обработчики событий
     const handleCanPlay = () => {
       console.log('🎵 Audio can play, starting verse:', currentVerse + 1);
@@ -297,15 +300,15 @@ export default function QuranReader({ onClose, isVisible }: QuranReaderProps) {
     // Убираем старые обработчики
     audio.removeEventListener('canplay', handleCanPlay);
     audio.removeEventListener('error', handleError);
-    
+
     // Добавляем новые обработчики
     audio.addEventListener('canplay', handleCanPlay);
     audio.addEventListener('error', handleError);
     audio.addEventListener('ended', handleEnded);
-    
+
     // Загружаем аудио
     audio.load();
-    
+
     // Очистка обработчиков
     return () => {
       audio.removeEventListener('canplay', handleCanPlay);
@@ -395,7 +398,7 @@ export default function QuranReader({ onClose, isVisible }: QuranReaderProps) {
       <div className="flex items-center justify-between gap-2">
         <Select value={selectedSurah} onValueChange={setSelectedSurah}>
           <SelectTrigger className="w-[240px]">
-            <SelectValue placeholder="Select Surah" />
+            <SelectValue placeholder={t('quran.select.surah.placeholder')} />
           </SelectTrigger>
           <SelectContent className="max-h-60">
             {surahs.map((s) => (
@@ -421,16 +424,16 @@ export default function QuranReader({ onClose, isVisible }: QuranReaderProps) {
           >
             <SkipForward className="h-4 w-4" />
           </Button>
-          
-          <Button variant="ghost" size="icon" onClick={onClose} title="Close">
+
+          <Button variant="ghost" size="icon" onClick={onClose} title={t('quran.close')}>
             <X className="h-4 w-4" />
           </Button>
         </div>
       </div>
 
-      {loading && <div className="text-sm text-muted-foreground">Loading…</div>}
-      {error && <div className="text-sm text-red-500">Error: {error}</div>}
-      
+      {loading && <div className="text-sm text-muted-foreground">{t('quran.loading')}</div>}
+      {error && <div className="text-sm text-red-500">{t('quran.error')}: {error}</div>}
+
 
 
       <div className="max-h-[65vh] overflow-y-auto space-y-3">
@@ -441,25 +444,56 @@ export default function QuranReader({ onClose, isVisible }: QuranReaderProps) {
               key={idx}
               ref={idx === currentVerse ? activeRef : null}
               onClick={() => setCurrentVerse(idx)}
-              className={`p-3 rounded transition cursor-pointer ${
-                active ? "bg-accent/20 ring-1 ring-accent" : "hover:bg-muted/40"
-              }`}
+              className={`p-3 rounded transition cursor-pointer ${active ? "bg-accent/20 ring-1 ring-accent" : "hover:bg-muted/40"
+                }`}
             >
               <p dir="rtl" className="text-right text-xl leading-relaxed">
                 {v.arabic}
               </p>
-              {showTranslation && <p className="text-sm mt-1 text-muted-foreground">{v.translation}</p>}
+              {showTransliteration && v.transliteration && (
+                <div className="mt-3 pt-2 border-t border-border/30">
+                  <p className="text-xs uppercase tracking-wide text-muted-foreground/60 mb-1">
+                    {t('quran.transliteration.section')}
+                  </p>
+                  <p className="text-sm text-blue-600 dark:text-blue-400 italic font-medium">
+                    {v.transliteration}
+                  </p>
+                </div>
+              )}
+              {showTranslation && (
+                <div className="mt-3 pt-2 border-t border-border/30">
+                  <p className="text-xs uppercase tracking-wide text-muted-foreground/60 mb-1">
+                    {t('quran.translation.section')}
+                  </p>
+                  <p className="text-sm text-muted-foreground">
+                    {v.translation}
+                  </p>
+                </div>
+              )}
             </div>
           );
         })}
         {!loading && !verses.length && !error && (
-          <div className="text-sm text-muted-foreground">No verses loaded.</div>
+          <div className="text-sm text-muted-foreground">{t('quran.no.verses')}</div>
         )}
       </div>
 
-      <div className="flex items-center gap-2">
-        <Switch checked={showTranslation} onCheckedChange={setShowTranslation} />
-        <span className="text-sm">Show translation</span>
+      <div className="flex flex-col gap-2">
+        <div className="flex flex-col gap-1">
+          <div className="flex items-center gap-2">
+            <Switch checked={showTransliteration} onCheckedChange={setShowTransliteration} />
+            <span className="text-sm">{t('quran.show.transliteration.label')}</span>
+          </div>
+          {showTransliteration && (
+            <p className="text-xs text-muted-foreground/70 ml-9">
+              {t('quran.transliteration.info')}
+            </p>
+          )}
+        </div>
+        <div className="flex items-center gap-2">
+          <Switch checked={showTranslation} onCheckedChange={setShowTranslation} />
+          <span className="text-sm">{t('quran.show.translation.label')}</span>
+        </div>
       </div>
 
       <audio ref={audioRef} />

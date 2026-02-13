@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState, useRef, useEffect, ReactNode } from 'react';
+import { createContext, ReactNode, useCallback, useContext, useEffect, useMemo, useRef, useState } from 'react';
 
 interface RecitationContextType {
   isReciting: boolean;
@@ -32,7 +32,7 @@ export const RecitationProvider = ({ children }: RecitationProviderProps) => {
     setCurrentVerse(verse);
     setIsReciting(true);
     setIsPlaying(true);
-    
+
     // Локально → CDN
     const audioSources = [
       `/quran-audio/basit/${surah}/${verse}.mp3`,
@@ -40,13 +40,13 @@ export const RecitationProvider = ({ children }: RecitationProviderProps) => {
       `https://server8.mp3quran.net/abdul_basit_murattal/${surah.toString().padStart(3, '0')}${verse.toString().padStart(3, '0')}.mp3`,
       `https://www.mp3quran.net/abdul_basit_murattal/${surah.toString().padStart(3, '0')}${verse.toString().padStart(3, '0')}.mp3`
     ];
-    
+
     console.log('Trying audio sources:', audioSources);
-    
+
     if (audioRef.current) {
       // Try first source
       audioRef.current.src = audioSources[0];
-      
+
       // Add event listeners for better error handling
       const handleCanPlay = () => {
         console.log('Audio can play, starting...');
@@ -72,7 +72,7 @@ export const RecitationProvider = ({ children }: RecitationProviderProps) => {
           }
         });
       };
-      
+
       const handleError = (error: Event) => {
         console.error('Audio error:', error);
         setIsPlaying(false);
@@ -86,15 +86,15 @@ export const RecitationProvider = ({ children }: RecitationProviderProps) => {
           });
         }
       };
-      
+
       // Remove previous listeners
       audioRef.current.removeEventListener('canplay', handleCanPlay);
       audioRef.current.removeEventListener('error', handleError);
-      
+
       // Add new listeners
       audioRef.current.addEventListener('canplay', handleCanPlay);
       audioRef.current.addEventListener('error', handleError);
-      
+
       // Load audio
       audioRef.current.load();
     } else {
@@ -103,15 +103,15 @@ export const RecitationProvider = ({ children }: RecitationProviderProps) => {
     }
   };
 
-  const pauseRecitation = () => {
+  const pauseRecitation = useCallback(() => {
     console.log('Pausing recitation');
     setIsPlaying(false);
     if (audioRef.current) {
       audioRef.current.pause();
     }
-  };
+  }, []);
 
-  const resumeRecitation = () => {
+  const resumeRecitation = useCallback(() => {
     console.log('Resuming recitation');
     setIsPlaying(true);
     if (audioRef.current) {
@@ -120,9 +120,9 @@ export const RecitationProvider = ({ children }: RecitationProviderProps) => {
         setIsPlaying(false);
       });
     }
-  };
+  }, []);
 
-  const stopRecitation = () => {
+  const stopRecitation = useCallback(() => {
     console.log('Stopping recitation');
     setIsReciting(false);
     setIsPlaying(false);
@@ -130,7 +130,7 @@ export const RecitationProvider = ({ children }: RecitationProviderProps) => {
       audioRef.current.pause();
       audioRef.current.currentTime = 0;
     }
-  };
+  }, []);
 
   const nextVerse = () => {
     console.log('Next verse, current:', currentVerse);
@@ -162,9 +162,9 @@ export const RecitationProvider = ({ children }: RecitationProviderProps) => {
 
   useEffect(() => {
     audioRef.current = new Audio();
-    
 
-    
+
+
     const handleAudioEnd = () => {
       console.log('Audio ended, moving to next verse');
       // Автоматически переходим к следующему аяту
@@ -205,13 +205,13 @@ export const RecitationProvider = ({ children }: RecitationProviderProps) => {
       const timer = setTimeout(() => {
         startRecitation(currentSurah, currentVerse);
       }, 500);
-      
+
       return () => clearTimeout(timer);
     }
   }, [currentVerse, isReciting, isPlaying, currentSurah]);
 
   return (
-    <RecitationContext.Provider value={{
+    <RecitationContext.Provider value={useMemo(() => ({
       isReciting,
       currentSurah,
       currentVerse,
@@ -222,7 +222,7 @@ export const RecitationProvider = ({ children }: RecitationProviderProps) => {
       stopRecitation,
       nextVerse,
       previousVerse
-    }}>
+    }), [isReciting, currentSurah, currentVerse, isPlaying, startRecitation, pauseRecitation, resumeRecitation, stopRecitation, nextVerse, previousVerse])}>
       {children}
     </RecitationContext.Provider>
   );
