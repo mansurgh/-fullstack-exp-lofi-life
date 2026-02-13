@@ -68,16 +68,9 @@ export const HelpMeOut = () => {
                     </Button>
                   </div>
                 </div>
-                <a
-                  href="https://paypal.me/abakatoviman"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="block w-full"
-                >
-                  <Button className="w-full bg-blue-600 hover:bg-blue-700 text-white">
-                    {t('help.open.paypal')}
-                  </Button>
-                </a>
+                <p className="text-sm text-gray-600">
+                  {t('help.paypal.instructions')}
+                </p>
               </div>
             </DialogContent>
           </Dialog>
