@@ -139,6 +139,13 @@ export const SoundProvider: React.FC<{ children: React.ReactNode }> = ({ childre
   const playAmbientSound = useCallback((soundId: string) => {
     const audio = getAudioElement(soundId);
     if (audio) {
+      // Устанавливаем громкость ДО воспроизведения
+      const sound = ambientSoundsRef.current.find(s => s.id === soundId);
+      if (sound) {
+        const finalVolume = sound.isMuted || isMasterMutedRef.current ? 0 : (sound.volume / 100) * (masterVolumeRef.current / 100);
+        audio.volume = finalVolume;
+      }
+
       audio.play().catch(console.error);
 
       setAmbientSounds(prev =>
