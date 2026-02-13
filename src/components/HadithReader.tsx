@@ -321,26 +321,23 @@ export const HadithReader: React.FC<HadithReaderProps> = ({ isVisible, onClose, 
     }
 
     return (
-      <span style={{ display: 'inline' }}>
+      <>
         {words.map((word, index) => (
-          <span
-            key={index}
-            onClick={() => handleWordClick(index)}
-            className={`cursor-pointer transition-colors duration-200 ${selectedWordIndex === index
-              ? 'bg-amber-500/15 text-amber-200 font-medium rounded px-1'
-              : 'hover:bg-muted/50 rounded px-1'
-              }`}
-            style={{
-              marginLeft: type === 'arabic' ? '0.25rem' : '0',
-              marginRight: type === 'arabic' ? '0' : '0.25rem',
-              display: 'inline',
-              whiteSpace: 'normal'
-            }}
-          >
-            {word}
-          </span>
+          <React.Fragment key={index}>
+            {type === 'arabic' && index > 0 && ' '}
+            <span
+              onClick={() => handleWordClick(index)}
+              className={`cursor-pointer transition-colors duration-200 ${selectedWordIndex === index
+                ? 'bg-amber-500/15 text-amber-200 font-medium rounded px-1'
+                : 'hover:bg-muted/50 rounded px-1'
+                }`}
+            >
+              {word}
+            </span>
+            {type !== 'arabic' && index < words.length - 1 && ' '}
+          </React.Fragment>
         ))}
-      </span>
+      </>
     );
   };
 
@@ -384,7 +381,7 @@ export const HadithReader: React.FC<HadithReaderProps> = ({ isVisible, onClose, 
             {/* Arabic Text */}
             <div
               className="text-right mb-6 leading-relaxed font-arabic"
-              style={{ fontSize: `${fontSize + 4}px`, lineHeight: 2.2, whiteSpace: 'normal', wordWrap: 'break-word' }}
+              style={{ fontSize: `${fontSize + 4}px`, lineHeight: 2.2 }}
               dir="rtl"
             >
               {renderTextWithHighlight(currentHadith.arabic, currentHadith.arabicWords, 'arabic')}
@@ -397,7 +394,7 @@ export const HadithReader: React.FC<HadithReaderProps> = ({ isVisible, onClose, 
               <>
                 <div
                   className="mb-4 text-muted-foreground italic leading-relaxed"
-                  style={{ fontSize: `${fontSize}px`, whiteSpace: 'normal', wordWrap: 'break-word' }}
+                  style={{ fontSize: `${fontSize}px` }}
                 >
                   {renderTextWithHighlight(currentHadith.transliteration, currentHadith.transliterationWords, 'transliteration')}
                 </div>
@@ -408,7 +405,7 @@ export const HadithReader: React.FC<HadithReaderProps> = ({ isVisible, onClose, 
             {/* Translation */}
             <div
               className="mb-6 leading-relaxed text-foreground"
-              style={{ fontSize: `${fontSize}px`, whiteSpace: 'normal', wordWrap: 'break-word' }}
+              style={{ fontSize: `${fontSize}px` }}
             >
               {renderTextWithHighlight(currentHadith.translation, currentHadith.translationWords, 'translation')}
             </div>
