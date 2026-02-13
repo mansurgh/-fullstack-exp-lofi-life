@@ -327,7 +327,7 @@ export const HadithReader: React.FC<HadithReaderProps> = ({ isVisible, onClose, 
             key={index}
             onClick={() => handleWordClick(index)}
             className={`cursor-pointer transition-colors duration-200 ${selectedWordIndex === index
-              ? 'bg-yellow-500/20 text-yellow-300 font-medium rounded px-1'
+              ? 'bg-amber-500/15 text-amber-200 font-medium rounded px-1'
               : 'hover:bg-muted/50 rounded px-1'
               }`}
             style={{
@@ -381,7 +381,7 @@ export const HadithReader: React.FC<HadithReaderProps> = ({ isVisible, onClose, 
           <div className="p-6 overflow-y-auto flex-1 min-h-0">
             {/* Arabic Text */}
             <div
-              className="text-right mb-6 leading-relaxed font-arabic break-words whitespace-pre-wrap"
+              className="text-right mb-6 leading-relaxed font-arabic break-normal whitespace-pre-wrap"
               style={{ fontSize: `${fontSize + 4}px`, lineHeight: 2.2, overflowWrap: 'break-word' }}
               dir="rtl"
             >
@@ -394,7 +394,7 @@ export const HadithReader: React.FC<HadithReaderProps> = ({ isVisible, onClose, 
             {showTransliteration && (
               <>
                 <div
-                  className="mb-4 text-muted-foreground italic leading-relaxed break-words whitespace-pre-wrap"
+                  className="mb-4 text-muted-foreground italic leading-relaxed break-normal whitespace-pre-wrap"
                   style={{ fontSize: `${fontSize}px`, overflowWrap: 'break-word' }}
                 >
                   {renderTextWithHighlight(currentHadith.transliteration, currentHadith.transliterationWords, 'transliteration')}
@@ -405,7 +405,7 @@ export const HadithReader: React.FC<HadithReaderProps> = ({ isVisible, onClose, 
 
             {/* Translation */}
             <div
-              className="mb-6 leading-relaxed text-foreground break-words whitespace-pre-wrap"
+              className="mb-6 leading-relaxed text-foreground break-normal whitespace-pre-wrap"
               style={{ fontSize: `${fontSize}px`, overflowWrap: 'break-word' }}
             >
               {renderTextWithHighlight(currentHadith.translation, currentHadith.translationWords, 'translation')}
