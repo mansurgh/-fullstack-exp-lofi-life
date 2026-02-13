@@ -24,14 +24,14 @@ const ClockWidget = React.memo(({ position, isDragging, onMouseDown }: {
       style={{ left: position.x, top: position.y, transform: isDragging ? 'scale(1.05)' : 'scale(1)' }}
       onMouseDown={onMouseDown}
     >
-      <div className="bg-black/70 backdrop-blur-sm rounded-xl shadow-lg border border-white/20 px-4 py-3 text-white min-w-[140px]">
-        <div className="text-2xl font-mono font-bold text-center leading-none">
+      <div className="bg-black/70 backdrop-blur-sm rounded-xl shadow-lg border border-white/20 px-2 py-2 sm:px-4 sm:py-3 text-white min-w-[100px] sm:min-w-[140px]">
+        <div className="text-lg sm:text-2xl font-mono font-bold text-center leading-none">
           {time.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', hour12: false })}
         </div>
-        <div className="text-[10px] text-white/60 text-center mt-1 font-mono">
+        <div className="text-[8px] sm:text-[10px] text-white/60 text-center mt-1 font-mono">
           {time.toLocaleTimeString('en-US', { second: '2-digit' }).slice(-2)}s
         </div>
-        <div className="text-xs text-white/50 text-center mt-1">
+        <div className="text-[10px] sm:text-xs text-white/50 text-center mt-1">
           {time.toLocaleDateString('en-US', { weekday: 'short', day: 'numeric', month: 'short' })}
         </div>
       </div>
@@ -76,37 +76,65 @@ export const InteractiveComponents = ({ roomId }: InteractiveComponentsProps) =>
 
   const [clock, setClock] = useState<ComponentState>(() => {
     const saved = localStorage.getItem(`clock-${roomId}`);
-    return saved ? JSON.parse(saved) : { position: { x: 20, y: 420 }, visible: true };
+    const isMobile = window.innerWidth < 640;
+    return saved ? JSON.parse(saved) : {
+      position: isMobile ? { x: 10, y: 80 } : { x: 20, y: 420 },
+      visible: true
+    };
   });
 
   const [calendar, setCalendar] = useState<ComponentState>(() => {
     const saved = localStorage.getItem(`calendar-${roomId}`);
-    return saved ? JSON.parse(saved) : { position: { x: 120, y: 420 }, visible: true };
+    const isMobile = window.innerWidth < 640;
+    return saved ? JSON.parse(saved) : {
+      position: isMobile ? { x: 70, y: 80 } : { x: 120, y: 420 },
+      visible: true
+    };
   });
 
   const [prayerMat, setPrayerMat] = useState<ComponentState>(() => {
     const saved = localStorage.getItem(`prayerMat-${roomId}`);
-    return saved ? JSON.parse(saved) : { position: { x: 120, y: 200 }, visible: true };
+    const isMobile = window.innerWidth < 640;
+    return saved ? JSON.parse(saved) : {
+      position: isMobile ? { x: 130, y: 80 } : { x: 120, y: 200 },
+      visible: true
+    };
   });
 
   const [quran, setQuran] = useState<ComponentState>(() => {
     const saved = localStorage.getItem(`quran-${roomId}`);
-    return saved ? JSON.parse(saved) : { position: { x: 20, y: 310 }, visible: true };
+    const isMobile = window.innerWidth < 640;
+    return saved ? JSON.parse(saved) : {
+      position: isMobile ? { x: 10, y: 150 } : { x: 20, y: 310 },
+      visible: true
+    };
   });
 
   const [bukhariBook, setBukhariBook] = useState<ComponentState>(() => {
     const saved = localStorage.getItem(`bukhariBook-${roomId}`);
-    return saved ? JSON.parse(saved) : { position: { x: 120, y: 310 }, visible: true };
+    const isMobile = window.innerWidth < 640;
+    return saved ? JSON.parse(saved) : {
+      position: isMobile ? { x: 70, y: 150 } : { x: 120, y: 310 },
+      visible: true
+    };
   });
 
   const [muslimBook, setMuslimBook] = useState<ComponentState>(() => {
     const saved = localStorage.getItem(`muslimBook-${roomId}`);
-    return saved ? JSON.parse(saved) : { position: { x: 220, y: 310 }, visible: true };
+    const isMobile = window.innerWidth < 640;
+    return saved ? JSON.parse(saved) : {
+      position: isMobile ? { x: 130, y: 150 } : { x: 220, y: 310 },
+      visible: true
+    };
   });
 
   const [soundControls, setSoundControls] = useState<ComponentState>(() => {
     const saved = localStorage.getItem(`soundControls-${roomId}`);
-    return saved ? JSON.parse(saved) : { position: { x: 20, y: 200 }, visible: true };
+    const isMobile = window.innerWidth < 640;
+    return saved ? JSON.parse(saved) : {
+      position: isMobile ? { x: 190, y: 80 } : { x: 20, y: 200 },
+      visible: true
+    };
   });
 
   const [calendarTime] = useState(new Date()); // static for calendar date display
@@ -229,14 +257,14 @@ export const InteractiveComponents = ({ roomId }: InteractiveComponentsProps) =>
           onMouseDown={(e) => handleMouseDown(e, 'calendar', calendar.position)}
           onClick={() => { if (!hasDragged) setShowCalendar(true); }}
         >
-          <div className="w-20 h-24 bg-gradient-to-br from-red-600 to-red-800 rounded-lg shadow-lg border border-red-900 hover:shadow-xl transition-shadow">
-            <div className="h-5 bg-red-900 rounded-t-lg flex items-center justify-center">
-              <div className="w-2 h-2 bg-red-300 rounded-full"></div>
+          <div className="w-14 h-16 sm:w-20 sm:h-24 bg-gradient-to-br from-red-600 to-red-800 rounded-lg shadow-lg border border-red-900 hover:shadow-xl transition-shadow">
+            <div className="h-4 sm:h-5 bg-red-900 rounded-t-lg flex items-center justify-center">
+              <div className="w-1.5 h-1.5 sm:w-2 sm:h-2 bg-red-300 rounded-full"></div>
             </div>
-            <div className="p-2 text-white text-center">
-              <div className="text-xs font-bold">{calendarTime.toLocaleDateString('en', { month: 'short' }).toUpperCase()}</div>
-              <div className="text-xl font-bold leading-none">{calendarTime.getDate()}</div>
-              <div className="text-xs">{calendarTime.getFullYear()}</div>
+            <div className="p-1 sm:p-2 text-white text-center">
+              <div className="text-[10px] sm:text-xs font-bold">{calendarTime.toLocaleDateString('en', { month: 'short' }).toUpperCase()}</div>
+              <div className="text-base sm:text-xl font-bold leading-none">{calendarTime.getDate()}</div>
+              <div className="text-[10px] sm:text-xs">{calendarTime.getFullYear()}</div>
             </div>
             {/* Tooltip */}
             <div className="absolute -bottom-8 left-1/2 transform -translate-x-1/2 bg-black/80 text-white text-xs px-2 py-1 rounded whitespace-nowrap opacity-0 hover:opacity-100 transition-opacity">
@@ -258,18 +286,18 @@ export const InteractiveComponents = ({ roomId }: InteractiveComponentsProps) =>
           onMouseDown={(e) => handleMouseDown(e, 'prayerMat', prayerMat.position)}
           onClick={() => { if (!hasDragged) setShowPrayerTimes(true); }}
         >
-          <div className="w-28 h-20 bg-gradient-to-br from-emerald-700 via-emerald-600 to-emerald-800 rounded-lg shadow-lg border-2 border-emerald-900 relative overflow-hidden hover:shadow-xl transition-shadow">
+          <div className="w-16 h-14 sm:w-28 sm:h-20 bg-gradient-to-br from-emerald-700 via-emerald-600 to-emerald-800 rounded-lg shadow-lg border-2 border-emerald-900 relative overflow-hidden hover:shadow-xl transition-shadow">
             {/* Prayer mat pattern */}
             <div className="absolute inset-1 border border-emerald-400 rounded">
               <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
-                <div className="w-10 h-10 border border-emerald-300 rounded-full opacity-60"></div>
-                <div className="absolute top-1/2 left-1/2 w-5 h-5 border border-emerald-200 rounded-full transform -translate-x-1/2 -translate-y-1/2 opacity-80"></div>
+                <div className="w-6 h-6 sm:w-10 sm:h-10 border border-emerald-300 rounded-full opacity-60"></div>
+                <div className="absolute top-1/2 left-1/2 w-3 h-3 sm:w-5 sm:h-5 border border-emerald-200 rounded-full transform -translate-x-1/2 -translate-y-1/2 opacity-80"></div>
               </div>
               {/* Decorative corners */}
-              <div className="absolute top-0 left-0 w-3 h-3 border-r border-b border-emerald-300 opacity-60"></div>
-              <div className="absolute top-0 right-0 w-3 h-3 border-l border-b border-emerald-300 opacity-60"></div>
-              <div className="absolute bottom-0 left-0 w-3 h-3 border-r border-t border-emerald-300 opacity-60"></div>
-              <div className="absolute bottom-0 right-0 w-3 h-3 border-l border-t border-emerald-300 opacity-60"></div>
+              <div className="absolute top-0 left-0 w-2 h-2 sm:w-3 sm:h-3 border-r border-b border-emerald-300 opacity-60"></div>
+              <div className="absolute top-0 right-0 w-2 h-2 sm:w-3 sm:h-3 border-l border-b border-emerald-300 opacity-60"></div>
+              <div className="absolute bottom-0 left-0 w-2 h-2 sm:w-3 sm:h-3 border-r border-t border-emerald-300 opacity-60"></div>
+              <div className="absolute bottom-0 right-0 w-2 h-2 sm:w-3 sm:h-3 border-l border-t border-emerald-300 opacity-60"></div>
             </div>
             {/* Tooltip */}
             <div className="absolute -bottom-8 left-1/2 transform -translate-x-1/2 bg-black/80 text-white text-xs px-2 py-1 rounded whitespace-nowrap opacity-0 hover:opacity-100 transition-opacity">
@@ -292,12 +320,12 @@ export const InteractiveComponents = ({ roomId }: InteractiveComponentsProps) =>
           onClick={() => { if (!hasDragged) setShowQuran(true); }}
         >
           <div className="relative">
-            <div className="w-20 h-24 bg-gradient-to-br from-amber-800 via-amber-700 to-amber-900 rounded-lg shadow-lg border border-amber-950 relative overflow-hidden hover:shadow-xl transition-shadow">
+            <div className="w-14 h-16 sm:w-20 sm:h-24 bg-gradient-to-br from-amber-800 via-amber-700 to-amber-900 rounded-lg shadow-lg border border-amber-950 relative overflow-hidden hover:shadow-xl transition-shadow">
               {/* Book spine effect */}
-              <div className="absolute left-0 top-0 bottom-0 w-1 bg-amber-950"></div>
+              <div className="absolute left-0 top-0 bottom-0 w-0.5 sm:w-1 bg-amber-950"></div>
               {/* Cover design */}
               <div className="absolute inset-2 border border-amber-400 rounded opacity-60">
-                <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-amber-200 text-sm font-bold">
+                <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-amber-200 text-[10px] sm:text-sm font-bold">
                   القرآن
                 </div>
               </div>
@@ -328,12 +356,12 @@ export const InteractiveComponents = ({ roomId }: InteractiveComponentsProps) =>
           onClick={() => { if (!hasDragged) setShowBukhariHadith(true); }}
         >
           <div className="relative">
-            <div className="w-20 h-24 bg-gradient-to-br from-green-800 via-green-700 to-green-900 rounded-lg shadow-lg border border-green-950 relative overflow-hidden hover:shadow-xl transition-shadow">
+            <div className="w-14 h-16 sm:w-20 sm:h-24 bg-gradient-to-br from-green-800 via-green-700 to-green-900 rounded-lg shadow-lg border border-green-950 relative overflow-hidden hover:shadow-xl transition-shadow">
               {/* Book spine effect */}
-              <div className="absolute left-0 top-0 bottom-0 w-1 bg-green-950"></div>
+              <div className="absolute left-0 top-0 bottom-0 w-0.5 sm:w-1 bg-green-950"></div>
               {/* Cover design */}
               <div className="absolute inset-2 border border-green-400 rounded opacity-60">
-                <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-green-200 text-sm font-bold text-center">
+                <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-green-200 text-[10px] sm:text-sm font-bold text-center">
                   البخاري
                 </div>
               </div>
@@ -364,12 +392,12 @@ export const InteractiveComponents = ({ roomId }: InteractiveComponentsProps) =>
           onClick={() => { if (!hasDragged) setShowMuslimHadith(true); }}
         >
           <div className="relative">
-            <div className="w-20 h-24 bg-gradient-to-br from-blue-800 via-blue-700 to-blue-900 rounded-lg shadow-lg border border-blue-950 relative overflow-hidden hover:shadow-xl transition-shadow">
+            <div className="w-14 h-16 sm:w-20 sm:h-24 bg-gradient-to-br from-blue-800 via-blue-700 to-blue-900 rounded-lg shadow-lg border border-blue-950 relative overflow-hidden hover:shadow-xl transition-shadow">
               {/* Book spine effect */}
-              <div className="absolute left-0 top-0 bottom-0 w-1 bg-blue-950"></div>
+              <div className="absolute left-0 top-0 bottom-0 w-0.5 sm:w-1 bg-blue-950"></div>
               {/* Cover design */}
               <div className="absolute inset-2 border border-blue-400 rounded opacity-60">
-                <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-blue-200 text-sm font-bold text-center">
+                <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-blue-200 text-[10px] sm:text-sm font-bold text-center">
                   مسلم
                 </div>
               </div>
@@ -399,12 +427,12 @@ export const InteractiveComponents = ({ roomId }: InteractiveComponentsProps) =>
           onMouseDown={(e) => handleMouseDown(e, 'soundControls', soundControls.position)}
           onClick={() => { if (!hasDragged) setShowSoundControls(true); }}
         >
-          <div className="w-20 h-24 bg-gradient-to-br from-purple-600 to-purple-800 rounded-lg shadow-lg border border-purple-900 hover:shadow-xl transition-shadow">
-            <div className="h-5 bg-purple-900 rounded-t-lg flex items-center justify-center">
-              <Volume2 className="w-4 h-4 text-purple-300" />
+          <div className="w-14 h-16 sm:w-20 sm:h-24 bg-gradient-to-br from-purple-600 to-purple-800 rounded-lg shadow-lg border border-purple-900 hover:shadow-xl transition-shadow">
+            <div className="h-4 sm:h-5 bg-purple-900 rounded-t-lg flex items-center justify-center">
+              <Volume2 className="w-3 h-3 sm:w-4 sm:h-4 text-purple-300" />
             </div>
-            <div className="p-2 text-white text-center flex flex-col items-center justify-center" style={{ height: 'calc(100% - 20px)' }}>
-              <div className="text-[10px] font-bold leading-tight">{t('sound.controls')}</div>
+            <div className="p-1 sm:p-2 text-white text-center flex flex-col items-center justify-center" style={{ height: 'calc(100% - 16px)' }}>
+              <div className="text-[8px] sm:text-[10px] font-bold leading-tight">{t('sound.controls')}</div>
             </div>
             {/* Tooltip */}
             <div className="absolute -bottom-8 left-1/2 transform -translate-x-1/2 bg-black/80 text-white text-xs px-2 py-1 rounded whitespace-nowrap opacity-0 hover:opacity-100 transition-opacity">
